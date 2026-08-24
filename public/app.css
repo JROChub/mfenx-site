@@ -2163,10 +2163,6 @@ body.evaluation-open .evaluation-drawer {
 }
 
 @media (max-width: 370px) {
-  .top-actions .evaluation-toggle {
-    display: none;
-  }
-
   .verification-dock {
     grid-template-columns: minmax(0, 1fr) 94px;
   }
