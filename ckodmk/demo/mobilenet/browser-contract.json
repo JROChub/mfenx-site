@@ -1,0 +1,74 @@
+{
+  "candidate": {
+    "format": "onnx",
+    "sha256": "sha256:3bc4ea55c7c39ccca1de7a504643f5a937b425b1a23bb1dc900760784a4c9adf"
+  },
+  "claims": [
+    {
+      "boundary": "artifact",
+      "criticality": "required",
+      "evidence_required": "digest",
+      "id": "artifact-binding",
+      "parameters": {},
+      "relation": "artifact_identity"
+    },
+    {
+      "boundary": "onnxruntime-web-wasm-observation",
+      "criticality": "required",
+      "evidence_required": "finite-dataset-exhaustive",
+      "id": "sample-decision",
+      "parameters": {},
+      "relation": "decision_invariant"
+    },
+    {
+      "boundary": "onnxruntime-web-wasm-observation",
+      "criticality": "required",
+      "evidence_required": "finite-dataset-exhaustive",
+      "id": "sample-accuracy",
+      "parameters": {
+        "metric": "accuracy",
+        "minimum": "0"
+      },
+      "relation": "finite_set_accuracy_delta"
+    },
+    {
+      "boundary": "onnxruntime-web-wasm-observation",
+      "criticality": "required",
+      "evidence_required": "finite-dataset-exhaustive",
+      "id": "sample-output-distance",
+      "parameters": {
+        "maximum": "3",
+        "metric": "linf"
+      },
+      "relation": "bounded_deviation"
+    }
+  ],
+  "contract_id": "onnx-model-zoo/mobilenet-v2-12/source-vs-per-channel-int8/imagenette-ten-class-smoke",
+  "dataset": {
+    "batch_size": 1,
+    "format": "numpy-npz-stored-canonical-v1",
+    "input_dtype": "float32",
+    "input_key": "inputs",
+    "input_layout": "NC",
+    "label_key": "labels",
+    "sample_shape": [
+      3,
+      224,
+      224
+    ],
+    "samples": 10,
+    "sha256": "sha256:f832c0f7dac449e4ce986ebb6a8d77ea9d2826ca21afaaa83042c2ac79b15fc4"
+  },
+  "output": {
+    "class_count": 1000,
+    "decision_rule": "argmax-first",
+    "dtype": "float32",
+    "semantic_role": "classification-logits"
+  },
+  "policy_profile": "ckodmk/browser-wasm-f32-batch1-classification/v1",
+  "schema": "mfenx/ckodmk-browser-contract/v1",
+  "source": {
+    "format": "onnx",
+    "sha256": "sha256:c0c3f76d93fa3fd6580652a45618618a220fced18babf65774ed169de0432ad5"
+  }
+}
