@@ -1,0 +1,34 @@
+{
+  "captured_epoch_ns": 1787335933142391576,
+  "captured_monotonic_ns": 88229943555087,
+  "entries": [
+    {
+      "index": 1,
+      "lane_index": 1,
+      "piece_bytes": 4194304,
+      "piece_sha256": "061f19ffbe00943a5636ca6999e1ae5321f17087d942cfc8d6bf22fe039085c9",
+      "receipt_bytes": 261,
+      "receipt_sha256": "5e06c86c785dfa3ed4e9849662338695f1dcfcfc05856408538d622bea6622ad"
+    }
+  ],
+  "expected_total_pieces": 2,
+  "observer": "acceptance_harness_after_process_group_exit",
+  "plan_sha256": "ce015d9e93a6c7f41882e9db14669ca3262411705ea5336cdc9c8fcaf7bd03a2",
+  "receipt_assignments": [
+    {
+      "lane_index": 1,
+      "piece_index": 1
+    }
+  ],
+  "receipt_count": 1,
+  "receipt_indices": [
+    1
+  ],
+  "schedule": {
+    "instruction_index": 0,
+    "lanes": 2,
+    "piece_count": 2,
+    "policy": "deterministic_striped_v1",
+    "schema_version": 1
+  }
+}

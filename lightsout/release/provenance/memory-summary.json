@@ -1,0 +1,204 @@
+{
+  "external_hard_rlimit_as_bytes": 268435456,
+  "external_lane_concurrency_attestation": {
+    "configured_lanes": 2,
+    "minimum_distinct_overlapping_lane_tasks": 2,
+    "observed_lane_task_rows": 28,
+    "observer": "acceptance_harness_outside_product_process_via_proc_task",
+    "overlap_proven": true,
+    "primary_execution": "uninterrupted-run",
+    "raw_evidence": "memory/uninterrupted-run.lane-tasks.tsv",
+    "witness": {
+      "anchor_tid_reobserved_after_sweep": 845079,
+      "epoch_ns": 1787335923872232703,
+      "product_pid": 845004,
+      "tasks": [
+        {
+          "anchor_reobserved_after_sweep": 1,
+          "anchor_tid": 845079,
+          "comm": "mfx-lane-00",
+          "epoch_ns": 1787335923872232703,
+          "lane_index": 0,
+          "pid": 845004,
+          "starttime_ticks": 8822064,
+          "state": "R",
+          "tid": 845079
+        },
+        {
+          "anchor_reobserved_after_sweep": 1,
+          "anchor_tid": 845079,
+          "comm": "mfx-lane-01",
+          "epoch_ns": 1787335923872232703,
+          "lane_index": 1,
+          "pid": 845004,
+          "starttime_ticks": 8822064,
+          "state": "t",
+          "tid": 845080
+        }
+      ]
+    }
+  },
+  "external_runtime_telemetry_attestation": "external_proc_and_monotonic_process_observer",
+  "external_timings": {
+    "compile": {
+      "ended_epoch_ns": 1787335921833165236,
+      "ended_monotonic_ns": 88218658333744,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335916672425856,
+      "started_monotonic_ns": 88213491547846,
+      "wall_ns": 5166785898
+    },
+    "corrupt-checkpoint-piece": {
+      "ended_epoch_ns": 1787335941675514468,
+      "ended_monotonic_ns": 88238499318707,
+      "exit_status": 1,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335941165577973,
+      "started_monotonic_ns": 88237987944327,
+      "wall_ns": 511374380
+    },
+    "corrupt-checkpoint-receipt": {
+      "ended_epoch_ns": 1787335942453892618,
+      "ended_monotonic_ns": 88239276925198,
+      "exit_status": 1,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335941981242762,
+      "started_monotonic_ns": 88238807556227,
+      "wall_ns": 469368971
+    },
+    "corrupt-image": {
+      "ended_epoch_ns": 1787335942788891405,
+      "ended_monotonic_ns": 88239607136092,
+      "exit_status": 1,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335942671699664,
+      "started_monotonic_ns": 88239493641989,
+      "wall_ns": 113494103
+    },
+    "corrupt-input-chunk": {
+      "ended_epoch_ns": 1787335940881813112,
+      "ended_monotonic_ns": 88237700805393,
+      "exit_status": 1,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335940628130343,
+      "started_monotonic_ns": 88237451012182,
+      "wall_ns": 249793211
+    },
+    "corrupt-result": {
+      "ended_epoch_ns": 1787335943445696543,
+      "ended_monotonic_ns": 88240267946467,
+      "exit_status": 1,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335943004352466,
+      "started_monotonic_ns": 88239824125601,
+      "wall_ns": 443820866
+    },
+    "inspect": {
+      "ended_epoch_ns": 1787335922403400398,
+      "ended_monotonic_ns": 88219229030346,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335921957743092,
+      "started_monotonic_ns": 88218784594873,
+      "wall_ns": 444435473
+    },
+    "inspect-full": {
+      "ended_epoch_ns": 1787335922980663311,
+      "ended_monotonic_ns": 88219802624918,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335922536979132,
+      "started_monotonic_ns": 88219359796525,
+      "wall_ns": 442828393
+    },
+    "killed-run": {
+      "ended_epoch_ns": 1787335932881011759,
+      "ended_monotonic_ns": 88229705479312,
+      "exit_status": 137,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335931129407695,
+      "started_monotonic_ns": 88227948587167,
+      "wall_ns": 1756892145
+    },
+    "matrix-create-left": {
+      "ended_epoch_ns": 1787335869011702041,
+      "ended_monotonic_ns": 88165830142840,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335868579552172,
+      "started_monotonic_ns": 88165397496868,
+      "wall_ns": 432645972
+    },
+    "matrix-create-right": {
+      "ended_epoch_ns": 1787335916148852333,
+      "ended_monotonic_ns": 88213359992619,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335869119108957,
+      "started_monotonic_ns": 88165939788674,
+      "wall_ns": 47420203945
+    },
+    "resumed-run": {
+      "ended_epoch_ns": 1787335938089652331,
+      "ended_monotonic_ns": 88234908422037,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335933162997676,
+      "started_monotonic_ns": 88229984065056,
+      "wall_ns": 4924356981
+    },
+    "resumed-verify": {
+      "ended_epoch_ns": 1787335940198427560,
+      "ended_monotonic_ns": 88237023446401,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335938185287453,
+      "started_monotonic_ns": 88235003914104,
+      "wall_ns": 2019532297
+    },
+    "uninterrupted-run": {
+      "ended_epoch_ns": 1787335928762936174,
+      "ended_monotonic_ns": 88225584969209,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335923152093710,
+      "started_monotonic_ns": 88219976204723,
+      "wall_ns": 5608764486
+    },
+    "uninterrupted-verify": {
+      "ended_epoch_ns": 1787335930900370086,
+      "ended_monotonic_ns": 88227721680629,
+      "exit_status": 0,
+      "observer": "acceptance_harness_outside_product_process",
+      "started_epoch_ns": 1787335928879022592,
+      "started_monotonic_ns": 88225701061081,
+      "wall_ns": 2020619548
+    }
+  },
+  "maxima_kib": {
+    "VmHWM_kib": 36820,
+    "VmPeak_kib": 224724,
+    "VmRSS_kib": 36820,
+    "VmSize_kib": 150004,
+    "VmSwap_kib": 0
+  },
+  "sample_counts": {
+    "compile": 64,
+    "corrupt-checkpoint-piece": 5,
+    "corrupt-checkpoint-receipt": 5,
+    "corrupt-image": 0,
+    "corrupt-input-chunk": 2,
+    "corrupt-result": 5,
+    "inspect": 4,
+    "inspect-full": 4,
+    "killed-run": 16,
+    "matrix-create-left": 5,
+    "matrix-create-right": 605,
+    "resumed-run": 57,
+    "resumed-verify": 19,
+    "uninterrupted-run": 63,
+    "uninterrupted-verify": 22
+  },
+  "virtual_memory_within_external_limit": true
+}

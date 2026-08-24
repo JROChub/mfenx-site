@@ -1,0 +1,165 @@
+{
+  "schema_version": 3,
+  "isa_version": 6,
+  "machine_class": "software_defined_local_supercomputer_v2",
+  "backend": "rarecomp_mfenx_local_cpu_lane_engine",
+  "execution_dataflow": "contiguous_right_panels_v2",
+  "program_digest": "02091bb701479b52dcd0543fd27a3441896f45f09fade52baffeec742f409cde",
+  "program": {
+    "version": 1,
+    "name": "manifest-backed-i32-gemm",
+    "instructions": [
+      {
+        "id": 0,
+        "ty": {
+          "element": "i32",
+          "shape": [
+            3,
+            56
+          ]
+        },
+        "operation": {
+          "op": "input",
+          "name": "left"
+        }
+      },
+      {
+        "id": 1,
+        "ty": {
+          "element": "i32",
+          "shape": [
+            56,
+            1048576
+          ]
+        },
+        "operation": {
+          "op": "input",
+          "name": "right"
+        }
+      },
+      {
+        "id": 2,
+        "ty": {
+          "element": "i32",
+          "shape": [
+            3,
+            1048576
+          ]
+        },
+        "operation": {
+          "op": "mat_mul",
+          "lhs": 0,
+          "rhs": 1
+        }
+      }
+    ],
+    "outputs": [
+      2
+    ]
+  },
+  "inputs": {
+    "left": {
+      "manifest_digest": "9c2464f3983f92bdbc8e017833cadbe22c10e20cd4e446533676ab7122b0822d",
+      "ty": {
+        "element": "i32",
+        "shape": [
+          3,
+          56
+        ]
+      },
+      "byte_length": 672
+    },
+    "right": {
+      "manifest_digest": "7812c2477d8c10ef6e3c1b6d6420d6bbcddec78e5a5c6696e807ac423ecd1bd5",
+      "ty": {
+        "element": "i32",
+        "shape": [
+          56,
+          1048576
+        ]
+      },
+      "byte_length": 234881024
+    }
+  },
+  "instructions": [
+    {
+      "opcode": "streamed_i32_gemm",
+      "left": {
+        "manifest_digest": "9c2464f3983f92bdbc8e017833cadbe22c10e20cd4e446533676ab7122b0822d",
+        "ty": {
+          "element": "i32",
+          "shape": [
+            3,
+            56
+          ]
+        },
+        "byte_length": 672
+      },
+      "right": {
+        "manifest_digest": "7812c2477d8c10ef6e3c1b6d6420d6bbcddec78e5a5c6696e807ac423ecd1bd5",
+        "ty": {
+          "element": "i32",
+          "shape": [
+            56,
+            1048576
+          ]
+        },
+        "byte_length": 234881024
+      },
+      "output_type": {
+        "element": "i32",
+        "shape": [
+          3,
+          1048576
+        ]
+      }
+    }
+  ],
+  "schedule": {
+    "schema_version": 1,
+    "instruction_index": 0,
+    "policy": "deterministic_striped_v1",
+    "lanes": 2,
+    "piece_count": 2
+  },
+  "resource_certificate": {
+    "schema_version": 5,
+    "max_managed_bytes": 67108864,
+    "max_io_bytes": 1048576,
+    "lanes": 2,
+    "piece_count": 2,
+    "rows_per_piece": 2,
+    "panel_elements": 262144,
+    "input_caches_per_lane_bytes": 2097152,
+    "output_piece_bytes_per_lane": 8388608,
+    "left_piece_bytes_per_lane": 448,
+    "right_panel_bytes_per_lane": 1048576,
+    "panel_decode_bytes_per_lane": 1048576,
+    "primary_authenticated_range_staging_bytes_per_lane": 2097152,
+    "primary_manifest_working_set_bytes_per_lane": 140960,
+    "managed_bytes_per_lane": 14821472,
+    "coordinator_base_reserve_bytes": 2097152,
+    "piece_metadata_reserve_bytes": 2097152,
+    "lane_stack_bytes": 1048576,
+    "lane_control_reserve_bytes": 65536,
+    "aggregate_execution_peak_bytes": 36065472,
+    "finalization_peak_bytes": 6318592,
+    "verification_peak_bytes": 42411200,
+    "certified_managed_peak_bytes": 42411200,
+    "retained_input_storage_bytes": 234881696,
+    "retained_output_storage_bytes": 12582912,
+    "primary_requested_input_bytes_upper_bound": 469762720,
+    "primary_authenticated_input_bytes_upper_bound": 469763392,
+    "verification_requested_input_bytes_upper_bound": 469762720,
+    "verification_authenticated_input_bytes_upper_bound": 469763392,
+    "verification_requested_output_bytes": 12582912,
+    "verification_authenticated_output_bytes_upper_bound": 16777212,
+    "verification_chunk_caches_per_lane_bytes": 3145728,
+    "verification_authenticated_range_staging_bytes_per_lane": 3145728,
+    "verification_manifest_working_set_bytes_per_lane": 168096,
+    "checkpoint_temporary_piece_storage_upper_bound_bytes": 16777216,
+    "checkpoint_temporary_json_storage_upper_bound_bytes": 67584,
+    "retained_checkpoint_storage_upper_bound_bytes": 29495296
+  },
+  "verification": "exact_replay"
+}

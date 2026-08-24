@@ -1,0 +1,87 @@
+{
+  "schema_version": 3,
+  "image_digest": "4d04ef1086530929226ee9c75356ce6a7230ce55e7220dbb1f380fa1077c07a1",
+  "machine_class": "software_defined_local_supercomputer_v2",
+  "backend": "rarecomp_mfenx_local_cpu_lane_engine",
+  "resource_certificate_digest": "0c054cd037201279132c838fbae473608a62563da246225bea234b864fbb7218",
+  "outputs": [
+    {
+      "index": 0,
+      "tensor": {
+        "manifest_digest": "4691a345a8818af410da311bc4d79131dcd093ff47384e71d4832ca08fed638c",
+        "ty": {
+          "element": "i32",
+          "shape": [
+            3,
+            1048576
+          ]
+        },
+        "byte_length": 12582912
+      }
+    }
+  ],
+  "metrics": {
+    "end_to_end_ns": 4725470679,
+    "execution_ns": 825351393,
+    "finalization_ns": 1842995349,
+    "useful_integer_operations": 352321536,
+    "executed_primary_integer_operations": 234881024,
+    "physical_integer_operations": 587202560,
+    "primary_input_io": {
+      "requested_bytes": 234881472,
+      "authenticated_chunk_bytes": 234881696,
+      "chunk_loads": 225,
+      "cache_hits": 0
+    },
+    "total_pieces": 2,
+    "reused_pieces": 1,
+    "executed_pieces": 1,
+    "reused_assignments": [
+      {
+        "piece_index": 1,
+        "lane_index": 1
+      }
+    ],
+    "executed_assignments": [
+      {
+        "piece_index": 0,
+        "lane_index": 0
+      }
+    ],
+    "lanes": 2,
+    "certified_managed_peak_bytes": 42411200,
+    "retained_storage_bytes": 276959904,
+    "gpu_devices_required": 0,
+    "network_transports_required": 0,
+    "runtime_telemetry_attestation": "self_reported",
+    "recovery_partition_attestation": "self_reported",
+    "directory_metadata_sync": "available",
+    "process_crash_recovery": "supported"
+  },
+  "verification": {
+    "verified": true,
+    "method": "parallel_independently_addressed_exact_replay_v2",
+    "pieces_checked": 2,
+    "bytes_checked": 12582912,
+    "verification_integer_operations": 352321536,
+    "admission_input_io": {
+      "requested_bytes": 0,
+      "authenticated_chunk_bytes": 234881696,
+      "chunk_loads": 225,
+      "cache_hits": 0
+    },
+    "input_io": {
+      "requested_bytes": 469762720,
+      "authenticated_chunk_bytes": 469763392,
+      "chunk_loads": 450,
+      "cache_hits": 1
+    },
+    "output_io": {
+      "requested_bytes": 12582912,
+      "authenticated_chunk_bytes": 12582912,
+      "chunk_loads": 12,
+      "cache_hits": 0
+    },
+    "verification_ns": 1675362110
+  }
+}
