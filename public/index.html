@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#010405">
+  <meta name="description" content="MFENX.COM: public verification tools, Rootprint observability, and Lights Out software-defined local supercomputer evidence.">
+  <meta property="og:title" content="MFENX.COM Orbital Observatory">
+  <meta property="og:description" content="Verify artifacts, inspect Rootprint lineage, run SFCS demos, and watch the live MFENX verification field.">
+  <meta property="og:image" content="https://mfenx.com/assets/proof-lattice.webp">
+  <meta property="og:url" content="https://mfenx.com/">
+  <title>MFENX</title>
+  <link rel="canonical" href="https://mfenx.com/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg?v=20260729-transparent">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/powerhouse-logo.png?v=20260729-transparent">
+  <link rel="preload" href="assets/proof-lattice.webp" as="image">
+  <link rel="preload" href="assets/earth-day.jpg" as="image" crossorigin="anonymous" media="(min-width: 761px)">
+  <link rel="preload" href="assets/earth-night.jpg" as="image" crossorigin="anonymous" media="(min-width: 761px)">
+  <link rel="preload" href="assets/earth-day-mobile.jpg" as="image" crossorigin="anonymous" media="(max-width: 760px)">
+  <link rel="preload" href="assets/earth-night-mobile.jpg" as="image" crossorigin="anonymous" media="(max-width: 760px)">
+  <link rel="stylesheet" href="app.css?v=20260709-orbital-observatory2">
+  <link rel="stylesheet" href="observatory.css?v=20260728-v040">
+  <link rel="stylesheet" href="release-v040.css?v=20260728-desktop-observatory-frame">
+</head>
+<body>
+  <div id="boot-screen" class="boot-screen" aria-live="polite">
+    <div class="boot-mark">
+      <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
+      <i></i>
+    </div>
+    <strong>POWER HOUSE</strong>
+    <span>CALIBRATING PUBLIC VERIFICATION FIELD</span>
+    <div class="boot-track"><b id="boot-progress"></b></div>
+  </div>
+
+  <div id="app">
+    <canvas id="orbital-canvas" tabindex="0" aria-label="Interactive Earth proof field. Drag to rotate, scroll to zoom, or select a city marker."></canvas>
+    <div class="lattice-field" aria-hidden="true"></div>
+    <div class="scan-grid" aria-hidden="true"></div>
+    <div class="edge-vignette" aria-hidden="true"></div>
+    <div class="proof-flash" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="MFENX Power House home">
+        <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
+        <span>
+          <strong>MFENX</strong>
+          <small>POWER HOUSE + ROOTPRINT + SLBIT / PROOF OBSERVATORY</small>
+        </span>
+      </a>
+
+      <div class="mission-clock" aria-label="Observatory time">
+        <span class="signal-dot"></span>
+        <span id="mission-state">ORBITAL FIELD</span>
+        <span id="utc-date">JUN 05 2026</span>
+        <strong id="utc-time">00:00:00</strong>
+        <span>UTC</span>
+      </div>
+
+      <nav class="top-actions" aria-label="Project and instrument controls">
+        <a href="ckodmk/" title="CKODMK model deployment assurance">
+          <span data-icon="shield-check"></span><b>CKODMK</b>
+        </a>
+        <a href="lightsout/" title="Lights Out software-defined local supercomputer">
+          <span data-icon="crosshair"></span><b>LIGHTS OUT</b>
+        </a>
+        <a href="https://docs.rs/power_house" title="Rust API documentation">
+          <span data-icon="book-open"></span><b>API</b>
+        </a>
+        <a href="slbit.html" title="SLBIT 3.1 Meaning Observatory">
+          <span data-icon="brain-circuit"></span><b>SLBIT</b>
+        </a>
+        <a href="https://github.com/JROChub/power_house" title="Source repository">
+          <span data-icon="code"></span><b>SOURCE</b>
+        </a>
+        <button id="portal-top-toggle" type="button" aria-label="Open instant verifier" aria-expanded="false" aria-controls="portal-drawer" title="Instant verifier">
+          <span data-icon="search"></span><b>VERIFY</b>
+        </button>
+        <button id="observatory-toggle" type="button" aria-label="Open world observatory" title="World observatory">
+          <span data-icon="globe"></span><b>EARTH</b>
+        </button>
+        <button id="evaluation-toggle" class="evaluation-toggle" type="button">
+          <span data-icon="building-2"></span><b>EVALUATE</b>
+        </button>
+      </nav>
+    </header>
+
+    <section id="portal-drawer" class="portal-drawer" aria-label="Instant verifier and Orbital Observatory portal" aria-hidden="true">
+      <div class="portal-drawer-shell">
+        <header class="portal-drawer-head">
+          <div>
+            <span>LOCAL PROOF LAB / MFENX.COM</span>
+            <h2>VERIFY HERE. NOTHING LEAVES.</h2>
+            <p>Run published verifier paths, inspect portable artifacts, or create a deterministic RootID observation from your own input. Arbitrary-input fingerprinting records what you supplied; it does not prove that the input is true.</p>
+          </div>
+          <button id="portal-panel-close" type="button" aria-label="Close Orbital Observatory portal">
+            <span data-icon="x"></span>
+          </button>
+        </header>
+
+        <div class="portal-instant-verifier" aria-label="Instant verifier">
+          <label for="portal-input">Create a local RootID observation from text, URL, claim, or identity seed</label>
+          <textarea id="portal-input" rows="4" spellcheck="false" placeholder="Paste input here to produce a deterministic local observation, or load a .pha / Rootprint / SLBIT file below for artifact verification."></textarea>
+          <div class="portal-verifier-actions">
+            <button id="portal-input-verify" class="portal-command primary" type="button">
+              <span data-icon="search"></span>
+              <b>CREATE LOCAL ROOTID</b>
+            </button>
+            <button id="portal-input-clear" class="portal-command" type="button">
+              <span data-icon="rotate-ccw"></span>
+              <b>CLEAR</b>
+            </button>
+          </div>
+        </div>
+
+        <section id="portal-result" class="portal-result" aria-live="polite">
+          <div class="portal-result-head">
+            <span id="portal-result-kind">LOCAL ONLY</span>
+            <b id="portal-result-title">READY FOR LOCAL VERIFICATION</b>
+          </div>
+          <p id="portal-result-detail">The verifier runs in this browser. It creates deterministic RootID and replay fingerprints for text, URLs, claims, and RootID seeds without uploading proof data by default.</p>
+          <dl class="portal-result-grid">
+            <div><dt>ROOTID</dt><dd id="portal-rootid">WAITING</dd></div>
+            <div><dt>REPLAY</dt><dd id="portal-replay">WAITING</dd></div>
+            <div><dt>INPUT</dt><dd id="portal-input-kind">WAITING</dd></div>
+            <div><dt>BYTES</dt><dd id="portal-input-bytes">0</dd></div>
+          </dl>
+          <div class="portal-result-actions">
+            <button id="portal-copy-rootid" class="portal-command" type="button" disabled>
+              <span data-icon="copy"></span>
+              <b>COPY ROOTID</b>
+            </button>
+            <button id="portal-open-certificate" class="portal-command" type="button" disabled>
+              <span data-icon="crosshair"></span>
+              <b>VIEW CERTIFICATE</b>
+            </button>
+          </div>
+        </section>
+
+        <div id="portal-drop-zone" class="portal-drop-zone" role="button" tabindex="0" aria-label="Drop a Power House artifact for local verification">
+          <span>DROP ROOTPRINT / .PHA / SLBIT SIDECAR</span>
+          <b>LOCAL BROWSER VERIFIER</b>
+        </div>
+
+        <div class="portal-demo-grid" aria-label="Preloaded verification demos">
+          <button type="button" data-portal-mode="rootprint">
+            <span data-icon="brain-circuit"></span>
+            <b>VERIFY AI RESPONSE</b>
+            <small>Rootprint + SLBIT meaning sidecar</small>
+          </button>
+          <button type="button" data-portal-mode="sfcs">
+            <span data-icon="bot"></span>
+            <b>RUN SFCS PROOF</b>
+            <small>Public identity bridge + proof-family report</small>
+          </button>
+          <button type="button" data-portal-mode="constant">
+            <span data-icon="database"></span>
+            <b>SEXTILLION CHECK</b>
+            <small>70-round deterministic replay</small>
+          </button>
+          <button type="button" data-portal-mode="committed">
+            <span data-icon="package"></span>
+            <b>COMMITTED WORKLOAD</b>
+            <small>External workload binding</small>
+          </button>
+        </div>
+
+        <div class="portal-feature-grid" aria-label="Orbital Observatory feature paths">
+          <a href="slbit.html"><span>MEANING OBSERVATORY</span><b>SLBIT SEMANTIC LAYER</b></a>
+          <a href="https://docs.rs/power_house"><span>DEVELOPER HUB</span><b>RUST API / SDK DOCS</b></a>
+          <a
+            href="https://mfenx.com/tessaryn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>NATIVE 4D ORIGIN</span><b>TESSARYN / EXPERIMENTAL</b>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <aside class="proof-rail" aria-label="Proof modes">
+      <div class="rail-heading">
+        <span>VERIFICATION ARRAY</span>
+        <b>06 REPRODUCIBLE PATHS</b>
+      </div>
+
+      <div id="proof-modes" class="proof-modes">
+        <button class="proof-mode active" data-mode="rootprint" type="button" aria-pressed="true">
+          <span class="mode-index">01</span>
+          <span class="mode-copy"><b>ROOTPRINT</b><small>IDENTITY / CORE DAG</small></span>
+          <i></i>
+        </button>
+        <button class="proof-mode" data-mode="sfcs" type="button" aria-pressed="false">
+          <span class="mode-index">02</span>
+          <span class="mode-copy"><b>SFCS PRIVATE</b><small>SOVEREIGN VM RECEIPT</small></span>
+          <i></i>
+        </button>
+        <button class="proof-mode" data-mode="constant" type="button" aria-pressed="false">
+          <span class="mode-index">03</span>
+          <span class="mode-copy"><b>SEXTILLION</b><small>70 ROUNDS</small></span>
+          <i></i>
+        </button>
+        <button class="proof-mode" data-mode="affine" type="button" aria-pressed="false">
+          <span class="mode-index">04</span>
+          <span class="mode-copy"><b>HYPERSCALE</b><small>4,096 ROUNDS</small></span>
+          <i></i>
+        </button>
+        <button class="proof-mode" data-mode="sparse" type="button" aria-pressed="false">
+          <span class="mode-index">05</span>
+          <span class="mode-copy"><b>MEGAROUND</b><small>PHSP / 1,000,000</small></span>
+          <i></i>
+        </button>
+        <button class="proof-mode" data-mode="committed" type="button" aria-pressed="false">
+          <span class="mode-index">06</span>
+          <span class="mode-copy"><b>COMMITTED</b><small>PHSM + PHCP</small></span>
+          <i></i>
+        </button>
+      </div>
+
+      <button id="install-command" class="install-command" type="button" title="Copy install command">
+        <span><small>RUST</small><code>cargo add power_house</code></span>
+        <span data-icon="copy"></span>
+      </button>
+
+      <div class="rail-status" aria-label="Release state">
+        <div><span>RELEASE</span><b>v0.4.0</b></div>
+        <div><span>CORE</span><b>DETERMINISTIC</b></div>
+      </div>
+
+      <div class="release-links" aria-label="Power House release instruments">
+        <a href="https://docs.rs/power_house/latest/power_house/memory/" title="Memory Capsule API">
+          <span>MEMORY CAPSULE V1</span>
+          <b>VERIFY / REPLAY / CHALLENGE</b>
+        </a>
+        <a href="slbit.html" title="Open SLBIT 3.1 Meaning Observatory">
+          <span>SLBIT 3.1</span>
+          <b>MEANING OBSERVATORY</b>
+        </a>
+        <a href="https://github.com/JROChub/power_house/blob/main/docs/sfcs.md" title="Open the SFCS implementation reference">
+          <span>SFCS v0.4.0</span>
+          <b>ORIGIN + SOVEREIGN PRIVATE VM</b>
+        </a>
+      </div>
+    </aside>
+
+    <main class="center-stage">
+      <div class="stage-label">
+        <span id="stage-city">GREENWICH</span>
+        <strong id="stage-time">00:00:00</strong>
+        <small><span id="stage-date">JUN 05</span> / <span id="stage-zone">EUROPE/LONDON</span></small>
+      </div>
+
+      <div class="target-reticle" aria-hidden="true"><i></i><i></i></div>
+      <div id="globe-tooltip" class="globe-tooltip" role="status"></div>
+      <div id="orbital-label-layer" class="orbital-label-layer" aria-hidden="true"></div>
+
+      <section class="proof-monument" aria-label="Selected proof scale">
+        <div class="monument-thesis">
+          <span>VERIFICATION IS THE CREATION BOUNDARY</span>
+          <b>LOCAL-FIRST / PORTABLE / REPLAYABLE</b>
+        </div>
+        <span id="orbit-kicker">DETERMINISTIC IDENTITY GRAPH</span>
+        <div class="monument-title">
+          <h1>POWER HOUSE</h1>
+          <b id="monument-index">01</b>
+        </div>
+        <div class="domain-equation">
+          <small id="domain-caption">PUBLIC STRUCTURE</small>
+          <strong id="domain-label">DAG<sup>4</sup></strong>
+        </div>
+        <p id="orbit-description">Replay portable computational identity lineage while optional external attachments remain outside core validity.</p>
+        <div class="mode-metrics">
+          <div><span>PUBLIC SCALE</span><b id="domain-detail">4 VERIFIED BRANCHES</b></div>
+          <div><span>VERIFIER PATH</span><b id="verifier-path">CORE-ONLY DAG REPLAY</b></div>
+          <div><span>EXTERNAL PROOFS</span><b id="allocation-value">STRICTLY OPTIONAL</b></div>
+        </div>
+        <div class="hero-actions" aria-label="Primary proof commands">
+          <button id="hero-run-button" class="hero-run-button" type="button">
+            <span data-icon="play"></span>
+            <span><small>SELECTED VERIFIER</small><b id="hero-run-label">VERIFY GRAPH</b></span>
+          </button>
+          <button id="hero-portal-button" class="hero-portal-button" type="button">
+            <span data-icon="search"></span>
+            <span><small>YOUR INPUT</small><b>LOCAL PROOF LAB</b></span>
+          </button>
+        </div>
+        <dl class="hero-trust-meter" aria-label="Verification trust boundary">
+          <div><dt>EXECUTION</dt><dd id="hero-local-state">BROWSER LOCAL</dd></div>
+          <div><dt>UPLOAD</dt><dd id="hero-upload-state">NONE</dd></div>
+          <div><dt>MEANING</dt><dd id="hero-meaning-state">SLBIT / NON-CORE</dd></div>
+        </dl>
+      </section>
+
+      <div class="proof-event" aria-live="polite">
+        <span id="event-phase">FIELD ARMED</span>
+        <b id="event-value">PRESS RUN</b>
+      </div>
+
+    </main>
+
+    <div class="sfcs-orbit-dock" aria-label="SFCS verification pop-out">
+      <button id="sfcs-orbit-toggle" class="sfcs-orbit-toggle" type="button" aria-expanded="false" aria-controls="sfcs-orbit-panel" title="Open SFCS Sovereign VM receipt instrument">
+        <span data-icon="brain-circuit"></span>
+        <b>SFCS</b>
+        <small>OPEN / RUN</small>
+      </button>
+
+      <div id="sfcs-orbit-panel" class="sfcs-orbit-panel">
+        <section class="zk-cockpit" aria-label="SFCS Sovereign private VM">
+          <div class="zk-cockpit-head">
+            <div>
+              <span>SFCS SOVEREIGN PRIVATE VM / v0.4.0</span>
+              <b>REAL RECEIPT / DETERMINISTIC IDENTITY</b>
+            </div>
+            <button id="sfcs-orbit-close" type="button" aria-label="Close SFCS Sovereign VM receipt instrument" title="Close SFCS instrument">
+              <span data-icon="x"></span>
+            </button>
+          </div>
+          <div class="zk-proof-grid" aria-label="SFCS verification stages">
+            <div id="sfcs-lane-bitwise" class="sfcs-proof-lane" data-state="idle">
+              <span>PROGRAM</span>
+              <b>RISC-V IMAGE</b>
+              <em id="sfcs-lane-bitwise-status">STANDBY</em>
+              <i aria-hidden="true"></i>
+            </div>
+            <div id="sfcs-lane-compare" class="sfcs-proof-lane" data-state="idle">
+              <span>RECEIPT</span>
+              <b>RISC0 / NO DEV MODE</b>
+              <em id="sfcs-lane-compare-status">STANDBY</em>
+              <i aria-hidden="true"></i>
+            </div>
+            <div id="sfcs-lane-branch" class="sfcs-proof-lane" data-state="idle">
+              <span>IDENTITY</span>
+              <b>.PHA + ROOTPRINT</b>
+              <em id="sfcs-lane-branch-status">STANDBY</em>
+              <i aria-hidden="true"></i>
+            </div>
+            <div id="sfcs-lane-memory" class="sfcs-proof-lane" data-state="idle">
+              <span>CAPSULE</span>
+              <b>OFFLINE REVERIFY</b>
+              <em id="sfcs-lane-memory-status">STANDBY</em>
+              <i aria-hidden="true"></i>
+            </div>
+          </div>
+          <dl>
+            <div><dt>PROOF BACKEND</dt><dd id="sfcs-range-proof-count">RISC0 3.0.6</dd></div>
+            <div><dt>RELEASE GATES</dt><dd id="sfcs-byte-semantics-count">REAL GUEST</dd></div>
+            <div><dt>DEV RECEIPTS</dt><dd id="sfcs-mutation-count">REJECTED</dd></div>
+          </dl>
+          <button id="sfcs-orbit-run" class="sfcs-orbit-run" type="button">
+            <span data-icon="play"></span>
+            <b id="sfcs-orbit-run-label">RUN IDENTITY BRIDGE</b>
+          </button>
+          <section id="sfcs-run-console" class="sfcs-run-console" aria-live="polite">
+            <div class="sfcs-run-head">
+              <span id="sfcs-widget-status">READY</span>
+              <b id="sfcs-widget-title">SFCS identity bridge standing by</b>
+            </div>
+            <p id="sfcs-widget-detail">This browser executes the deterministic SFCS graph, trace, synthesis, .pha, and Rootprint bridge. The Sovereign VM receipt is checked by the published Rust verifier.</p>
+            <div class="sfcs-widget-progress" aria-hidden="true">
+              <i id="sfcs-widget-progress"></i>
+            </div>
+            <dl class="sfcs-widget-grid">
+              <div><dt>STAGE</dt><dd id="sfcs-widget-stage">WAITING</dd></div>
+              <div><dt>DIGEST</dt><dd id="sfcs-widget-digest">PENDING</dd></div>
+              <div><dt>BRANCH</dt><dd id="sfcs-widget-branch">PENDING</dd></div>
+              <div><dt>REPLAY</dt><dd id="sfcs-widget-replay">PENDING</dd></div>
+            </dl>
+          </section>
+          <a href="https://github.com/JROChub/power_house/blob/main/docs/sfcs_zkvm.md">
+            <span>OPEN VM REFERENCE</span>
+            <span data-icon="chevron-right"></span>
+          </a>
+        </section>
+
+        <section class="substrate-readout" aria-label="SFCS truth boundary">
+          <span>SFCS IDENTITY PATH</span>
+          <b>FRACTAL DIGEST -> .PHA CORE -> ROOTPRINT SAFE</b>
+          <dl>
+            <div><dt>DEFAULT</dt><dd>OFF</dd></div>
+            <div><dt>CORE</dt><dd>UNCHANGED</dd></div>
+            <div><dt>FAST PATH</dt><dd>STRUCTURE ONLY</dd></div>
+          </dl>
+        </section>
+      </div>
+    </div>
+
+    <div class="scene-controls" aria-label="Scene controls">
+      <button id="focus-toggle" class="icon-button" type="button" aria-label="Focus selected city" title="Focus selected city">
+        <span data-icon="crosshair"></span>
+      </button>
+      <button id="zoom-in" class="icon-button symbol-button" type="button" aria-label="Zoom in" title="Zoom in">
+        <b>+</b>
+      </button>
+      <button id="zoom-out" class="icon-button symbol-button" type="button" aria-label="Zoom out" title="Zoom out">
+        <b>-</b>
+      </button>
+      <button id="view-reset" class="icon-button" type="button" aria-label="Reset orbital view" title="Reset orbital view">
+        <span data-icon="rotate-ccw"></span>
+      </button>
+      <button id="sound-toggle" class="icon-button" type="button" aria-label="Enable interface sound" title="Toggle interface sound">
+        <span data-icon="volume-x"></span>
+      </button>
+      <button id="motion-toggle" class="icon-button" type="button" aria-label="Pause orbital motion" title="Pause orbital motion">
+        <span data-icon="pause"></span>
+      </button>
+    </div>
+
+    <aside id="observatory-rail" class="instrument-drawer observatory-drawer" aria-label="World observatory">
+      <div class="drawer-heading">
+        <div><span>WORLD OBSERVATORY</span><b id="observatory-mode">LIVE</b></div>
+        <button id="observatory-close" type="button" aria-label="Close world observatory" title="Close">
+          <span data-icon="x"></span>
+        </button>
+      </div>
+
+      <label class="city-search">
+        <span data-icon="search"></span>
+        <input id="city-search" type="search" autocomplete="off" placeholder="Search city or zone" aria-label="Search world clocks">
+      </label>
+
+      <div id="city-list" class="city-list"></div>
+
+      <section class="celestial-readout" aria-label="Selected city celestial data">
+        <div class="celestial-primary">
+          <span id="solar-state">DAYLIGHT</span>
+          <b id="solar-altitude">+00.0°</b>
+          <small>SOLAR ALTITUDE</small>
+        </div>
+        <div id="solar-arc" class="solar-arc" aria-hidden="true">
+          <i></i>
+          <span></span>
+        </div>
+        <dl>
+          <div><dt>SUNRISE</dt><dd id="sunrise-value">--:--</dd></div>
+          <div><dt>SUNSET</dt><dd id="sunset-value">--:--</dd></div>
+          <div><dt>MOON</dt><dd id="moon-phase">--</dd></div>
+          <div><dt>LIGHT</dt><dd id="moon-light">--%</dd></div>
+        </dl>
+        <div class="subsolar-line">
+          <span>SUBSOLAR</span>
+          <b id="solar-position">0.0 N / 0.0 E</b>
+        </div>
+      </section>
+
+      <section class="time-lab" aria-label="Celestial timeline">
+        <div class="time-lab-heading">
+          <span>CELESTIAL TIMELINE</span>
+          <b id="time-offset-label">LIVE</b>
+        </div>
+        <div class="time-controls">
+          <button id="time-back" type="button" aria-label="Move one hour backward" title="Back one hour">
+            <span data-icon="chevron-left"></span>
+          </button>
+          <button id="time-live" type="button" aria-label="Return to live time" title="Return to live">
+            <span data-icon="rotate-ccw"></span><b>LIVE</b>
+          </button>
+          <button id="time-forward" type="button" aria-label="Move one hour forward" title="Forward one hour">
+            <span data-icon="chevron-right"></span>
+          </button>
+        </div>
+        <input id="time-slider" type="range" min="-24" max="24" step="1" value="0" aria-label="Time offset from live, in hours">
+        <div class="time-scale" aria-hidden="true"><span>-24H</span><span>NOW</span><span>+24H</span></div>
+      </section>
+
+    </aside>
+
+    <aside id="evaluation-panel" class="instrument-drawer evaluation-drawer" aria-label="Technical evaluation">
+      <div class="drawer-heading">
+        <div><span>TECHNICAL EVALUATION</span><b>OPEN</b></div>
+        <button id="evaluation-close" type="button" aria-label="Close technical evaluation" title="Close">
+          <span data-icon="x"></span>
+        </button>
+      </div>
+
+      <div class="evaluation-lead">
+        <span>FOR RESEARCH / INFRASTRUCTURE / AUDIT</span>
+        <strong>Bring the workload that should not fit.</strong>
+        <p>Define the statement, domain, trust boundary, and rejection criteria. Power House turns the evaluation into a reproducible verifier path.</p>
+      </div>
+
+      <dl class="evaluation-spec">
+        <div><dt>SELECTED ARRAY</dt><dd id="dossier-mode">ROOTPRINT</dd></div>
+        <div><dt>DOMAIN</dt><dd id="dossier-domain">4-BRANCH DAG</dd></div>
+        <div><dt>VERIFIER WORK</dt><dd id="dossier-work">CORE-ONLY DAG REPLAY</dd></div>
+        <div><dt>PUBLIC ARTIFACT</dt><dd id="dossier-artifact">ROOTPRINT v1 JSON</dd></div>
+      </dl>
+
+      <a class="evaluation-primary" href="https://github.com/JROChub/power_house/issues/new?template=technical-evaluation.yml">
+        <span>OPEN TECHNICAL EVALUATION</span>
+        <span data-icon="building-2"></span>
+      </a>
+      <div class="evaluation-links">
+        <a href="https://github.com/JROChub/power_house/blob/main/docs/verification_guide.md">REPRODUCE</a>
+        <a href="https://github.com/JROChub/power_house/blob/main/docs/identity.md">IDENTITY API</a>
+        <a href="https://github.com/JROChub/power_house/blob/main/docs/security_model.md">SECURITY MODEL</a>
+        <a href="https://crates.io/crates/power_house">CRATE v0.4.0</a>
+      </div>
+    </aside>
+
+    <section id="luminous-explorer" class="luminous-explorer" aria-label="Human-observable Rootprint">
+      <header class="luminous-heading">
+        <div>
+          <span>HUMAN-OBSERVABLE ROOTPRINT</span>
+          <b>CRYPTOGRAPHIC TRUTH / SEMANTIC MEANING</b>
+        </div>
+        <dl>
+          <div><dt>CORE</dt><dd id="luminous-core-state">AWAITING</dd></div>
+          <div><dt>SIDECAR</dt><dd id="luminous-sidecar-state">AWAITING</dd></div>
+          <div><dt>PACKETS</dt><dd id="luminous-packet-count">0 / 4</dd></div>
+        </dl>
+        <button id="luminous-toggle" class="luminous-toggle" type="button" aria-expanded="false" aria-controls="luminous-workspace" aria-label="Expand proof explorer" title="Expand proof explorer">
+          <span data-icon="chevron-right"></span>
+        </button>
+      </header>
+      <div id="luminous-workspace" class="luminous-workspace">
+        <div class="luminous-map">
+          <div class="luminous-map-label">
+            <span>ROOTPRINT DAG</span>
+            <b id="luminous-binding">REPLAY BINDING PENDING</b>
+          </div>
+          <div id="luminous-graph" class="luminous-graph" aria-label="Selectable semantic proof graph"></div>
+        </div>
+        <article class="luminous-inspector" aria-live="polite">
+          <div class="luminous-inspector-head">
+            <span id="luminous-node-icon" data-icon="camera"></span>
+            <div>
+              <small id="luminous-node-layer">SEMANTIC LAYER</small>
+              <b id="luminous-node-title">VERIFY TO OPEN TRANSCRIPT</b>
+            </div>
+            <em id="luminous-packet-digest">PACKET PENDING</em>
+          </div>
+          <ol id="luminous-rounds" class="luminous-rounds">
+            <li><span>00</span><div><b>OBSERVATORY READY</b><p>Rootprint core verification runs before semantic rendering.</p></div></li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="verification-dock" aria-label="Verification console">
+      <div class="trace-header">
+        <span id="verification-status">ROOTPRINT VERIFIER READY</span>
+        <b id="verification-title">Verify the public provenance graph</b>
+        <p id="verification-detail">The browser recalculates every PHA fingerprint and deterministic branch identifier.</p>
+      </div>
+
+      <div class="trace-runway">
+        <div id="proof-trace" class="proof-trace" aria-hidden="true"></div>
+        <div class="progress-track"><i id="progress-bar"></i></div>
+      </div>
+
+      <div class="verification-actions">
+        <input id="artifact-input" type="file" multiple hidden accept=".pha,.json,.sfcs,.phsp,.phsm,.phcp">
+        <button id="artifact-button" class="artifact-button" type="button" title="Verify local artifact files">
+          <span data-icon="upload"></span><b>LOCAL FILE</b>
+        </button>
+        <a id="download-button" class="download-button" href="artifacts/rootprint-valid.json" download title="Download selected public artifact">
+          <span data-icon="download"></span>
+        </a>
+        <button id="share-button" class="share-button" type="button" disabled title="Share verification result">
+          <span data-icon="share-2"></span>
+        </button>
+        <button id="verify-button" class="verify-button" type="button">
+          <span>VERIFY GRAPH</span>
+          <b>ENTER</b>
+        </button>
+      </div>
+
+      <div class="telemetry">
+        <div class="status-seal" id="status-seal">
+          <span>READY</span><b id="seal-value">4</b><small id="seal-unit">BRANCHES</small>
+        </div>
+        <div><span>ROUND</span><b id="round-value">0 / 4</b></div>
+        <div><span>CLAIM</span><b id="claim-value">WAITING</b></div>
+        <div><span>DIGEST</span><b id="digest-value">PENDING</b></div>
+        <div><span>MODE</span><b id="mode-value">ROOTPRINT</b></div>
+        <div><span>RELEASE</span><b>v0.4.0</b></div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <noscript>This instrument requires JavaScript for the globe and verifier.</noscript>
+  <script src="bootstrap.js"></script>
+  <script type="module" src="app.js?v=20260824-professional-site"></script>
+</body>
+</html>

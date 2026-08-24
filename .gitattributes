@@ -1,0 +1,25 @@
+* text=auto eol=lf
+
+*.7z binary
+*.der binary
+*.gif binary
+*.gz binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.npz binary
+*.onnx binary
+*.part-* binary
+*.pcm binary
+*.phcp binary
+*.phsm binary
+*.phsp binary
+*.png binary
+*.sig binary
+*.tar binary
+*.tgz binary
+*.wasm binary
+*.webp binary
+*.whl binary
+*.zip binary
+*.zst binary

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mfenx.com/lightsout/current-release/COMMERCIAL-STATUS.schema.json",
+  "title": "MFENX Lights Out commercial status v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record_id",
+    "effective_at_utc",
+    "encoding_profile",
+    "product",
+    "licensing",
+    "technical_evidence",
+    "historical_record",
+    "signature"
+  ],
+  "properties": {
+    "schema": { "const": "mfenx.commercial-status.v1" },
+    "record_id": { "type": "string", "pattern": "^lights-out-local-supercomputer-v2-commercial-status-[0-9]{8}$" },
+    "effective_at_utc": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "encoding_profile": { "const": "mfenx.json.jq-cS-integer.v1" },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["company", "name", "release", "machine_class"],
+      "properties": {
+        "company": { "const": "MFENX" },
+        "name": { "const": "Lights Out Local Supercomputer V2" },
+        "release": { "const": "v2" },
+        "machine_class": { "const": "software_defined_local_supercomputer_v2" }
+      }
+    },
+    "licensing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "current_software_license",
+        "executor",
+        "verifier",
+        "source_available",
+        "public_binary_distribution",
+        "evaluation_requires_written_agreement",
+        "redistribution_requires_written_agreement"
+      ],
+      "properties": {
+        "current_software_license": { "const": "LicenseRef-MFENX-Commercial" },
+        "executor": { "const": "proprietary" },
+        "verifier": { "const": "proprietary" },
+        "source_available": { "const": false },
+        "public_binary_distribution": { "const": false },
+        "evaluation_requires_written_agreement": { "const": true },
+        "redistribution_requires_written_agreement": { "const": true }
+      }
+    },
+    "technical_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_contract",
+        "accepted_release",
+        "preserved_v1_comparator",
+        "validation_candidate",
+        "adversarial",
+        "scaling",
+        "reproduction",
+        "external_workload"
+      ],
+      "properties": {
+        "execution_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["version", "release_manifest_sha256", "release_signature_sha256"],
+          "properties": {
+            "version": { "const": "v1" },
+            "release_manifest_sha256": { "$ref": "#/$defs/digest" },
+            "release_signature_sha256": { "$ref": "#/$defs/digest" }
+          }
+        },
+        "accepted_release": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["capture_manifest_sha256", "acceptance_sha256", "executor_sha256", "source_tree_sha256", "output_root", "external_wall_ns"],
+          "properties": {
+            "capture_manifest_sha256": { "$ref": "#/$defs/digest" },
+            "acceptance_sha256": { "$ref": "#/$defs/digest" },
+            "executor_sha256": { "$ref": "#/$defs/digest" },
+            "source_tree_sha256": { "$ref": "#/$defs/digest" },
+            "output_root": { "$ref": "#/$defs/digest" },
+            "external_wall_ns": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "preserved_v1_comparator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["capture_manifest_sha256", "acceptance_sha256", "external_wall_ns", "same_workload", "same_output_root", "v1_over_v2_ratio_decimal"],
+          "properties": {
+            "capture_manifest_sha256": { "$ref": "#/$defs/digest" },
+            "acceptance_sha256": { "$ref": "#/$defs/digest" },
+            "external_wall_ns": { "type": "integer", "minimum": 1 },
+            "same_workload": { "const": true },
+            "same_output_root": { "const": true },
+            "v1_over_v2_ratio_decimal": { "type": "string", "pattern": "^[0-9]+\\.[0-9]{10}$" }
+          }
+        },
+        "validation_candidate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["release_id", "manifest_sha256", "executor_sha256", "verifier_sha256"],
+          "properties": {
+            "release_id": { "const": "mfenx-local-v2-validation-candidate-20260822-a1" },
+            "manifest_sha256": { "$ref": "#/$defs/digest" },
+            "executor_sha256": { "$ref": "#/$defs/digest" },
+            "verifier_sha256": { "$ref": "#/$defs/digest" }
+          }
+        },
+        "adversarial": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["attempted_exactly_once", "driver_passed", "independent_passed", "mutation_cases", "restart_cases", "attestation_sha256"],
+          "properties": {
+            "attempted_exactly_once": { "const": 214 },
+            "driver_passed": { "const": 214 },
+            "independent_passed": { "const": 214 },
+            "mutation_cases": { "const": 192 },
+            "restart_cases": { "const": 22 },
+            "attestation_sha256": { "$ref": "#/$defs/digest" }
+          }
+        },
+        "scaling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["planned", "successful", "retained", "sample_filtering_applied", "results_sha256", "cells"],
+          "properties": {
+            "planned": { "const": 100 },
+            "successful": { "const": 100 },
+            "retained": { "const": 100 },
+            "sample_filtering_applied": { "const": false },
+            "results_sha256": { "$ref": "#/$defs/digest" },
+            "cells": {
+              "type": "array",
+              "minItems": 10,
+              "maxItems": 10,
+              "items": { "$ref": "#/$defs/scalingCell" }
+            }
+          }
+        },
+        "reproduction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["jobs", "matching_output_roots", "record_sha256"],
+          "properties": {
+            "jobs": { "const": 3 },
+            "matching_output_roots": { "const": 3 },
+            "record_sha256": { "$ref": "#/$defs/digest" }
+          }
+        },
+        "external_workload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "executor_accepted", "standalone_verifier_accepted", "independent_exact_oracle_accepted", "record_sha256"],
+          "properties": {
+            "name": { "const": "UCI Iris" },
+            "executor_accepted": { "const": true },
+            "standalone_verifier_accepted": { "const": true },
+            "independent_exact_oracle_accepted": { "const": true },
+            "record_sha256": { "$ref": "#/$defs/digest" }
+          }
+        }
+      }
+    },
+    "historical_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "record_sha256", "controls_current_terms"],
+      "properties": {
+        "status": { "const": "archived_private" },
+        "record_sha256": { "$ref": "#/$defs/digest" },
+        "controls_current_terms": { "const": false }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "format", "namespace", "signer_identity", "public_key_fingerprint"],
+      "properties": {
+        "algorithm": { "const": "ssh-ed25519" },
+        "format": { "const": "openssh-sshsig" },
+        "namespace": { "const": "mfenx-commercial-status" },
+        "signer_identity": { "const": "mfenx-release" },
+        "public_key_fingerprint": { "const": "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc" }
+      }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "scalingCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature", "lanes", "topology", "median_wall_ns_decimal", "speedup_decimal"],
+      "properties": {
+        "temperature": { "enum": ["cold_unprimed", "warm_primed"] },
+        "lanes": { "enum": [1, 2, 4, 8, 16] },
+        "topology": { "enum": ["distinct_physical_cores", "oversubscribed_round_robin"] },
+        "median_wall_ns_decimal": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+$" },
+        "speedup_decimal": { "type": "string", "pattern": "^[0-9]+\\.[0-9]{6}$" }
+      }
+    }
+  }
+}
