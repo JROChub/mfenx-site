@@ -81,8 +81,8 @@ const COMMERCIAL_STATUS = Object.freeze({
   signaturePath: "COMMERCIAL-STATUS.canonical.json.sig",
   publicKeyPath: "release-signing-key.pub",
   allowedSignersPath: "allowed_signers",
-  recordSha256: "f1ae5c040867534bf57f6a350318805f086691a7d8d67126911984000e4ee4e8",
-  detachedSignatureSha256: "464c66f434ff30aec6c512c11dbee4d2572845c6f271399ac75fcf52cf5b0c9c",
+  recordSha256: "bf6d6f6d6e3d0f75fd054c38600579a5954df63012dbbdaf75b65b19d14cbb15",
+  detachedSignatureSha256: "17d7dc6e5bce1e59c7c85b7a5db9a026dd037cecdb9cdd57f9ef3505a7f3edd0",
   publicKeySha256: "0f7c5f5eacc52b9f5c54eb7a5166e7e8e0a5a5b73d9a23f94dc9e2bdad244426",
   allowedSignersSha256: "cfec795857dd01e48eb4a9d62b1ed0e2af5a6edbc95ed30542afa17b8e9e3e95",
   namespace: "mfenx-commercial-status",
@@ -90,9 +90,9 @@ const COMMERCIAL_STATUS = Object.freeze({
   publicKeyFingerprint: "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
 });
 
-// Frozen records retain historical distribution identities, but the active
-// commercial product page must never turn those identities into software
-// delivery links. Executable bytes are also excluded from browser retrieval.
+// Published evidence retains historical distribution identities. The active
+// commercial product page exposes only signed status and non-executable
+// evidence resources.
 const BLOCKED_ACTIVE_DISTRIBUTION_ROLES = Object.freeze([
   "commercial_evaluation_distribution_archive",
   "commercial_evaluation_distribution_archive_sidecar",
@@ -105,7 +105,7 @@ function isBlockedActiveDistribution(role, href = "") {
     || BLOCKED_ACTIVE_DISTRIBUTION_HREF.test(href);
 }
 
-function assertCommercialUiBoundary() {
+function assertCommercialUiPolicy() {
   for (const link of document.querySelectorAll("a[href]")) {
     const href = link.getAttribute("href") || "";
     assert(!isBlockedActiveDistribution("", href), "active UI exposes a restricted software distribution path");
@@ -310,16 +310,17 @@ function validateCommercialStatus(record) {
     "schema", "record_id", "effective_at_utc", "encoding_profile", "product",
     "licensing", "technical_evidence", "historical_record", "signature"
   ], "commercial status");
-  assert(record.schema === "mfenx.commercial-status.v1", "commercial-status schema changed");
+  assert(record.schema === "mfenx.commercial-status.v2", "commercial-status schema changed");
   assert(/^lights-out-local-supercomputer-v2-commercial-status-[0-9]{8}$/.test(record.record_id), "commercial-status record identity changed");
   assert(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/.test(record.effective_at_utc), "commercial-status effective time is malformed");
   assert(record.encoding_profile === "mfenx.json.jq-cS-integer.v1", "commercial-status encoding profile changed");
 
-  assertExactKeys(record.product, ["company", "name", "release", "machine_class"], "commercial-status product");
+  assertExactKeys(record.product, ["company", "name", "generation", "software_release", "machine_class"], "commercial-status product");
   assert(equalJson(record.product, {
     company: "MFENX",
     name: "Lights Out Local Supercomputer V2",
-    release: "v2",
+    generation: "v2",
+    software_release: "v0.1.3",
     machine_class: "software_defined_local_supercomputer_v2"
   }), "commercial-status product identity changed");
 
@@ -339,10 +340,55 @@ function validateCommercialStatus(record) {
   }), "commercial-status licensing semantics changed");
 
   const evidence = assertExactKeys(record.technical_evidence, [
+    "current_software_release",
     "execution_contract", "accepted_release", "preserved_v1_comparator",
     "validation_candidate", "adversarial", "scaling", "reproduction",
     "external_workload"
   ], "commercial-status technical evidence");
+
+  const current = assertExactKeys(evidence.current_software_release, [
+    "git_object_format", "commit_oid", "commit_tree_oid", "power_house_tree_oid",
+    "tag", "tag_object_oid", "git_signing_key_fingerprint",
+    "commit_signature_verified", "tag_signature_verified",
+    "release_verification", "automated_security_assurance"
+  ], "current software release");
+  assert(equalJson(current, {
+    git_object_format: "sha1",
+    commit_oid: "d0b14cc6083849675e9d943299e60de2458fd7fb",
+    commit_tree_oid: "443fc13fbf387ecc5056d5f3435fdda711a94845",
+    power_house_tree_oid: "32feafbb998d90ee7aead03d14b4f9aabb141ed4",
+    tag: "v0.1.3",
+    tag_object_oid: "b18e598aa942856bc0f1a5d24815314dfe5c44b3",
+    git_signing_key_fingerprint: COMMERCIAL_STATUS.publicKeyFingerprint,
+    commit_signature_verified: true,
+    tag_signature_verified: true,
+    release_verification: {
+      workflow_run_id: 32800785954,
+      run_attempt: 1,
+      head_commit_oid: "d0b14cc6083849675e9d943299e60de2458fd7fb",
+      conclusion: "success"
+    },
+    automated_security_assurance: {
+      workflow_run_id: 32802684195,
+      run_attempt: 1,
+      head_commit_oid: "d0b14cc6083849675e9d943299e60de2458fd7fb",
+      conclusion: "success",
+      required_outcomes: 16,
+      recorded_outcomes: 16,
+      successful_outcomes: 16,
+      failed_outcomes: 0,
+      evidence_files: 46,
+      evidence_archive_bytes: 91891,
+      evidence_archive_sha256: "174f51b53f619d180097208d9b5ce00ac12ef932c626af1d024ea9122c3847d8",
+      evidence_signature_sha256: "bc9967241a84b03a7e50c0d7f2cca333bf8d0af0cc8fd5ee432544d9c0b496b3",
+      evidence_signing_key_fingerprint: "SHA256:mTHLiO34Fx2jTpLMkTZ4AY5M9AVy0jaHc0n8SCV4uoc"
+    }
+  }), "current software release identity or assurance changed");
+  assert(record.product.software_release === current.tag,
+    "current software release tag disagrees with product identity");
+  assert(current.release_verification.head_commit_oid === current.commit_oid
+    && current.automated_security_assurance.head_commit_oid === current.commit_oid,
+  "current software release workflow commit binding changed");
 
   assert(equalJson(evidence.execution_contract, {
     version: "v1",
@@ -1068,7 +1114,8 @@ function clearCommercialStatus(status = "CHECKING") {
   }
   byId("hero-adversarial").textContent = "verification pending";
   byId("hero-scaling").textContent = "verification pending";
-  byId("hero-hosted").textContent = "verification pending";
+  byId("hero-assurance").textContent = "verification pending";
+  byId("hero-current-release").textContent = "verification pending";
   for (const row of document.querySelectorAll("[data-final-lane]")) {
     for (const cell of Array.from(row.children).slice(2)) cell.textContent = "—";
   }
@@ -1080,7 +1127,7 @@ function displayCommercialStatus(pack) {
     ["record-contract", "VERSION 1", "pass"],
     ["record-adversarial", "214 / 214", "pass"],
     ["record-reproduction", "3 / 3 VM JOBS", "pass"],
-    ["record-evaluation", "SIGNED / CURRENT", "pass"]
+    ["record-evaluation", "V0.1.3 / VERIFIED", "pass"]
   ];
   for (const [id, label, className] of recordStates) {
     byId(id).textContent = label;
@@ -1089,7 +1136,8 @@ function displayCommercialStatus(pack) {
 
   byId("hero-adversarial").textContent = "214 / 214 validated";
   byId("hero-scaling").textContent = "100 / 100 retained";
-  byId("hero-hosted").textContent = "3 / 3 VM jobs";
+  byId("hero-assurance").textContent = "16 / 16 passed";
+  byId("hero-current-release").textContent = pack.record.product.software_release + " · signed · verified";
   for (const lanes of [1, 2, 4, 8, 16]) {
     const cold = pack.scalingCells.get("cold_unprimed/" + lanes);
     const warm = pack.scalingCells.get("warm_primed/" + lanes);
@@ -1208,7 +1256,7 @@ async function loadAndValidate() {
     setCheck("trust-pack", "pass", CONTRACT_V1.files.length + " integrity-checked public files");
     setCheck("final-index", "pass", "canonical record / exact SHA-256");
     setCheck("final-signature", "pass", "signature + key + namespace policy pinned");
-    setCheck("final-semantics", "pass", "commercial status + technical evidence verified");
+    setCheck("final-semantics", "pass", "v0.1.3 release + V2 engine evidence verified");
 
     state.v2 = { release: v2Release, validated: v2 };
     state.v1 = { release: v1Release, validated: v1 };
@@ -1217,8 +1265,8 @@ async function loadAndValidate() {
     displayV2(v2);
     displayComparison(v1, v2);
     displayCommercialStatus(commercialStatus);
-    byId("verification-copy").textContent = "The selected v2/v1 evidence, Contract v1, and current commercial-status record match their pinned SHA-256 identities. The production gate authenticates the detached OpenSSH signature and signer namespace; this browser independently checks the published record, signature, key, policy, and evidence semantics before displaying results.";
-    releaseState("pass", "signed commercial status and evidence verified");
+    byId("verification-copy").textContent = "Release v0.1.3, the selected V2/V1 engine evidence, and Execution Contract v1 match their pinned identities. The production gate authenticates the detached OpenSSH signature and signer namespace; this browser checks the published record, signature, key, policy, and evidence semantics before displaying results.";
+    releaseState("pass", "v0.1.3 signed release verified");
   } catch (error) {
     const publicationPending = error instanceof Error
       && error.message === "Commercial status publication pending";
@@ -1263,7 +1311,7 @@ async function copyCommands() {
   window.setTimeout(() => { button.textContent = "copy commands"; }, 1800);
 }
 
-if (typeof document.querySelectorAll === "function") assertCommercialUiBoundary();
+if (typeof document.querySelectorAll === "function") assertCommercialUiPolicy();
 
 byId("verify-release").addEventListener("click", () => {
   byId("verify").scrollIntoView({ behavior: "smooth", block: "start" });

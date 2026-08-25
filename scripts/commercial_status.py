@@ -15,13 +15,14 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "mfenx.commercial-status.v1"
+SCHEMA = "mfenx.commercial-status.v2"
 ENCODING = "mfenx.json.jq-cS-integer.v1"
 NAMESPACE = "mfenx-commercial-status"
 PRINCIPAL = "mfenx-release"
 KEY_FINGERPRINT = "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
 HISTORICAL_RECORD_SHA256 = "175174d0f049fdf88895909dd6f71f40f80073c206c3f05eaff0283c0b68a715"
 DIGEST_RE = re.compile(r"^[0-9a-f]{64}$")
+OID_RE = re.compile(r"^[0-9a-f]{40}$")
 RECORD_ID_RE = re.compile(r"^lights-out-local-supercomputer-v2-commercial-status-[0-9]{8}$")
 UTC_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 
@@ -67,6 +68,11 @@ def digest(value: Any, path: str) -> None:
         fail(path, "must be a lowercase SHA-256 hex digest")
 
 
+def oid(value: Any, path: str) -> None:
+    if not isinstance(value, str) or not OID_RE.fullmatch(value):
+        fail(path, "must be a lowercase SHA-1 Git object ID")
+
+
 def reject_floats(value: Any, path: str = "$") -> None:
     if isinstance(value, float):
         fail(path, "floating-point JSON numbers are not canonical in this profile")
@@ -102,10 +108,11 @@ def validate_record(record: Any) -> None:
         fail("$.effective_at_utc", "must use second-precision UTC RFC 3339 form")
     exact(root["encoding_profile"], "$.encoding_profile", ENCODING)
 
-    product = exact_keys(root["product"], "$.product", ("company", "name", "release", "machine_class"))
+    product = exact_keys(root["product"], "$.product", ("company", "name", "generation", "software_release", "machine_class"))
     exact(product["company"], "$.product.company", "MFENX")
     exact(product["name"], "$.product.name", "Lights Out Local Supercomputer V2")
-    exact(product["release"], "$.product.release", "v2")
+    exact(product["generation"], "$.product.generation", "v2")
+    exact(product["software_release"], "$.product.software_release", "v0.1.3")
     exact(product["machine_class"], "$.product.machine_class", "software_defined_local_supercomputer_v2")
 
     licensing = exact_keys(
@@ -137,6 +144,7 @@ def validate_record(record: Any) -> None:
         root["technical_evidence"],
         "$.technical_evidence",
         (
+            "current_software_release",
             "execution_contract",
             "accepted_release",
             "preserved_v1_comparator",
@@ -147,6 +155,92 @@ def validate_record(record: Any) -> None:
             "external_workload",
         ),
     )
+    current = exact_keys(
+        evidence["current_software_release"],
+        "$.technical_evidence.current_software_release",
+        (
+            "git_object_format",
+            "commit_oid",
+            "commit_tree_oid",
+            "power_house_tree_oid",
+            "tag",
+            "tag_object_oid",
+            "git_signing_key_fingerprint",
+            "commit_signature_verified",
+            "tag_signature_verified",
+            "release_verification",
+            "automated_security_assurance",
+        ),
+    )
+    exact(current["git_object_format"], "$.technical_evidence.current_software_release.git_object_format", "sha1")
+    expected_oids = {
+        "commit_oid": "d0b14cc6083849675e9d943299e60de2458fd7fb",
+        "commit_tree_oid": "443fc13fbf387ecc5056d5f3435fdda711a94845",
+        "power_house_tree_oid": "32feafbb998d90ee7aead03d14b4f9aabb141ed4",
+        "tag_object_oid": "b18e598aa942856bc0f1a5d24815314dfe5c44b3",
+    }
+    for key, expected in expected_oids.items():
+        oid(current[key], f"$.technical_evidence.current_software_release.{key}")
+        exact(current[key], f"$.technical_evidence.current_software_release.{key}", expected)
+    exact(current["tag"], "$.technical_evidence.current_software_release.tag", "v0.1.3")
+    exact(current["git_signing_key_fingerprint"], "$.technical_evidence.current_software_release.git_signing_key_fingerprint", KEY_FINGERPRINT)
+    exact(current["commit_signature_verified"], "$.technical_evidence.current_software_release.commit_signature_verified", True)
+    exact(current["tag_signature_verified"], "$.technical_evidence.current_software_release.tag_signature_verified", True)
+    exact(product["software_release"], "$.product.software_release", current["tag"])
+
+    release_verification = exact_keys(
+        current["release_verification"],
+        "$.technical_evidence.current_software_release.release_verification",
+        ("workflow_run_id", "run_attempt", "head_commit_oid", "conclusion"),
+    )
+    expected_release_verification = {
+        "workflow_run_id": 32800785954,
+        "run_attempt": 1,
+        "head_commit_oid": current["commit_oid"],
+        "conclusion": "success",
+    }
+    for key, expected in expected_release_verification.items():
+        exact(release_verification[key], f"$.technical_evidence.current_software_release.release_verification.{key}", expected)
+
+    assurance = exact_keys(
+        current["automated_security_assurance"],
+        "$.technical_evidence.current_software_release.automated_security_assurance",
+        (
+            "workflow_run_id",
+            "run_attempt",
+            "head_commit_oid",
+            "conclusion",
+            "required_outcomes",
+            "recorded_outcomes",
+            "successful_outcomes",
+            "failed_outcomes",
+            "evidence_files",
+            "evidence_archive_bytes",
+            "evidence_archive_sha256",
+            "evidence_signature_sha256",
+            "evidence_signing_key_fingerprint",
+        ),
+    )
+    expected_assurance = {
+        "workflow_run_id": 32802684195,
+        "run_attempt": 1,
+        "head_commit_oid": current["commit_oid"],
+        "conclusion": "success",
+        "required_outcomes": 16,
+        "recorded_outcomes": 16,
+        "successful_outcomes": 16,
+        "failed_outcomes": 0,
+        "evidence_files": 46,
+        "evidence_archive_bytes": 91891,
+        "evidence_archive_sha256": "174f51b53f619d180097208d9b5ce00ac12ef932c626af1d024ea9122c3847d8",
+        "evidence_signature_sha256": "bc9967241a84b03a7e50c0d7f2cca333bf8d0af0cc8fd5ee432544d9c0b496b3",
+        "evidence_signing_key_fingerprint": "SHA256:mTHLiO34Fx2jTpLMkTZ4AY5M9AVy0jaHc0n8SCV4uoc",
+    }
+    for key, expected in expected_assurance.items():
+        exact(assurance[key], f"$.technical_evidence.current_software_release.automated_security_assurance.{key}", expected)
+    digest(assurance["evidence_archive_sha256"], "$.technical_evidence.current_software_release.automated_security_assurance.evidence_archive_sha256")
+    digest(assurance["evidence_signature_sha256"], "$.technical_evidence.current_software_release.automated_security_assurance.evidence_signature_sha256")
+
     contract = exact_keys(evidence["execution_contract"], "$.technical_evidence.execution_contract", ("version", "release_manifest_sha256", "release_signature_sha256"))
     exact(contract["version"], "$.technical_evidence.execution_contract.version", "v1")
     exact(contract["release_manifest_sha256"], "$.technical_evidence.execution_contract.release_manifest_sha256", "bf854ef7144f11358725aaf8021a91f12fede517ac8110fc44bc08a50950b071")

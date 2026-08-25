@@ -254,6 +254,29 @@ def validate(root: Path) -> list[str]:
             if prohibited in text:
                 errors.append(f"homepage exposes unavailable network feature {prohibited!r} in: {path.name}")
 
+    product_page = root / "lightsout/index.html"
+    if product_page.is_file():
+        product_text = product_page.read_text(encoding="utf-8")
+        product_lower = product_text.lower()
+        for required in (
+            "a local <em>supercomputer</em>",
+            "release v0.1.3",
+            'id="hero-current-release"',
+            "how it works",
+            "commercial-licensing.html",
+        ):
+            if required not in product_lower:
+                errors.append(f"Lights Out product page is missing required current-release content {required!r}")
+        for prohibited in (
+            "hackathon",
+            "devpost",
+            "we do not claim",
+            "claim-boundary",
+            "trust-boundary",
+        ):
+            if prohibited in product_lower:
+                errors.append(f"Lights Out product page contains prohibited public-page language {prohibited!r}")
+
     total_bytes = sum(path.stat().st_size for path in files if path.is_file())
     print(f"validated {len(files)} production files ({total_bytes} bytes)")
     return errors

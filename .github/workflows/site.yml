@@ -45,6 +45,17 @@ jobs:
             node --check "$file"
           done < <(find public -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
+      - name: Install pinned browser test runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv .site-test-venv
+          .site-test-venv/bin/python -m pip install --disable-pip-version-check --no-input playwright==1.62.0
+          .site-test-venv/bin/python -m playwright install --with-deps chromium
+
+      - name: Exercise the production payload in Chromium
+        run: .site-test-venv/bin/python tests/browser_smoke.py --root public
+
   deploy:
     name: Deploy mfenx.com
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

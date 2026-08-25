@@ -36,6 +36,33 @@ class CommercialStatusTests(unittest.TestCase):
         with self.assertRaises(commercial_status.ValidationError):
             commercial_status.validate_record(changed)
 
+    def test_rejects_generation_release_conflation(self) -> None:
+        changed = copy.deepcopy(self.record)
+        changed["product"]["software_release"] = "v2"
+        with self.assertRaises(commercial_status.ValidationError):
+            commercial_status.validate_record(changed)
+
+    def test_rejects_a_workflow_head_mismatch(self) -> None:
+        changed = copy.deepcopy(self.record)
+        changed["technical_evidence"]["current_software_release"]["release_verification"]["head_commit_oid"] = "0" * 40
+        with self.assertRaises(commercial_status.ValidationError):
+            commercial_status.validate_record(changed)
+
+    def test_rejects_a_release_tag_mismatch(self) -> None:
+        changed = copy.deepcopy(self.record)
+        changed["technical_evidence"]["current_software_release"]["tag"] = "v0.1.2"
+        with self.assertRaises(commercial_status.ValidationError):
+            commercial_status.validate_record(changed)
+
+    def test_rejects_assurance_result_mutations(self) -> None:
+        mutations = (("conclusion", "failure"), ("successful_outcomes", 15))
+        for field, value in mutations:
+            with self.subTest(field=field):
+                changed = copy.deepcopy(self.record)
+                changed["technical_evidence"]["current_software_release"]["automated_security_assurance"][field] = value
+                with self.assertRaises(commercial_status.ValidationError):
+                    commercial_status.validate_record(changed)
+
     def test_rejects_unknown_properties(self) -> None:
         changed = copy.deepcopy(self.record)
         changed["marketing"] = {}

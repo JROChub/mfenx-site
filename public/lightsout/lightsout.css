@@ -596,7 +596,7 @@ h1 em { color: var(--signal); font-style: normal; }
 }
 .contract-links article:nth-child(even) { border-right: 0; }
 .contract-links article:nth-last-child(-n+2) { border-bottom: 0; }
-.contract-links article > span, .trust-boundary > span {
+.contract-links article > span, .release-authenticity > span {
   color: var(--signal);
   font-size: 8px;
   letter-spacing: .12em;
@@ -615,21 +615,21 @@ h1 em { color: var(--signal); font-style: normal; }
   text-underline-offset: 4px;
 }
 .contract-links a:hover { color: var(--signal); }
-.trust-boundary {
+.release-authenticity {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: clamp(30px, 4vw, 60px);
   background: var(--panel);
 }
-.trust-boundary code {
+.release-authenticity code {
   margin: 24px 0 28px;
   color: var(--paper);
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
-.trust-boundary p { margin: 0 0 19px; color: var(--muted); line-height: 1.75; }
-.trust-boundary b { color: var(--signal); font-weight: 400; line-height: 1.7; }
+.release-authenticity p { margin: 0 0 19px; color: var(--muted); line-height: 1.75; }
+.release-authenticity b { color: var(--signal); font-weight: 400; line-height: 1.7; }
 
 .record-status {
   display: grid;
@@ -1065,7 +1065,7 @@ footer time { justify-self: end; }
     border-bottom: 1px solid var(--rule);
   }
   .contract-links article:last-child { border-bottom: 0; }
-  .trust-boundary { padding: 35px 22px; }
+  .release-authenticity { padding: 35px 22px; }
   .record-status { grid-template-columns: 1fr; }
   .record-status article, .record-status article:nth-child(2) {
     min-height: 126px;

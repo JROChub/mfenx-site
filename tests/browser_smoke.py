@@ -35,7 +35,7 @@ def assert_no_runtime_errors(page: Page, failures: list[str], label: str) -> Non
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--chromium", default="/usr/bin/chromium")
+    parser.add_argument("--chromium", help="optional Chromium executable; defaults to Playwright's managed browser")
     args = parser.parse_args()
     root = args.root.resolve()
     failures: list[str] = []
@@ -88,14 +88,30 @@ def main() -> int:
                 assert_no_runtime_errors(page, failures, origin + "/lightsout/")
                 try:
                     page.wait_for_selector("#release-state.pass", timeout=20_000)
+                    heading = page.locator("main h1").first.inner_text().lower()
+                    assert "supercomputer" in heading, "Lights Out H1 does not identify the product as a supercomputer"
+                    assert page.locator("#hero-current-release").inner_text() == "v0.1.3 · signed · verified"
                     overflow = page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                     assert overflow == 0, f"{width}px viewport has {overflow}px global overflow"
                     assert page.locator("#release-speedup").inner_text() == "49.2271104608×"
-                    assert page.locator("#record-evaluation").inner_text() == "SIGNED / CURRENT"
+                    assert page.locator("#record-evaluation").inner_text() == "V0.1.3 / VERIFIED"
                     assert page.locator("[data-commercial-resource][aria-disabled='true']").count() == 0
                 except (AssertionError, Exception) as exc:
                     failures.append(f"Lights Out {width}px check: {exc}")
                 page.close()
+
+            licensing = context.new_page()
+            licensing.set_viewport_size({"width": 390, "height": 1000})
+            assert_no_runtime_errors(licensing, failures, origin + "/lightsout/commercial-licensing.html")
+            try:
+                assert "v0.1.3" in licensing.locator("body").inner_text()
+                assert licensing.locator('a[href^="mailto:licensing@mfenx.com"]').count() == 1
+                assert licensing.locator('a[href="index.html"]').count() >= 1
+                overflow = licensing.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
+                assert overflow == 0, f"commercial licensing page has {overflow}px global overflow"
+            except (AssertionError, Exception) as exc:
+                failures.append(f"Lights Out commercial licensing check: {exc}")
+            licensing.close()
 
             tessaryn = context.new_page()
             assert_no_runtime_errors(tessaryn, failures, origin + "/tessaryn/")
