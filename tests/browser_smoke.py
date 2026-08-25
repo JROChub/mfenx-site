@@ -90,6 +90,11 @@ def main() -> int:
                     page.wait_for_selector("#release-state.pass", timeout=20_000)
                     heading = page.locator("main h1").first.inner_text().lower()
                     assert "supercomputer" in heading, "Lights Out H1 does not identify the product as a supercomputer"
+                    assert "qqfenx" in heading, "Lights Out H1 does not identify the QQfenx engine"
+                    assert page.locator("#qqfenx").count() == 1
+                    assert "32 → 8 → 0" in page.locator(".qqfenx-proof").inner_text()
+                    assert "0 / 8" in page.locator(".qqfenx-proof .signal").inner_text()
+                    assert "Q8 · Q16 · Q24 · Q32" in page.locator(".quotient-route").inner_text()
                     assert page.locator("#hero-current-release").inner_text() == "v0.1.3 · signed · verified"
                     overflow = page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                     assert overflow == 0, f"{width}px viewport has {overflow}px global overflow"
@@ -105,6 +110,7 @@ def main() -> int:
             assert_no_runtime_errors(licensing, failures, origin + "/lightsout/commercial-licensing.html")
             try:
                 assert "v0.1.3" in licensing.locator("body").inner_text()
+                assert "QQfenx" in licensing.locator("body").inner_text()
                 assert licensing.locator('a[href^="mailto:licensing@mfenx.com"]').count() == 1
                 assert licensing.locator('a[href="index.html"]').count() >= 1
                 overflow = licensing.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")

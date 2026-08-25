@@ -262,6 +262,11 @@ def validate(root: Path) -> list[str]:
             "a local <em>supercomputer</em>",
             "release v0.1.3",
             'id="hero-current-release"',
+            'id="qqfenx"',
+            "qqfenx",
+            "32 → 8 → 0",
+            "q8 · q16 · q24 · q32",
+            "standalone full-ring replay",
             "how it works",
             "commercial-licensing.html",
         ):
