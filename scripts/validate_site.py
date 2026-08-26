@@ -267,6 +267,9 @@ def validate(root: Path) -> list[str]:
             "32 → 8 → 0",
             "q8 · q16 · q24 · q32",
             "standalone full-ring replay",
+            "performance release v0.1.4",
+            "01e2c6e",
+            "qqfenx-performance-certificate.canonical.json",
             "how it works",
             "commercial-licensing.html",
         ):

@@ -37,6 +37,14 @@ jobs:
           --bundle-root public/lightsout/current-release
           --javascript public/lightsout/lightsout.js
 
+      - name: Test deterministic QQfenx performance validation
+        run: python3 -m unittest -v tests.test_qqfenx_performance
+
+      - name: Authenticate the signed QQfenx performance bundle
+        run: >-
+          python3 scripts/qqfenx_performance.py
+          --bundle-root public/lightsout/qqfenx-performance-v0.1.4
+
       - name: Parse every JavaScript asset
         shell: bash
         run: |

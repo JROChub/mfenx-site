@@ -29,7 +29,7 @@ BLOCKED_ROUTES = (
     "/lightsout/contract-v1/release/mfenx-local-v2.sbom.cdx.json",
     "/lightsout/validation-record/validation-status.json",
     "/lightsout/validation-record/release/VALIDATION-RECORD.canonical.json",
-    "/lightsout/validation-record/inputs/commercial_evaluation_distribution_archive/mfenx-apache-technical-evaluation-20260822-a1-x86_64-unknown-linux-gnu.tar.zst",
+    "/lightsout/validation-record/inputs/commercial_evaluation_distribution_archive/mfenx-legacy-evaluation-retired-x86_64-unknown-linux-gnu.tar.zst",
 )
 
 

@@ -6,20 +6,20 @@
   <meta name="theme-color" content="#080b09">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <meta name="description" content="MFENX Lights Out is a proprietary local supercomputer with the QQfenx adaptive quotient-ring engine, deterministic execution, durable recovery, and independent exact replay. Signed commercial foundation: v0.1.3.">
+  <meta name="description" content="MFENX Lights Out is a proprietary local supercomputer with the QQfenx adaptive quotient-ring engine, deterministic execution, durable recovery, and independent exact replay. Signed commercial foundation v0.1.3; signed QQfenx performance release v0.1.4.">
   <meta property="og:title" content="MFENX Lights Out / QQfenx adaptive quotient-ring execution">
   <meta property="og:description" content="See how the QQfenx engine contracts exact wrapping-i32 tensor work through Q8, Q16, Q24, Q32, and ZERO execution paths inside the Lights Out local supercomputer.">
   <meta property="og:url" content="https://mfenx.com/lightsout/">
   <title>MFENX Lights Out / QQfenx adaptive quotient-ring execution</title>
   <link rel="canonical" href="https://mfenx.com/lightsout/">
-  <link rel="stylesheet" href="lightsout.css?v=16">
+  <link rel="stylesheet" href="lightsout.css?v=17">
 </head>
 <body>
   <div class="grid-field" aria-hidden="true"></div>
 
   <header class="mast">
     <a href="https://mfenx.com/" class="wordmark" aria-label="MFENX home">
-      <span>MFENX</span><i></i><small>Lights Out / QQfenx local supercomputer / commercial release v0.1.3</small>
+      <span>MFENX</span><i></i><small>Lights Out / commercial foundation v0.1.3 / QQfenx performance v0.1.4</small>
     </a>
     <a class="release-state pending" id="release-state" href="#verify">
       <i></i><span>checking selected release files</span>
@@ -33,19 +33,20 @@
         <p class="eyebrow">LIGHTS OUT LOCAL SUPERCOMPUTER / QQFENX ADAPTIVE EXECUTION / COMMERCIAL SOFTWARE</p>
         <h1>A local <em>supercomputer</em>, now with QQfenx</h1>
         <p class="lede">
-          QQfenx is the adaptive arithmetic engine inside the MFENX Lights Out local supercomputer. It discovers the
-          smallest exact quotient ring required by each tensor tile, executes through native CPU kernels, promotes
-          results after real cancellation, and removes downstream work when wrapping-i32 algebra proves the result zero.
+          QQfenx derives the smallest exact quotient for each bilinear tile contribution from the paired input content
+          exponents, executes it through native CPU kernels, promotes results after actual cancellation, and omits any
+          contribution that the original wrapping-i32 ring proves is exactly zero.
         </p>
         <p class="commercial-intro">
-          The signed v0.1.3 execution foundation remains browser-verifiable. QQfenx adds ISA 7 exact quotient execution,
-          a native adaptive kernel engine, and standalone full-ring replay for commercial evaluation with MFENX.
+          The signed v0.1.3 execution foundation remains browser-verifiable. The signed QQfenx v0.1.4 performance release
+          adds ISA 7 exact quotient execution, a native adaptive kernel engine, and standalone full-ring replay for commercial evaluation with MFENX.
         </p>
         <div class="hero-actions">
           <a class="primary" href="#qqfenx">explore QQfenx</a>
           <button class="secondary" id="verify-release" type="button">verify v0.1.3 evidence</button>
           <a class="secondary" href="commercial-licensing.html">request commercial access</a>
           <a class="secondary" href="contract-v1/EXECUTION_CONTRACT_V1.md">read the execution contract</a>
+          <a class="text-link" href="#qqfenx-performance-v014">performance v0.1.4 ↓</a>
           <a class="text-link" href="#release-evidence">release evidence ↓</a>
           <a class="text-link" href="#contract">Contract v1 ↓</a>
           <a class="text-link" href="#run">usage ↓</a>
@@ -118,7 +119,7 @@
         </article>
         <article><span>STAGE ONE</span><strong>8 / 8</strong><p>logical MACs execute through Q8</p></article>
         <article><span>CANCELLATION PROMOTION</span><strong>24 → 25</strong><p>one additional exact content bit is discovered</p></article>
-        <article class="signal"><span>STAGE TWO</span><strong>0 / 8</strong><p>payload MACs execute; all eight are annihilated</p></article>
+        <article class="signal"><span>STAGE TWO</span><strong>0 / 8</strong><p>0 of 8 payload MACs execute; all eight logical MACs are annihilated</p></article>
         <article><span>FULL CHAIN</span><strong>8 / 16</strong><p>payload MACs execute; standalone full-ring replay accepts the exact output</p></article>
       </div>
 
@@ -126,7 +127,7 @@
         <article>
           <span>NATIVE KERNEL ENGINE</span>
           <h3>One adaptive CPU path</h3>
-          <p>Dependency-free C11 kernels implement Q8, Q16, Q24, and Q32 arithmetic. Runtime dispatch selects AVX2, SSE4.1, or scalar execution according to the host while preserving identical results.</p>
+          <p>C11 kernels with no third-party compute-library dependency implement Q8, Q16, Q24, and Q32 arithmetic. Runtime dispatch selects AVX2, SSE4.1, or scalar execution according to the host while preserving identical results.</p>
         </article>
         <article>
           <span>COMPLETE EXECUTION</span>
@@ -138,6 +139,83 @@
           <h3>The result is checked from scratch</h3>
           <p>The standalone verifier re-derives tile content, quotient decisions, operation accounting, authenticated outputs, and the complete wrapping-i32 result before acceptance.</p>
         </article>
+      </div>
+    </section>
+
+    <section class="qqfenx-performance-release" id="qqfenx-performance-v014" aria-labelledby="qqfenx-performance-title">
+      <header class="section-head">
+        <p>QQFENX / PERFORMANCE RELEASE v0.1.4</p>
+        <h2 id="qqfenx-performance-title">Exact arithmetic. Measured acceleration.</h2>
+        <span>source-bound execution on Intel Core i5-2500S / SSE4.1 / commit <code>01e2c6e</code></span>
+      </header>
+
+      <div class="qqfenx-benchmark-context">
+        <span>MEASUREMENT CONTRACT</span>
+        <strong>384 × 384 × 384</strong>
+        <p>Exact wrapping-u32 arithmetic. Each displayed range spans the same-compiler end-to-end medians from 15 retained warm samples per compiler.</p>
+      </div>
+
+      <div class="qqfenx-breakthrough-grid">
+        <article class="signal">
+          <span>ZERO IDEAL / ONE LANE</span>
+          <strong>8.02–8.94×</strong>
+          <p>end-to-end versus same-compiler dense C</p>
+          <dl>
+            <div><dt>logical MACs</dt><dd>56,623,104</dd></div>
+            <div><dt>executed MACs</dt><dd>0</dd></div>
+          </dl>
+        </article>
+        <article>
+          <span>TWO-STAGE CANCELLATION CASCADE / ONE LANE</span>
+          <strong>2.42–2.53×</strong>
+          <p>end-to-end versus same-compiler dense C</p>
+          <dl>
+            <div><dt>logical MACs</dt><dd>113,246,208</dd></div>
+            <div><dt>annihilated MACs</dt><dd>56,623,104</dd></div>
+          </dl>
+        </article>
+      </div>
+
+      <div class="qqfenx-packed-grid">
+        <article>
+          <span>PACKED Q8 / ONE LANE</span>
+          <strong>1.25–1.27×</strong>
+          <p>end-to-end versus same-compiler dense C</p>
+        </article>
+        <article>
+          <span>PACKED Q16 / ONE LANE</span>
+          <strong>1.20–1.24×</strong>
+          <p>end-to-end versus same-compiler dense C</p>
+        </article>
+      </div>
+
+      <div class="qqfenx-scaling-publication">
+        <header>
+          <span>FOUR-LANE SCALING</span>
+          <h3>One exact engine. Four physical lanes.</h3>
+          <p>End-to-end warm scaling versus the matching one-lane QQfenx execution.</p>
+        </header>
+        <div class="qqfenx-scaling-grid">
+          <article><span>Q8</span><strong>2.15–2.29×</strong></article>
+          <article><span>Q16</span><strong>1.97–2.31×</strong></article>
+          <article><span>Q32</span><strong>2.04–2.38×</strong></article>
+          <article class="signal"><span>CASCADE</span><strong>2.27–2.42×</strong></article>
+        </div>
+      </div>
+
+      <div class="qqfenx-performance-evidence">
+        <div>
+          <span>EXACTNESS / SOURCE CLOSURE</span>
+          <h3>Bit-identical results, bound to the measured code</h3>
+          <p>Every reported result was bit-identical to the independent exact wrapping-u32 oracle. The pinned UCI Iris workload also passed the independent exact oracle.</p>
+          <p>The signed, unfiltered evidence retains every configured comparator and result for source commit <code>01e2c6e</code>.</p>
+        </div>
+        <nav aria-label="QQfenx performance release v0.1.4 evidence">
+          <a href="qqfenx-performance-v0.1.4/QQFENX-PERFORMANCE-CERTIFICATE.canonical.json">performance certificate JSON</a>
+          <a href="qqfenx-performance-v0.1.4/QQFENX-PERFORMANCE-CERTIFICATE.canonical.json.sig">detached signature</a>
+          <a href="qqfenx-performance-v0.1.4/release-signing-key.pub">release public key</a>
+          <a href="qqfenx-performance-v0.1.4/allowed_signers">allowed-signers policy</a>
+        </nav>
       </div>
     </section>
 
