@@ -1,5 +1,15 @@
 # Lights Out technical releases
 
+## Forthcoming private product release v0.1.7
+
+The next Lights Out product release extends the native scientific engine with dependency-free C11 plans for batched, power-of-two complex FP64 transforms. Immutable plans retain canonical bit-reversal and twiddle tables; forward and inverse execution supports padded batches, exact in-place operation, and allocation-free submission through the persistent worker pool.
+
+Fast execution dispatches scalar, SSE2, AVX, or AVX2 + FMA butterfly kernels according to the resolved host backend. The reproducible policy retains one fixed non-contracting arithmetic order and canonical floating-point environment across supported backends and lane counts.
+
+The CBLAS path now classifies the live elements of strided matrices with an allocation-free exact interval merge. Disjoint HPL-shaped submatrices sharing one padded panel remain on the native zero-copy DGEMM path, while genuine overlap retains snapshot-safe packing.
+
+Cluster Placement Contract v1 binds an MPI launch to inventory-identified nodes, rank capacity, threads per rank, launcher family, canonical shared-filesystem root, deterministic hostfile bytes, and rank participation records.
+
 ## Scientific evidence v0.1.6
 
 The v0.1.6 scientific release brings source-locked HPL, HPCG, tuned STREAM 5.10, OSU Micro-Benchmarks, and upstream NPB system qualification into one machine-readable summary. Provider telemetry, where applicable, remains connected to the exact build, topology, raw output, and extracted result.

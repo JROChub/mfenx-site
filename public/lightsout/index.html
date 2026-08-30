@@ -13,7 +13,7 @@
   <title>MFENX Lights Out / software-defined local supercomputer</title>
   <link rel="canonical" href="https://mfenx.com/lightsout/">
   <link rel="icon" type="image/svg+xml" href="lightsout-mark.svg">
-  <link rel="stylesheet" href="lightsout.css?v=21">
+  <link rel="stylesheet" href="lightsout.css?v=22">
 </head>
 <body>
   <div class="grid-field" aria-hidden="true"></div>
@@ -45,6 +45,7 @@
           <a class="text-link" href="#qqfenx">QQfenx execution law ↓</a>
           <a class="text-link" href="#qqfenx-performance-v014">QQfenx performance ↓</a>
           <a class="text-link" href="#scientific-hpc">scientific HPC ↓</a>
+          <a class="text-link" href="#runtime-v017">v0.1.7 runtime ↓</a>
           <a class="text-link" href="#commercial-access">commercial access ↓</a>
         </div>
         <ul class="identity-strip" aria-label="Lights Out system properties">
@@ -225,6 +226,53 @@
         <span>a cohesive IEEE FP64 execution path for dense, sparse, stencil, streaming, reduction, and distributed scientific workloads</span>
       </header>
 
+      <section class="hpc-release-update" id="runtime-v017" aria-labelledby="runtime-v017-title">
+        <header class="hpc-release-update-head">
+          <div>
+            <span>NEXT PRIVATE PRODUCT RELEASE / V0.1.7</span>
+            <h3 id="runtime-v017-title">Transform, memory geometry, and placement become execution contracts</h3>
+          </div>
+          <p>
+            The forthcoming runtime extends the native scientific path with plan-driven complex transforms, exact
+            live-region routing for strided matrices, and an inventory-bound contract for MPI launch placement.
+            Each feature enters through checked C11 interfaces and the existing persistent execution context.
+          </p>
+        </header>
+
+        <div class="hpc-release-update-grid">
+          <article>
+            <span>COMPLEX FP64 FFT</span>
+            <h4>Immutable plans. Allocation-free execution.</h4>
+            <p>Dependency-free C11 plans own canonical bit-reversal and twiddle tables for batched, power-of-two forward and inverse transforms with padded strides and exact in-place operation.</p>
+            <b>1-D C2C · FORWARD + INVERSE</b>
+          </article>
+          <article>
+            <span>PERSISTENT MULTICORE</span>
+            <h4>Every transform stage reaches the worker pool</h4>
+            <p>Reordering, butterfly stages, and inverse scaling use the existing bounded workers. Fast execution dispatches across scalar, SSE2, AVX, and AVX2 + FMA implementations.</p>
+            <b>SIMD DISPATCH · PADDED BATCHES</b>
+          </article>
+          <article>
+            <span>REPRODUCIBLE EXECUTION</span>
+            <h4>One fixed arithmetic order across the host</h4>
+            <p>The reproducible policy uses a canonical floating-point environment and fixed non-contracting butterfly order across supported backends and lane counts.</p>
+            <b>BITWISE-STABLE RESULT ORDER</b>
+          </article>
+          <article>
+            <span>HPL MEMORY ROUTING</span>
+            <h4>Exact live regions preserve the zero-copy path</h4>
+            <p>An allocation-free interval merge distinguishes genuine overlap from adjacent strided submatrices. HPL-shaped disjoint panels enter native DGEMM directly; true overlap retains snapshot-safe packing.</p>
+            <b>EXACT ALIAS CLASSIFICATION</b>
+          </article>
+          <article>
+            <span>CLUSTER PLACEMENT CONTRACT V1</span>
+            <h4>The launch geometry is sealed before execution</h4>
+            <p>Node inventories, rank capacity, threads per rank, launcher family, shared-filesystem root, and deterministic hostfile bytes are bound into one checked MPI placement record.</p>
+            <b>OPEN MPI · MPICH · RANK PARTICIPATION</b>
+          </article>
+        </div>
+      </section>
+
       <div class="hpc-intro">
         <article class="hpc-intro-copy">
           <span>LIGHTS OUT / FP64 COMPUTE FABRIC</span>
@@ -263,25 +311,25 @@
         <article>
           <span>01 / LANGUAGE SURFACE</span>
           <h3>Safe Rust + checked C ABI</h3>
-          <p>Typed slices and exclusive Rust contexts meet validated C dimensions, strides, spans, aliases, CSR structure, and lifecycle state.</p>
+          <p>Typed slices, immutable FFT-plan ownership, and exclusive Rust contexts meet validated C dimensions, strides, spans, aliases, CSR structure, and lifecycle state.</p>
         </article>
         <i aria-hidden="true">↓</i>
         <article>
           <span>02 / COMPATIBILITY</span>
           <h3>CBLAS + HPL</h3>
-          <p>Ten double-precision CBLAS entry points connect unmodified HPL calls to the MFENX FP64 engine, including zero-copy row- and column-major DGEMM paths.</p>
+          <p>Ten double-precision CBLAS entry points connect unmodified HPL calls to the MFENX FP64 engine. Exact live-region classification keeps disjoint strided panels on zero-copy DGEMM paths.</p>
         </article>
         <i aria-hidden="true">↓</i>
         <article>
           <span>03 / LOCAL ENGINE</span>
           <h3>C11 kernels + threads</h3>
-          <p>Persistent workers execute streaming, reduction, dense, sparse, and stencil kernels with bounded operation-time storage.</p>
+          <p>Persistent workers execute complex FFT, streaming, reduction, dense, sparse, and stencil kernels with bounded operation-time storage.</p>
         </article>
         <i aria-hidden="true">↓</i>
         <article>
           <span>04 / DISTRIBUTED ENGINE</span>
           <h3>MPI ranks + native lanes</h3>
-          <p>Each rank drives its local worker pool while communicator-wide agreement, partition checks, and collective execution coordinate the full job.</p>
+          <p>Each rank drives its local worker pool while checked placement, communicator-wide agreement, partition checks, and collective execution coordinate the full job.</p>
         </article>
       </div>
 

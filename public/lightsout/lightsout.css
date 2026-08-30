@@ -528,6 +528,74 @@ h1 small {
 .qqfenx-performance-evidence a { color: var(--paper); font-size: 9px; text-underline-offset: 4px; }
 .qqfenx-performance-evidence a:hover { color: var(--signal); }
 
+.hpc-release-update {
+  border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(circle at 13% 5%, rgba(198, 255, 54, .095), transparent 28%),
+    var(--deep);
+}
+.hpc-release-update-head {
+  display: grid;
+  grid-template-columns: minmax(310px, .95fr) minmax(360px, 1.05fr);
+  align-items: end;
+  gap: clamp(35px, 7vw, 110px);
+  padding: clamp(42px, 6vw, 82px) clamp(24px, 5vw, 76px);
+  border-bottom: 1px solid var(--rule);
+}
+.hpc-release-update-head span, .hpc-release-update-grid article > span {
+  color: var(--signal);
+  font-size: 8px;
+  letter-spacing: .13em;
+}
+.hpc-release-update-head h3 {
+  max-width: 790px;
+  margin: 22px 0 0;
+  font: 400 clamp(34px, 4.5vw, 64px)/.97 var(--sans);
+  letter-spacing: -.05em;
+}
+.hpc-release-update-head > p {
+  max-width: 720px;
+  margin: 0;
+  color: #adb6ac;
+  font: 400 clamp(14px, 1.2vw, 18px)/1.72 var(--sans);
+}
+.hpc-release-update-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.hpc-release-update-grid article {
+  min-width: 0;
+  min-height: 290px;
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(29px, 3.5vw, 51px);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.hpc-release-update-grid article:nth-child(3) { border-right: 0; }
+.hpc-release-update-grid article:nth-child(n+4) {
+  grid-column: span 6;
+  min-height: 260px;
+  border-bottom: 0;
+}
+.hpc-release-update-grid article:last-child { border-right: 0; }
+.hpc-release-update-grid h4 {
+  max-width: 510px;
+  margin: 40px 0 18px;
+  font: 400 clamp(23px, 2.45vw, 36px)/1 var(--sans);
+  letter-spacing: -.04em;
+}
+.hpc-release-update-grid p { max-width: 670px; margin: 0; color: var(--muted); line-height: 1.78; }
+.hpc-release-update-grid article > b {
+  margin-top: auto;
+  padding-top: 32px;
+  color: var(--paper);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: .1em;
+}
+
 .hpc-intro {
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(340px, .7fr);
@@ -1337,6 +1405,21 @@ footer time { justify-self: end; }
   .qqfenx-performance-evidence { grid-template-columns: 1fr; }
   .qqfenx-performance-evidence > div { border-right: 0; border-bottom: 1px solid var(--rule); }
   .hpc-intro { grid-template-columns: 1fr; }
+  .hpc-release-update-head { grid-template-columns: 1fr; align-items: start; }
+  .hpc-release-update-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hpc-release-update-grid article, .hpc-release-update-grid article:nth-child(n+4) {
+    min-height: 270px;
+    grid-column: auto;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hpc-release-update-grid article:nth-child(even) { border-right: 0; }
+  .hpc-release-update-grid article:last-child {
+    grid-column: 1 / -1;
+    min-height: 240px;
+    border-right: 0;
+    border-bottom: 0;
+  }
   .hpc-intro-copy { border-right: 0; border-bottom: 1px solid var(--rule); }
   .hpc-identity { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hpc-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -1435,6 +1518,20 @@ footer time { justify-self: end; }
   .qqfenx-scaling-grid article:nth-last-child(-n+2) { border-bottom: 0; }
   .qqfenx-scaling-grid strong { margin-top: 48px; font-size: clamp(26px, 8vw, 38px); }
   .qqfenx-performance-evidence > div, .qqfenx-performance-evidence nav { padding: 38px 22px; }
+  .hpc-release-update-head { gap: 28px; padding: 35px 22px; }
+  .hpc-release-update-head h3 { font-size: 40px; }
+  .hpc-release-update-grid { grid-template-columns: 1fr; }
+  .hpc-release-update-grid article,
+  .hpc-release-update-grid article:nth-child(n+4),
+  .hpc-release-update-grid article:last-child {
+    min-height: 0;
+    grid-column: auto;
+    padding: 35px 22px;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hpc-release-update-grid article:last-child { border-bottom: 0; }
+  .hpc-release-update-grid article > b { margin-top: 31px; padding-top: 0; }
   .hpc-intro-copy, .hpc-policy-panel, .summa-copy, .summa-figure { padding: 35px 22px; }
   .hpc-intro-copy > h3 { font-size: 42px; }
   .hpc-identity { grid-template-columns: 1fr; }
