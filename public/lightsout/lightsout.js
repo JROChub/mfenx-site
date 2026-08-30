@@ -6,28 +6,18 @@ const RELEASES = Object.freeze({
     manifestSha256: "71033d917be233ea260417a1f7521c8098f27715475ad0ddf8318a5ecf2fd966",
     manifestEntries: 1307,
     files: Object.freeze([
-      "acceptance.json",
-      "artifacts/gemm.inspect.json",
-      "artifacts/gemm.mfx.json",
-      "artifacts/resumed.result.json",
-      "artifacts/resumed.verify.json",
-      "artifacts/uninterrupted.result.json",
-      "artifacts/uninterrupted.verify.json",
+      "acceptance.json", "artifacts/gemm.inspect.json", "artifacts/gemm.mfx.json",
+      "artifacts/resumed.result.json", "artifacts/resumed.verify.json",
+      "artifacts/uninterrupted.result.json", "artifacts/uninterrupted.verify.json",
       "checkpoints/killed-and-resumed/plan.json",
       "checkpoints/killed-and-resumed/receipt-00000000.json",
       "checkpoints/killed-and-resumed/receipt-00000001.json",
-      "provenance/binary.sha256",
-      "provenance/containment-probes.txt",
-      "provenance/containment.txt",
-      "provenance/lane-overlap.json",
-      "provenance/memory-summary.json",
-      "provenance/post-kill-receipts.json",
-      "provenance/post-resume-checkpoint.json",
-      "provenance/resumed-io-counters.json",
-      "provenance/source-root.sha256",
-      "provenance/trace-summary.json",
-      "provenance/uninterrupted-io-counters.json",
-      "provenance/workload-contract.json"
+      "provenance/binary.sha256", "provenance/containment-probes.txt",
+      "provenance/containment.txt", "provenance/lane-overlap.json",
+      "provenance/memory-summary.json", "provenance/post-kill-receipts.json",
+      "provenance/post-resume-checkpoint.json", "provenance/resumed-io-counters.json",
+      "provenance/source-root.sha256", "provenance/trace-summary.json",
+      "provenance/uninterrupted-io-counters.json", "provenance/workload-contract.json"
     ])
   }),
   v1: Object.freeze({
@@ -35,46 +25,43 @@ const RELEASES = Object.freeze({
     manifestSha256: "3a08e8a61b6eb0a9cec94959fa5b666ff1441de6c310b07f388e9ce57a80296d",
     manifestEntries: 1298,
     files: Object.freeze([
-      "acceptance.json",
-      "artifacts/gemm.inspect.json",
-      "artifacts/gemm.mfx.json",
-      "artifacts/resumed.result.json",
-      "artifacts/resumed.verify.json",
-      "artifacts/uninterrupted.result.json",
-      "artifacts/uninterrupted.verify.json",
+      "acceptance.json", "artifacts/gemm.inspect.json", "artifacts/gemm.mfx.json",
+      "artifacts/resumed.result.json", "artifacts/resumed.verify.json",
+      "artifacts/uninterrupted.result.json", "artifacts/uninterrupted.verify.json",
       "checkpoints/killed-and-resumed/plan.json",
       "checkpoints/killed-and-resumed/receipt-00000000.json",
       "checkpoints/killed-and-resumed/receipt-00000001.json",
-      "provenance/binary.sha256",
-      "provenance/containment-probes.txt",
-      "provenance/containment.txt",
-      "provenance/lane-overlap.json",
-      "provenance/memory-summary.json",
-      "provenance/post-kill-receipts.json",
-      "provenance/post-resume-checkpoint.json",
-      "provenance/source-root.sha256",
-      "provenance/trace-summary.json",
-      "provenance/workload-contract.json"
+      "provenance/binary.sha256", "provenance/containment-probes.txt",
+      "provenance/containment.txt", "provenance/lane-overlap.json",
+      "provenance/memory-summary.json", "provenance/post-kill-receipts.json",
+      "provenance/post-resume-checkpoint.json", "provenance/source-root.sha256",
+      "provenance/trace-summary.json", "provenance/workload-contract.json"
     ])
   })
 });
 
-const CONTRACT_V1 = Object.freeze({
-  root: "contract-v1/",
-  transportManifestSha256: "22c6fd54d3429ca2c380fb523cbc4ddfc76c872e35ded703ce4dc95f3f123755",
-  files: Object.freeze([
-    "CANONICAL_FORMATS_V1.md",
-    "EXECUTION_CONTRACT_V1.md",
-    "THREAT_MODEL.md",
-    "conformance/README.md",
-    "conformance/SHA256SUMS",
-    "conformance/vectors.json"
-  ])
+const SCIENTIFIC_EVIDENCE = Object.freeze({
+  root: "evidence/v0.1.6/",
+  summaryPath: "summary.json",
+  manifestPath: "SHA256SUMS",
+  signaturePath: "SHA256SUMS.sig",
+  summarySha256: "812a40c69f37a444d992aec53f08fdd89b205185333673f7e9f94bc989eecb5a",
+  manifestSha256: "45f799e05030cba6575023ac2f92c418043c1bd8268cc4e1e6938799e7fe406f",
+  signatureSha256: "28c63596aff42945bd0acf1c6268b4eaafcceaaa6a5d00e6f85c3c42ab6f8010",
+  schema: "mfenx.lightsout.scientific-evidence-summary.v2",
+  sourceLockSha256: "ce4a6b58710cc70bc6675ee7c444760b8ea8d54e979a90f063e0e99934d1f201",
+  suiteSha256: "2af381d5204d0526a4ba55a04582d481d51ec804cd00e06eb4564a1b65c5b56f",
+  files: Object.freeze({
+    "BENCHMARK-ATTRIBUTION.md": "10fe1b39e8f14bc9b8ea5ba076e75c3d48548ea9238a7e159f8e43a01264c5a3",
+    "git-allowed-signers": "a14cd84069171942d3968e67cc473753167bdbf3b203944fb4d2c7e6de9e0ca4",
+    "release-allowed-signers": "a1d0fac9ee95cfde1573faca068c46437ad5464cd02cb4a4a0a4438186392607",
+    "release-ed25519.pub": "0f7c5f5eacc52b9f5c54eb7a5166e7e8e0a5a5b73d9a23f94dc9e2bdad244426",
+    "summary.json": "812a40c69f37a444d992aec53f08fdd89b205185333673f7e9f94bc989eecb5a"
+  })
 });
 
-// Publication is fail-closed until the release signer supplies the four exact
-// hashes. The repository validator also authenticates the detached signature
-// with OpenSSH before this site can deploy.
+// Preserved signed v0.1.3 foundation. These established pins remain separate
+// from the v0.1.6 scientific summary and are authenticated by the site gate.
 const COMMERCIAL_STATUS = Object.freeze({
   root: "current-release/",
   recordPath: "COMMERCIAL-STATUS.canonical.json",
@@ -84,53 +71,7 @@ const COMMERCIAL_STATUS = Object.freeze({
   recordSha256: "bf6d6f6d6e3d0f75fd054c38600579a5954df63012dbbdaf75b65b19d14cbb15",
   detachedSignatureSha256: "17d7dc6e5bce1e59c7c85b7a5db9a026dd037cecdb9cdd57f9ef3505a7f3edd0",
   publicKeySha256: "0f7c5f5eacc52b9f5c54eb7a5166e7e8e0a5a5b73d9a23f94dc9e2bdad244426",
-  allowedSignersSha256: "cfec795857dd01e48eb4a9d62b1ed0e2af5a6edbc95ed30542afa17b8e9e3e95",
-  namespace: "mfenx-commercial-status",
-  principal: "mfenx-release",
-  publicKeyFingerprint: "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
-});
-
-// Published evidence retains historical distribution identities. The active
-// commercial product page exposes only signed status and non-executable
-// evidence resources.
-const BLOCKED_ACTIVE_DISTRIBUTION_ROLES = Object.freeze([
-  "commercial_evaluation_distribution_archive",
-  "commercial_evaluation_distribution_archive_sidecar",
-  "validation_candidate_signed_archive"
-]);
-const BLOCKED_ACTIVE_DISTRIBUTION_HREF = /(?:^|\/)(?:candidate\/downloads\/|release(?:-v1)?\/bin\/mfenx-local)|commercial_evaluation_distribution_archive|\.tar\.zst(?:$|[?#])/i;
-
-function isBlockedActiveDistribution(role, href = "") {
-  return BLOCKED_ACTIVE_DISTRIBUTION_ROLES.includes(role)
-    || BLOCKED_ACTIVE_DISTRIBUTION_HREF.test(href);
-}
-
-function assertCommercialUiPolicy() {
-  for (const link of document.querySelectorAll("a[href]")) {
-    const href = link.getAttribute("href") || "";
-    assert(!isBlockedActiveDistribution("", href), "active UI exposes a restricted software distribution path");
-    assert(!link.hasAttribute("download"), "active UI exposes a direct software download control");
-  }
-  for (const link of document.querySelectorAll("[data-commercial-resource]")) {
-    assert(!isBlockedActiveDistribution(link.dataset.commercialResource), "active UI exposes a restricted evidence role");
-  }
-}
-
-const V2_CONTRACT = Object.freeze({
-  acceptanceSchema: 3,
-  imageSchema: 3,
-  isaVersion: 6,
-  resultSchema: 3,
-  resourceCertificateSchema: 5,
-  checkpointPlanSchema: 2,
-  pieceReceiptSchema: 2,
-  laneScheduleSchema: 1,
-  laneSchedulePolicy: "deterministic_striped_v1",
-  machineClass: "software_defined_local_supercomputer_v2",
-  backend: "rarecomp_mfenx_local_cpu_lane_engine",
-  dataflow: "contiguous_right_panels_v2",
-  opcode: "streamed_i32_gemm",
-  verificationMethod: "parallel_independently_addressed_exact_replay_v2"
+  allowedSignersSha256: "cfec795857dd01e48eb4a9d62b1ed0e2af5a6edbc95ed30542afa17b8e9e3e95"
 });
 
 const EXPECTED = Object.freeze({
@@ -142,45 +83,17 @@ const EXPECTED = Object.freeze({
   usefulOperations: 352321536,
   physicalOperations: 704643072,
   managedPeakBytes: 42411200,
-  retainedStorageBytes: 276959904,
   outputRoot: "4691a345a8818af410da311bc4d79131dcd093ff47384e71d4832ca08fed638c",
   v2ExternalWallNs: 5608764486,
-  v1ExternalWallNs: 276103268901,
-  admissionIo: Object.freeze({
-    requested_bytes: 0,
-    authenticated_chunk_bytes: 234881696,
-    chunk_loads: 225,
-    cache_hits: 0
-  }),
-  primaryIo: Object.freeze({
-    requested_bytes: 469762720,
-    authenticated_chunk_bytes: 469763392,
-    chunk_loads: 450,
-    cache_hits: 0
-  }),
-  verificationInputIo: Object.freeze({
-    requested_bytes: 469762720,
-    authenticated_chunk_bytes: 469763392,
-    chunk_loads: 450,
-    cache_hits: 1
-  }),
-  verificationOutputIo: Object.freeze({
-    requested_bytes: 12582912,
-    authenticated_chunk_bytes: 12582912,
-    chunk_loads: 12,
-    cache_hits: 0
-  }),
-  resumedPrimaryIo: Object.freeze({
-    requested_bytes: 234881472,
-    authenticated_chunk_bytes: 234881696,
-    chunk_loads: 225,
-    cache_hits: 0
-  })
+  v1ExternalWallNs: 276103268901
 });
 
-const CHECKPOINT_ROOT = "checkpoints/killed-and-resumed/";
-const CHECKPOINT_PLAN_PATH = CHECKPOINT_ROOT + "plan.json";
-const state = { loading: false, ready: false, v2: null, v1: null, commercialStatus: null };
+const CHECK_NAMES = Object.freeze([
+  "scientific-digest", "scientific-builds", "scientific-suite", "npb", "hpl-hpcg",
+  "stream-osu", "v2-pack", "v1-pack", "comparison"
+]);
+const BLOCKED_SOFTWARE_HREF = /(?:^|\/)(?:release(?:-v1)?\/bin\/)|\.tar\.zst(?:$|[?#])/i;
+const state = { loading: false, ready: false, scientific: null, v2: null, v1: null };
 const byId = (id) => document.getElementById(id);
 
 function assert(condition, message) {
@@ -192,82 +105,29 @@ function isRecord(value) {
 }
 
 function equalArray(left, right) {
-  return Array.isArray(left)
-    && Array.isArray(right)
-    && left.length === right.length
+  return Array.isArray(left) && Array.isArray(right) && left.length === right.length
     && left.every((value, index) => value === right[index]);
-}
-
-function equalJson(left, right) {
-  if (Object.is(left, right)) return true;
-  if (Array.isArray(left) || Array.isArray(right)) {
-    return Array.isArray(left)
-      && Array.isArray(right)
-      && left.length === right.length
-      && left.every((value, index) => equalJson(value, right[index]));
-  }
-  if (!isRecord(left) || !isRecord(right)) return false;
-  const leftKeys = Object.keys(left).sort();
-  const rightKeys = Object.keys(right).sort();
-  return equalArray(leftKeys, rightKeys)
-    && leftKeys.every((key) => equalJson(left[key], right[key]));
-}
-
-function assertSafeInteger(value, message, minimum = 0) {
-  assert(Number.isSafeInteger(value) && value >= minimum, message);
 }
 
 function assertDigest(value, message) {
   assert(typeof value === "string" && /^[0-9a-f]{64}$/.test(value), message);
 }
 
-function decodeUtf8(bytes, path) {
+function decodeUtf8(bytes, label) {
   try {
     return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   } catch {
-    throw new Error(path + " is not valid UTF-8");
+    throw new Error(label + " is not valid UTF-8");
   }
 }
 
-function parseJson(bytes, path) {
+function parseJson(bytes, label) {
   try {
-    return JSON.parse(decodeUtf8(bytes, path));
+    return JSON.parse(decodeUtf8(bytes, label));
   } catch (error) {
-    throw new Error(path + " is not valid JSON: " + error.message);
+    if (error instanceof SyntaxError) throw new Error(label + " is not valid JSON");
+    throw error;
   }
-}
-
-function parseManifest(bytes, label, expectedEntries) {
-  const entries = new Map();
-  const lines = decodeUtf8(bytes, label + "/SHA256SUMS").split("\n");
-  if (lines.at(-1) === "") lines.pop();
-
-  for (const line of lines) {
-    const match = /^([0-9a-f]{64})  ([^\r\n]+)$/.exec(line);
-    assert(match, label + " SHA256SUMS contains a malformed record");
-    const rawPath = match[2];
-    const path = rawPath.startsWith("./") ? rawPath.slice(2) : rawPath;
-    const parts = path.split("/");
-    assert(
-      !rawPath.startsWith("/")
-      && !path.includes("\\")
-      && parts.every((part) => part && part !== "." && part !== ".."),
-      label + " SHA256SUMS contains an unsafe path"
-    );
-    assert(!entries.has(path), label + " SHA256SUMS contains a duplicate path");
-    entries.set(path, match[1]);
-  }
-
-  assert(entries.size === expectedEntries, label + " SHA256SUMS entry count changed");
-  return entries;
-}
-
-function parseChecksumRecord(bytes, label, expectedTarget) {
-  const match = /^([0-9a-f]{64})  ([^\r\n]+)\n?$/.exec(decodeUtf8(bytes, label));
-  assert(match, label + " is not one canonical SHA-256 record");
-  const target = match[2].startsWith("./") ? match[2].slice(2) : match[2];
-  assert(target === expectedTarget, label + " names an unexpected target");
-  return match[1];
 }
 
 async function sha256(bytes) {
@@ -275,339 +135,444 @@ async function sha256(bytes) {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-async function fetchBytes(root, path, maxBytes = 4 * 1024 * 1024) {
-  const response = await fetch(root + path, { cache: "no-store", redirect: "error" });
-  assert(response.ok, root + path + " returned HTTP " + response.status);
-  assert(new URL(response.url).origin === location.origin, root + path + " left this origin");
-  const declaredLength = Number(response.headers.get("Content-Length"));
-  assert(!Number.isFinite(declaredLength) || declaredLength <= maxBytes, root + path + " exceeds its byte limit");
-  const bytes = new Uint8Array(await response.arrayBuffer());
-  assert(bytes.byteLength <= maxBytes, root + path + " exceeds its byte limit");
-  return bytes;
+function equalBytes(left, right) {
+  return left.byteLength === right.byteLength && left.every((byte, index) => byte === right[index]);
 }
 
-const EXPECTED_COMMERCIAL_SCALING = Object.freeze([
-  Object.freeze(["cold_unprimed", 1, "distinct_physical_cores", "14562316443.5", "1.000000"]),
-  Object.freeze(["cold_unprimed", 2, "distinct_physical_cores", "12294541476.0", "1.184454"]),
-  Object.freeze(["cold_unprimed", 4, "distinct_physical_cores", "11072497582.0", "1.315179"]),
-  Object.freeze(["cold_unprimed", 8, "oversubscribed_round_robin", "11899606585.0", "1.223765"]),
-  Object.freeze(["cold_unprimed", 16, "oversubscribed_round_robin", "12812258960.5", "1.136592"]),
-  Object.freeze(["warm_primed", 1, "distinct_physical_cores", "14017605601.0", "1.000000"]),
-  Object.freeze(["warm_primed", 2, "distinct_physical_cores", "12094623824.0", "1.158995"]),
-  Object.freeze(["warm_primed", 4, "distinct_physical_cores", "11547331715.5", "1.213926"]),
-  Object.freeze(["warm_primed", 8, "oversubscribed_round_robin", "11632124791.5", "1.205077"]),
-  Object.freeze(["warm_primed", 16, "oversubscribed_round_robin", "12200400739.0", "1.148946"])
-]);
-
-function assertExactKeys(value, keys, label) {
-  assert(isRecord(value), label + " must be an object");
-  assert(equalArray(Object.keys(value).sort(), [...keys].sort()), label + " property set changed");
-  return value;
-}
-
-function validateCommercialStatus(record) {
-  assertExactKeys(record, [
-    "schema", "record_id", "effective_at_utc", "encoding_profile", "product",
-    "licensing", "technical_evidence", "historical_record", "signature"
-  ], "commercial status");
-  assert(record.schema === "mfenx.commercial-status.v2", "commercial-status schema changed");
-  assert(/^lights-out-local-supercomputer-v2-commercial-status-[0-9]{8}$/.test(record.record_id), "commercial-status record identity changed");
-  assert(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/.test(record.effective_at_utc), "commercial-status effective time is malformed");
-  assert(record.encoding_profile === "mfenx.json.jq-cS-integer.v1", "commercial-status encoding profile changed");
-
-  assertExactKeys(record.product, ["company", "name", "generation", "software_release", "machine_class"], "commercial-status product");
-  assert(equalJson(record.product, {
-    company: "MFENX",
-    name: "Lights Out Local Supercomputer V2",
-    generation: "v2",
-    software_release: "v0.1.3",
-    machine_class: "software_defined_local_supercomputer_v2"
-  }), "commercial-status product identity changed");
-
-  assertExactKeys(record.licensing, [
-    "current_software_license", "executor", "verifier", "source_available",
-    "public_binary_distribution", "evaluation_requires_written_agreement",
-    "redistribution_requires_written_agreement"
-  ], "commercial-status licensing");
-  assert(equalJson(record.licensing, {
-    current_software_license: "LicenseRef-MFENX-Commercial",
-    executor: "proprietary",
-    verifier: "proprietary",
-    source_available: false,
-    public_binary_distribution: false,
-    evaluation_requires_written_agreement: true,
-    redistribution_requires_written_agreement: true
-  }), "commercial-status licensing semantics changed");
-
-  const evidence = assertExactKeys(record.technical_evidence, [
-    "current_software_release",
-    "execution_contract", "accepted_release", "preserved_v1_comparator",
-    "validation_candidate", "adversarial", "scaling", "reproduction",
-    "external_workload"
-  ], "commercial-status technical evidence");
-
-  const current = assertExactKeys(evidence.current_software_release, [
-    "git_object_format", "commit_oid", "commit_tree_oid", "power_house_tree_oid",
-    "tag", "tag_object_oid", "git_signing_key_fingerprint",
-    "commit_signature_verified", "tag_signature_verified",
-    "release_verification", "automated_security_assurance"
-  ], "current software release");
-  assert(equalJson(current, {
-    git_object_format: "sha1",
-    commit_oid: "d0b14cc6083849675e9d943299e60de2458fd7fb",
-    commit_tree_oid: "443fc13fbf387ecc5056d5f3435fdda711a94845",
-    power_house_tree_oid: "32feafbb998d90ee7aead03d14b4f9aabb141ed4",
-    tag: "v0.1.3",
-    tag_object_oid: "b18e598aa942856bc0f1a5d24815314dfe5c44b3",
-    git_signing_key_fingerprint: COMMERCIAL_STATUS.publicKeyFingerprint,
-    commit_signature_verified: true,
-    tag_signature_verified: true,
-    release_verification: {
-      workflow_run_id: 32800785954,
-      run_attempt: 1,
-      head_commit_oid: "d0b14cc6083849675e9d943299e60de2458fd7fb",
-      conclusion: "success"
-    },
-    automated_security_assurance: {
-      workflow_run_id: 32802684195,
-      run_attempt: 1,
-      head_commit_oid: "d0b14cc6083849675e9d943299e60de2458fd7fb",
-      conclusion: "success",
-      required_outcomes: 16,
-      recorded_outcomes: 16,
-      successful_outcomes: 16,
-      failed_outcomes: 0,
-      evidence_files: 46,
-      evidence_archive_bytes: 91891,
-      evidence_archive_sha256: "174f51b53f619d180097208d9b5ce00ac12ef932c626af1d024ea9122c3847d8",
-      evidence_signature_sha256: "bc9967241a84b03a7e50c0d7f2cca333bf8d0af0cc8fd5ee432544d9c0b496b3",
-      evidence_signing_key_fingerprint: "SHA256:mTHLiO34Fx2jTpLMkTZ4AY5M9AVy0jaHc0n8SCV4uoc"
-    }
-  }), "current software release identity or assurance changed");
-  assert(record.product.software_release === current.tag,
-    "current software release tag disagrees with product identity");
-  assert(current.release_verification.head_commit_oid === current.commit_oid
-    && current.automated_security_assurance.head_commit_oid === current.commit_oid,
-  "current software release workflow commit binding changed");
-
-  assert(equalJson(evidence.execution_contract, {
-    version: "v1",
-    release_manifest_sha256: "bf854ef7144f11358725aaf8021a91f12fede517ac8110fc44bc08a50950b071",
-    release_signature_sha256: "2b26d302e978566c95709ac3c4cf93cc10f29ac5d9a02e97470283460efbf1db"
-  }), "commercial-status execution-contract binding changed");
-  assert(equalJson(evidence.accepted_release, {
-    capture_manifest_sha256: "71033d917be233ea260417a1f7521c8098f27715475ad0ddf8318a5ecf2fd966",
-    acceptance_sha256: "4f101f8ec4b592b39b4024f198dd9f80cef79d2612556acf377191bee6270ebc",
-    executor_sha256: "a1043e568704163b9dedf536c5feb60b0b7fd23097a2a8f0504d55d7ddcb1e3c",
-    source_tree_sha256: "e3c87a14c466e3a335f13f86738a72459bff1629c5b5d969733f0d7f544bb9ca",
-    output_root: "4691a345a8818af410da311bc4d79131dcd093ff47384e71d4832ca08fed638c",
-    external_wall_ns: 5608764486
-  }), "commercial-status accepted-release binding changed");
-  assert(equalJson(evidence.preserved_v1_comparator, {
-    capture_manifest_sha256: "3a08e8a61b6eb0a9cec94959fa5b666ff1441de6c310b07f388e9ce57a80296d",
-    acceptance_sha256: "b4fb33fffa4362c6a7d9a9af963e1b1af4e5a32634d6ac5916a43b87868814be",
-    external_wall_ns: 276103268901,
-    same_workload: true,
-    same_output_root: true,
-    v1_over_v2_ratio_decimal: "49.2271104608"
-  }), "commercial-status v1 comparator changed");
-  assert(equalJson(evidence.validation_candidate, {
-    release_id: "mfenx-local-v2-validation-candidate-20260822-a1",
-    manifest_sha256: "fb4023a172927ba7555376f0217f84c3dd2bcb057ce11d59e7b2697d02ab6229",
-    executor_sha256: "92e48bfe615ad5241202d2e49fac51d52e21d66f3d0c84c273af042d5852dac0",
-    verifier_sha256: "f3714660b9deeef3bd8ecef716c40580c7596c0903f05e89d555ed0d32e9b9fa"
-  }), "commercial-status validation-candidate binding changed");
-  assert(equalJson(evidence.adversarial, {
-    attempted_exactly_once: 214,
-    driver_passed: 214,
-    independent_passed: 214,
-    mutation_cases: 192,
-    restart_cases: 22,
-    attestation_sha256: "08255a52606665d63bb43f1812afe928aa3f55e2ccea0248b596f190f757c716"
-  }), "commercial-status adversarial result changed");
-
-  assertExactKeys(evidence.scaling, [
-    "planned", "successful", "retained", "sample_filtering_applied",
-    "results_sha256", "cells"
-  ], "commercial-status scaling");
-  assert(evidence.scaling.planned === 100
-    && evidence.scaling.successful === 100
-    && evidence.scaling.retained === 100
-    && evidence.scaling.sample_filtering_applied === false
-    && evidence.scaling.results_sha256 === "bb1fd8bfe6158f2e68e028b9f3085359fcf7288d09cfd59e74a9083ef4360608",
-  "commercial-status scaling population changed");
-  assert(Array.isArray(evidence.scaling.cells)
-    && evidence.scaling.cells.length === EXPECTED_COMMERCIAL_SCALING.length,
-  "commercial-status scaling cell population changed");
-  const scalingCells = new Map();
-  evidence.scaling.cells.forEach((cell, index) => {
-    assertExactKeys(cell, ["temperature", "lanes", "topology", "median_wall_ns_decimal", "speedup_decimal"], "commercial-status scaling cell");
-    const [temperature, lanes, topology, median, speedup] = EXPECTED_COMMERCIAL_SCALING[index];
-    assert(cell.temperature === temperature
-      && cell.lanes === lanes
-      && cell.topology === topology
-      && cell.median_wall_ns_decimal === median
-      && cell.speedup_decimal === speedup,
-    "commercial-status scaling cell changed");
-    scalingCells.set(temperature + "/" + lanes, cell);
-  });
-
-  assert(equalJson(evidence.reproduction, {
-    jobs: 3,
-    matching_output_roots: 3,
-    record_sha256: "c12a24a7f3f37f47bfcc2e94231fea9e3578eb6a2441cfb8858fdaadd7d38d73"
-  }), "commercial-status reproduction result changed");
-  assert(equalJson(evidence.external_workload, {
-    name: "UCI Iris",
-    executor_accepted: true,
-    standalone_verifier_accepted: true,
-    independent_exact_oracle_accepted: true,
-    record_sha256: "32b870a07c771199be685464c02df8f0c052d21a582085831047daaa466e5270"
-  }), "commercial-status external-workload result changed");
-  assert(equalJson(record.historical_record, {
-    status: "archived_private",
-    record_sha256: "175174d0f049fdf88895909dd6f71f40f80073c206c3f05eaff0283c0b68a715",
-    controls_current_terms: false
-  }), "commercial-status historical-record handling changed");
-  assert(equalJson(record.signature, {
-    algorithm: "ssh-ed25519",
-    format: "openssh-sshsig",
-    namespace: COMMERCIAL_STATUS.namespace,
-    signer_identity: COMMERCIAL_STATUS.principal,
-    public_key_fingerprint: COMMERCIAL_STATUS.publicKeyFingerprint
-  }), "commercial-status signature policy changed");
-  return scalingCells;
-}
-
-async function validateCommercialSigningPolicy(raw) {
-  const signatureText = decodeUtf8(raw.signature, "commercial-status detached signature").trim();
-  assert(signatureText.startsWith("-----BEGIN SSH SIGNATURE-----")
-    && signatureText.endsWith("-----END SSH SIGNATURE-----"),
-  "commercial-status detached signature armor changed");
-  const publicKeyText = decodeUtf8(raw.publicKey, "commercial-status public key").trim();
-  const publicKeyFields = publicKeyText.split(/\s+/);
-  assert(publicKeyFields.length >= 2 && publicKeyFields[0] === "ssh-ed25519",
-    "commercial-status public key is not OpenSSH Ed25519");
-  const publicKeyBlob = decodeBase64(publicKeyFields[1], "commercial-status public key");
-  const publicKeyDigest = new Uint8Array(await crypto.subtle.digest("SHA-256", publicKeyBlob));
-  assert("SHA256:" + base64WithoutPadding(publicKeyDigest) === COMMERCIAL_STATUS.publicKeyFingerprint,
-    "commercial-status public-key fingerprint changed");
-  const allowed = decodeUtf8(raw.allowedSigners, "commercial-status allowed signers").trim().split(/\s+/);
-  assert(allowed.length === 4
-    && allowed[0] === COMMERCIAL_STATUS.principal
-    && allowed[1] === 'namespaces="' + COMMERCIAL_STATUS.namespace + '"'
-    && allowed[2] === "ssh-ed25519"
-    && allowed[3] === publicKeyFields[1],
-  "commercial-status allowed-signers policy changed");
-}
-
-async function loadCommercialStatusPack() {
-  const pins = [
-    COMMERCIAL_STATUS.recordSha256,
-    COMMERCIAL_STATUS.detachedSignatureSha256,
-    COMMERCIAL_STATUS.publicKeySha256,
-    COMMERCIAL_STATUS.allowedSignersSha256
-  ];
-  assert(pins.every((value) => /^[0-9a-f]{64}$/.test(value) && !/^0{64}$/.test(value)),
-    "Commercial status publication pending");
-
-  const [recordBytes, signature, publicKey, allowedSigners] = await Promise.all([
-    fetchBytes(COMMERCIAL_STATUS.root, COMMERCIAL_STATUS.recordPath, 256 * 1024),
-    fetchBytes(COMMERCIAL_STATUS.root, COMMERCIAL_STATUS.signaturePath, 8 * 1024),
-    fetchBytes(COMMERCIAL_STATUS.root, COMMERCIAL_STATUS.publicKeyPath, 8 * 1024),
-    fetchBytes(COMMERCIAL_STATUS.root, COMMERCIAL_STATUS.allowedSignersPath, 8 * 1024)
-  ]);
-  assert(await sha256(recordBytes) === COMMERCIAL_STATUS.recordSha256,
-    "commercial-status record digest changed");
-  assert(await sha256(signature) === COMMERCIAL_STATUS.detachedSignatureSha256,
-    "commercial-status detached-signature digest changed");
-  assert(await sha256(publicKey) === COMMERCIAL_STATUS.publicKeySha256,
-    "commercial-status public-key digest changed");
-  assert(await sha256(allowedSigners) === COMMERCIAL_STATUS.allowedSignersSha256,
-    "commercial-status allowed-signers digest changed");
-  await validateCommercialSigningPolicy({ signature, publicKey, allowedSigners });
-  const record = parseJson(recordBytes, "commercial status");
-  const scalingCells = validateCommercialStatus(record);
-  return { record, scalingCells };
-}
-
-async function loadSelectedRelease(label, config) {
-  assertDigest(config.manifestSha256, label + " manifest constant is invalid");
-  const manifestBytes = await fetchBytes(config.root, "SHA256SUMS", 256 * 1024);
-  assert(await sha256(manifestBytes) === config.manifestSha256, label + " full-capture manifest digest changed");
-  const manifest = parseManifest(manifestBytes, label, config.manifestEntries);
-
-  const raw = Object.create(null);
-  await Promise.all(config.files.map(async (path) => {
-    assert(manifest.has(path), label + " full-capture manifest does not name selected file " + path);
-    const bytes = await fetchBytes(config.root, path);
-    assert(await sha256(bytes) === manifest.get(path), label + " selected file failed SHA-256: " + path);
-    raw[path] = bytes;
-  }));
-
-  const files = Object.create(null);
-  for (const path of config.files) {
-    if (path.endsWith(".json")) files[path] = parseJson(raw[path], label + "/" + path);
+function concatBytes(...parts) {
+  const output = new Uint8Array(parts.reduce((total, part) => total + part.byteLength, 0));
+  let offset = 0;
+  for (const part of parts) {
+    output.set(part, offset);
+    offset += part.byteLength;
   }
-  return { label, config, manifest, raw, files };
+  return output;
 }
 
-async function loadContractPack() {
-  const checksumBytes = await fetchBytes(CONTRACT_V1.root, "SHA256SUMS", 4 * 1024);
-  assert(
-    await sha256(checksumBytes) === CONTRACT_V1.transportManifestSha256,
-    "Contract v1 public-subset checksum index changed"
-  );
-  const inventory = parseManifest(checksumBytes, "Contract v1", CONTRACT_V1.files.length);
-  assert(
-    equalArray([...inventory.keys()].sort(), [...CONTRACT_V1.files].sort()),
-    "Contract v1 public-subset file set changed"
-  );
+function sshString(bytes) {
+  const output = new Uint8Array(4 + bytes.byteLength);
+  new DataView(output.buffer).setUint32(0, bytes.byteLength, false);
+  output.set(bytes, 4);
+  return output;
+}
 
-  const raw = Object.create(null);
-  await Promise.all(CONTRACT_V1.files.map(async (path) => {
-    const bytes = await fetchBytes(CONTRACT_V1.root, path, 256 * 1024);
-    assert(await sha256(bytes) === inventory.get(path), "Contract v1 file failed SHA-256: " + path);
-    raw[path] = bytes;
-  }));
-  return { inventory, raw };
+function sshReader(bytes, label) {
+  let offset = 0;
+  return Object.freeze({
+    bytes(length) {
+      assert(Number.isSafeInteger(length) && length >= 0 && offset + length <= bytes.byteLength, label + " is truncated");
+      const value = bytes.slice(offset, offset + length);
+      offset += length;
+      return value;
+    },
+    uint32() {
+      assert(offset + 4 <= bytes.byteLength, label + " is truncated");
+      const value = new DataView(bytes.buffer, bytes.byteOffset + offset, 4).getUint32(0, false);
+      offset += 4;
+      return value;
+    },
+    string(maxBytes = 16 * 1024) {
+      const length = this.uint32();
+      assert(length <= maxBytes, label + " contains an oversized SSH field");
+      return this.bytes(length);
+    },
+    done() {
+      assert(offset === bytes.byteLength, label + " contains trailing data");
+    }
+  });
 }
 
 function decodeBase64(value, label) {
+  assert(value.length > 0 && value.length % 4 === 0 && /^[A-Za-z0-9+/]+={0,2}$/.test(value), label + " is not canonical base64");
+  let binary;
   try {
-    return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+    binary = atob(value);
   } catch {
     throw new Error(label + " is not valid base64");
   }
+  assert(btoa(binary) === value, label + " is not canonical base64");
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function base64WithoutPadding(bytes) {
-  let binary = "";
-  for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary).replace(/=+$/, "");
+function parseEd25519KeyBlob(blob, label) {
+  const reader = sshReader(blob, label);
+  const algorithm = decodeUtf8(reader.string(64), label + " algorithm");
+  const key = reader.string(64);
+  reader.done();
+  assert(algorithm === "ssh-ed25519" && key.byteLength === 32, label + " is not an Ed25519 public key");
+  return key;
 }
 
-function validateContractPack(pack) {
-  const vectors = parseJson(pack.raw["conformance/vectors.json"], "Contract v1 conformance vectors");
-  assert(vectors.schema_version === 1
-    && vectors.contract === "mfenx-replay-gated-execution-contract/v1",
-  "Contract v1 conformance identity changed");
-  assert(Array.isArray(vectors.positive_conformance)
-    && vectors.positive_conformance.length === 6,
-  "Contract v1 positive-vector count changed");
-  assert(Array.isArray(vectors.negative_conformance)
-    && vectors.negative_conformance.length === 10,
-  "Contract v1 negative-vector count changed");
-
-  const contract = decodeUtf8(pack.raw["EXECUTION_CONTRACT_V1.md"], "Execution Contract v1");
-  const formats = decodeUtf8(pack.raw["CANONICAL_FORMATS_V1.md"], "Contract v1 canonical formats");
-  const threatModel = decodeUtf8(pack.raw["THREAT_MODEL.md"], "Contract v1 threat model");
-  assert(contract.startsWith("# MFENX replay-gated execution contract v1")
-    && contract.includes("mfenx-replay-gated-execution-contract/v1"),
-  "Execution Contract v1 identity changed");
-  assert(formats.startsWith("# MFENX execution-contract v1 canonical formats"), "Contract v1 canonical-format identity changed");
-  assert(threatModel.startsWith("# MFENX Local v2 threat model"), "Contract v1 threat-model identity changed");
+function parseOpenSshEd25519PublicKey(bytes) {
+  const text = decodeUtf8(bytes, "release public key");
+  const match = /^ssh-ed25519 ([A-Za-z0-9+/]+={0,2}) ([^\r\n]+)\n$/.exec(text);
+  assert(match, "release public key format changed");
+  const blob = decodeBase64(match[1], "release public key");
+  return Object.freeze({ blob, key: parseEd25519KeyBlob(blob, "release public key") });
 }
+
+function parseSshSignature(bytes) {
+  const text = decodeUtf8(bytes, "scientific evidence signature").replaceAll("\r\n", "\n");
+  const match = /^-----BEGIN SSH SIGNATURE-----\n([A-Za-z0-9+/=\n]+)\n-----END SSH SIGNATURE-----\n$/.exec(text);
+  assert(match, "scientific evidence signature armor changed");
+  const encoded = match[1].replaceAll("\n", "");
+  const blob = decodeBase64(encoded, "scientific evidence signature");
+  const reader = sshReader(blob, "scientific evidence signature");
+  assert(decodeUtf8(reader.bytes(6), "scientific evidence signature magic") === "SSHSIG", "scientific evidence signature magic changed");
+  assert(reader.uint32() === 1, "scientific evidence signature version changed");
+  const publicKeyBlob = reader.string();
+  const namespace = decodeUtf8(reader.string(256), "scientific evidence signature namespace");
+  const reserved = reader.string();
+  const hashAlgorithm = decodeUtf8(reader.string(64), "scientific evidence signature hash algorithm");
+  const signatureBlob = reader.string();
+  reader.done();
+
+  const signatureReader = sshReader(signatureBlob, "scientific evidence Ed25519 signature");
+  const signatureAlgorithm = decodeUtf8(signatureReader.string(64), "scientific evidence signature algorithm");
+  const signature = signatureReader.string(128);
+  signatureReader.done();
+  assert(signatureAlgorithm === "ssh-ed25519" && signature.byteLength === 64, "scientific evidence signature algorithm changed");
+  return Object.freeze({ publicKeyBlob, namespace, reserved, hashAlgorithm, signature });
+}
+
+async function verifySshSignature(message, armoredSignature, publicKeyBytes, namespace) {
+  const encoder = new TextEncoder();
+  const publicKey = parseOpenSshEd25519PublicKey(publicKeyBytes);
+  const parsed = parseSshSignature(armoredSignature);
+  assert(equalBytes(parsed.publicKeyBlob, publicKey.blob), "scientific evidence signature key changed");
+  assert(parsed.namespace === namespace, "scientific evidence signature namespace changed");
+  assert(parsed.reserved.byteLength === 0, "scientific evidence signature reserved field changed");
+  assert(parsed.hashAlgorithm === "sha512", "scientific evidence signature hash algorithm changed");
+  const messageHash = new Uint8Array(await crypto.subtle.digest("SHA-512", message));
+  const signedData = concatBytes(
+    encoder.encode("SSHSIG"),
+    sshString(encoder.encode(parsed.namespace)),
+    sshString(parsed.reserved),
+    sshString(encoder.encode(parsed.hashAlgorithm)),
+    sshString(messageHash)
+  );
+  const key = await crypto.subtle.importKey("raw", publicKey.key, { name: "Ed25519" }, false, ["verify"]);
+  assert(await crypto.subtle.verify({ name: "Ed25519" }, key, parsed.signature, signedData), "scientific evidence SSH signature rejected");
+}
+
+async function fetchBytes(path, maxBytes = 4 * 1024 * 1024) {
+  const response = await fetch(path, { cache: "no-store", credentials: "same-origin" });
+  assert(response.ok, path + " returned HTTP " + response.status);
+  const length = Number(response.headers.get("content-length"));
+  assert(!Number.isFinite(length) || length <= maxBytes, path + " exceeds the selected byte limit");
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  assert(bytes.byteLength <= maxBytes, path + " exceeds the selected byte limit");
+  return bytes;
+}
+
+function parseManifest(bytes, label, expectedEntries) {
+  const lines = decodeUtf8(bytes, label).split(/\r?\n/).filter(Boolean);
+  assert(lines.length === expectedEntries, label + " entry population changed");
+  const entries = new Map();
+  for (const line of lines) {
+    const match = /^([0-9a-f]{64})  (.+)$/.exec(line);
+    assert(match, label + " contains a malformed row");
+    const manifestPath = match[2].startsWith("./") ? match[2].slice(2) : match[2];
+    assert(manifestPath.length > 0 && !manifestPath.startsWith("/") && !manifestPath.includes("..") && !manifestPath.includes("\\"), label + " contains an unsafe path");
+    assert(!entries.has(manifestPath), label + " contains a duplicate path");
+    entries.set(manifestPath, match[1]);
+  }
+  return entries;
+}
+
+async function loadRelease(label, config) {
+  const manifestBytes = await fetchBytes(config.root + "SHA256SUMS", 512 * 1024);
+  assert(await sha256(manifestBytes) === config.manifestSha256, label + " integrity manifest changed");
+  const manifest = parseManifest(manifestBytes, label + " integrity manifest", config.manifestEntries);
+  const files = {};
+  await Promise.all(config.files.map(async (path) => {
+    const expected = manifest.get(path);
+    assertDigest(expected, label + " manifest omits " + path);
+    const bytes = await fetchBytes(config.root + path);
+    assert(await sha256(bytes) === expected, label + " file changed: " + path);
+    files[path] = path.endsWith(".json") ? parseJson(bytes, label + " " + path) : decodeUtf8(bytes, label + " " + path);
+  }));
+  return { config, manifest, files };
+}
+
+async function loadScientificEvidence() {
+  const root = SCIENTIFIC_EVIDENCE.root;
+  const [manifestBytes, signatureBytes, publicKeyBytes] = await Promise.all([
+    fetchBytes(root + SCIENTIFIC_EVIDENCE.manifestPath, 16 * 1024),
+    fetchBytes(root + SCIENTIFIC_EVIDENCE.signaturePath, 16 * 1024),
+    fetchBytes(root + "release-ed25519.pub", 4 * 1024)
+  ]);
+  assert(await sha256(manifestBytes) === SCIENTIFIC_EVIDENCE.manifestSha256, "scientific evidence manifest changed");
+  assert(await sha256(signatureBytes) === SCIENTIFIC_EVIDENCE.signatureSha256, "scientific evidence signature changed");
+  assert(await sha256(publicKeyBytes) === SCIENTIFIC_EVIDENCE.files["release-ed25519.pub"], "scientific evidence public key changed");
+  await verifySshSignature(manifestBytes, signatureBytes, publicKeyBytes, "mfenx-release");
+  const expectedPaths = Object.keys(SCIENTIFIC_EVIDENCE.files).sort();
+  const manifest = parseManifest(manifestBytes, "scientific evidence manifest", expectedPaths.length);
+  assert(equalArray([...manifest.keys()], expectedPaths), "scientific evidence manifest population or order changed");
+  const files = { "release-ed25519.pub": publicKeyBytes };
+  await Promise.all(expectedPaths.filter((path) => path !== "release-ed25519.pub").map(async (path) => {
+    const expected = SCIENTIFIC_EVIDENCE.files[path];
+    assert(manifest.get(path) === expected, "scientific evidence manifest disagrees on " + path);
+    const bytes = await fetchBytes(root + path, path === SCIENTIFIC_EVIDENCE.summaryPath ? 64 * 1024 : 32 * 1024);
+    assert(await sha256(bytes) === expected, "scientific evidence file changed: " + path);
+    files[path] = bytes;
+  }));
+  assert(manifest.get("release-ed25519.pub") === SCIENTIFIC_EVIDENCE.files["release-ed25519.pub"], "scientific evidence manifest disagrees on release-ed25519.pub");
+  const publicKeyLine = decodeUtf8(publicKeyBytes, "release public key").trimEnd();
+  assert(decodeUtf8(files["release-allowed-signers"], "release signer policy").trimEnd() ===
+    'mfenx-release namespaces="mfenx-hpc-evidence,mfenx-release-materials,mfenx-release" ' + publicKeyLine,
+  "release signer policy changed");
+  assert(decodeUtf8(files["git-allowed-signers"], "Git signer policy").trimEnd() ===
+    'lexluger.dev@proton.me namespaces="git" ' + publicKeyLine,
+  "Git signer policy changed");
+  assert(SCIENTIFIC_EVIDENCE.files[SCIENTIFIC_EVIDENCE.summaryPath] === SCIENTIFIC_EVIDENCE.summarySha256, "scientific summary cross-binding changed");
+  return validateScientificEvidence(parseJson(files[SCIENTIFIC_EVIDENCE.summaryPath], "scientific evidence summary"));
+}
+
+function validateScientificEvidence(record) {
+  const exact = (actual, expected, message) => {
+    assert(JSON.stringify(actual) === JSON.stringify(expected), message);
+  };
+  const exactKeys = (actual, expected, message) => {
+    assert(isRecord(actual) && equalArray(Object.keys(actual).sort(), [...expected].sort()), message);
+  };
+  exactKeys(record, [
+    "schema", "release", "generated_at_utc", "product", "release_identity", "signing",
+    "integrity", "verification", "history", "builds", "suite", "benchmark_sources",
+    "capture_topology", "npb", "hpl", "hpcg", "stream", "osu"
+  ], "scientific evidence top-level fields changed");
+  assert(record.schema === SCIENTIFIC_EVIDENCE.schema && record.release === "0.1.6", "scientific evidence release identity changed");
+  assert(/^2026-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/.test(record.generated_at_utc)
+    && Number.isFinite(Date.parse(record.generated_at_utc)), "scientific evidence generation time changed");
+  exact(record.product, {
+    name: "MFENX Lights Out",
+    machine_class: "software-defined local supercomputer",
+    execution_engines: ["QQfenx adaptive quotient-ring execution", "MFENX native IEEE FP64 HPC"],
+    commercial_distribution: "proprietary"
+  }, "scientific product identity changed");
+  exact(record.release_identity, {
+    tag: "v0.1.6",
+    tag_object: "08a2b39f134e7a7d86d2ebae9865ee70c6e0e1d8",
+    commit: "74699c9d2249bd55ce95e149e00940752b6ff260",
+    root_tree: "64883826ed796ebc3363763e70ce66808d49672d",
+    power_house_tree: "32feafbb998d90ee7aead03d14b4f9aabb141ed4",
+    git_object_format: "sha1"
+  }, "scientific release identity changed");
+  exact(record.signing, {
+    git: {
+      principal: "lexluger.dev@proton.me",
+      namespace: "git",
+      fingerprint: "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
+    },
+    release: {
+      principal: "mfenx-release",
+      namespaces: ["mfenx-hpc-evidence", "mfenx-release-materials", "mfenx-release"],
+      fingerprint: "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
+    }
+  }, "scientific signing identity changed");
+
+  exactKeys(record.integrity, [
+    "source_lock_sha256", "product_source_manifest_sha256", "evidence_suite_sha256",
+    "suite_verification_sha256", "build_verification_sha256", "product_archive",
+    "product_materials", "hpc_evidence", "release_assets", "security_assurance"
+  ], "scientific integrity fields changed");
+  assert(record.integrity.source_lock_sha256 === SCIENTIFIC_EVIDENCE.sourceLockSha256, "scientific source lock changed");
+  assert(record.integrity.evidence_suite_sha256 === SCIENTIFIC_EVIDENCE.suiteSha256, "scientific suite identity changed");
+  assert(record.integrity.product_source_manifest_sha256 === "6de246f03b5bca1426ce2553c74e678a454234f0cf563b5c662cf1e9e3f347ee", "product source manifest changed");
+  assert(record.integrity.suite_verification_sha256 === "9460e292f5837db4272ac7251f5456dbf7a29d74dae1450604b6596fa094bbd3", "suite verification identity changed");
+  assert(record.integrity.build_verification_sha256 === "b4886958817738037ccdcbbed3f1e6406e4a1e17df49e44053e091a919309e2e", "build verification identity changed");
+  exact(record.integrity.product_archive, {
+    filename: "mfenx-lights-out-v0.1.6-x86_64-unknown-linux-gnu.tar.gz",
+    sha256: "5285e2986c72c86c4743fbca2c127f5fcea5a35955b3f15384de2bbc78081316",
+    signature_sha256: "95f4a9b1249645c638fae4214922ef7896d1622a06d9196946ae665d2a9b1593"
+  }, "product archive identity changed");
+  exact(record.integrity.product_materials, {
+    release_sha256_sha256: "a9ed3213b528b09040d91b4f0a683d979800caf375b06eb7a9ae6680c03b5235",
+    artifact_manifest_sha256: "e19e1c75203f7cf1e4a04a02bc5ec7b5bf4973278cdb5c7dded359c352e57d08"
+  }, "product material identity changed");
+  exact(record.integrity.hpc_evidence, {
+    filename: "mfenx-lights-out-v0.1.6-hpc-evidence.tar.gz",
+    archive_sha256: "8a9f85209cbd8c5ba98c3514084ec3e8dec96f33d59fe470dbf71f0b7e487686",
+    bundle_manifest_sha256: "12f5934d045c2e708a3601eb5b897dc08e4669140e57c5ce4046eba5de40bfc5",
+    bundle_closure_sha256: "4f33675cad279cd70d4e1749cc31ba32048ce5148b1ca651cf48ecfd5801f8ca",
+    bundle_signature_sha256: "cbc754b2a5cb1868cca5b5b34a53c3ecbf3467f7e4041e37d8acfe74e490699c"
+  }, "HPC evidence identity changed");
+  exact(record.integrity.release_assets, {
+    manifest_filename: "SHA256SUMS",
+    manifest_sha256: "fce2166276caa075e452a0f2add62787579c97eb277605c248cda7564fe555a3",
+    signature_filename: "SHA256SUMS.sig",
+    signature_sha256: "3a83c9b1b41129a40d40c8cc71b36ecf203368d0745e534d83ff25fb80e4a400"
+  }, "release asset closure identity changed");
+  exact(record.integrity.security_assurance, {
+    filename: "security-assurance-evidence.tar.gz",
+    archive_sha256: "0d05649ece7bfcd0fdfa3a5ff97c5a55a7c0ca1f8d65fafd3944aa113aaa7447",
+    signature_sha256: "208bf9ededd7f26a02092969f2e23ef91d240bb1b54e8a97f8456d134819fc3f"
+  }, "Security Assurance archive identity changed");
+
+  exactKeys(record.verification, ["release_verification", "security_assurance"], "verification fields changed");
+  exact(record.verification.release_verification, {
+    workflow: "Release Verification",
+    run_id: 33234816536,
+    attempt: 1,
+    head_sha: "74699c9d2249bd55ce95e149e00940752b6ff260",
+    conclusion: "success"
+  }, "release verification identity changed");
+  const expectedOutcomes = [
+    "analysis-prerequisites", "toolchain-context", "workspace-build", "workspace-policy",
+    "python-policy-tests", "cargo-audit", "cargo-deny", "rustfmt", "clippy", "unit-tests",
+    "native-hpc", "hpc-evidence-harness", "native-qqfenx", "qqfenx-benchmark-smoke",
+    "fuzz-lock", "fuzz-contract-control", "fuzz-qqfenx-contract", "fuzz-tensor-manifest",
+    "fuzz-reproducers", "fuzz-lock-integrity", "static-policy"
+  ];
+  exact(record.verification.security_assurance, {
+    workflow: "Security Assurance",
+    run_id: 33237688176,
+    attempt: 2,
+    head_sha: "74699c9d2249bd55ce95e149e00940752b6ff260",
+    tag: "v0.1.6",
+    conclusion: "success",
+    outcomes: expectedOutcomes.map((name) => ({ name, conclusion: "success" }))
+  }, "Security Assurance identity changed");
+
+  exact(record.history, {
+    supporting_builds: 15, accepted_attempts: 25, rejected_attempts: 1,
+    superseded_attempts: 2, quarantined_builds: 3, total_records: 46, status: "complete"
+  }, "scientific evidence history changed");
+  exact(record.builds, { verified: 15, total: 15, status: "pass" }, "scientific build verification changed");
+  exact(record.suite, {
+    measured: 26, accepted: 25, retained_rejected: 1, status: "valid",
+    population: "active_suite", bundle_record_count: 46, history_status: "complete"
+  }, "scientific suite totals changed");
+  exact(record.benchmark_sources, [
+    { id: "hpl", name: "High-Performance Linpack", version: "2.3", sha256: "32c5c17d22330e6f2337b681aded51637fb6008d3f0eb7c277b163fadd612830", url: "https://netlib.org/benchmark/hpl/" },
+    { id: "hpcg", name: "HPCG", version: "3.1", sha256: "33a434e716b79e59e745f77ff72639c32623e7f928eeb7977655ffcaade0f4a4", url: "https://www.hpcg-benchmark.org/software/" },
+    { id: "npb", name: "NAS Parallel Benchmarks", version: "3.4.4", sha256: "1ae219398e02a0a79ad51b7460fcffbf7b5df83a69d5d3d3a9dc2d8acf523549", url: "https://www.nas.nasa.gov/software/npb.html" },
+    { id: "stream", name: "STREAM", version: "5.10", sha256: "a52bae5e175bea3f7832112af9c085adab47117f7d2ce219165379849231692b", url: "https://www.cs.virginia.edu/stream/ref.html" },
+    { id: "osu", name: "OSU Micro-Benchmarks", version: "7.5.2", sha256: "618de3d0b1122f73a9229177d2da1e5cd62e431190580cb915f2605849cbbbdc", url: "https://mvapich.cse.ohio-state.edu/benchmarks/" }
+  ], "benchmark source identities changed");
+  exact(record.capture_topology, {
+    physical_nodes: 1, worker_slots: 4, threaded_profile: "1 rank x 4 threads",
+    mpi_profile: "4 ranks x 1 thread", collective_profile: "2 ranks x 1 thread"
+  }, "scientific capture topology changed");
+  exact(record.npb, {
+    name: "NAS Parallel Benchmarks", version: "3.4.4", class: "A", role: "upstream_system_qualification",
+    kernels: ["CG", "MG", "FT", "EP", "IS", "BT", "SP", "LU"],
+    openmp: { topology: "1 rank x 4 threads", verified: 8, total: 8 },
+    mpi: { topology: "4 ranks x 1 thread", verified: 8, total: 8 },
+    verification: { passed: 16, total: 16, status: "pass" }
+  }, "NPB evidence changed");
+  exact(record.hpl, {
+    name: "High-Performance Linpack", version: "2.3",
+    geometry: { n: 1024, nb: 64, p: 2, q: 2, ranks: 4 },
+    mfenx: { gflop_s: 4.3438, scaled_residual: 0.00426987511, residual_status: "pass", runtime_provider_processes: 4 },
+    openblas_comparator: { gflop_s: 9.1858, scaled_residual: 0.00716583107, residual_status: "pass" }
+  }, "HPL evidence changed");
+  exact(record.hpcg, {
+    name: "HPCG", version: "3.1", comparison: "same-host point capture", topology: "2 ranks x 1 thread",
+    mfenx: { gflop_s: 3.38003, raw_total_gb_s: 27.0054, valid: true },
+    stock: { gflop_s: 2.81253, raw_total_gb_s: 22.2204, valid: true },
+    mfenx_delta_percent: { gflop_s: 20.178, raw_total_gb_s: 21.534 }
+  }, "HPCG evidence changed");
+  exact(record.stream, {
+    name: "STREAM", version: "5.10", mfenx_profile: "tuned STREAM 5.10",
+    comparison: "same-host point capture", topology: "1 rank x 4 threads", unit: "MB/s",
+    mfenx: { copy: 11808.9, scale: 11428.6, add: 13560.8, triad: 13678.4 },
+    stock: { copy: 15463.6, scale: 12156.1, add: 11104.5, triad: 12414.5 },
+    mfenx_delta_percent: { copy: -23.634, scale: -5.985, add: 22.120, triad: 10.181 },
+    provider_telemetry: { threads: 4, calls_per_kernel: 20, elements_per_kernel: 200000000, status: "pass" }
+  }, "STREAM evidence changed");
+  exact(record.osu, {
+    name: "OSU Micro-Benchmarks", version: "7.5.2", topology: "2 ranks x 1 thread",
+    message_sizes_bytes: [8, 16, 32, 64, 128, 256, 512, 1024],
+    broadcast_f64: {
+      rows_passed: 8, rows_total: 8, calls_per_rank: 56, elements_per_rank: 1785,
+      bytes_per_rank: 14280, latency_us_range: [1.28, 1.75], telemetry_status: "pass"
+    },
+    allreduce_sum_f64: {
+      rows_passed: 8, rows_total: 8, calls_per_rank: 56, in_place_calls_per_rank: 56,
+      elements_per_rank: 1785, bytes_per_rank: 14280, latency_us_range: [1.44, 2.19], telemetry_status: "pass"
+    }
+  }, "OSU evidence changed");
+  return record;
+}
+
+function parseChecksumLine(text, expectedTarget, label) {
+  const match = /^([0-9a-f]{64})  ([^\r\n]+)\r?\n?$/.exec(text);
+  assert(match && match[2] === expectedTarget, label + " checksum record changed");
+  return match[1];
+}
+
+function validateCommonRelease(release, expectedSchema, expectedClass, expectedWallNs) {
+  const files = release.files;
+  const acceptance = files["acceptance.json"];
+  const result = files["artifacts/uninterrupted.result.json"];
+  const resumed = files["artifacts/resumed.result.json"];
+  const standalone = files["artifacts/uninterrupted.verify.json"];
+  const memory = files["provenance/memory-summary.json"];
+  const lane = files["provenance/lane-overlap.json"];
+  const workloadContract = files["provenance/workload-contract.json"];
+  const workload = acceptance.workload;
+  const postKill = files["provenance/post-kill-receipts.json"];
+  const postResume = files["provenance/post-resume-checkpoint.json"];
+  assert(acceptance.schema_version === expectedSchema && acceptance.status === "PASS" && acceptance.release_acceptance === true, "execution acceptance identity changed");
+  assert(acceptance.machine.machine_class === expectedClass && acceptance.machine.isa_version === 6 && acceptance.machine.opcode === "streamed_i32_gemm", "execution machine identity changed");
+  assert(acceptance.machine.gpu_devices_required === 0 && acceptance.machine.network_transports_required === 0, "execution dependency identity changed");
+  assert(parseChecksumLine(files["provenance/binary.sha256"], "bin/mfenx-local", "binary") === acceptance.binary_sha256, "binary identity disagrees");
+  assert(parseChecksumLine(files["provenance/source-root.sha256"], "provenance/source-before.sha256", "source") === acceptance.source_tree_sha256, "source identity disagrees");
+  for (const [key, value] of Object.entries(workloadContract)) {
+    assert(JSON.stringify(acceptance.workload[key]) === JSON.stringify(value), "workload record disagrees on " + key);
+  }
+  assert(equalArray(workload.left_shape, EXPECTED.leftShape) && equalArray(workload.right_shape, EXPECTED.rightShape), "workload shapes changed");
+  assert(workload.logical_input_bytes === EXPECTED.logicalInputBytes && workload.lanes === 2 && workload.total_pieces === 2, "workload geometry changed");
+  assert(workload.input_more_than_four_times_managed === true && workload.logical_input_bytes > 4 * workload.certified_managed_peak_bytes, "workload memory scale changed");
+  for (const captured of [result, resumed]) {
+    assert(captured.outputs[0].tensor.manifest_digest === EXPECTED.outputRoot, "output root changed");
+    assert(equalArray(captured.outputs[0].tensor.ty.shape, EXPECTED.outputShape) && captured.outputs[0].tensor.byte_length === EXPECTED.outputBytes, "output tensor changed");
+    assert(captured.verification.verified === true && captured.verification.verification_integer_operations === EXPECTED.usefulOperations, "embedded exact replay changed");
+    assert(captured.metrics.useful_integer_operations === EXPECTED.usefulOperations, "logical operation count changed");
+  }
+  assert(result.metrics.physical_integer_operations === EXPECTED.physicalOperations, "fresh-run operation count changed");
+  assert(resumed.metrics.executed_primary_integer_operations > 0
+    && resumed.metrics.executed_primary_integer_operations < EXPECTED.usefulOperations
+    && resumed.metrics.physical_integer_operations === resumed.metrics.executed_primary_integer_operations + resumed.verification.verification_integer_operations,
+  "resumed operation accounting changed");
+  assert(standalone.verified === true && standalone.verification_integer_operations === EXPECTED.usefulOperations && standalone.bytes_checked === EXPECTED.outputBytes, "standalone exact replay changed");
+  assert(acceptance.uninterrupted_output_root === EXPECTED.outputRoot && acceptance.resumed_output_root === EXPECTED.outputRoot, "accepted roots changed");
+  assert(memory.external_timings["uninterrupted-run"].wall_ns === expectedWallNs && memory.external_timings["uninterrupted-run"].exit_status === 0, "external timing changed");
+  assert(memory.virtual_memory_within_external_limit === true && memory.maxima_kib.VmSwap_kib === 0, "memory record changed");
+  assert(lane.overlap_proven === true && lane.configured_lanes === 2 && new Set(lane.witness.tasks.map((task) => task.lane_index)).size === 2, "lane overlap record changed");
+  assert(postKill.receipt_count === 1 && postKill.expected_total_pieces === 2 && postResume.entries.length === 2, "recovery record changed");
+  return { acceptance, result, resumed, standalone, memory, lane, workload, workloadContract, postKill, postResume };
+}
+
+function validateV2(release) {
+  const validated = validateCommonRelease(release, 3, "software_defined_local_supercomputer_v2", EXPECTED.v2ExternalWallNs);
+  const { acceptance, result, resumed } = validated;
+  assert(acceptance.workload.certified_managed_peak_bytes === EXPECTED.managedPeakBytes, "v2 managed-memory certificate changed");
+  assert(result.metrics.executed_pieces === 2 && result.metrics.reused_pieces === 0, "v2 fresh partition changed");
+  assert(resumed.metrics.executed_pieces === 1 && resumed.metrics.reused_pieces === 1, "v2 resumed partition changed");
+  const probes = {
+    input_chunk: "corrupt-input-chunk", checkpoint_piece: "corrupt-checkpoint-piece",
+    checkpoint_receipt: "corrupt-checkpoint-receipt", image: "corrupt-image", result: "corrupt-result"
+  };
+  for (const [probe, timing] of Object.entries(probes)) {
+    assert(acceptance.corruption_rejection[probe] === "passed" && validated.memory.external_timings[timing].exit_status === 1, probe + " mutation record changed");
+  }
+  return validated;
+}
+
+function validateV1(release) {
+  return validateCommonRelease(release, 2, "software_defined_local_supercomputer_v1", EXPECTED.v1ExternalWallNs);
+}
+
+function validateComparison(v1, v2) {
+  assert(equalArray(v1.workload.left_shape, v2.workload.left_shape) && equalArray(v1.workload.right_shape, v2.workload.right_shape), "comparison shapes differ");
+  assert(v1.workload.logical_input_bytes === v2.workload.logical_input_bytes && v1.workload.lanes === v2.workload.lanes, "comparison geometry differs");
+  assert(v1.result.metrics.useful_integer_operations === v2.result.metrics.useful_integer_operations, "comparison operation counts differ");
+  assert(v1.result.outputs[0].tensor.manifest_digest === v2.result.outputs[0].tensor.manifest_digest, "comparison roots differ");
+  assert(v1.memory.external_timings["uninterrupted-run"].observer === v2.memory.external_timings["uninterrupted-run"].observer, "comparison timing observers differ");
+}
+
 function setCheck(name, status, text) {
   const row = document.querySelector("[data-check='" + name + "']");
   if (!row) return;
@@ -626,430 +591,127 @@ function updateClock() {
 }
 
 function humanBytes(value, decimals = 2) {
-  if (!Number.isFinite(value) || value < 0) return "—";
-  if (value >= 1024 ** 3) return (value / 1024 ** 3).toFixed(decimals) + " GiB";
-  if (value >= 1024 ** 2) return (value / 1024 ** 2).toFixed(decimals) + " MiB";
-  if (value >= 1024) return (value / 1024).toFixed(decimals) + " KiB";
-  return value.toLocaleString() + " B";
-}
-
-function exactBytes(value) {
-  return Number(value).toLocaleString("en-US") + " B";
+  const units = ["B", "KiB", "MiB", "GiB"];
+  let amount = value;
+  let index = 0;
+  while (amount >= 1024 && index < units.length - 1) {
+    amount /= 1024;
+    index += 1;
+  }
+  return amount.toFixed(index === 0 ? 0 : decimals) + " " + units[index];
 }
 
 function seconds(ns) {
-  return (ns / 1e9).toFixed(9) + " s";
+  return (ns / 1e9).toFixed(3) + " s";
 }
 
 function shortHash(value) {
-  const text = String(value || "");
-  return text.length > 23 ? text.slice(0, 14) + "…" + text.slice(-8) : text;
-}
-
-function pieceAssignments(pieceCount, lanes) {
-  return Array.from({ length: pieceCount }, (_, pieceIndex) => ({
-    piece_index: pieceIndex,
-    lane_index: pieceIndex % lanes
-  }));
+  return value.slice(0, 8) + "…" + value.slice(-5);
 }
 
 function assignmentLabel(assignments) {
-  return assignments.map((entry) => "p" + entry.piece_index + "→l" + entry.lane_index).join(", ");
+  return assignments.map((entry) => "piece " + entry.piece_index + " / lane " + entry.lane_index).join(", ");
 }
 
-function assertIo(actual, expected, label) {
-  assert(isRecord(actual), label + " is missing");
-  assert(equalArray(Object.keys(actual).sort(), Object.keys(expected).sort()), label + " fields changed");
-  for (const [key, value] of Object.entries(expected)) {
-    assert(actual[key] === value, label + "." + key + " changed");
+function clearEvidenceDisplays() {
+  for (const node of document.querySelectorAll("[data-scientific-values]")) node.hidden = true;
+  for (const id of [
+    "evidence-capture", "evidence-builds", "evidence-suite", "evidence-source-lock",
+    "scientific-build-total", "scientific-suite-total", "scientific-accepted-total",
+    "scientific-history-total", "npb-result-total", "hpcg-mfenx", "hpcg-stock",
+    "hpcg-delta", "hpl-mfenx", "hpl-openblas", "scientific-summary-hash",
+    "logical-input", "memory-ratio", "managed-peak", "lane-count", "peak-rss",
+    "swap-used", "gpu-count", "network-count", "kill-time", "output-root",
+    "uninterrupted-assignments", "retained-assignments", "reused-assignments",
+    "executed-assignments"
+  ]) {
+    const node = byId(id);
+    node.textContent = "—";
+    node.removeAttribute("title");
   }
-}
-
-function validateTiming(memory, label, expectedStatus) {
-  const timing = memory.external_timings[label];
-  assert(isRecord(timing), "missing external timing for " + label);
-  assert(timing.observer === "acceptance_harness_outside_product_process", label + " was not externally timed");
-  assertSafeInteger(timing.wall_ns, label + " wall time is invalid", 1);
-  assert(timing.exit_status === expectedStatus, label + " exit status changed");
-  return timing;
-}
-
-function validateBuildAndProvenance(release, acceptance) {
-  assert(acceptance.product === "rarecomp-mfenx-local", release.label + " product changed");
-  assert(acceptance.build.package === "rarecomp-mfenx-local" && acceptance.build.binary === "mfenx-local", release.label + " build target changed");
-  assert(acceptance.build.locked === true && acceptance.build.offline === true, release.label + " build was not locked/offline");
-  assert(acceptance.build.forbidden_dependencies === 0 && acceptance.build.forbidden_dynamic_libraries === 0, release.label + " forbidden dependency was recorded");
-  assertSafeInteger(acceptance.build.jobs, release.label + " build job count is invalid", 1);
-  assertDigest(acceptance.binary_sha256, release.label + " binary digest is invalid");
-  assertDigest(acceptance.source_tree_sha256, release.label + " source digest is invalid");
-  assert(
-    parseChecksumRecord(release.raw["provenance/binary.sha256"], release.label + "/binary.sha256", "bin/mfenx-local") === acceptance.binary_sha256,
-    release.label + " binary checksum record disagrees"
-  );
-  assert(
-    parseChecksumRecord(release.raw["provenance/source-root.sha256"], release.label + "/source-root.sha256", "provenance/source-before.sha256") === acceptance.source_tree_sha256,
-    release.label + " source checksum record disagrees"
-  );
-  assert(release.manifest.get("bin/mfenx-local") === acceptance.binary_sha256, release.label + " selected binary is not the accepted binary");
-}
-
-function validateContainment(release, acceptance) {
-  const pair = acceptance.containment.mode + "/" + acceptance.containment.device_view;
-  assert(new Set([
-    "bubblewrap_network_namespace/bubblewrap_synthetic_dev",
-    "unshare_network_namespace/unshare_synthetic_dev",
-    "trace_only/host_traced"
-  ]).has(pair), release.label + " containment record changed");
-  assert(
-    decodeUtf8(release.raw["provenance/containment.txt"], release.label + "/containment.txt")
-      === "containment=" + acceptance.containment.mode + "\ndevice_view=" + acceptance.containment.device_view + "\n",
-    release.label + " containment text disagrees"
-  );
-  assert(
-    decodeUtf8(release.raw["provenance/containment-probes.txt"], release.label + "/containment-probes.txt")
-      === "bubblewrap network namespace + synthetic GPU-free /dev probe passed\n",
-    release.label + " containment probe did not pass"
-  );
-  const trace = release.files["provenance/trace-summary.json"];
-  assert(equalJson(trace, acceptance.syscall_trace), release.label + " trace summary disagrees with acceptance");
-  assertSafeInteger(trace.product_trace_files, release.label + " has no product trace files", 1);
-  assertSafeInteger(trace.host_trace_files, release.label + " has no host trace files", 1);
-  assert(
-    trace.product_network_syscalls === 0
-      && trace.product_gpu_device_paths === 0
-      && trace.offline_build_ip_network_attempts === 0,
-    release.label + " trace recorded network/GPU/offline-build access"
-  );
-}
-
-function validateLaneWitness(acceptance, laneOverlap, lanes) {
-  assert(equalJson(acceptance.memory.external_lane_concurrency_attestation, laneOverlap), "lane witness disagrees with acceptance");
-  assert(laneOverlap.observer === "acceptance_harness_outside_product_process_via_proc_task", "lane witness observer changed");
-  assert(laneOverlap.primary_execution === "uninterrupted-run", "lane witness does not cover the fresh run");
-  assert(laneOverlap.raw_evidence === "memory/uninterrupted-run.lane-tasks.tsv", "lane witness raw-evidence identity changed");
-  assert(laneOverlap.configured_lanes === lanes && laneOverlap.minimum_distinct_overlapping_lane_tasks === 2, "lane witness configuration changed");
-  assert(laneOverlap.overlap_proven === true, "CPU-lane overlap was not proven");
-  assertSafeInteger(laneOverlap.observed_lane_task_rows, "no lane task samples were recorded", 2);
-  const witness = laneOverlap.witness;
-  assert(isRecord(witness) && Array.isArray(witness.tasks) && witness.tasks.length >= 2, "lane overlap witness is incomplete");
-  assertSafeInteger(witness.product_pid, "lane witness product PID is invalid", 1);
-  assertSafeInteger(witness.anchor_tid_reobserved_after_sweep, "lane witness anchor is invalid", 1);
-  const tids = new Set();
-  const witnessedLanes = new Set();
-  for (const task of witness.tasks) {
-    assert(task.pid === witness.product_pid, "lane task belongs to another process");
-    assertSafeInteger(task.tid, "lane task TID is invalid", 1);
-    assertSafeInteger(task.lane_index, "lane index is invalid");
-    assert(task.lane_index < lanes, "lane task index exceeds compiled lanes");
-    assert(task.comm === "mfx-lane-" + String(task.lane_index).padStart(2, "0"), "lane task name/index mismatch");
-    assert(!new Set(["X", "Z"]).has(task.state), "lane witness includes a dead task");
-    assert(task.anchor_tid === witness.anchor_tid_reobserved_after_sweep && task.anchor_reobserved_after_sweep === 1, "lane anchor was not re-observed");
-    tids.add(task.tid);
-    witnessedLanes.add(task.lane_index);
+  for (const prefix of ["admission", "primary", "replay", "output"]) {
+    for (const field of ["auth", "requested", "loads", "hits"]) {
+      byId("io-" + prefix + "-" + field).textContent = "—";
+    }
   }
-  assert(tids.size >= 2 && witnessedLanes.size >= 2 && tids.has(witness.anchor_tid_reobserved_after_sweep), "two simultaneous lane tasks were not witnessed");
+  for (const card of document.querySelectorAll("[data-probe]")) {
+    card.className = "";
+    card.querySelector("b").textContent = "—";
+  }
+  byId("capture-footer").textContent = "release evidence pending";
 }
 
-function validateV2(release) {
-  const files = release.files;
-  const acceptance = files["acceptance.json"];
-  const workloadRecord = files["provenance/workload-contract.json"];
-  const memory = files["provenance/memory-summary.json"];
-  const laneOverlap = files["provenance/lane-overlap.json"];
-  const image = files["artifacts/gemm.mfx.json"];
-  const inspect = files["artifacts/gemm.inspect.json"];
-  const uninterrupted = files["artifacts/uninterrupted.result.json"];
-  const uninterruptedVerify = files["artifacts/uninterrupted.verify.json"];
-  const resumed = files["artifacts/resumed.result.json"];
-  const resumedVerify = files["artifacts/resumed.verify.json"];
-  const postKill = files["provenance/post-kill-receipts.json"];
-  const postResume = files["provenance/post-resume-checkpoint.json"];
-  const checkpointPlan = files[CHECKPOINT_PLAN_PATH];
-  const uninterruptedIo = files["provenance/uninterrupted-io-counters.json"];
-  const resumedIo = files["provenance/resumed-io-counters.json"];
+function displayScientific(record) {
+  const generated = new Date(record.generated_at_utc);
+  for (const node of document.querySelectorAll("[data-scientific-values]")) node.hidden = false;
+  byId("release-verdict").textContent = "PASS";
+  byId("release-verdict").className = "pass";
+  byId("evidence-capture").textContent = new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit", year: "numeric", timeZone: "UTC" }).format(generated) + " UTC";
+  byId("evidence-builds").textContent = record.builds.verified + " / " + record.builds.total + " PASS";
+  byId("evidence-suite").textContent = record.suite.accepted + " accepted · complete " + record.suite.bundle_record_count + "-record history";
+  byId("evidence-source-lock").textContent = shortHash(record.integrity.source_lock_sha256);
+  byId("evidence-source-lock").title = record.integrity.source_lock_sha256;
+  byId("scientific-build-total").textContent = record.builds.verified + " / " + record.builds.total;
+  byId("scientific-suite-total").textContent = String(record.suite.measured);
+  byId("scientific-accepted-total").textContent = String(record.suite.accepted);
+  byId("scientific-history-total").textContent = String(record.suite.bundle_record_count);
+  byId("npb-result-total").textContent = record.npb.verification.passed + " / " + record.npb.verification.total;
+  byId("hpcg-mfenx").textContent = record.hpcg.mfenx.gflop_s.toFixed(5) + " GF/s";
+  byId("hpcg-stock").textContent = record.hpcg.stock.gflop_s.toFixed(5) + " GF/s";
+  byId("hpcg-delta").textContent = "+" + record.hpcg.mfenx_delta_percent.gflop_s.toFixed(3) + "%";
+  byId("hpl-mfenx").textContent = record.hpl.mfenx.gflop_s.toFixed(4) + " GF/s";
+  byId("hpl-openblas").textContent = record.hpl.openblas_comparator.gflop_s.toFixed(4) + " GF/s";
+  byId("scientific-summary-hash").textContent = shortHash(SCIENTIFIC_EVIDENCE.summarySha256);
+  byId("scientific-summary-hash").title = SCIENTIFIC_EVIDENCE.summarySha256;
+  byId("capture-footer").textContent = "SCIENTIFIC EVIDENCE GENERATED · " + generated.toISOString();
+}
 
-  assert(acceptance.schema_version === V2_CONTRACT.acceptanceSchema, "v2 acceptance schema is not 3");
-  assert(acceptance.status === "PASS" && acceptance.acceptance_level === "release" && acceptance.release_acceptance === true, "v2 release acceptance did not pass");
-  assert(Number.isFinite(Date.parse(acceptance.captured_at_utc)), "v2 capture time is invalid");
-  validateBuildAndProvenance(release, acceptance);
-  validateContainment(release, acceptance);
-  for (const [key, value] of Object.entries(workloadRecord)) {
-    assert(equalJson(acceptance.workload[key], value), "v2 workload file disagrees on " + key);
-  }
+function displayIo(prefix, counter) {
+  byId("io-" + prefix + "-auth").textContent = humanBytes(counter.authenticated_chunk_bytes);
+  byId("io-" + prefix + "-requested").textContent = humanBytes(counter.requested_bytes);
+  byId("io-" + prefix + "-loads").textContent = counter.chunk_loads.toLocaleString("en-US");
+  byId("io-" + prefix + "-hits").textContent = counter.cache_hits.toLocaleString("en-US");
+}
+
+function displayV2(validated) {
+  const { acceptance, result, resumed, memory, lane, postKill } = validated;
   const workload = acceptance.workload;
-  assert(equalJson(memory, acceptance.memory), "v2 memory file disagrees with acceptance");
-
-  const machine = acceptance.machine;
-  assert(machine.image_schema_version === 3 && machine.isa_version === 6, "v2 machine is not image 3 / ISA 6");
-  assert(machine.result_schema_version === 3 && machine.resource_certificate_schema_version === 5, "v2 machine is not result 3 / certificate 5");
-  assert(machine.checkpoint_plan_schema_version === 2 && machine.piece_receipt_schema_version === 2, "v2 checkpoint schemas changed");
-  assert(machine.lane_schedule_schema_version === 1 && machine.lane_schedule_instruction_index === 0, "v2 schedule schema changed");
-  assert(machine.lane_schedule_policy === V2_CONTRACT.laneSchedulePolicy, "v2 schedule policy changed");
-  assert(machine.piece_to_lane_assignment === "lane_index = piece_index % lanes", "v2 lane assignment law changed");
-  assert(machine.machine_class === V2_CONTRACT.machineClass && machine.backend === V2_CONTRACT.backend, "v2 machine identity changed");
-  assert(machine.execution_dataflow === V2_CONTRACT.dataflow && machine.opcode === V2_CONTRACT.opcode, "v2 execution path changed");
-  assert(machine.verification_method === V2_CONTRACT.verificationMethod, "v2 verifier method changed");
-  assert(machine.gpu_devices_required === 0 && machine.network_transports_required === 0, "v2 machine requires GPU/network");
-  assert(machine.directory_metadata_sync === "available" && machine.process_crash_recovery === "supported", "v2 durability contract changed");
-
-  assert(equalArray(workload.left_shape, EXPECTED.leftShape) && equalArray(workload.right_shape, EXPECTED.rightShape), "v2 workload shapes changed");
-  assert(workload.logical_input_bytes === EXPECTED.logicalInputBytes, "v2 logical input bytes changed");
-  assert(workload.certified_managed_peak_bytes === EXPECTED.managedPeakBytes, "v2 managed peak changed");
-  assert(workload.logical_input_bytes > 4 * workload.certified_managed_peak_bytes && workload.input_more_than_four_times_managed === true, "v2 input is not greater than 4x the certified peak");
-  assert(workload.input_to_managed_ratio_milli === Math.floor(workload.logical_input_bytes * 1000 / workload.certified_managed_peak_bytes), "v2 memory ratio record changed");
-  assert(workload.machine_class === V2_CONTRACT.machineClass && workload.backend === V2_CONTRACT.backend, "v2 workload machine identity changed");
-  assert(workload.execution_dataflow === V2_CONTRACT.dataflow && workload.opcode === V2_CONTRACT.opcode, "v2 workload dataflow changed");
-  assert(workload.image_schema_version === 3 && workload.isa_version === 6 && workload.result_schema_version === 3 && workload.resource_certificate_schema_version === 5, "v2 workload schemas changed");
-  assert(workload.gpu_required === 0 && workload.network_required === 0, "v2 workload requires GPU/network");
-  assert(workload.lanes === 2 && workload.total_pieces === 2, "v2 workload lane/piece count changed");
-
-  const expectedAssignments = pieceAssignments(2, 2);
-  const expectedSchedule = {
-    schema_version: 1,
-    instruction_index: 0,
-    policy: V2_CONTRACT.laneSchedulePolicy,
-    lanes: 2,
-    piece_count: 2
+  byId("logical-input").textContent = humanBytes(workload.logical_input_bytes);
+  byId("memory-ratio").textContent = (workload.logical_input_bytes / workload.certified_managed_peak_bytes).toFixed(3) + "×";
+  byId("managed-peak").textContent = humanBytes(workload.certified_managed_peak_bytes);
+  byId("lane-count").textContent = new Set(lane.witness.tasks.map((task) => task.lane_index)).size + " / " + lane.configured_lanes;
+  byId("peak-rss").textContent = humanBytes(memory.maxima_kib.VmHWM_kib * 1024);
+  byId("swap-used").textContent = humanBytes(memory.maxima_kib.VmSwap_kib * 1024, 0);
+  byId("gpu-count").textContent = String(acceptance.syscall_trace.product_gpu_device_paths);
+  byId("network-count").textContent = String(acceptance.syscall_trace.product_network_syscalls);
+  byId("kill-time").textContent = seconds(memory.external_timings["killed-run"].wall_ns);
+  byId("output-root").textContent = acceptance.uninterrupted_output_root;
+  byId("uninterrupted-assignments").textContent = assignmentLabel(result.metrics.executed_assignments);
+  byId("retained-assignments").textContent = assignmentLabel(postKill.receipt_assignments);
+  byId("reused-assignments").textContent = assignmentLabel(resumed.metrics.reused_assignments);
+  byId("executed-assignments").textContent = assignmentLabel(resumed.metrics.executed_assignments);
+  const io = workload.io_accounting.actual;
+  displayIo("admission", io.admission_input_io);
+  displayIo("primary", io.primary_input_io);
+  displayIo("replay", io.verification_input_io);
+  displayIo("output", io.verification_output_io);
+  const probes = {
+    input_chunk: "corrupt-input-chunk", checkpoint_piece: "corrupt-checkpoint-piece",
+    checkpoint_receipt: "corrupt-checkpoint-receipt", image: "corrupt-image", result: "corrupt-result"
   };
-  assert(equalJson(workload.expected_piece_lane_assignments, expectedAssignments), "v2 expected assignments changed");
-  assert(equalJson(workload.lane_schedule, expectedSchedule), "v2 schedule changed");
-
-  assert(inspect.schema_version === 3 && inspect.isa_version === 6, "v2 inspect identity changed");
-  assert(inspect.result_schema_version === 3 && inspect.resource_certificate_schema_version === 5, "v2 inspect schemas changed");
-  assert(inspect.machine_class === V2_CONTRACT.machineClass && inspect.backend === V2_CONTRACT.backend, "v2 inspect machine changed");
-  assert(inspect.execution_dataflow === V2_CONTRACT.dataflow && inspect.opcode === V2_CONTRACT.opcode, "v2 inspect dataflow changed");
-  assert(inspect.lanes === 2 && inspect.piece_count === 2 && inspect.panel_elements === 262144, "v2 inspect partition changed");
-  assert(inspect.certified_managed_peak_bytes === EXPECTED.managedPeakBytes, "v2 inspect memory bound changed");
-  assert(inspect.verification === "exact_replay" && inspect.gpu_required === false && inspect.network_required === false, "v2 inspect verification/requirements changed");
-  assertDigest(inspect.image_digest, "v2 image digest is invalid");
-  assertDigest(inspect.program_digest, "v2 program digest is invalid");
-
-  assert(image.schema_version === 3 && image.isa_version === 6, "v2 image is not schema 3 / ISA 6");
-  assert(image.machine_class === V2_CONTRACT.machineClass && image.backend === V2_CONTRACT.backend, "v2 image machine identity changed");
-  assert(image.execution_dataflow === V2_CONTRACT.dataflow && image.program_digest === inspect.program_digest, "v2 image dataflow/program changed");
-  assert(equalJson(image.schedule, expectedSchedule), "v2 compiled schedule changed");
-  assert(image.verification === "exact_replay", "v2 image does not require exact replay");
-  assert(Array.isArray(image.instructions) && image.instructions.length === 1 && image.instructions[0].opcode === V2_CONTRACT.opcode, "v2 instruction changed");
-  assert(equalArray(image.inputs.left.ty.shape, EXPECTED.leftShape) && equalArray(image.inputs.right.ty.shape, EXPECTED.rightShape), "v2 image input shapes changed");
-  assert(image.inputs.left.byte_length + image.inputs.right.byte_length === EXPECTED.logicalInputBytes, "v2 image input size changed");
-  const outputType = image.instructions[0].output_type;
-  assert(outputType.element === "i32" && equalArray(outputType.shape, EXPECTED.outputShape), "v2 image output type changed");
-
-  const certificate = image.resource_certificate;
-  assert(certificate.schema_version === 5 && certificate.lanes === 2 && certificate.piece_count === 2 && certificate.rows_per_piece === 2, "v2 certificate identity changed");
-  assert(certificate.max_managed_bytes === 64 * 1024 ** 2 && certificate.max_io_bytes === 1024 ** 2, "v2 compile bounds changed");
-  assert(certificate.panel_elements === 262144 && certificate.right_panel_bytes_per_lane === 1048576 && certificate.panel_decode_bytes_per_lane === 1048576, "v2 contiguous-panel geometry changed");
-  assert(certificate.aggregate_execution_peak_bytes === 36065472 && certificate.finalization_peak_bytes === 6318592 && certificate.verification_peak_bytes === EXPECTED.managedPeakBytes, "v2 phase memory bounds changed");
-  assert(certificate.certified_managed_peak_bytes === EXPECTED.managedPeakBytes, "v2 certified peak changed");
-  assert(certificate.primary_requested_input_bytes_upper_bound === EXPECTED.primaryIo.requested_bytes, "v2 primary requested bound changed");
-  assert(certificate.primary_authenticated_input_bytes_upper_bound === EXPECTED.primaryIo.authenticated_chunk_bytes, "v2 primary authenticated bound changed");
-  assert(certificate.verification_requested_input_bytes_upper_bound === EXPECTED.verificationInputIo.requested_bytes, "v2 replay-input requested bound changed");
-  assert(certificate.verification_authenticated_input_bytes_upper_bound === EXPECTED.verificationInputIo.authenticated_chunk_bytes, "v2 replay-input authenticated bound changed");
-  assert(certificate.verification_requested_output_bytes === EXPECTED.verificationOutputIo.requested_bytes, "v2 replay-output requested bound changed");
-  assert(certificate.verification_authenticated_output_bytes_upper_bound === 16777212, "v2 replay-output authenticated bound changed");
-
-  const io = workload.io_accounting;
-  assert(io.derivation === "independent_manifest_range_single_cache_simulation", "v2 I/O derivation changed");
-  assert(io.evidence === "provenance/uninterrupted-io-counters.json", "v2 I/O evidence path changed");
-  for (const section of ["actual", "independently_derived"]) {
-    assertIo(io[section].admission_input_io, EXPECTED.admissionIo, "v2 workload " + section + " admission I/O");
-    assertIo(io[section].primary_input_io, EXPECTED.primaryIo, "v2 workload " + section + " primary I/O");
-    assertIo(io[section].verification_input_io, EXPECTED.verificationInputIo, "v2 workload " + section + " replay-input I/O");
-    assertIo(io[section].verification_output_io, EXPECTED.verificationOutputIo, "v2 workload " + section + " replay-output I/O");
+  for (const [probe, timing] of Object.entries(probes)) {
+    const card = document.querySelector("[data-probe='" + probe + "']");
+    const passed = acceptance.corruption_rejection[probe] === "passed" && memory.external_timings[timing].exit_status === 1;
+    card.className = passed ? "pass" : "fail";
+    card.querySelector("b").textContent = passed ? "BLOCKED · EXIT 1" : "CHECK FAILED";
   }
-  assert(uninterruptedIo.status === "PASS" && uninterruptedIo.derivation === io.derivation && uninterruptedIo.label === "uninterrupted", "v2 uninterrupted I/O evidence failed");
-  assertIo(uninterruptedIo.expected.admission_input_io, EXPECTED.admissionIo, "v2 derived admission I/O");
-  assertIo(uninterruptedIo.expected.primary_input_io, EXPECTED.primaryIo, "v2 derived primary I/O");
-  assertIo(uninterruptedIo.expected.verification_input_io, EXPECTED.verificationInputIo, "v2 derived replay-input I/O");
-  assertIo(uninterruptedIo.expected.verification_output_io, EXPECTED.verificationOutputIo, "v2 derived replay-output I/O");
-  assertIo(uninterruptedIo.observed.primary_input_io, EXPECTED.primaryIo, "v2 observed primary I/O");
-  assertIo(uninterruptedIo.observed.result_admission_input_io, EXPECTED.admissionIo, "v2 observed result admission I/O");
-  assertIo(uninterruptedIo.observed.result_verification_input_io, EXPECTED.verificationInputIo, "v2 observed result replay-input I/O");
-  assertIo(uninterruptedIo.observed.result_verification_output_io, EXPECTED.verificationOutputIo, "v2 observed result replay-output I/O");
-  assertIo(uninterruptedIo.observed.standalone_admission_input_io, EXPECTED.admissionIo, "v2 standalone admission I/O");
-  assertIo(uninterruptedIo.observed.standalone_verification_input_io, EXPECTED.verificationInputIo, "v2 standalone replay-input I/O");
-  assertIo(uninterruptedIo.observed.standalone_verification_output_io, EXPECTED.verificationOutputIo, "v2 standalone replay-output I/O");
-  assert(resumedIo.status === "PASS" && resumedIo.label === "resumed" && resumedIo.derivation === io.derivation, "v2 resumed I/O evidence failed");
-  assertIo(resumedIo.expected.primary_input_io, EXPECTED.resumedPrimaryIo, "v2 derived resumed primary I/O");
-  assertIo(resumedIo.observed.primary_input_io, EXPECTED.resumedPrimaryIo, "v2 observed resumed primary I/O");
-
-  assert(memory.external_hard_rlimit_as_bytes === acceptance.external_hard_rlimit_as_mib * 1024 ** 2, "v2 external memory limit changed");
-  assert(memory.virtual_memory_within_external_limit === true, "v2 exceeded external memory limit");
-  for (const field of ["VmRSS_kib", "VmHWM_kib", "VmSize_kib", "VmPeak_kib"]) assertSafeInteger(memory.maxima_kib[field], "v2 missing " + field, 1);
-  assert(memory.maxima_kib.VmSwap_kib === 0, "v2 product used swap");
-  assert(memory.maxima_kib.VmPeak_kib * 1024 <= memory.external_hard_rlimit_as_bytes, "v2 observed virtual peak exceeded the limit");
-  validateTiming(memory, "uninterrupted-run", 0);
-  validateTiming(memory, "uninterrupted-verify", 0);
-  validateTiming(memory, "killed-run", 137);
-  validateTiming(memory, "resumed-run", 0);
-  validateTiming(memory, "resumed-verify", 0);
-  assert(memory.external_timings["uninterrupted-run"].wall_ns === EXPECTED.v2ExternalWallNs, "v2 accepted external wall changed");
-  validateLaneWitness(acceptance, laneOverlap, 2);
-
-  const validateVerification = (verification, label) => {
-    assert(verification.verified === true && verification.method === V2_CONTRACT.verificationMethod, label + " exact replay failed");
-    assert(verification.pieces_checked === 2 && verification.bytes_checked === EXPECTED.outputBytes, label + " replay coverage changed");
-    assert(verification.verification_integer_operations === EXPECTED.usefulOperations, label + " replay operation count changed");
-    assertIo(verification.admission_input_io, EXPECTED.admissionIo, label + " admission I/O");
-    assertIo(verification.input_io, EXPECTED.verificationInputIo, label + " replay-input I/O");
-    assertIo(verification.output_io, EXPECTED.verificationOutputIo, label + " replay-output I/O");
-    assertSafeInteger(verification.verification_ns, label + " replay timing is invalid", 1);
-  };
-
-  const validateResult = (result, standalone, label, expectedPrimaryIo) => {
-    assert(result.schema_version === 3 && result.machine_class === V2_CONTRACT.machineClass && result.backend === V2_CONTRACT.backend, label + " result identity changed");
-    assert(result.image_digest === inspect.image_digest, label + " result image digest changed");
-    assertDigest(result.resource_certificate_digest, label + " certificate digest is invalid");
-    assert(Array.isArray(result.outputs) && result.outputs.length === 1 && result.outputs[0].index === 0, label + " output set changed");
-    const tensor = result.outputs[0].tensor;
-    assert(tensor.ty.element === "i32" && equalArray(tensor.ty.shape, EXPECTED.outputShape) && tensor.byte_length === EXPECTED.outputBytes, label + " output tensor changed");
-    assert(tensor.manifest_digest === EXPECTED.outputRoot, label + " output root changed");
-    assert(result.metrics.lanes === 2 && result.metrics.total_pieces === 2, label + " schedule changed");
-    assert(result.metrics.useful_integer_operations === EXPECTED.usefulOperations, label + " useful operation count changed");
-    assert(result.metrics.certified_managed_peak_bytes === EXPECTED.managedPeakBytes && result.metrics.retained_storage_bytes === EXPECTED.retainedStorageBytes, label + " resource metrics changed");
-    assert(result.metrics.gpu_devices_required === 0 && result.metrics.network_transports_required === 0, label + " result requires GPU/network");
-    assert(result.metrics.directory_metadata_sync === "available" && result.metrics.process_crash_recovery === "supported", label + " durability metrics changed");
-    assertIo(result.metrics.primary_input_io, expectedPrimaryIo, label + " primary I/O");
-    validateVerification(result.verification, label + " inline");
-    validateVerification(standalone, label + " standalone");
-  };
-  validateResult(uninterrupted, uninterruptedVerify, "v2 uninterrupted", EXPECTED.primaryIo);
-  validateResult(resumed, resumedVerify, "v2 resumed", EXPECTED.resumedPrimaryIo);
-  assert(uninterrupted.metrics.end_to_end_ns === workload.performance.internal_end_to_end_ns, "v2 internal end-to-end timing disagrees");
-  assert(uninterrupted.metrics.execution_ns === workload.performance.internal_execution_ns, "v2 execution timing disagrees");
-  assert(uninterrupted.metrics.finalization_ns === workload.performance.internal_finalization_ns, "v2 finalization timing disagrees");
-  assert(uninterrupted.verification.verification_ns === workload.performance.internal_verification_ns, "v2 replay timing disagrees");
-  assert(workload.performance.external_wall_ns === EXPECTED.v2ExternalWallNs && workload.performance.external_wall_observer === "acceptance_harness_monotonic_process_observer", "v2 external performance record changed");
-  assert(workload.performance.useful_integer_operations === EXPECTED.usefulOperations && workload.performance.executed_primary_integer_operations === EXPECTED.usefulOperations, "v2 performance operations changed");
-  assert(workload.performance.physical_integer_operations === EXPECTED.physicalOperations && workload.performance.speedup_claim === null, "v2 physical operations/speedup claim changed");
-  assert(workload.performance.workload === "uninterrupted_fresh_execution" && workload.performance.internal_timing_attestation === "self_reported", "v2 timing boundary changed");
-
-  assert(equalJson(uninterrupted.metrics.reused_assignments, []) && equalJson(uninterrupted.metrics.executed_assignments, expectedAssignments), "v2 fresh assignments changed");
-  assert(uninterrupted.metrics.reused_pieces === 0 && uninterrupted.metrics.executed_pieces === 2, "v2 fresh piece counters changed");
-  assert(postKill.observer === "acceptance_harness_after_process_group_exit" && postResume.observer === "acceptance_harness_after_resumed_process_exit", "v2 recovery observers changed");
-  assert(postKill.expected_total_pieces === 2 && postResume.expected_total_pieces === 2, "v2 recovery piece count changed");
-  assert(equalJson(postKill.schedule, expectedSchedule) && equalJson(postResume.schedule, expectedSchedule), "v2 recovery schedule changed");
-  assertDigest(postKill.plan_sha256, "v2 recovery plan digest is invalid");
-  assert(postKill.plan_sha256 === postResume.plan_sha256 && postKill.plan_sha256 === release.manifest.get(CHECKPOINT_PLAN_PATH), "v2 recovery plan digest changed");
-  assert(Array.isArray(postKill.entries) && postKill.entries.length === 1 && postKill.receipt_count === 1, "v2 SIGKILL did not leave exactly one durable piece");
-  assert(Array.isArray(postResume.entries) && postResume.entries.length === 2, "v2 resume did not complete both pieces");
-  const retainedAssignments = postKill.entries.map((entry) => ({ piece_index: entry.index, lane_index: entry.lane_index }));
-  const retainedIndices = new Set(retainedAssignments.map((entry) => entry.piece_index));
-  const missingAssignments = expectedAssignments.filter((entry) => !retainedIndices.has(entry.piece_index));
-  assert(equalJson(postKill.receipt_assignments, retainedAssignments), "v2 retained assignments changed");
-  assert(equalJson(postResume.receipt_assignments, expectedAssignments), "v2 completed receipt assignments changed");
-  assert(equalJson(resumed.metrics.reused_assignments, retainedAssignments) && equalJson(resumed.metrics.executed_assignments, missingAssignments), "v2 resume did not execute missing-only work");
-  assert(resumed.metrics.reused_pieces === 1 && resumed.metrics.executed_pieces === 1, "v2 resumed piece counts changed");
-  assert(acceptance.recovery === "passed_exact_partial_reuse_with_deterministic_lane_assignments", "v2 recovery acceptance failed");
-
-  assert(checkpointPlan.schema_version === 2 && checkpointPlan.image_digest === inspect.image_digest, "v2 checkpoint plan identity changed");
-  assert(equalJson(checkpointPlan.schedule, expectedSchedule) && checkpointPlan.rows_per_piece === 2 && checkpointPlan.piece_count === 2, "v2 checkpoint partition changed");
-  assert(checkpointPlan.output_type.element === "i32" && equalArray(checkpointPlan.output_type.shape, EXPECTED.outputShape), "v2 checkpoint output type changed");
-  for (let index = 0; index < 2; index += 1) {
-    const path = CHECKPOINT_ROOT + "receipt-" + String(index).padStart(8, "0") + ".json";
-    const receipt = files[path];
-    const rowStart = index * 2;
-    const rowCount = Math.min(2, EXPECTED.outputShape[0] - rowStart);
-    assert(receipt.schema_version === 2 && receipt.image_digest === inspect.image_digest, "v2 receipt identity changed");
-    assert(receipt.index === index && receipt.lane_index === index % 2, "v2 receipt lane changed");
-    assert(receipt.row_start === rowStart && receipt.row_count === rowCount && receipt.byte_length === rowCount * EXPECTED.outputShape[1] * 4, "v2 receipt geometry changed");
-    assertDigest(receipt.content_blake3, "v2 receipt content digest is invalid");
-    assert(release.manifest.get(path) === postResume.entries[index].receipt_sha256, "v2 receipt digest disagrees with external snapshot");
-  }
-
-  assert(uninterrupted.outputs[0].tensor.manifest_digest === resumed.outputs[0].tensor.manifest_digest, "v2 fresh/resumed roots differ");
-  assert(acceptance.uninterrupted_output_root === EXPECTED.outputRoot && acceptance.resumed_output_root === EXPECTED.outputRoot, "v2 accepted output roots changed");
-
-  const corruption = {
-    input_chunk: "corrupt-input-chunk",
-    checkpoint_piece: "corrupt-checkpoint-piece",
-    checkpoint_receipt: "corrupt-checkpoint-receipt",
-    image: "corrupt-image",
-    result: "corrupt-result"
-  };
-  assert(acceptance.corruption_rejection.result_mutation_target === "metrics.primary_input_io.cache_hits", "v2 result mutation did not target authenticated I/O");
-  assert(equalArray(Object.keys(acceptance.corruption_rejection).sort(), [...Object.keys(corruption), "result_mutation_target"].sort()), "v2 corruption suite changed");
-  for (const [probe, timing] of Object.entries(corruption)) {
-    assert(acceptance.corruption_rejection[probe] === "passed", "v2 " + probe + " mutation was not rejected");
-    validateTiming(memory, timing, 1);
-  }
-
-  assert(acceptance.independent_attestation.runtime_telemetry === "external_proc_and_monotonic_process_observer", "v2 runtime telemetry boundary changed");
-  assert(acceptance.independent_attestation.physical_lane_concurrency === "external_proc_task_overlap_witness", "v2 lane attestation changed");
-  assert(acceptance.independent_attestation.recovery_partition === "external_post_kill_and_post_resume_checkpoint_snapshots", "v2 recovery attestation changed");
-
-  return { acceptance, workload, memory, laneOverlap, uninterrupted, resumed, postKill };
-}
-
-function validateV1(release) {
-  const files = release.files;
-  const acceptance = files["acceptance.json"];
-  const workloadRecord = files["provenance/workload-contract.json"];
-  const memory = files["provenance/memory-summary.json"];
-  const laneOverlap = files["provenance/lane-overlap.json"];
-  const image = files["artifacts/gemm.mfx.json"];
-  const inspect = files["artifacts/gemm.inspect.json"];
-  const result = files["artifacts/uninterrupted.result.json"];
-  const verify = files["artifacts/uninterrupted.verify.json"];
-
-  assert(acceptance.schema_version === 2 && acceptance.status === "PASS" && acceptance.acceptance_level === "release" && acceptance.release_acceptance === true, "v1 preserved comparator is not an accepted release");
-  validateBuildAndProvenance(release, acceptance);
-  validateContainment(release, acceptance);
-  for (const [key, value] of Object.entries(workloadRecord)) {
-    assert(equalJson(acceptance.workload[key], value), "v1 workload file disagrees on " + key);
-  }
-  const workload = acceptance.workload;
-  assert(equalJson(memory, acceptance.memory), "v1 memory file disagrees with acceptance");
-  assert(acceptance.machine.image_schema_version === 2 && acceptance.machine.isa_version === 6, "v1 image/ISA identity changed");
-  assert(acceptance.machine.result_schema_version === 2 && acceptance.machine.resource_certificate_schema_version === 4, "v1 result/certificate identity changed");
-  assert(acceptance.machine.machine_class === "software_defined_local_supercomputer_v1", "v1 machine class changed");
-  assert(acceptance.machine.backend === V2_CONTRACT.backend && acceptance.machine.opcode === V2_CONTRACT.opcode, "v1 backend/opcode changed");
-  assert(acceptance.machine.verification_method === "independently_addressed_exact_replay", "v1 verifier identity changed");
-  assert(acceptance.machine.gpu_devices_required === 0 && acceptance.machine.network_transports_required === 0, "v1 requires GPU/network");
-  assert(equalArray(workload.left_shape, EXPECTED.leftShape) && equalArray(workload.right_shape, EXPECTED.rightShape), "v1 comparator shapes changed");
-  assert(workload.logical_input_bytes === EXPECTED.logicalInputBytes && workload.lanes === 2 && workload.total_pieces === 2, "v1 comparator workload changed");
-  assert(workload.input_more_than_four_times_managed === true && workload.logical_input_bytes > 4 * workload.certified_managed_peak_bytes, "v1 memory scale claim changed");
-  assert(inspect.schema_version === 2 && inspect.isa_version === 6 && inspect.machine_class === "software_defined_local_supercomputer_v1", "v1 inspect identity changed");
-  assert(image.schema_version === 2 && image.isa_version === 6 && image.machine_class === "software_defined_local_supercomputer_v1", "v1 image identity changed");
-  assert(equalArray(image.inputs.left.ty.shape, EXPECTED.leftShape) && equalArray(image.inputs.right.ty.shape, EXPECTED.rightShape), "v1 image shapes changed");
-  assert(equalJson(image.schedule, { schema_version: 1, instruction_index: 0, policy: "deterministic_striped_v1", lanes: 2, piece_count: 2 }), "v1 schedule changed");
-  assert(result.schema_version === 2 && result.machine_class === "software_defined_local_supercomputer_v1", "v1 result identity changed");
-  assert(result.metrics.useful_integer_operations === EXPECTED.usefulOperations && result.metrics.physical_integer_operations === EXPECTED.physicalOperations, "v1 operation count changed");
-  assert(result.metrics.lanes === 2 && result.metrics.executed_pieces === 2 && result.metrics.reused_pieces === 0, "v1 fresh execution partition changed");
-  assert(result.outputs[0].tensor.manifest_digest === EXPECTED.outputRoot && equalArray(result.outputs[0].tensor.ty.shape, EXPECTED.outputShape), "v1 output changed");
-  assert(result.verification.verified === true && result.verification.method === "independently_addressed_exact_replay", "v1 inline replay failed");
-  assert(result.verification.pieces_checked === 2 && result.verification.bytes_checked === EXPECTED.outputBytes && result.verification.verification_integer_operations === EXPECTED.usefulOperations, "v1 inline replay coverage changed");
-  assert(verify.verified === true && verify.method === "independently_addressed_exact_replay", "v1 standalone replay failed");
-  assert(verify.pieces_checked === 2 && verify.bytes_checked === EXPECTED.outputBytes && verify.verification_integer_operations === EXPECTED.usefulOperations, "v1 standalone replay coverage changed");
-  assert(memory.external_timings["uninterrupted-run"].wall_ns === EXPECTED.v1ExternalWallNs, "v1 accepted external wall changed");
-  validateTiming(memory, "uninterrupted-run", 0);
-  validateTiming(memory, "uninterrupted-verify", 0);
-  validateTiming(memory, "killed-run", 137);
-  validateTiming(memory, "resumed-run", 0);
-  validateTiming(memory, "resumed-verify", 0);
-  assert(memory.maxima_kib.VmSwap_kib === 0 && memory.virtual_memory_within_external_limit === true, "v1 memory boundary changed");
-  validateLaneWitness(acceptance, laneOverlap, 2);
-  assert(acceptance.uninterrupted_output_root === EXPECTED.outputRoot && acceptance.resumed_output_root === EXPECTED.outputRoot, "v1 accepted roots changed");
-  return { acceptance, workload, memory, result };
-}
-
-function validateComparison(v1, v2) {
-  assert(equalArray(v1.workload.left_shape, v2.workload.left_shape) && equalArray(v1.workload.right_shape, v2.workload.right_shape), "release comparison uses different matrix shapes");
-  assert(v1.workload.logical_input_bytes === v2.workload.logical_input_bytes, "release comparison uses different input bytes");
-  assert(v1.workload.lanes === v2.workload.lanes && v1.workload.total_pieces === v2.workload.total_pieces, "release comparison uses different lane/piece counts");
-  assert(v1.workload.opcode === v2.workload.opcode && v1.workload.isa_version === v2.workload.isa_version, "release comparison uses different opcode/ISA");
-  assert(v1.result.metrics.useful_integer_operations === v2.uninterrupted.metrics.useful_integer_operations, "release comparison uses different useful operation counts");
-  assert(v1.result.metrics.executed_primary_integer_operations === v2.uninterrupted.metrics.executed_primary_integer_operations, "release comparison uses different fresh primary operation counts");
-  assert(v1.result.outputs[0].tensor.manifest_digest === v2.uninterrupted.outputs[0].tensor.manifest_digest, "release comparison output roots differ");
-  assert(v1.memory.external_timings["uninterrupted-run"].observer === v2.memory.external_timings["uninterrupted-run"].observer, "release comparison timing observers differ");
 }
 
 function clearComparison() {
   for (const id of [
     "v2-wall", "v1-wall", "release-speedup", "v1-e2e", "v2-e2e", "ratio-e2e",
     "v1-execution", "v2-execution", "ratio-execution", "v1-finalization",
-    "v2-finalization", "ratio-finalization", "v1-verification", "v2-verification",
-    "ratio-verification"
+    "v2-finalization", "ratio-finalization", "v1-verification", "v2-verification", "ratio-verification"
   ]) byId(id).textContent = "—";
   byId("release-reduction").textContent = "waiting for both releases";
 }
@@ -1061,12 +723,11 @@ function displayComparison(v1, v2) {
   byId("v2-wall").textContent = seconds(v2Wall);
   byId("release-speedup").textContent = (v1Wall / v2Wall).toFixed(10) + "×";
   byId("release-reduction").textContent = (100 * (1 - v2Wall / v1Wall)).toFixed(6) + "% less external wall";
-
   const phases = [
-    ["e2e", v1.result.metrics.end_to_end_ns, v2.uninterrupted.metrics.end_to_end_ns],
-    ["execution", v1.result.metrics.execution_ns, v2.uninterrupted.metrics.execution_ns],
-    ["finalization", v1.result.metrics.finalization_ns, v2.uninterrupted.metrics.finalization_ns],
-    ["verification", v1.result.verification.verification_ns, v2.uninterrupted.verification.verification_ns]
+    ["e2e", v1.result.metrics.end_to_end_ns, v2.result.metrics.end_to_end_ns],
+    ["execution", v1.result.metrics.execution_ns, v2.result.metrics.execution_ns],
+    ["finalization", v1.result.metrics.finalization_ns, v2.result.metrics.finalization_ns],
+    ["verification", v1.result.verification.verification_ns, v2.result.verification.verification_ns]
   ];
   for (const [name, before, after] of phases) {
     byId("v1-" + name).textContent = seconds(before);
@@ -1075,153 +736,11 @@ function displayComparison(v1, v2) {
   }
 }
 
-function disableCommercialLinks() {
-  document.querySelectorAll("[data-commercial-resource]").forEach((link) => {
-    link.removeAttribute("href");
-    link.setAttribute("aria-disabled", "true");
-    if (!link.textContent.includes("pending verification")) {
-      link.textContent += " · pending verification";
-    }
-  });
-}
-
-function enableCommercialLinks() {
-  const resources = {
-    record: COMMERCIAL_STATUS.root + COMMERCIAL_STATUS.recordPath,
-    signature: COMMERCIAL_STATUS.root + COMMERCIAL_STATUS.signaturePath,
-    "public-key": COMMERCIAL_STATUS.root + COMMERCIAL_STATUS.publicKeyPath,
-    policy: COMMERCIAL_STATUS.root + COMMERCIAL_STATUS.allowedSignersPath,
-    schema: COMMERCIAL_STATUS.root + "COMMERCIAL-STATUS.schema.json"
-  };
-  document.querySelectorAll("[data-commercial-resource]").forEach((link) => {
-    const href = resources[link.dataset.commercialResource];
-    assert(href, "commercial-status link names an unknown resource");
-    link.href = href;
-    link.removeAttribute("aria-disabled");
-    link.textContent = link.textContent.replace(" · pending verification", "");
-  });
-}
-
-function clearCommercialStatus(status = "CHECKING") {
-  for (const id of ["record-contract", "record-adversarial", "record-reproduction", "record-evaluation"]) {
-    const node = byId(id);
-    node.textContent = status;
-    node.className = status === "REJECTED" ? "fail" : "";
-  }
-  for (const id of ["physical-scaling-result", "hosted-reproduction-result", "external-workload-result"]) {
-    byId(id).textContent = "—";
-    byId(id).className = "";
-  }
-  byId("hero-adversarial").textContent = "verification pending";
-  byId("hero-scaling").textContent = "verification pending";
-  byId("hero-assurance").textContent = "verification pending";
-  byId("hero-current-release").textContent = "verification pending";
-  for (const row of document.querySelectorAll("[data-final-lane]")) {
-    for (const cell of Array.from(row.children).slice(2)) cell.textContent = "—";
-  }
-  disableCommercialLinks();
-}
-
-function displayCommercialStatus(pack) {
-  const recordStates = [
-    ["record-contract", "VERSION 1", "pass"],
-    ["record-adversarial", "214 / 214", "pass"],
-    ["record-reproduction", "3 / 3 VM JOBS", "pass"],
-    ["record-evaluation", "V0.1.3 / VERIFIED", "pass"]
-  ];
-  for (const [id, label, className] of recordStates) {
-    byId(id).textContent = label;
-    byId(id).className = className;
-  }
-
-  byId("hero-adversarial").textContent = "214 / 214 validated";
-  byId("hero-scaling").textContent = "100 / 100 retained";
-  byId("hero-assurance").textContent = "16 / 16 passed";
-  byId("hero-current-release").textContent = pack.record.product.software_release + " · signed · verified";
-  for (const lanes of [1, 2, 4, 8, 16]) {
-    const cold = pack.scalingCells.get("cold_unprimed/" + lanes);
-    const warm = pack.scalingCells.get("warm_primed/" + lanes);
-    const row = document.querySelector("[data-final-lane='" + lanes + "']");
-    const cells = row.children;
-    cells[2].textContent = (Number(cold.median_wall_ns_decimal) / 1e9).toFixed(3) + " s";
-    cells[3].textContent = cold.speedup_decimal + "×";
-    cells[4].textContent = (Number(warm.median_wall_ns_decimal) / 1e9).toFixed(3) + " s";
-    cells[5].textContent = warm.speedup_decimal + "×";
-  }
-  byId("physical-scaling-result").textContent = "1.315× cold / 1.214× warm";
-  byId("physical-scaling-result").className = "pass";
-  byId("hosted-reproduction-result").textContent = "3 / 3 VM JOBS · SAME ROOT";
-  byId("hosted-reproduction-result").className = "pass";
-  byId("external-workload-result").textContent = "UCI IRIS · 3-WAY EXACT AGREEMENT";
-  byId("external-workload-result").className = "pass";
-  enableCommercialLinks();
-}
-function displayIo(prefix, counter) {
-  byId("io-" + prefix + "-auth").textContent = exactBytes(counter.authenticated_chunk_bytes);
-  byId("io-" + prefix + "-requested").textContent = exactBytes(counter.requested_bytes);
-  byId("io-" + prefix + "-loads").textContent = counter.chunk_loads.toLocaleString("en-US");
-  byId("io-" + prefix + "-hits").textContent = counter.cache_hits.toLocaleString("en-US");
-}
-
-function displayV2(validated) {
-  const { acceptance, workload, memory, laneOverlap, uninterrupted, resumed, postKill } = validated;
-  const captured = new Date(acceptance.captured_at_utc);
-  const capturedText = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-    timeZone: "UTC",
-    timeZoneName: "short"
-  }).format(captured);
-  const witnessedLanes = new Set(laneOverlap.witness.tasks.map((task) => task.lane_index)).size;
-
-  byId("release-verdict").textContent = "PASS";
-  byId("release-verdict").className = "pass";
-  byId("capture-time").textContent = capturedText;
-  byId("binary-hash").textContent = shortHash(acceptance.binary_sha256);
-  byId("binary-hash").title = acceptance.binary_sha256;
-  byId("source-hash").textContent = shortHash(acceptance.source_tree_sha256);
-  byId("source-hash").title = acceptance.source_tree_sha256;
-  byId("manifest-hash").textContent = shortHash(RELEASES.v2.manifestSha256);
-  byId("manifest-hash").title = RELEASES.v2.manifestSha256;
-  byId("logical-input").textContent = humanBytes(workload.logical_input_bytes);
-  byId("memory-ratio").textContent = (workload.logical_input_bytes / workload.certified_managed_peak_bytes).toFixed(3) + "×";
-  byId("managed-peak").textContent = humanBytes(workload.certified_managed_peak_bytes);
-  byId("lane-count").textContent = witnessedLanes + " / " + laneOverlap.configured_lanes;
-  byId("peak-rss").textContent = humanBytes(memory.maxima_kib.VmHWM_kib * 1024);
-  byId("swap-used").textContent = humanBytes(memory.maxima_kib.VmSwap_kib * 1024, 0);
-  byId("gpu-count").textContent = String(acceptance.syscall_trace.product_gpu_device_paths);
-  byId("network-count").textContent = String(acceptance.syscall_trace.product_network_syscalls);
-  byId("kill-time").textContent = (memory.external_timings["killed-run"].wall_ns / 1e9).toFixed(3) + " s";
-  byId("output-root").textContent = acceptance.uninterrupted_output_root;
-  byId("uninterrupted-assignments").textContent = assignmentLabel(uninterrupted.metrics.executed_assignments);
-  byId("retained-assignments").textContent = assignmentLabel(postKill.receipt_assignments);
-  byId("reused-assignments").textContent = assignmentLabel(resumed.metrics.reused_assignments);
-  byId("executed-assignments").textContent = assignmentLabel(resumed.metrics.executed_assignments);
-  byId("capture-footer").textContent = "CAPTURED " + captured.toISOString();
-
-  displayIo("admission", EXPECTED.admissionIo);
-  displayIo("primary", EXPECTED.primaryIo);
-  displayIo("replay", EXPECTED.verificationInputIo);
-  displayIo("output", EXPECTED.verificationOutputIo);
-
-  const timingNames = {
-    input_chunk: "corrupt-input-chunk",
-    checkpoint_piece: "corrupt-checkpoint-piece",
-    checkpoint_receipt: "corrupt-checkpoint-receipt",
-    image: "corrupt-image",
-    result: "corrupt-result"
-  };
-  for (const [probe, timing] of Object.entries(timingNames)) {
-    const card = document.querySelector("[data-probe='" + probe + "']");
-    const passed = acceptance.corruption_rejection[probe] === "passed"
-      && memory.external_timings[timing].exit_status === 1;
-    card.className = passed ? "pass" : "fail";
-    card.querySelector("b").textContent = passed ? "REJECTED · EXIT 1" : "NOT PROVEN";
+function assertCommercialUiPolicy() {
+  for (const link of document.querySelectorAll("a[href]")) {
+    const href = link.getAttribute("href") || "";
+    assert(!BLOCKED_SOFTWARE_HREF.test(href), "active UI exposes a restricted software distribution path");
+    assert(!link.hasAttribute("download"), "active UI exposes a direct software download control");
   }
 }
 
@@ -1229,70 +748,48 @@ async function loadAndValidate() {
   if (state.loading) return;
   state.loading = true;
   state.ready = false;
+  clearEvidenceDisplays();
   clearComparison();
-  clearCommercialStatus();
-  releaseState("pending", "hashing releases, Contract v1, and commercial status");
+  releaseState("pending", "hashing scientific and execution evidence");
+  byId("release-verdict").textContent = "CHECKING";
+  byId("release-verdict").className = "";
   byId("rerun-verification").disabled = true;
   byId("rerun-verification").textContent = "checking…";
-  for (const name of ["v2-manifest", "v2-pack", "v1-pack", "contract", "comparison", "trust-pack", "final-index", "final-signature", "final-semantics"]) setCheck(name, "", "checking");
-
+  for (const name of CHECK_NAMES) setCheck(name, "", "checking");
   try {
-    const [v2Release, v1Release, trustPack, commercialStatus] = await Promise.all([
-      loadSelectedRelease("v2", RELEASES.v2),
-      loadSelectedRelease("v1", RELEASES.v1),
-      loadContractPack(),
-      loadCommercialStatusPack()
+    const [scientific, v2Release, v1Release] = await Promise.all([
+      loadScientificEvidence(), loadRelease("v2", RELEASES.v2), loadRelease("v1", RELEASES.v1)
     ]);
-    setCheck("v2-manifest", "pass", RELEASES.v2.manifestEntries.toLocaleString() + " full-capture entries");
-    setCheck("v2-pack", "pass", RELEASES.v2.files.length + " / " + RELEASES.v2.files.length + " selected files");
-    setCheck("v1-pack", "pass", RELEASES.v1.files.length + " / " + RELEASES.v1.files.length + " selected files");
-
+    setCheck("scientific-digest", "pass", "SHA-256 PASS");
+    setCheck("scientific-builds", "pass", "15 / 15 PASS");
+    setCheck("scientific-suite", "pass", "25 accepted · complete 46-record history");
+    setCheck("npb", "pass", "16 / 16 PASS");
+    setCheck("hpl-hpcg", "pass", "residuals + topology PASS");
+    setCheck("stream-osu", "pass", "metrics + telemetry PASS");
     const v2 = validateV2(v2Release);
     const v1 = validateV1(v1Release);
-    setCheck("contract", "pass", "independently recomputed / pass");
+    setCheck("v2-pack", "pass", RELEASES.v2.files.length + " / " + RELEASES.v2.files.length + " selected files");
+    setCheck("v1-pack", "pass", RELEASES.v1.files.length + " / " + RELEASES.v1.files.length + " selected files");
     validateComparison(v1, v2);
-    setCheck("comparison", "pass", "same workload / roots / observer");
-    validateContractPack(trustPack);
-    setCheck("trust-pack", "pass", CONTRACT_V1.files.length + " integrity-checked public files");
-    setCheck("final-index", "pass", "canonical record / exact SHA-256");
-    setCheck("final-signature", "pass", "signature + key + namespace policy pinned");
-    setCheck("final-semantics", "pass", "v0.1.3 release + V2 engine evidence verified");
-
-    state.v2 = { release: v2Release, validated: v2 };
-    state.v1 = { release: v1Release, validated: v1 };
-    state.commercialStatus = commercialStatus;
-    state.ready = true;
+    setCheck("comparison", "pass", "same workload · same root");
+    Object.assign(state, { scientific, v2, v1, ready: true });
+    displayScientific(scientific);
     displayV2(v2);
     displayComparison(v1, v2);
-    displayCommercialStatus(commercialStatus);
-    byId("verification-copy").textContent = "Release v0.1.3, the selected V2/V1 engine evidence, and Execution Contract v1 match their pinned identities. The production gate authenticates the detached OpenSSH signature and signer namespace; this browser checks the published record, signature, key, policy, and evidence semantics before displaying results.";
-    releaseState("pass", "v0.1.3 signed release verified");
+    byId("verification-copy").textContent = "The signed scientific publication pack and every selected v2/v1 execution file match their pinned SHA-256 identities. Workload geometry, benchmark results, provider telemetry where applicable, exact replay, recovery, and matching result roots passed the browser checks.";
+    releaseState("pass", "Lights Out evidence verified");
   } catch (error) {
-    const publicationPending = error instanceof Error
-      && error.message === "Commercial status publication pending";
-    state.ready = false;
-    state.v2 = null;
-    state.v1 = null;
-    state.commercialStatus = null;
+    Object.assign(state, { scientific: null, v2: null, v1: null, ready: false });
+    clearEvidenceDisplays();
     clearComparison();
-    clearCommercialStatus(publicationPending ? "PENDING" : "REJECTED");
-    byId("release-verdict").textContent = publicationPending ? "PENDING" : "REJECTED";
-    byId("release-verdict").className = publicationPending ? "" : "fail";
-    if (publicationPending) {
-      for (const name of ["contract", "comparison", "trust-pack", "final-index", "final-signature", "final-semantics"]) setCheck(name, "", "publication pending");
-      byId("verification-copy").textContent = "The signed commercial-status publication is being finalized. Current-status resources remain disabled until every exact digest is pinned.";
-      releaseState("pending", "commercial-status publication pending");
-      return;
+    byId("release-verdict").textContent = "REJECTED";
+    byId("release-verdict").className = "fail";
+    for (const name of CHECK_NAMES) {
+      const row = document.querySelector("[data-check='" + name + "']");
+      if (!row.className) setCheck(name, "fail", "rejected");
     }
-    setCheck("contract", "fail", "rejected");
-    setCheck("comparison", "fail", "not displayed");
-    setCheck("trust-pack", "fail", "rejected");
-    setCheck("final-index", "fail", "rejected");
-    setCheck("final-signature", "fail", "rejected");
-    setCheck("final-semantics", "fail", "not displayed");
-    byId("verification-copy").textContent = error.message;
-    releaseState("fail", "selected release evidence rejected");
-    throw error;
+    byId("verification-copy").textContent = error instanceof Error ? error.message : "Evidence verification failed";
+    releaseState("fail", "published evidence rejected");
   } finally {
     state.loading = false;
     byId("rerun-verification").disabled = false;
@@ -1311,21 +808,14 @@ async function copyCommands() {
   window.setTimeout(() => { button.textContent = "copy commands"; }, 1800);
 }
 
-if (typeof document.querySelectorAll === "function") assertCommercialUiPolicy();
-
+assertCommercialUiPolicy();
 byId("verify-release").addEventListener("click", () => {
   byId("verify").scrollIntoView({ behavior: "smooth", block: "start" });
-  loadAndValidate().catch(() => {});
+  loadAndValidate();
 });
-byId("rerun-verification").addEventListener("click", () => loadAndValidate().catch(() => {}));
+byId("rerun-verification").addEventListener("click", loadAndValidate);
 byId("copy-commands").addEventListener("click", copyCommands);
-
-window.__MFENX_TEST__ = Object.freeze({
-  validateV2,
-  validateV1,
-  validateComparison,
-  validateCommercialStatus
-});
+window.__MFENX_LIGHTS_OUT__ = Object.freeze({ validateScientificEvidence, validateV2, validateV1, validateComparison });
 updateClock();
 window.setInterval(updateClock, 1000);
-loadAndValidate().catch(() => {});
+loadAndValidate();

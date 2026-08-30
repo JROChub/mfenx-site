@@ -1,13 +1,19 @@
-# Lights Out release evidence
+# Lights Out technical releases
 
-## Current commercial software
+## Scientific evidence v0.1.6
 
-Lights Out Local Supercomputer V2 release `v0.1.3` is the current signed commercial software release. Its canonical identity, release verification, signed automated security assurance, and validated V2 engine evidence are bound by `current-release/COMMERCIAL-STATUS.canonical.json`.
+The v0.1.6 scientific release brings source-locked HPL, HPCG, tuned STREAM 5.10, OSU Micro-Benchmarks, and upstream NPB system qualification into one machine-readable summary. Provider telemetry, where applicable, remains connected to the exact build, topology, raw output, and extracted result.
 
-## Browser-verified engine captures
+The active suite and its complete preceding record history are preserved in the signed evidence bundle. The browser-checked summary presents the accepted measurements, upstream verification, and exact release identity.
 
-`release/` contains selected, browser-verified files from the validated MFENX Local V2 engine capture.
+The public static summary, benchmark attribution, release-key controls, and signed checksum manifest are available under `evidence/v0.1.6/`. The Lights Out page verifies the complete seven-file publication set before displaying its measured results.
 
-`release-v1/` preserves the exact selected payload that was published for the accepted MFENX Local v1 capture. Its files are retained as an immutable comparator; future releases must use a new versioned directory rather than changing `release-v1/`.
+## QQfenx performance v0.1.4
 
-Each directory includes the complete capture `SHA256SUMS` file. The browser verifies every published selected file against the corresponding full-capture manifest entry, then validates the signed current-release record before displaying the results.
+The signed v0.1.4 QQfenx performance record preserves exact wrapping-u32 results, same-compiler dense-C comparisons, packed Q8/Q16 measurements, zero-ideal and cancellation-cascade measurements, four-lane scaling, and source identity for commit `01e2c6e`.
+
+Its canonical certificate, detached signature, release key, and signer policy remain under `qqfenx-performance-v0.1.4/`.
+
+## Execution foundation v0.1.3
+
+The signed v0.1.3 execution foundation remains available with selected v2 engine evidence and the preserved v1 comparator. Browser checks validate the selected evidence files against their pinned full-capture SHA-256 manifests before displaying execution, replay, recovery, and same-workload comparison results.

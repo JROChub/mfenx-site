@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">MFENX Lights Out</title>
+  <rect width="64" height="64" rx="12" fill="#080b09"/>
+  <path d="M13 14v36h22v-8H22V14zm24 0v8h6v20h-6v8h14V14z" fill="#b7ff3c"/>
+  <path d="M28 22h8v20h-8z" fill="#f4f7ef"/>
+</svg>

@@ -1,0 +1,387 @@
+{
+  "schema": "mfenx.lightsout.scientific-evidence-summary.v2",
+  "release": "0.1.6",
+  "generated_at_utc": "2026-08-30T17:37:20Z",
+  "product": {
+    "name": "MFENX Lights Out",
+    "machine_class": "software-defined local supercomputer",
+    "execution_engines": [
+      "QQfenx adaptive quotient-ring execution",
+      "MFENX native IEEE FP64 HPC"
+    ],
+    "commercial_distribution": "proprietary"
+  },
+  "release_identity": {
+    "tag": "v0.1.6",
+    "tag_object": "08a2b39f134e7a7d86d2ebae9865ee70c6e0e1d8",
+    "commit": "74699c9d2249bd55ce95e149e00940752b6ff260",
+    "root_tree": "64883826ed796ebc3363763e70ce66808d49672d",
+    "power_house_tree": "32feafbb998d90ee7aead03d14b4f9aabb141ed4",
+    "git_object_format": "sha1"
+  },
+  "signing": {
+    "git": {
+      "principal": "lexluger.dev@proton.me",
+      "namespace": "git",
+      "fingerprint": "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
+    },
+    "release": {
+      "principal": "mfenx-release",
+      "namespaces": [
+        "mfenx-hpc-evidence",
+        "mfenx-release-materials",
+        "mfenx-release"
+      ],
+      "fingerprint": "SHA256:Uhj/Ci2+3KA2JN/H8+Sl6nhAiTeD76zvajqvxLOYTTc"
+    }
+  },
+  "integrity": {
+    "source_lock_sha256": "ce4a6b58710cc70bc6675ee7c444760b8ea8d54e979a90f063e0e99934d1f201",
+    "product_source_manifest_sha256": "6de246f03b5bca1426ce2553c74e678a454234f0cf563b5c662cf1e9e3f347ee",
+    "evidence_suite_sha256": "2af381d5204d0526a4ba55a04582d481d51ec804cd00e06eb4564a1b65c5b56f",
+    "suite_verification_sha256": "9460e292f5837db4272ac7251f5456dbf7a29d74dae1450604b6596fa094bbd3",
+    "build_verification_sha256": "b4886958817738037ccdcbbed3f1e6406e4a1e17df49e44053e091a919309e2e",
+    "product_archive": {
+      "filename": "mfenx-lights-out-v0.1.6-x86_64-unknown-linux-gnu.tar.gz",
+      "sha256": "5285e2986c72c86c4743fbca2c127f5fcea5a35955b3f15384de2bbc78081316",
+      "signature_sha256": "95f4a9b1249645c638fae4214922ef7896d1622a06d9196946ae665d2a9b1593"
+    },
+    "product_materials": {
+      "release_sha256_sha256": "a9ed3213b528b09040d91b4f0a683d979800caf375b06eb7a9ae6680c03b5235",
+      "artifact_manifest_sha256": "e19e1c75203f7cf1e4a04a02bc5ec7b5bf4973278cdb5c7dded359c352e57d08"
+    },
+    "hpc_evidence": {
+      "filename": "mfenx-lights-out-v0.1.6-hpc-evidence.tar.gz",
+      "archive_sha256": "8a9f85209cbd8c5ba98c3514084ec3e8dec96f33d59fe470dbf71f0b7e487686",
+      "bundle_manifest_sha256": "12f5934d045c2e708a3601eb5b897dc08e4669140e57c5ce4046eba5de40bfc5",
+      "bundle_closure_sha256": "4f33675cad279cd70d4e1749cc31ba32048ce5148b1ca651cf48ecfd5801f8ca",
+      "bundle_signature_sha256": "cbc754b2a5cb1868cca5b5b34a53c3ecbf3467f7e4041e37d8acfe74e490699c"
+    },
+    "release_assets": {
+      "manifest_filename": "SHA256SUMS",
+      "manifest_sha256": "fce2166276caa075e452a0f2add62787579c97eb277605c248cda7564fe555a3",
+      "signature_filename": "SHA256SUMS.sig",
+      "signature_sha256": "3a83c9b1b41129a40d40c8cc71b36ecf203368d0745e534d83ff25fb80e4a400"
+    },
+    "security_assurance": {
+      "filename": "security-assurance-evidence.tar.gz",
+      "archive_sha256": "0d05649ece7bfcd0fdfa3a5ff97c5a55a7c0ca1f8d65fafd3944aa113aaa7447",
+      "signature_sha256": "208bf9ededd7f26a02092969f2e23ef91d240bb1b54e8a97f8456d134819fc3f"
+    }
+  },
+  "verification": {
+    "release_verification": {
+      "workflow": "Release Verification",
+      "run_id": 33234816536,
+      "attempt": 1,
+      "head_sha": "74699c9d2249bd55ce95e149e00940752b6ff260",
+      "conclusion": "success"
+    },
+    "security_assurance": {
+      "workflow": "Security Assurance",
+      "run_id": 33237688176,
+      "attempt": 2,
+      "head_sha": "74699c9d2249bd55ce95e149e00940752b6ff260",
+      "tag": "v0.1.6",
+      "conclusion": "success",
+      "outcomes": [
+        {
+          "name": "analysis-prerequisites",
+          "conclusion": "success"
+        },
+        {
+          "name": "toolchain-context",
+          "conclusion": "success"
+        },
+        {
+          "name": "workspace-build",
+          "conclusion": "success"
+        },
+        {
+          "name": "workspace-policy",
+          "conclusion": "success"
+        },
+        {
+          "name": "python-policy-tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "cargo-audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "cargo-deny",
+          "conclusion": "success"
+        },
+        {
+          "name": "rustfmt",
+          "conclusion": "success"
+        },
+        {
+          "name": "clippy",
+          "conclusion": "success"
+        },
+        {
+          "name": "unit-tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "native-hpc",
+          "conclusion": "success"
+        },
+        {
+          "name": "hpc-evidence-harness",
+          "conclusion": "success"
+        },
+        {
+          "name": "native-qqfenx",
+          "conclusion": "success"
+        },
+        {
+          "name": "qqfenx-benchmark-smoke",
+          "conclusion": "success"
+        },
+        {
+          "name": "fuzz-lock",
+          "conclusion": "success"
+        },
+        {
+          "name": "fuzz-contract-control",
+          "conclusion": "success"
+        },
+        {
+          "name": "fuzz-qqfenx-contract",
+          "conclusion": "success"
+        },
+        {
+          "name": "fuzz-tensor-manifest",
+          "conclusion": "success"
+        },
+        {
+          "name": "fuzz-reproducers",
+          "conclusion": "success"
+        },
+        {
+          "name": "fuzz-lock-integrity",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-policy",
+          "conclusion": "success"
+        }
+      ]
+    }
+  },
+  "history": {
+    "supporting_builds": 15,
+    "accepted_attempts": 25,
+    "rejected_attempts": 1,
+    "superseded_attempts": 2,
+    "quarantined_builds": 3,
+    "total_records": 46,
+    "status": "complete"
+  },
+  "builds": {
+    "verified": 15,
+    "total": 15,
+    "status": "pass"
+  },
+  "suite": {
+    "measured": 26,
+    "accepted": 25,
+    "retained_rejected": 1,
+    "status": "valid",
+    "population": "active_suite",
+    "bundle_record_count": 46,
+    "history_status": "complete"
+  },
+  "benchmark_sources": [
+    {
+      "id": "hpl",
+      "name": "High-Performance Linpack",
+      "version": "2.3",
+      "sha256": "32c5c17d22330e6f2337b681aded51637fb6008d3f0eb7c277b163fadd612830",
+      "url": "https://netlib.org/benchmark/hpl/"
+    },
+    {
+      "id": "hpcg",
+      "name": "HPCG",
+      "version": "3.1",
+      "sha256": "33a434e716b79e59e745f77ff72639c32623e7f928eeb7977655ffcaade0f4a4",
+      "url": "https://www.hpcg-benchmark.org/software/"
+    },
+    {
+      "id": "npb",
+      "name": "NAS Parallel Benchmarks",
+      "version": "3.4.4",
+      "sha256": "1ae219398e02a0a79ad51b7460fcffbf7b5df83a69d5d3d3a9dc2d8acf523549",
+      "url": "https://www.nas.nasa.gov/software/npb.html"
+    },
+    {
+      "id": "stream",
+      "name": "STREAM",
+      "version": "5.10",
+      "sha256": "a52bae5e175bea3f7832112af9c085adab47117f7d2ce219165379849231692b",
+      "url": "https://www.cs.virginia.edu/stream/ref.html"
+    },
+    {
+      "id": "osu",
+      "name": "OSU Micro-Benchmarks",
+      "version": "7.5.2",
+      "sha256": "618de3d0b1122f73a9229177d2da1e5cd62e431190580cb915f2605849cbbbdc",
+      "url": "https://mvapich.cse.ohio-state.edu/benchmarks/"
+    }
+  ],
+  "capture_topology": {
+    "physical_nodes": 1,
+    "worker_slots": 4,
+    "threaded_profile": "1 rank x 4 threads",
+    "mpi_profile": "4 ranks x 1 thread",
+    "collective_profile": "2 ranks x 1 thread"
+  },
+  "npb": {
+    "name": "NAS Parallel Benchmarks",
+    "version": "3.4.4",
+    "class": "A",
+    "role": "upstream_system_qualification",
+    "kernels": [
+      "CG",
+      "MG",
+      "FT",
+      "EP",
+      "IS",
+      "BT",
+      "SP",
+      "LU"
+    ],
+    "openmp": {
+      "topology": "1 rank x 4 threads",
+      "verified": 8,
+      "total": 8
+    },
+    "mpi": {
+      "topology": "4 ranks x 1 thread",
+      "verified": 8,
+      "total": 8
+    },
+    "verification": {
+      "passed": 16,
+      "total": 16,
+      "status": "pass"
+    }
+  },
+  "hpl": {
+    "name": "High-Performance Linpack",
+    "version": "2.3",
+    "geometry": {
+      "n": 1024,
+      "nb": 64,
+      "p": 2,
+      "q": 2,
+      "ranks": 4
+    },
+    "mfenx": {
+      "gflop_s": 4.3438,
+      "scaled_residual": 0.00426987511,
+      "residual_status": "pass",
+      "runtime_provider_processes": 4
+    },
+    "openblas_comparator": {
+      "gflop_s": 9.1858,
+      "scaled_residual": 0.00716583107,
+      "residual_status": "pass"
+    }
+  },
+  "hpcg": {
+    "name": "HPCG",
+    "version": "3.1",
+    "comparison": "same-host point capture",
+    "topology": "2 ranks x 1 thread",
+    "mfenx": {
+      "gflop_s": 3.38003,
+      "raw_total_gb_s": 27.0054,
+      "valid": true
+    },
+    "stock": {
+      "gflop_s": 2.81253,
+      "raw_total_gb_s": 22.2204,
+      "valid": true
+    },
+    "mfenx_delta_percent": {
+      "gflop_s": 20.178,
+      "raw_total_gb_s": 21.534
+    }
+  },
+  "stream": {
+    "name": "STREAM",
+    "version": "5.10",
+    "mfenx_profile": "tuned STREAM 5.10",
+    "comparison": "same-host point capture",
+    "topology": "1 rank x 4 threads",
+    "unit": "MB/s",
+    "mfenx": {
+      "copy": 11808.9,
+      "scale": 11428.6,
+      "add": 13560.8,
+      "triad": 13678.4
+    },
+    "stock": {
+      "copy": 15463.6,
+      "scale": 12156.1,
+      "add": 11104.5,
+      "triad": 12414.5
+    },
+    "mfenx_delta_percent": {
+      "copy": -23.634,
+      "scale": -5.985,
+      "add": 22.120,
+      "triad": 10.181
+    },
+    "provider_telemetry": {
+      "threads": 4,
+      "calls_per_kernel": 20,
+      "elements_per_kernel": 200000000,
+      "status": "pass"
+    }
+  },
+  "osu": {
+    "name": "OSU Micro-Benchmarks",
+    "version": "7.5.2",
+    "topology": "2 ranks x 1 thread",
+    "message_sizes_bytes": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "broadcast_f64": {
+      "rows_passed": 8,
+      "rows_total": 8,
+      "calls_per_rank": 56,
+      "elements_per_rank": 1785,
+      "bytes_per_rank": 14280,
+      "latency_us_range": [
+        1.28,
+        1.75
+      ],
+      "telemetry_status": "pass"
+    },
+    "allreduce_sum_f64": {
+      "rows_passed": 8,
+      "rows_total": 8,
+      "calls_per_rank": 56,
+      "in_place_calls_per_rank": 56,
+      "elements_per_rank": 1785,
+      "bytes_per_rank": 14280,
+      "latency_us_range": [
+        1.44,
+        2.19
+      ],
+      "telemetry_status": "pass"
+    }
+  }
+}
