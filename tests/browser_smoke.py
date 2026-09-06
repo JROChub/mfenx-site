@@ -19,17 +19,13 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def assert_no_runtime_errors(page: Page, failures: list[str], label: str) -> None:
-    page_errors: list[str] = []
-    console_errors: list[str] = []
-    request_errors: list[str] = []
-    page.on("pageerror", lambda error: page_errors.append(str(error)))
-    page.on("console", lambda message: console_errors.append(message.text) if message.type == "error" else None)
-    page.on("requestfailed", lambda request: request_errors.append(f"{request.url}: {request.failure}"))
+    # Keep observing after initial navigation: signature checks and interactions
+    # are asynchronous and their failures must not disappear after the first wait.
+    page.on("pageerror", lambda error: failures.append(f"{label} page error: {error}"))
+    page.on("console", lambda message: failures.append(f"{label} console error: {message.text}") if message.type == "error" else None)
+    page.on("requestfailed", lambda request: failures.append(f"{label} request error: {request.url}: {request.failure}"))
     page.goto(label, wait_until="networkidle")
     page.wait_for_timeout(800)
-    failures.extend(f"{label} page error: {item}" for item in page_errors)
-    failures.extend(f"{label} console error: {item}" for item in console_errors)
-    failures.extend(f"{label} request error: {item}" for item in request_errors)
 
 
 def main() -> int:
@@ -55,7 +51,11 @@ def main() -> int:
             home.on("request", lambda request: home_requests.append(request.url))
             assert_no_runtime_errors(home, failures, origin + "/")
             try:
-                home.wait_for_selector("#boot-screen.hidden", timeout=20_000)
+                # finishBoot adds .hidden; its CSS deliberately makes the element
+                # invisible. Require completed startup, then its hidden state,
+                # rather than waiting for the completed screen to be visible.
+                home.wait_for_selector("#boot-screen.hidden", state="attached", timeout=20_000)
+                home.wait_for_selector("#boot-screen", state="hidden", timeout=20_000)
                 assert "LIGHTS OUT" in home.locator(".top-actions").inner_text()
                 nav_text = home.locator(".top-actions").inner_text()
                 assert "STATUS" not in nav_text and "72H" not in nav_text
@@ -85,6 +85,10 @@ def main() -> int:
             for width in (320, 390, 768, 1440):
                 page = context.new_page()
                 page.set_viewport_size({"width": width, "height": 1000})
+                page.emulate_media(reduced_motion="reduce")
+                page.add_init_script("""Object.defineProperty(navigator, 'clipboard', {
+                    value: {writeText: async text => {window.__copiedCommands = text;}}
+                });""")
                 assert_no_runtime_errors(page, failures, origin + "/lightsout/")
                 try:
                     page.wait_for_selector("#release-state.pass", timeout=20_000)
@@ -98,11 +102,46 @@ def main() -> int:
                     assert page.locator("#hero-current-release").inner_text() == "v0.1.3 · signed · verified"
                     overflow = page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                     assert overflow == 0, f"{width}px viewport has {overflow}px global overflow"
-                    assert page.locator("#release-speedup").inner_text() == "49.2271104608×"
+                    assert page.locator("#release-speedup").text_content() == "49.2271104608×"
                     assert page.locator("#record-evaluation").inner_text() == "V0.1.3 / VERIFIED"
                     assert page.locator("[data-commercial-resource][aria-disabled='true']").count() == 0
+                    assert "C11 QQfenx" in page.locator(".hero .lede").inner_text()
+                    gpu_copy = page.locator("#resident-gpu").inner_text()
+                    assert "resident" in gpu_copy.lower() or "retains intermediate tensors" in gpu_copy
+                    assert "Whistler" in gpu_copy and "software renderer is rejected" in gpu_copy
+                    assert "v0.1.6" in page.locator("#hero-product-release").inner_text()
+                    assert "CURRENT PRODUCT RELEASE" not in page.locator(".identity-strip").inner_text()
+                    visible_text = page.locator("body").inner_text().lower()
+                    for retired in ("forthcoming", "next private", "runtime preview", "we do not claim", "claim-boundary", "trust-boundary", "top500"):
+                        assert retired not in visible_text, f"retired or unsupported public language: {retired}"
+                    assert not page.locator("#verification-list, [data-check]").count()
+                    assert page.locator("#verification-status").get_attribute("data-state") == "pass"
+                    clipped = page.evaluate("""() => [...document.querySelectorAll('.mast .wordmark, .mast .release-state, .product-nav a, .hero h1, .software-grid article')]
+                        .filter(node => {const r = node.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1;})
+                        .map(node => node.textContent.trim())""")
+                    assert not clipped, f"clipped product navigation/content: {clipped}"
+                    assert page.locator("main h1").count() == 1
+                    assert page.locator("nav[aria-label='Lights Out navigation'] a").count() == 6
+                    invalid_fragments = page.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')]
+                        .map(link => link.getAttribute('href').slice(1))
+                        .filter(id => !id || !document.getElementById(id))""")
+                    assert not invalid_fragments, f"unresolved fragment links: {invalid_fragments}"
+                    page.keyboard.press("Tab")
+                    assert page.locator(".skip-link").evaluate("node => node === document.activeElement")
+                    page.keyboard.press("Enter")
+                    assert page.locator("main").evaluate("node => node === document.activeElement")
+                    assert not page.locator("#execution-foundation").evaluate("node => node.open")
+                    page.locator("#open-execution-evidence").click()
+                    assert page.locator("#execution-foundation").evaluate("node => node.open")
+                    page.locator("#execution-foundation > summary").click()
+                    assert not page.locator("#execution-foundation").evaluate("node => node.open")
+                    page.locator("#copy-commands").click()
+                    page.wait_for_function("window.__copiedCommands === document.querySelector('#run-commands').textContent")
+                    page.locator("#rerun-verification").click()
+                    page.wait_for_selector("#release-state.pass", timeout=20_000)
+                    assert page.locator("#verification-status").get_attribute("data-state") == "pass"
                 except (AssertionError, Exception) as exc:
-                    failures.append(f"Lights Out {width}px check: {exc}")
+                    failures.append(f"Lights Out {width}px check at line {exc.__traceback__.tb_lineno}: {exc}")
                 page.close()
 
             licensing = context.new_page()
@@ -113,11 +152,60 @@ def main() -> int:
                 assert "QQfenx" in licensing.locator("body").inner_text()
                 assert licensing.locator('a[href^="mailto:licensing@mfenx.com"]').count() == 1
                 assert licensing.locator('a[href="index.html"]').count() >= 1
+                assert "qualified resident opengl" in licensing.locator(".seal").inner_text().lower()
+                assert "scientific acceptance" in licensing.locator(".seal").inner_text().lower()
+                assert "next private" not in licensing.locator("body").inner_text().lower()
+                assert licensing.locator("form").count() == 0, "commercial contact must not silently submit a form"
+                assert licensing.locator("a[href='/']").count() == 1
                 overflow = licensing.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                 assert overflow == 0, f"commercial licensing page has {overflow}px global overflow"
             except (AssertionError, Exception) as exc:
-                failures.append(f"Lights Out commercial licensing check: {exc}")
+                failures.append(f"Lights Out commercial licensing check at line {exc.__traceback__.tb_lineno}: {exc}")
             licensing.close()
+
+            deep_link = context.new_page()
+            assert_no_runtime_errors(deep_link, failures, origin + "/lightsout/#performance")
+            try:
+                deep_link.wait_for_selector("#release-state.pass", timeout=20_000)
+                assert deep_link.locator("#execution-foundation").evaluate("node => node.open")
+                assert deep_link.locator("#performance-title").is_visible()
+            except (AssertionError, Exception) as exc:
+                failures.append(f"historical evidence deep-link check: {exc}")
+            deep_link.close()
+
+            # A corrupted, successfully delivered record must fail closed, then
+            # recover when the same user explicitly retries with intact bytes.
+            rejected = context.new_page()
+            rejection_route = "**/evidence/v0.1.6/summary.json"
+            rejected.route(rejection_route, lambda route: route.fulfill(status=200, content_type="application/json", body="{}"))
+            assert_no_runtime_errors(rejected, failures, origin + "/lightsout/")
+            try:
+                rejected.wait_for_selector("#release-state.fail", timeout=20_000)
+                assert rejected.locator("#verification-status").get_attribute("data-state") == "fail"
+                assert rejected.locator("#release-verdict").inner_text() == "REJECTED"
+                assert rejected.locator("#release-speedup").text_content() == "—"
+                assert rejected.locator("[data-scientific-values]:visible").count() == 0
+                assert rejected.locator(".hero a[href='commercial-licensing.html']").is_visible()
+                rejected.unroute(rejection_route)
+                rejected.locator("#rerun-verification").click()
+                rejected.wait_for_selector("#release-state.pass", timeout=20_000)
+                assert rejected.locator("#scientific-build-total").inner_text() == "15 / 15"
+            except (AssertionError, Exception) as exc:
+                failures.append(f"published evidence rejection/retry check at line {exc.__traceback__.tb_lineno}: {exc}")
+            rejected.close()
+
+            no_script_context = browser.new_context(java_script_enabled=False, viewport={"width": 320, "height": 1000})
+            no_script = no_script_context.new_page()
+            assert_no_runtime_errors(no_script, failures, origin + "/lightsout/")
+            try:
+                assert no_script.locator(".noscript-note").is_visible()
+                assert no_script.locator(".hero a[href='commercial-licensing.html']").is_visible()
+                assert no_script.locator("#resident-gpu").is_visible()
+                assert no_script.locator("[data-scientific-values]:visible").count() == 0
+                assert no_script.locator("#execution-foundation > summary").is_visible()
+            except (AssertionError, Exception) as exc:
+                failures.append(f"no-JavaScript product access check: {exc}")
+            no_script_context.close()
 
             tessaryn = context.new_page()
             assert_no_runtime_errors(tessaryn, failures, origin + "/tessaryn/")
