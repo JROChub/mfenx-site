@@ -88,10 +88,6 @@ const EXPECTED = Object.freeze({
   v1ExternalWallNs: 276103268901
 });
 
-const CHECK_NAMES = Object.freeze([
-  "scientific-digest", "scientific-builds", "scientific-suite", "npb", "hpl-hpcg",
-  "stream-osu", "v2-pack", "v1-pack", "comparison"
-]);
 const BLOCKED_SOFTWARE_HREF = /(?:^|\/)(?:release(?:-v1)?\/bin\/)|\.tar\.zst(?:$|[?#])/i;
 const state = { loading: false, ready: false, scientific: null, v2: null, v1: null };
 const byId = (id) => document.getElementById(id);
@@ -573,17 +569,12 @@ function validateComparison(v1, v2) {
   assert(v1.memory.external_timings["uninterrupted-run"].observer === v2.memory.external_timings["uninterrupted-run"].observer, "comparison timing observers differ");
 }
 
-function setCheck(name, status, text) {
-  const row = document.querySelector("[data-check='" + name + "']");
-  if (!row) return;
-  row.className = status;
-  row.querySelector("b").textContent = text;
-}
-
 function releaseState(status, text) {
   const node = byId("release-state");
   node.className = "release-state " + status;
   node.querySelector("span").textContent = text;
+  byId("verification-status").dataset.state = status;
+  byId("verification-status").textContent = text;
 }
 
 function updateClock() {
@@ -755,45 +746,31 @@ async function loadAndValidate() {
   byId("release-verdict").className = "";
   byId("rerun-verification").disabled = true;
   byId("rerun-verification").textContent = "checking…";
-  for (const name of CHECK_NAMES) setCheck(name, "", "checking");
   try {
     const [scientific, v2Release, v1Release] = await Promise.all([
       loadScientificEvidence(), loadRelease("v2", RELEASES.v2), loadRelease("v1", RELEASES.v1)
     ]);
-    setCheck("scientific-digest", "pass", "SHA-256 PASS");
-    setCheck("scientific-builds", "pass", "15 / 15 PASS");
-    setCheck("scientific-suite", "pass", "25 accepted · complete 46-record history");
-    setCheck("npb", "pass", "16 / 16 PASS");
-    setCheck("hpl-hpcg", "pass", "residuals + topology PASS");
-    setCheck("stream-osu", "pass", "metrics + telemetry PASS");
     const v2 = validateV2(v2Release);
     const v1 = validateV1(v1Release);
-    setCheck("v2-pack", "pass", RELEASES.v2.files.length + " / " + RELEASES.v2.files.length + " selected files");
-    setCheck("v1-pack", "pass", RELEASES.v1.files.length + " / " + RELEASES.v1.files.length + " selected files");
     validateComparison(v1, v2);
-    setCheck("comparison", "pass", "same workload · same root");
     Object.assign(state, { scientific, v2, v1, ready: true });
     displayScientific(scientific);
     displayV2(v2);
     displayComparison(v1, v2);
     byId("verification-copy").textContent = "The signed scientific publication pack and every selected v2/v1 execution file match their pinned SHA-256 identities. Workload geometry, benchmark results, provider telemetry where applicable, exact replay, recovery, and matching result roots passed the browser checks.";
-    releaseState("pass", "Lights Out evidence verified");
+    releaseState("pass", "Published evidence verified");
   } catch (error) {
     Object.assign(state, { scientific: null, v2: null, v1: null, ready: false });
     clearEvidenceDisplays();
     clearComparison();
     byId("release-verdict").textContent = "REJECTED";
     byId("release-verdict").className = "fail";
-    for (const name of CHECK_NAMES) {
-      const row = document.querySelector("[data-check='" + name + "']");
-      if (!row.className) setCheck(name, "fail", "rejected");
-    }
     byId("verification-copy").textContent = error instanceof Error ? error.message : "Evidence verification failed";
     releaseState("fail", "published evidence rejected");
   } finally {
     state.loading = false;
     byId("rerun-verification").disabled = false;
-    byId("rerun-verification").textContent = "rerun browser checks";
+    byId("rerun-verification").textContent = "Verify published records again";
   }
 }
 
@@ -810,9 +787,22 @@ async function copyCommands() {
 
 assertCommercialUiPolicy();
 byId("verify-release").addEventListener("click", () => {
-  byId("verify").scrollIntoView({ behavior: "smooth", block: "start" });
+  byId("verify").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
   loadAndValidate();
 });
+function revealHistoricalEvidence() {
+  if (!window.location.hash) return;
+  let target;
+  try { target = byId(decodeURIComponent(window.location.hash.slice(1))); } catch { return; }
+  const archive = byId("execution-foundation");
+  if (target && archive.contains(target)) {
+    archive.open = true;
+    target.scrollIntoView({ block: "start" });
+  }
+}
+byId("open-execution-evidence").addEventListener("click", () => { byId("execution-foundation").open = true; });
+window.addEventListener("hashchange", revealHistoricalEvidence);
+revealHistoricalEvidence();
 byId("rerun-verification").addEventListener("click", loadAndValidate);
 byId("copy-commands").addEventListener("click", copyCommands);
 window.__MFENX_LIGHTS_OUT__ = Object.freeze({ validateScientificEvidence, validateV2, validateV1, validateComparison });
