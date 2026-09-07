@@ -121,7 +121,8 @@ def main() -> int:
                         .map(node => node.textContent.trim())""")
                     assert not clipped, f"clipped product navigation/content: {clipped}"
                     assert page.locator("main h1").count() == 1
-                    assert page.locator("nav[aria-label='Lights Out navigation'] a").count() == 6
+                    assert page.locator("nav[aria-label='Lights Out navigation'] a").count() == 7
+                    assert page.locator(".atomic-invitation a[href='atomic/']").count() == 1
                     invalid_fragments = page.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')]
                         .map(link => link.getAttribute('href').slice(1))
                         .filter(id => !id || !document.getElementById(id))""")

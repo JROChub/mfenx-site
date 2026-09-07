@@ -53,6 +53,9 @@ jobs:
             node --check "$file"
           done < <(find public -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
+      - name: Check the exact game engine and independent replay
+        run: node tests/test_atomic_engine.mjs
+
       - name: Install pinned browser test runtime
         shell: bash
         run: |
@@ -63,6 +66,9 @@ jobs:
 
       - name: Exercise the production payload in Chromium
         run: .site-test-venv/bin/python tests/browser_smoke.py --root public
+
+      - name: Exercise Atomic Roc Roc missions and replay in Chromium
+        run: .site-test-venv/bin/python tests/browser_atomic.py --root public
 
   deploy:
     name: Deploy mfenx.com

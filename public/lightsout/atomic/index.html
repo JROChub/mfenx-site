@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c0e">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="Atomic Roc Roc: Exact Collapse. A playable MFENX lattice-engineering game powered by the real C11 QQfenx engine. Engineer cancellation, annihilate exact integer work, and independently replay every result.">
+  <meta property="og:title" content="Atomic Roc Roc — Exact Collapse / MFENX">
+  <meta property="og:description" content="Engineer the collapse. Prove every bit. Play the exact-arithmetic reactor from MFENX Lights Out.">
+  <meta property="og:url" content="https://mfenx.com/lightsout/atomic/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mfenx.com/lightsout/atomic/atomic-preview.png">
+  <meta property="og:image:width" content="1440">
+  <meta property="og:image:height" content="1000">
+  <meta property="og:image:alt" content="The Atomic Roc Roc crystalline reactor, captured from the playable game.">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Atomic Roc Roc — Exact Collapse / MFENX</title>
+  <link rel="canonical" href="https://mfenx.com/lightsout/atomic/">
+  <link rel="icon" href="../lightsout-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="atomic.css?v=1">
+  <script type="module" src="atomic.mjs?v=1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#reactor">Skip to reactor controls</a>
+  <header class="mast">
+    <a class="brand" href="/" aria-label="MFENX home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 26 9 6l7 13L23 6l7 20M6 17h20"/></svg>MFENX<span>ATOMIC DIVISION</span></a>
+    <a class="back-link" href="/lightsout/">Powered by Lights Out <span aria-hidden="true">↗</span></a>
+    <button class="icon-button" id="sound-toggle" type="button" aria-pressed="false" aria-label="Enable reactor sound">SOUND <span id="sound-state">OFF</span></button>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="game-title">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="universe" id="universe" aria-label="Interactive crystalline lattice; use the equivalent reactor grid below to edit modules">
+        <canvas id="world" aria-hidden="true"></canvas>
+        <div class="world-label"><span class="live-dot"></span> INTEGER UNIVERSE <span>/ 001</span></div>
+        <div class="world-coordinate" aria-hidden="true">ℤ / 2³²ℤ<br><span>NO BIT LEFT BEHIND</span></div>
+        <div class="world-footer"><span id="world-caption">Sixteen modules. One exact universe.</span><button id="motion-toggle" type="button" aria-pressed="false">Pause orbit <span aria-hidden="true">Ⅱ</span></button></div>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> A PLAYABLE EXPERIMENT IN EXACT COMPUTING</p>
+        <h1 id="game-title">ATOMIC<br><span>ROC ROC<span class="title-dot">.</span></span></h1>
+        <div class="edition"><span>EXACT COLLAPSE</span><i></i><span>MFENX / QQFENX</span></div>
+        <p class="hero-lead">Engineer the collapse.<br><em>Prove every bit.</em></p>
+        <p class="hero-description">Build a lattice that makes arithmetic disappear. Shape its powers of two, trigger the cascade, and watch an independent replay prove the answer.</p>
+        <div class="hero-actions">
+          <button class="primary" id="hero-run" type="button" disabled>Initialize reactor <span aria-hidden="true">↗</span></button>
+          <button class="quiet-button" id="how-to-play" type="button">How to play <span aria-hidden="true">+</span></button>
+        </div>
+        <p class="engine-status" id="engine-status" role="status"><span class="live-dot"></span> Preparing the exact engine</p>
+      </div>
+      <div class="hero-index" aria-hidden="true"><span>DESIGN → EXECUTE → REPLAY</span><span>SCROLL TO ENGINEER ↓</span></div>
+    </section>
+
+    <section class="telemetry" aria-label="Measured arithmetic from the last accepted run">
+      <div class="telemetry-heading"><span>LIVE ARITHMETIC</span><strong id="telemetry-state">AWAITING EXECUTION</strong></div>
+      <div><span>LOGICAL MACs</span><strong id="logical-macs">—</strong></div>
+      <div><span>ADAPTIVE MACs</span><strong id="executed-macs">—</strong></div>
+      <div class="annihilation-stat"><span>EXACT WORK ANNIHILATED</span><strong><span id="annihilation-ratio">—</span><small>%</small></strong></div>
+      <div><span>INDEPENDENT REPLAY MACs</span><strong id="replay-macs">—</strong></div>
+    </section>
+
+    <section class="reactor" id="reactor" aria-labelledby="reactor-title" tabindex="-1">
+      <div class="section-heading"><div><p class="eyebrow">THE REACTOR / YOUR DESIGN, YOUR RESULT</p><h2 id="reactor-title">Make nothing happen.<br><em>Exactly.</em></h2></div><p>Each grid cell is a tensor tile. Give it structure.<br>The engine finds the work it no longer has to do.</p></div>
+      <div class="mission-tabs" id="mission-tabs" role="group" aria-label="Select a reactor mission"></div>
+      <div class="control-deck">
+        <aside class="mission-panel">
+          <p class="panel-kicker">ACTIVE MISSION <span id="mission-number">01 / 04</span></p>
+          <h3 id="mission-name">Initializing</h3>
+          <p id="mission-briefing">Loading the reactor contract.</p>
+          <div class="reactor-lens"><span>LIVE REACTOR / DRAG TO ORBIT</span><canvas id="reactor-world" aria-hidden="true"></canvas></div>
+          <div class="mission-spec"><span>MATRIX GEOMETRY<b id="matrix-geometry">—</b></span><span>MATTER BUDGET<b><span id="matter-cost">0</span> / <span id="matter-budget">—</span></b></span></div>
+          <div class="budget-track" id="budget-track" role="meter" aria-label="Matter budget" aria-valuemin="0" aria-valuemax="32" aria-valuenow="0"><i id="budget-fill"></i></div>
+          <ul class="objectives" id="objectives" aria-label="Mission acceptance objectives"></ul>
+          <details class="hint"><summary>Need a physicist’s hint? <span>+</span></summary><p id="mission-hint"></p></details>
+          <div class="preset-actions"><button id="demo-design" type="button">Load guided design ↗</button><button id="reset-design" type="button">Reset lattice</button></div>
+        </aside>
+
+        <div class="editor-panel">
+          <div class="panel-kicker">LATTICE BUILDER <span id="design-state">GUIDED DESIGN</span></div>
+          <p class="editor-help">Choose a module. Place it in the grid.</p>
+          <div class="module-palette" id="module-palette" role="group" aria-label="Select a module to place"></div>
+          <div class="lattice-shell"><div class="axis-label" aria-hidden="true">A / CONTENT FIELD</div><div class="lattice-grid" id="lattice-grid" role="group" aria-label="Sixteen editable tensor tiles"></div></div>
+          <p class="selection-help" id="selection-help">Keys 1–5 select a module. Click a tile to place it.</p>
+          <div class="editor-actions"><button class="primary" id="execute" type="button" disabled>Run exact collapse <span aria-hidden="true">→</span></button><button class="icon-button" id="undo" type="button" disabled aria-label="Undo last lattice edit">↶</button></div>
+          <p class="run-message" id="run-message" role="status">Your first guided lattice is ready. Run it to see the cascade.</p>
+          <button class="text-button" id="next-mission" type="button" hidden>Enter the next mission ↗</button>
+        </div>
+
+        <aside class="proof-panel" aria-labelledby="proof-title">
+          <div class="panel-kicker">INDEPENDENT ACCEPTANCE <span class="proof-light" id="proof-light"></span></div>
+          <div class="proof-symbol" id="proof-symbol" aria-hidden="true"><span>≡</span><i></i><i></i></div>
+          <h3 id="proof-title">Trust the replay.</h3>
+          <p id="proof-description">QQfenx executes the contraction. A separate full-ring implementation recomputes every output word before this run is accepted.</p>
+          <div class="execution-rail" aria-label="Execution and acceptance sequence">
+            <div id="rail-execute"><i></i><span>01<span>QUOTIENT EXECUTION</span></span><b>READY</b></div>
+            <div id="rail-replay"><i></i><span>02<span>FULL-RING REPLAY</span></span><b>WAITING</b></div>
+            <div id="rail-accept"><i></i><span>03<span>EXACT ACCEPTANCE</span></span><b>LOCKED</b></div>
+          </div>
+          <div class="receipt-id"><span>REPLAY RECEIPT / SHA-256</span><code id="receipt-hash">Run the reactor to create a receipt.</code></div>
+          <button class="outline-button" id="export-receipt" type="button" disabled>Export replay capsule <span aria-hidden="true">↓</span></button>
+          <button class="text-button" id="import-receipt" type="button">Replay a shared capsule ↗</button>
+          <input id="capsule-file" type="file" accept=".json,application/json" hidden>
+          <p class="receipt-note">A portable local replay record. Its content hash identifies the run; independent re-execution checks it.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="cascade-section" aria-labelledby="cascade-title">
+      <div class="section-heading"><div><p class="eyebrow">UNDER THE SURFACE</p><h2 id="cascade-title">The answer stays.<br><em>The work disappears.</em></h2></div><p>Two contractions. One fixed 32-bit answer.<br>See what your lattice actually changes.</p></div>
+      <div class="cascade-cards">
+        <article><span class="stage-index">A × B</span><div class="stage-top"><h3>Quotient contraction</h3><strong id="stage-one-ring">Q—</strong></div><p>Common powers of two determine the exact quotient used by each tile contribution.</p><div class="kernel-bar" id="stage-one-bar" aria-label="First contraction kernel distribution"></div><dl><div><dt>Executed / logical MACs</dt><dd id="stage-one-work">—</dd></div><div><dt>Cancellation promotions</dt><dd id="stage-one-promotions">—</dd></div></dl></article>
+        <div class="cascade-arrow" aria-hidden="true">→</div>
+        <article><span class="stage-index">(A × B) × D</span><div class="stage-top"><h3>Downstream collapse</h3><strong id="stage-two-ring">Q—</strong></div><p>The first result becomes the next operand. Newly discovered content can annihilate its downstream work.</p><div class="kernel-bar" id="stage-two-bar" aria-label="Second contraction kernel distribution"></div><dl><div><dt>Executed / logical MACs</dt><dd id="stage-two-work">—</dd></div><div><dt>Zero output tiles</dt><dd id="zero-tiles">—</dd></div></dl></article>
+      </div>
+      <div class="kernel-legend"><span class="q32">Q32</span><span class="q24">Q24</span><span class="q16">Q16</span><span class="q8">Q8</span><span class="q0">ZERO PAYLOAD</span><span class="timing" id="timing">Engine and replay timing appears after execution.</span></div>
+    </section>
+
+    <section class="technology" aria-labelledby="technology-title">
+      <div class="technology-word" aria-hidden="true">2³²</div>
+      <div class="technology-copy"><p class="eyebrow">A GAME YOU CAN LOOK INSIDE</p><h2 id="technology-title">Real engine.<br>Real arithmetic.<br><em>Every bit accounted for.</em></h2><p>The reactor runs the C11 QQfenx engine compiled to WebAssembly. Its tile representation tracks exact divisibility by powers of two. A separate JavaScript BigInt implementation replays the full wrapping-32-bit contractions and checks the result and arithmetic counters.</p><p>Modular wrap is part of this universe’s rules. Containment is the puzzle. Agreement between two implementations is the acceptance gate.</p><div class="technology-specs"><span>C11 → WEBASSEMBLY</span><span>BOUNDED MEMORY</span><span>INDEPENDENT BIGINT REPLAY</span></div><details class="engine-details"><summary>Inspect this engine build +</summary><p id="engine-identity">The engine identity is checked before execution.</p><a href="engine-manifest.json">View the build manifest ↗</a></details></div>
+    </section>
+
+    <section class="business-cta"><div><p class="eyebrow">THIS IS ONE REACTOR. THINK ABOUT YOUR WORKLOAD.</p><h2>Play with the idea.<br><em>Build with Lights Out.</em></h2></div><a class="primary" href="/lightsout/commercial-licensing.html">Talk to MFENX <span aria-hidden="true">↗</span></a></section>
+  </main>
+  <footer><a href="/lightsout/">MFENX / LIGHTS OUT</a><span>ATOMIC ROC ROC · EXACT COLLAPSE</span><span>© 2026 MFENX · Proprietary software</span></footer>
+
+  <dialog id="instructions" aria-labelledby="instructions-title"><button class="dialog-close" id="close-instructions" type="button" aria-label="Close instructions">×</button><p class="eyebrow">WELCOME TO THE INTEGER UNIVERSE</p><h2 id="instructions-title">You engineer<br>the nothing.</h2><ol><li><b>Choose your matter.</b> Every module gives a tile a signed power-of-two structure. Raw matter keeps full-width work; Pulse and Mirror can cancel.</li><li><b>Build under budget.</b> Select a module, then click a lattice tile. Keyboard keys 1–5 change your selection. Try the guided design, then improve or rebuild it.</li><li><b>Run the cascade.</b> QQfenx computes A × B, then multiplies that result by D. New factors of two can make downstream contributions exactly zero.</li><li><b>Earn containment.</b> The independent replay must match every word. Complete the mission’s budget, zero-tile and arithmetic objectives to contain the reactor.</li></ol><p class="instruction-note">The browser edition runs on one worker. “Annihilated” counts skipped adaptive payload MACs; full-ring verification work is shown separately. Exported capsules carry a SHA-256 content ID and can be independently re-executed in another browser.</p><button class="primary" id="start-playing" type="button">Let’s build <span aria-hidden="true">→</span></button></dialog>
+  <noscript><div class="noscript">This reactor needs JavaScript and WebAssembly to execute and independently replay the game. <a href="/lightsout/">Explore Lights Out</a>.</div></noscript>
+</body>
+</html>

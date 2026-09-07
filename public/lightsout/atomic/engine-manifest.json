@@ -1,0 +1,80 @@
+{
+  "abi": {
+    "arena_bytes": 1048576,
+    "exports": [
+      "atomic_abi_version",
+      "atomic_max_n",
+      "atomic_input_ptr",
+      "atomic_output_ptr",
+      "atomic_metrics_ptr",
+      "atomic_shift_ptr",
+      "atomic_set_budget",
+      "atomic_run"
+    ],
+    "imports": [],
+    "input_slots": [
+      "A",
+      "B",
+      "D"
+    ],
+    "max_n": 32,
+    "memory_bytes": 4194304,
+    "metric_names": [
+      "requested",
+      "executed",
+      "annihilated",
+      "q8",
+      "q16",
+      "q24",
+      "q32",
+      "promoted_tiles",
+      "promotion_bits",
+      "min_output_shift"
+    ],
+    "metric_word_bytes": 4,
+    "shift_word_bytes": 1,
+    "stages": [
+      "AB",
+      "ABD"
+    ],
+    "statuses": {
+      "0": "success",
+      "1": "invalid_geometry_or_budget_argument",
+      "2": "arena_budget_exhausted",
+      "3": "engine_invariant_failure"
+    },
+    "version": 1
+  },
+  "build": {
+    "backend": "portable scalar",
+    "compiler": "Debian clang version 21.1.8 (10)",
+    "debug_sections": false,
+    "language": "C11",
+    "linear_memory_growth": false,
+    "linker": "LLD 21.1.8 (/checkout/src/llvm-project/llvm 85a90d119deb25b518867cd37d62c7b93b575a6f)",
+    "threads": 1
+  },
+  "license": "LicenseRef-MFENX-Commercial",
+  "name": "QQfenx C11 Atomic engine",
+  "notice": "Copyright (c) 2026 MFENX. All rights reserved. Proprietary runtime supplied for this MFENX browser experience; no source or redistribution license is granted.",
+  "schema": "mfenx.atomic-engine.v1",
+  "source": {
+    "qqfenx_release_commit": "e9fe45f8a7daa06c4a2011aced612ff4873272d3",
+    "sha256": {
+      "arena.c": "4dcdb3eb14dfeef84ab45d5396a09e5fbe4375213bec340d4ca840b0b0c778d1",
+      "arena.h": "6864a2004e875116cdafa8e8994c52e243e2fbb5788472dd0d50b21ea59ddec3",
+      "atomic.c": "b81786be06b2d515cde16462dbc16dff390fb08223f44d398d556169fd695d51",
+      "atomic.h": "116ee1dd4cecd091393d9ec78703a27dd7a5b7007a3d8f64c6f4d1a790d5e95b",
+      "build.py": "b1325492cc2dd37813b12273ceb3cd2d845d915bd65ef458098fa1d7478d5023",
+      "freestanding/stdlib.h": "193f27479da820174b56b6a666267403fc44e679315e5ede0fe455567c69228d",
+      "freestanding/string.h": "0fc888dad5adb52cec1364ac16b01fb2fe3f4e02564fac6021b20a64734f978e",
+      "vendor/qqfenx.c": "bc0eebf668e3b67b636f3cf89975046dbf6a5a31458a5e63b74c323f17669897",
+      "vendor/qqfenx.h": "0e92a9601bc7484a027f39b7f153e1e425a1f1b6f0381549bc74d8ee7f00e87e"
+    }
+  },
+  "wasm": {
+    "path": "qqfenx.wasm",
+    "sha256": "e1bd24f8bd613a89f85eb576fe6afc5a6ece071f6071dee40eeda92c9e853ab2",
+    "size_bytes": 11275
+  }
+}
