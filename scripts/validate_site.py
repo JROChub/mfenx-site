@@ -26,6 +26,9 @@ REQUIRED_FILES = (
     "slbit.html",
     "ckodmk/index.html",
     "lightsout/index.html",
+    "lightsout/atomic/index.html",
+    "lightsout/atomic/qqfenx.wasm",
+    "lightsout/atomic/engine-manifest.json",
     "lightsout/current-release/COMMERCIAL-STATUS.canonical.json",
     "lightsout/current-release/COMMERCIAL-STATUS.canonical.json.sig",
     "lightsout/current-release/COMMERCIAL-STATUS.schema.json",
@@ -53,6 +56,8 @@ PROHIBITED_LIGHTSOUT_PATHS = (
 )
 
 PROHIBITED_LIGHTSOUT_SUFFIXES = (
+    ".c",
+    ".h",
     ".7z",
     ".a",
     ".dll",
