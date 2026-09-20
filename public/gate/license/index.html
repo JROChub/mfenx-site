@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <meta name="robots" content="noindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-src 'none'; img-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Local license — MFENX Gate</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+    <link rel="stylesheet" href="/gate/license/license.css" />
+    <script type="module" src="/gate/license/license.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="https://mfenx.com/" aria-label="MFENX home"
+        >MFENX</a
+      >
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="https://mfenx.com/gate/">Gate</a
+        ><a href="https://mfenx.com/verify/">Free verifier</a
+        ><a href="https://mfenx.com/docs/">Documentation</a>
+      </nav>
+    </header>
+    <main class="page license-page" id="main" tabindex="-1">
+      <header class="license-heading">
+        <h1>Your local license.</h1>
+        <p>
+          A key in this browser controls license requests. Paddle handles
+          purchaser details and payment. No MFENX account is created here.
+        </p>
+      </header>
+      <p id="license-status" role="status" aria-live="polite">
+        Checking this browser and the licensing service…
+      </p>
+      <noscript
+        ><p>
+          This workspace needs JavaScript and browser cryptography. Receipt
+          verification remains available through the local CLI.
+        </p></noscript
+      >
+
+      <section
+        class="license-section key-section"
+        aria-labelledby="key-heading"
+      >
+        <div class="license-margin">
+          <h2 id="key-heading">Browser key</h2>
+          <p class="note">Your key stays with you.</p>
+        </div>
+        <div class="license-content">
+          <div id="key-new" hidden>
+            <p>
+              Create a signing key and an encrypted recovery file. This browser
+              keeps a non-exportable copy. MFENX receives the public identifier
+              and signed requests, not the private key or recovery passphrase.
+            </p>
+            <p id="key-warning" class="key-warning">
+              Save the encrypted recovery file and its passphrase separately.
+              Clearing site data or losing this device removes the browser copy.
+              A license document alone cannot recover your key.
+            </p>
+            <div class="license-field">
+              <label for="backup-password">Recovery-file passphrase</label>
+              <input
+                id="backup-password"
+                type="password"
+                autocomplete="new-password"
+                minlength="12"
+                maxlength="1024"
+                aria-describedby="passphrase-note"
+              />
+              <p class="note" id="passphrase-note">
+                Use at least 12 characters. A long, unique passphrase protects
+                the recovery file if someone obtains it. It is used only in this
+                browser.
+              </p>
+            </div>
+            <div class="license-field">
+              <label for="backup-confirm">Repeat passphrase</label>
+              <input
+                id="backup-confirm"
+                type="password"
+                autocomplete="new-password"
+                minlength="12"
+                maxlength="1024"
+              />
+            </div>
+            <label class="license-check" for="key-understood">
+              <input type="checkbox" id="key-understood" />
+              <span
+                >I will keep the encrypted recovery file and passphrase. MFENX
+                cannot recover a lost passphrase.</span
+              >
+            </label>
+            <button type="button" class="button" id="key-create" disabled>
+              Create key & recovery file
+            </button>
+            <details class="license-restore">
+              <summary>Restore an existing key</summary>
+              <div class="license-field">
+                <label for="restore-file">Encrypted recovery file</label>
+                <input
+                  id="restore-file"
+                  type="file"
+                  accept="application/json,.json"
+                />
+              </div>
+              <div class="license-field">
+                <label for="restore-password">Recovery-file passphrase</label>
+                <input
+                  id="restore-password"
+                  type="password"
+                  autocomplete="off"
+                  maxlength="1024"
+                />
+              </div>
+              <button type="button" class="button secondary" id="key-restore">
+                Restore key locally
+              </button>
+              <p class="note">The file and passphrase are not uploaded.</p>
+            </details>
+          </div>
+          <div id="key-present" hidden>
+            <p id="key-fingerprint" class="license-fingerprint"></p>
+            <p id="key-storage" class="note"></p>
+            <p class="note">
+              This key is local to this browser profile and website origin. Keep
+              your encrypted recovery file and passphrase if the browser data is
+              cleared. A license document is not a key backup.
+            </p>
+            <div class="license-actions">
+              <button
+                type="button"
+                class="button secondary"
+                id="backup-download"
+              >
+                Download encrypted recovery file
+              </button>
+            </div>
+            <label class="license-check" for="backup-saved">
+              <input type="checkbox" id="backup-saved" />
+              <span
+                >I saved the encrypted recovery file and can retrieve its
+                passphrase.</span
+              >
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="license-section" aria-labelledby="purchase-heading">
+        <div class="license-margin">
+          <h2 id="purchase-heading">Purchase</h2>
+          <p class="note">Paddle checkout opens separately.</p>
+        </div>
+        <div class="license-content">
+          <p id="purchase-status">
+            Purchase availability has not been confirmed.
+          </p>
+          <fieldset id="license-plans" disabled hidden>
+            <legend>Choose a license</legend>
+            <div id="plan-options"></div>
+          </fieldset>
+          <div class="license-actions">
+            <button type="button" class="button" id="license-buy" disabled>
+              Prepare checkout
+            </button>
+            <a
+              class="button secondary"
+              id="checkout-link"
+              href="/gate/license/"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden
+            >
+              Open Paddle checkout ↗
+            </a>
+          </div>
+          <p class="note">
+            Enter billing details only on Paddle. Preparing a checkout does not
+            charge your payment method. Returning from payment does not itself
+            activate a license; refresh below to check the confirmed result.
+          </p>
+        </div>
+      </section>
+
+      <section class="license-section" aria-labelledby="document-heading">
+        <div class="license-margin">
+          <h2 id="document-heading">License document</h2>
+          <p class="note">A portable record of the issued term.</p>
+        </div>
+        <div class="license-content">
+          <p id="document-status">
+            No license has been confirmed in this browser.
+          </p>
+          <div class="license-field" id="license-picker" hidden>
+            <label for="license-select">License to inspect</label>
+            <select id="license-select"></select>
+          </div>
+          <dl class="license-ledger" id="license-details" hidden></dl>
+          <div class="license-actions">
+            <button
+              type="button"
+              class="button secondary"
+              id="license-refresh"
+              disabled
+            >
+              Refresh license
+            </button>
+            <button type="button" class="button" id="license-download" disabled>
+              Download license
+            </button>
+            <button
+              type="button"
+              class="license-text-button"
+              id="license-portal"
+              hidden
+              disabled
+            >
+              Manage subscription ↗
+            </button>
+          </div>
+          <a
+            id="portal-link"
+            href="/gate/license/"
+            target="_blank"
+            rel="noopener noreferrer"
+            hidden
+          >
+            Open Paddle subscription management ↗
+          </a>
+          <p class="note">
+            A license grants the software rights stated in that document. It is
+            not a model-admission receipt or proof that a model passed
+            evaluation.
+          </p>
+        </div>
+      </section>
+
+      <aside class="license-data-note" aria-labelledby="data-heading">
+        <h2 id="data-heading">What this page sends</h2>
+        <p>
+          Licensing requests use a public key, a signed challenge and payment
+          references. This interface has no fields for your name, email or
+          account password, and does not upload models or evaluation data.
+          Recovery passphrases and recovery files are processed only in your
+          browser. Paddle has its own billing records and privacy terms.
+        </p>
+        <p class="note">
+          Browser-key and payment identifiers can still be sensitive. Keep
+          downloaded licenses private. This page does not load Paddle scripts or
+          other third-party scripts.
+        </p>
+      </aside>
+    </main>
+    <footer class="site-footer">
+      <p>MFENX · Local model admission</p>
+      <a href="https://mfenx.com/verify/"
+        >Verify a release receipt without a license ↗</a
+      >
+    </footer>
+  </body>
+</html>

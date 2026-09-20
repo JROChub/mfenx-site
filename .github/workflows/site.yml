@@ -85,6 +85,9 @@ jobs:
       - name: Exercise authenticated Paddle checkout boundaries in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_checkout.py --root public
 
+      - name: Exercise local-key licensing and recovery boundaries in Chromium
+        run: .site-test-venv/bin/python tests/browser_gate_license.py --root public
+
       - name: Exercise Atomic Roc Roc missions and replay in Chromium
         run: .site-test-venv/bin/python tests/browser_atomic.py --root public
 
