@@ -230,6 +230,16 @@ mfenx-gate issue-integrity \
             not need a network anchor or hosted account for a local check.
           </p>
           <p>
+            For GitHub workflows, use the
+            <a href="https://github.com/JROChub/model-gate-action"
+              >MFENX model-gate action</a
+            >. It checks the signed receipt, supplied model and approved contract
+            digest. Provision the trusted public key and contract digest through
+            protected release configuration, outside the candidate change.
+            Deploy the same verified artifact; the action does not replay
+            inference.
+          </p>
+          <p>
             <a href="/enterprise/security-overview.md" download
               >Download the technical procurement record ↓</a
             >
