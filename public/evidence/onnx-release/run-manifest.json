@@ -1,0 +1,46 @@
+{
+  "contract_sha256": "sha256:31587e9fc67667b1640703b97aa7fdaa452d35e3a8a845c3ddc7375c0f1f5ff2",
+  "cpu_model": "Intel(R) Core(TM) i5-2500S CPU @ 2.70GHz",
+  "dataset": "Optdigits official test partition",
+  "engine_revision": "ec05863c3e3b85fdcc7a397fc720f59577ebc76a",
+  "evaluation": {
+    "candidate_correct": 1729,
+    "candidate_p95_latency_ns": 30816,
+    "decision": "PASS",
+    "decision_changes": 0,
+    "report_sha256": "sha256:56c4062d8473bff8440a7058d23f5dfb3aeb6458d39d68b96875e22554f38e5c",
+    "samples": 1797,
+    "source_correct": 1729
+  },
+  "inputs": {
+    "candidate": {
+      "bytes": 10442,
+      "sha256": "sha256:39dc91ca82f60005b8fd59e3788116b471849690f2bd330a3945965be82e7d0e"
+    },
+    "dataset": {
+      "bytes": 474918,
+      "sha256": "sha256:b281019a68b5f20f7900774fffa870f51e3a7df263407d1b73a030358710874d"
+    },
+    "source": {
+      "bytes": 10055,
+      "sha256": "sha256:efaf1bec54e8eea3d49f6ff5abef1482ca3f69775e5978772913032d75ad9ff9"
+    }
+  },
+  "machine": "x86_64",
+  "numpy": "2.3.5",
+  "onnx": "1.22.0",
+  "purpose": "Demonstration only; not a production trust root",
+  "python": "3.13.12",
+  "reproduction": "PYTHONPATH=sdk:<CKODMK>/src <CKODMK>/.venv/bin/python tests/generate_receipt_demo.py --engine <CKODMK> --output <NEW_DEMO> --evidence-directory <NEW_EVIDENCE>",
+  "runtime": "1.28.0",
+  "scope": "One same-machine finite evaluation; no general speedup or cross-platform result claimed",
+  "system": "Linux",
+  "verification": {
+    "artifactStatus": "MATCH",
+    "behavioralStatus": "ISSUER_ATTESTED_FINITE_EVALUATION",
+    "contractStatus": "NOT_CHECKED",
+    "replayStatus": "NOT_PERFORMED",
+    "status": "ATTESTATION_VERIFIED"
+  },
+  "workflow": "CKODMK CPU ONNX finite evaluation on retained public Optdigits fixture"
+}

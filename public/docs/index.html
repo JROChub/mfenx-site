@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <title>Gate documentation — MFENX</title>
+    <meta
+      name="description"
+      content="Verify a receipt, select a trusted issuer key and run a local model-admission workflow."
+    />
+    <link rel="canonical" href="https://mfenx.com/docs/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a><a href="/verify/">Verify</a
+        ><a href="/docs/">Documentation</a><a href="/pricing/">Pricing</a
+        ><a href="/labs/">Research ↗</a>
+      </nav>
+    </header>
+    <main class="page" id="content">
+      <section class="document-head">
+        <div>
+          <div class="section-label">Gate / Documentation</div>
+          <h1>From artifact to receipt.</h1>
+          <p>
+            Start with a local check. Then connect the evaluation contract and
+            signing authority to your release process.
+          </p>
+        </div>
+        <aside>
+          Release Receipt v1<br />Python 3.11 or newer<br />CKODMK 0.5.1 for
+          evaluation
+        </aside>
+      </section>
+      <div class="document-grid document-body">
+        <nav class="contents" aria-label="On this page">
+          <a href="#first-check">First check</a><a href="#install">Install</a
+          ><a href="#trust">Trust keys</a><a href="#onnx">ONNX release</a
+          ><a href="#safetensors">Safetensors</a
+          ><a href="#assurance">Assurance modes</a
+          ><a href="#integration">Deployment integration</a>
+        </nav>
+        <div class="reading">
+          <h2 id="first-check">Check a real receipt</h2>
+          <p>
+            Open the <a href="/verify/">free verifier</a> and select
+            <strong>Load the measured example</strong>. It checks an actual
+            finite ONNX evaluation receipt, its demonstration key and the exact
+            candidate model.
+          </p>
+          <p>
+            The result separates signature authentication from artifact identity
+            and replay. To verify your own receipt, choose its JSON file and an
+            independently trusted issuer key. The files are read in browser
+            memory; they are not uploaded.
+          </p>
+          <h2 id="install">The local CLI</h2>
+          <p>
+            Install Gate in an isolated Python environment. Receipt verification
+            needs the cryptography runtime. Model evaluation additionally needs
+            the existing CKODMK production engine.
+          </p>
+          <pre><code>python3 -m venv .gate-venv
+. .gate-venv/bin/activate
+python -m pip install \
+  'mfenx-gate @ https://mfenx.com/gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl#sha256=aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d'
+mfenx-gate --version</code></pre>
+          <p>
+            <a href="/gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl" download
+              >Download the Gate wheel</a
+            >
+            ·
+            <a href="/gate/downloads/SHA256SUMS" download
+              >Download SHA-256 checksums</a
+            >
+            ·
+            <a href="/gate/downloads/VERIFIER-TERMS.txt"
+              >Free verification and evaluation terms</a
+            >
+          </p>
+          <p class="note">
+            Verification is free in production. The local development and
+            evaluation permission also covers test issuance. Commercial
+            issuance, managed governance and OEM distribution use separate
+            terms.
+          </p>
+          <pre><code>mfenx-gate verify release-receipt.json \
+  --trusted-public-key issuer-public.der \
+  --model candidate.onnx \
+  --expected-contract-sha256 "$APPROVED_CONTRACT_SHA256"</code></pre>
+          <p>
+            Omit <code>--model</code> for a receipt-only check. Omit the
+            expected contract only when you want to authenticate the statement
+            without checking it against an approved policy. The output records
+            each unchecked condition explicitly.
+          </p>
+          <h2 id="trust">Choose the issuer, not just the file</h2>
+          <p>
+            Obtain the public key from your organization’s release authority
+            through an authenticated channel. A key supplied by the same
+            untrusted sender as the receipt does not establish issuer identity.
+          </p>
+          <pre><code>mfenx-gate keygen \
+  --private-key issuer-private.pem \
+  --public-key issuer-public.der</code></pre>
+          <p>
+            The key is generated locally. Keep the private key out of source
+            control, CI artifacts and model packages. The public key is a P-256
+            SPKI DER file. Configure its distribution, expiry and rotation
+            through your deployment policy.
+          </p>
+          <h2 id="onnx">Issue after evaluation</h2>
+          <p>
+            The ONNX command executes CKODMK’s CPU classification gate. A
+            receipt is issued only after the approved finite evaluation contract
+            passes. A failed or inconclusive result does not issue a passing
+            receipt.
+          </p>
+          <pre><code>python -m pip install \
+  'mfenx-ckodmk[production] @ https://mfenx.com/ckodmk/downloads/mfenx_ckodmk-0.5.1-py3-none-any.whl'
+
+mfenx-gate admit-onnx \
+  --source source.onnx \
+  --candidate candidate.onnx \
+  --dataset test-data.npz \
+  --contract approved-contract.json \
+  --expected-contract-sha256 "$APPROVED_CONTRACT_SHA256" \
+  --private-key issuer-private.pem \
+  --issuer 'Release authority' \
+  --output release-receipt.json \
+  --report local-evaluation.json</code></pre>
+          <p>
+            Your approved contract binds model, dataset and execution-profile
+            identities. Get its digest from the policy owner. Do not
+            automatically approve a contract supplied by the model candidate.
+            The full report stays local; share the compact receipt separately.
+          </p>
+          <p>
+            For an interactive workflow,
+            <a href="/gate/">open the local evaluation guide</a>. The browser’s
+            signed PCM package contains model and dataset payloads and is
+            distinct from the compact shareable receipt.
+          </p>
+          <h2 id="safetensors">Inspect a checkpoint</h2>
+          <pre><code>mfenx-gate inspect-checkpoint \
+  --root checkpoint --format safetensors \
+  --output local-inventory.json
+
+mfenx-gate issue-integrity \
+  --model checkpoint/model.safetensors \
+  --private-key issuer-private.pem \
+  --issuer 'Release authority' \
+  --output integrity-receipt.json</code></pre>
+          <p>
+            Inventory inspection supports the engine’s checkpoint-tree formats.
+            Receipt v1 integrity issuance covers one unsharded Safetensors file.
+            It records integrity, not behavioral admission. Keep that
+            distinction in downstream policy.
+          </p>
+          <h2 id="assurance">Read the result precisely</h2>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Check</th>
+                  <th scope="col">What is established</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Receipt authentication</th>
+                  <td>
+                    The selected issuer key signed the structured statement. Its
+                    commitments and time validity check.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Artifact binding</th>
+                  <td>
+                    The supplied artifact has the exact digest and byte count
+                    recorded in the receipt.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Policy binding</th>
+                  <td>
+                    The contract digest matches the one independently supplied
+                    by the recipient.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Finite evaluation</th>
+                  <td>
+                    The issuer attests to the recorded test result on its bound
+                    dataset and execution profile.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Local replay</th>
+                  <td>
+                    The supported evaluation is executed again using the
+                    corresponding models, dataset and contract.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            A recorded parent is a signed source-artifact commitment, not proof
+            that a third party approved that parent. A passing finite evaluation
+            applies to that evaluation set and contract; it is not a proof of
+            all possible model behavior.
+          </p>
+          <h2 id="integration">Connect the decision to deployment</h2>
+          <p>
+            Run the gate before publishing an artifact. Treat a nonzero exit as
+            a blocked release. Pin the tool version, approved contract and
+            trusted key. Load the exact validated bytes or use immutable
+            content-addressed storage to avoid replacement after checking.
+          </p>
+          <p>
+            Keep untrusted pull requests away from release signing credentials.
+            Receipt verification can run without those credentials. Gate does
+            not need a network anchor or hosted account for a local check.
+          </p>
+          <p>
+            <a href="/enterprise/security-overview.md" download
+              >Download the technical procurement record ↓</a
+            >
+          </p>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a
+        ><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>

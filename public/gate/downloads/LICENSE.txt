@@ -1,0 +1,17 @@
+MFENX Gate commercial software
+Copyright 2026 mfenx LLC. All rights reserved.
+
+Except for the verification and development/evaluation permissions in
+VERIFIER-TERMS.txt, rights to use,
+copy, distribute, modify, sublicense or deploy the original MFENX Gate software
+must be granted by a separate agreement with mfenx LLC. Access to a copy alone
+does not grant commercial issuance, organizational governance or OEM rights.
+
+This notice covers only original MFENX Gate software. It does not replace,
+restrict or modify licenses for CKODMK or any other third-party component.
+Third-party software remains governed by its own license and notices.
+
+No product warranty, service-level commitment, indemnity, certification or
+regulatory approval is provided by this notice. Any purchased support or
+service commitments must be stated in the applicable written agreement.
+Nothing here limits rights that applicable law does not permit to be limited.
