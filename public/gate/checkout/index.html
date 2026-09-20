@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <meta name="robots" content="noindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.paddle.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.paddle.com; frame-src https://*.paddle.com; img-src 'self' data: https://*.paddle.com; object-src 'none'; base-uri 'none'; form-action 'self'"
+    />
+    <title>Subscription checkout — MFENX Gate</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+    <link rel="stylesheet" href="/gate/checkout/checkout.css" />
+    <script type="module" src="/gate/checkout/checkout.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/account/">Account</a><a href="/pricing/">Pricing</a
+        ><a href="/verify/">Free verifier</a>
+      </nav>
+    </header>
+    <main class="page checkout-page" id="content" tabindex="-1">
+      <div class="checkout-title">
+        <h1>Review your subscription.</h1>
+        <p>
+          The purchase is attached to your authenticated organization. Model
+          files and evaluation data are not part of checkout.
+        </p>
+      </div>
+      <p id="checkout-status" role="status" aria-live="polite">
+        Checking the account and pending transaction…
+      </p>
+      <noscript
+        ><p>
+          JavaScript is required for Paddle checkout. Local receipt verification
+          remains available through the CLI.
+        </p></noscript
+      >
+      <section id="checkout-review" aria-label="Subscription details" hidden>
+        <dl class="checkout-ledger">
+          <div>
+            <dt>Organization</dt>
+            <dd id="checkout-organization"></dd>
+          </div>
+          <div>
+            <dt>Plan</dt>
+            <dd id="checkout-plan"></dd>
+          </div>
+          <div>
+            <dt>Recurring price</dt>
+            <dd id="checkout-price"></dd>
+          </div>
+          <div>
+            <dt>Payment provider</dt>
+            <dd>Paddle</dd>
+          </div>
+        </dl>
+        <p id="checkout-environment" class="checkout-environment"></p>
+        <p>
+          Review the final total, applicable taxes and recurring terms in Paddle
+          before confirming. Returning from checkout does not activate a plan;
+          the account service must independently confirm payment.
+        </p>
+        <button id="checkout-open" type="button" disabled>
+          Continue to Paddle
+        </button>
+      </section>
+      <p>
+        <a id="checkout-back" href="/gate/account/"
+          >Return to your account ↗</a
+        >
+      </p>
+    </main>
+    <footer class="site-footer">
+      <p>MFENX · Local model admission</p>
+      <a href="/docs/">Documentation</a>
+    </footer>
+  </body>
+</html>
