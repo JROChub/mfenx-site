@@ -63,6 +63,8 @@ def run(root, chromium):
             calls = page.evaluate("window.calls")
             assert calls[0] == ["environment", "sandbox"]
             assert calls[-1][1]["transactionId"] == checkout["transaction_id"]
+            assert calls[-1][1]["settings"]["allowLogout"] is False
+            assert calls[-1][1]["settings"]["showAddDiscounts"] is False
             assert external == ["https://cdn.paddle.com/paddle/v2/paddle.js"]
             page.evaluate("window.paddleCallback({name:'checkout.closed'})")
             expect(page.locator("#checkout-open")).to_be_enabled()

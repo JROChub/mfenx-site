@@ -246,7 +246,13 @@ openButton.addEventListener("click", async () => {
     }
     window.Paddle.Checkout.open({
       transactionId: chosen.transaction_id,
-      settings: { displayMode: "overlay", allowLogout: false },
+      // The admission catalog uses fixed prices; coupon-bearing transactions
+      // are intentionally not eligible for automatic entitlement issuance.
+      settings: {
+        displayMode: "overlay",
+        allowLogout: false,
+        showAddDiscounts: false,
+      },
     });
   } catch (error) {
     if (active) {
