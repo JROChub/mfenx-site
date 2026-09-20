@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <meta name="robots" content="noindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-src 'none'; img-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'"
+    />
+    <title>Release administration — MFENX Gate</title>
+    <link rel="canonical" href="https://mfenx.com/gate/account/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+    <link rel="stylesheet" href="/gate/account/account.css" />
+    <script type="module" src="/gate/account/account.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a><a href="/verify/">Verify</a
+        ><a href="/docs/">Documentation</a
+        ><a href="/gate/account/" aria-current="page">Account</a>
+      </nav>
+    </header>
+    <main class="page account-page" id="main" tabindex="-1">
+      <header class="account-heading">
+        <h1>Release administration.</h1>
+        <p>
+          Organization policies, trust keys and release records. Model weights
+          and evaluation data stay with your local tools.
+        </p>
+      </header>
+      <noscript
+        ><p class="service-notice">
+          This account workspace needs JavaScript. The
+          <a href="/docs/">CLI documentation</a> and
+          <a href="/enterprise/">deployment documentation</a> remain available.
+        </p></noscript
+      >
+      <p id="session-status" role="status" aria-live="polite">
+        Checking the account service…
+      </p>
+      <div class="session-actions">
+        <a class="button" id="sign-in" href="/gate/account/" hidden>Sign in</a>
+        <button type="button" class="text-button" id="retry-session" hidden>
+          Check again
+        </button>
+        <button type="button" class="text-button" id="sign-out" hidden>
+          Sign out
+        </button>
+      </div>
+      <p class="note account-free">
+        Receipt verification never requires an account.
+        <a href="/verify/">Open the free verifier ↗</a>
+      </p>
+
+      <div id="account" hidden>
+        <section
+          class="organization-line"
+          aria-labelledby="organization-heading"
+        >
+          <div>
+            <h2 id="organization-heading">Organization</h2>
+            <label for="organization">Current workspace</label>
+            <select id="organization"></select>
+            <p id="organization-role" class="note"></p>
+          </div>
+          <form id="organization-form">
+            <label for="organization-name">New organization name</label>
+            <div class="inline-input">
+              <input
+                id="organization-name"
+                maxlength="120"
+                required
+                autocomplete="organization"
+              /><button type="submit">Create organization</button>
+            </div>
+            <p class="note">
+              Start with the Developer allowance. Creating an organization does
+              not start a paid subscription.
+            </p>
+          </form>
+        </section>
+        <p id="operation-status" role="status" aria-live="polite"></p>
+        <div id="workspace" hidden>
+          <nav class="account-index" aria-label="Workspace sections">
+            <a href="#usage-section">Usage & billing</a
+            ><a href="#tokens-section">CLI access</a
+            ><a href="#keys-section">Trust keys</a
+            ><a href="#policy-section">Release policy</a
+            ><a href="#history-section">Receipt history</a>
+          </nav>
+          <section
+            class="account-section"
+            id="usage-section"
+            aria-labelledby="usage-heading"
+          >
+            <div class="section-intro">
+              <h2 id="usage-heading">Usage & billing</h2>
+              <p>
+                Only managed receipt registrations count toward this allowance.
+                Local verification is not metered.
+              </p>
+            </div>
+            <div class="section-work">
+              <dl class="usage-ledger">
+                <div>
+                  <dt>Plan</dt>
+                  <dd id="usage-plan">—</dd>
+                </div>
+                <div>
+                  <dt>UTC month</dt>
+                  <dd id="usage-month">—</dd>
+                </div>
+                <div>
+                  <dt>Registered / allowance</dt>
+                  <dd id="usage-count">—</dd>
+                </div>
+                <div>
+                  <dt>Billing status</dt>
+                  <dd id="billing-state">—</dd>
+                </div>
+              </dl>
+              <p class="note" id="billing-return" hidden>
+                Payment return received. Access changes only after the service
+                confirms the subscription. Refresh to check its current state.
+              </p>
+              <p class="note" id="billing-availability">
+                Checking purchase availability…
+              </p>
+              <form id="checkout-form">
+                <fieldset id="billing-fields" disabled>
+                  <legend>Start a subscription</legend>
+                  <label for="plan">Plan</label
+                  ><select id="plan">
+                    <option value="team">Team — $399 / month</option>
+                    <option value="business">Business — $1,499 / month</option>
+                    <option value="private">
+                      Private — $24,000 / year
+                    </option></select
+                  ><button type="submit">Review checkout</button>
+                </fieldset>
+              </form>
+              <div class="account-actions">
+                <button id="refresh-workspace" type="button">
+                  Refresh status</button
+                ><button id="billing-portal" type="button" disabled>
+                  Manage subscription</button
+                ><button id="offline-license" type="button" disabled>
+                  Download offline license
+                </button>
+              </div>
+              <p class="note">
+                <a id="resume-checkout" href="/gate/checkout/" hidden
+                  >Resume a previous checkout</a
+                >
+              </p>
+              <p class="note">
+                Checkout states taxes and renewal terms before payment. No
+                overage charges are created automatically.
+              </p>
+            </div>
+          </section>
+          <section
+            class="account-section"
+            id="tokens-section"
+            aria-labelledby="tokens-heading"
+          >
+            <div class="section-intro">
+              <h2 id="tokens-heading">CLI access</h2>
+              <p>
+                Choose the narrowest permissions your integration needs. A token
+                is shown once; it is never saved in browser storage.
+              </p>
+            </div>
+            <div class="section-work">
+              <form id="token-form">
+                <fieldset>
+                  <legend>Create a token</legend>
+                  <div class="checkboxes">
+                    <label
+                      ><input
+                        type="checkbox"
+                        name="scope"
+                        value="receipts:read"
+                        checked
+                      />
+                      Read retained receipt records</label
+                    ><label
+                      ><input
+                        type="checkbox"
+                        name="scope"
+                        value="receipts:write"
+                      />
+                      Register signed receipts</label
+                    ><label
+                      ><input
+                        type="checkbox"
+                        name="scope"
+                        value="policies:read"
+                      />
+                      Read the current policy</label
+                    >
+                  </div>
+                  <label for="token-days">Expires in days</label
+                  ><input
+                    id="token-days"
+                    type="number"
+                    min="1"
+                    max="90"
+                    value="30"
+                    required
+                  /><button type="submit">Create token</button>
+                </fieldset>
+              </form>
+              <div id="issued-token" class="secret-output" hidden>
+                <h3>Save this token now.</h3>
+                <p class="note">
+                  It will not be shown again after you dismiss it, change
+                  organizations or leave this page.
+                </p>
+                <label for="token-value">New CLI token</label
+                ><textarea
+                  id="token-value"
+                  readonly
+                  rows="3"
+                  spellcheck="false"
+                  autocomplete="off"
+                ></textarea>
+                <div class="account-actions">
+                  <button id="copy-token" type="button">Copy token</button
+                  ><button id="dismiss-token" type="button">
+                    Dismiss token
+                  </button>
+                </div>
+              </div>
+              <div
+                id="token-list"
+                class="record-list"
+                aria-label="CLI tokens"
+              ></div>
+            </div>
+          </section>
+          <section
+            class="account-section"
+            id="keys-section"
+            aria-labelledby="keys-heading"
+          >
+            <div class="section-intro">
+              <h2 id="keys-heading">Trust keys</h2>
+              <p>
+                Register only a public key obtained through an approved channel.
+                Your private signing key never belongs in this workspace.
+              </p>
+            </div>
+            <div class="section-work">
+              <form id="key-form">
+                <fieldset class="admin-fields" disabled>
+                  <legend>Register a P-256 public key</legend>
+                  <label for="public-key">Base64-encoded SPKI public key</label
+                  ><textarea
+                    id="public-key"
+                    rows="4"
+                    maxlength="4096"
+                    required
+                    spellcheck="false"
+                    autocomplete="off"
+                    aria-describedby="key-help"
+                  ></textarea>
+                  <p id="key-help" class="note">
+                    Use the DER public-key output from
+                    <code>mfenx-gate keygen</code>, encoded as one base64
+                    string. Do not paste PEM private keys.
+                  </p>
+                  <button type="submit">Register public key</button>
+                </fieldset>
+              </form>
+              <div
+                id="key-list"
+                class="record-list"
+                aria-label="Organization trust keys"
+              ></div>
+            </div>
+          </section>
+          <section
+            class="account-section"
+            id="policy-section"
+            aria-labelledby="policy-heading"
+          >
+            <div class="section-intro">
+              <h2 id="policy-heading">Release policy</h2>
+              <p>
+                A new version governs subsequent registrations. It does not
+                rewrite a previous release decision. Artifact binding and
+                behavioral replay are enforced in your local deployment gate.
+              </p>
+              <p id="policy-version" class="note">No policy loaded.</p>
+            </div>
+            <div class="section-work">
+              <form id="policy-form">
+                <fieldset class="admin-fields" disabled>
+                  <legend>Publish a policy version</legend>
+                  <label for="contract-digest"
+                    >Approved evaluation contract SHA-256</label
+                  ><input
+                    id="contract-digest"
+                    maxlength="71"
+                    required
+                    spellcheck="false"
+                    placeholder="sha256:…"
+                  /><label for="policy-keys"
+                    >Approved issuer key IDs — one per line</label
+                  ><textarea
+                    id="policy-keys"
+                    rows="3"
+                    required
+                    spellcheck="false"
+                  ></textarea
+                  ><label for="parent-digests"
+                    >Approved source model SHA-256 values — one per line</label
+                  ><textarea
+                    id="parent-digests"
+                    rows="3"
+                    spellcheck="false"
+                    aria-describedby="parents-help"
+                  ></textarea>
+                  <p id="parents-help" class="note">
+                    An empty list does not restrict the source-model commitment.
+                  </p>
+                  <fieldset class="formats">
+                    <legend>Model formats</legend>
+                    <label
+                      ><input
+                        type="checkbox"
+                        name="format"
+                        value="onnx"
+                        checked
+                      />
+                      ONNX</label
+                    ><label
+                      ><input
+                        type="checkbox"
+                        name="format"
+                        value="safetensors"
+                      />
+                      safetensors</label
+                    ><label
+                      ><input type="checkbox" name="format" value="pytorch" />
+                      PyTorch</label
+                    >
+                  </fieldset>
+                  <p class="note">
+                    Registration requires an attested finite behavioral
+                    evaluation. An integrity-only checkpoint receipt is not a
+                    behavioral admission receipt.
+                  </p>
+                  <div class="two-fields">
+                    <div>
+                      <label for="accuracy-limit"
+                        >Maximum accuracy loss (ppm)</label
+                      ><input
+                        id="accuracy-limit"
+                        type="number"
+                        min="0"
+                        max="1000000"
+                        value="2000"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label for="decisions-limit"
+                        >Maximum decision changes (ppm)</label
+                      ><input
+                        id="decisions-limit"
+                        type="number"
+                        min="0"
+                        max="1000000"
+                        value="1000"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <p class="note">1,000 parts per million = 0.1%.</p>
+                  <div class="checkboxes">
+                    <label
+                      ><input id="require-artifact" type="checkbox" checked />
+                      Require local artifact binding</label
+                    ><label
+                      ><input id="require-replay" type="checkbox" checked />
+                      Require local behavioral replay</label
+                    >
+                  </div>
+                  <button type="submit">Publish new version</button>
+                </fieldset>
+              </form>
+              <details>
+                <summary>Current policy record</summary>
+                <pre id="policy-record">No policy loaded.</pre>
+              </details>
+            </div>
+          </section>
+          <section
+            class="account-section"
+            id="history-section"
+            aria-labelledby="history-heading"
+          >
+            <div class="section-intro">
+              <h2 id="history-heading">Receipt history</h2>
+              <p>
+                Only registrations that explicitly retained metadata appear
+                here. These records authenticate issuer statements; they do not
+                represent server-side model execution.
+              </p>
+            </div>
+            <div class="section-work">
+              <div
+                id="receipt-list"
+                class="record-list"
+                aria-label="Retained receipt records"
+              ></div>
+              <button id="more-receipts" type="button" hidden>
+                Load earlier records
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>MFENX · Local model admission</p>
+      <nav aria-label="Footer navigation">
+        <a href="/pricing/">Pricing</a
+        ><a href="/enterprise/">Private deployment</a
+        ><a href="/docs/">Documentation</a>
+      </nav>
+    </footer>
+  </body>
+</html>

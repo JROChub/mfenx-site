@@ -1,0 +1,320 @@
+/* An administrative document: one reading spine, instruments aligned to it. */
+.account-page {
+  max-width: 1280px;
+  overflow-wrap: anywhere;
+}
+.account-heading {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  padding: 66px 0 52px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 26px;
+}
+.account-heading h1 {
+  font-size: clamp(34px, 4vw, 52px);
+  max-width: 12ch;
+}
+.account-heading p {
+  max-width: 48ch;
+  font-size: 18px;
+}
+.session-actions,
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin-block: 18px;
+}
+.account-free {
+  margin-bottom: 38px;
+}
+.account-page [hidden] {
+  display: none !important;
+}
+.account-page button,
+.account-page .button {
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 0;
+  padding: 10px 16px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.account-page button:hover:not(:disabled) {
+  background: var(--green);
+}
+.account-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.account-page .text-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.account-page .text-button:hover:not(:disabled) {
+  background: none;
+  color: var(--green);
+}
+.organization-line {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 64px;
+  padding-block: 28px 36px;
+  border-block: 1px solid var(--line);
+}
+.organization-line h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.organization-line form {
+  align-self: end;
+}
+.inline-input {
+  display: flex;
+  gap: 12px;
+}
+.inline-input input {
+  min-width: 0;
+  flex: 1;
+}
+.account-page label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+.account-page input:not([type="checkbox"]),
+.account-page select,
+.account-page textarea {
+  width: 100%;
+  border: 1px solid #888f80;
+  border-radius: 0;
+  background: #fbfaf5;
+  color: var(--ink);
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 17px;
+}
+.account-page textarea,
+.account-page input[spellcheck="false"] {
+  font-family: Consolas, monospace;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.account-page textarea {
+  resize: vertical;
+}
+.account-page input[type="checkbox"] {
+  accent-color: var(--green);
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  margin: 0;
+}
+.account-page fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.account-page legend {
+  font-size: 18px;
+  margin-bottom: 22px;
+  padding: 0;
+}
+.account-page .note {
+  margin-block: 10px 18px;
+}
+.account-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 14px;
+  padding-block: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.account-section {
+  display: grid;
+  grid-template-columns: 1fr 1.75fr;
+  gap: 64px;
+  border-bottom: 1px solid var(--line);
+  padding-block: 48px;
+  scroll-margin-top: 22px;
+}
+.account-section h2 {
+  font-size: 28px;
+  margin-bottom: 18px;
+}
+.section-intro p {
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.section-work {
+  min-width: 0;
+}
+.usage-ledger {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 32px;
+  margin: 0 0 28px;
+}
+.usage-ledger div {
+  border-top: 1px solid var(--line);
+  padding-top: 9px;
+}
+.usage-ledger dt {
+  font-size: 13px;
+  color: var(--muted);
+}
+.usage-ledger dd {
+  margin: 6px 0 0;
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+.account-page .checkboxes {
+  margin-bottom: 22px;
+}
+.account-page .checkboxes label,
+.account-page .formats label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.account-page .formats {
+  margin-block: 8px 20px;
+}
+.account-page .formats legend {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.two-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.account-page #token-days {
+  max-width: 140px;
+}
+.secret-output {
+  background: var(--wash);
+  border-left: 3px solid var(--green);
+  padding: 24px;
+  margin-top: 30px;
+}
+.secret-output h3 {
+  font-size: 21px;
+}
+.record-list {
+  margin-top: 30px;
+}
+.record-list article {
+  border-top: 1px solid var(--line);
+  padding-block: 18px;
+}
+.record-list h3 {
+  font:
+    14px/1.5 Consolas,
+    monospace;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+.record-list p {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  margin-block: 7px;
+}
+.record-list button {
+  margin-top: 8px;
+}
+.account-page details {
+  margin-top: 28px;
+}
+.account-page summary {
+  cursor: pointer;
+  font-size: 15px;
+}
+.account-page pre {
+  max-width: 100%;
+  overflow: auto;
+  font-size: 12px;
+  padding: 16px;
+  background: var(--wash);
+}
+#operation-status {
+  margin-block: 22px;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+#operation-status:empty {
+  display: none;
+}
+[data-error="true"] {
+  color: var(--error);
+}
+.service-notice {
+  border-left: 3px solid var(--violet);
+  padding-left: 18px;
+  margin-bottom: 24px;
+}
+@media (max-width: 900px) {
+  .account-heading {
+    gap: 32px;
+  }
+  .organization-line,
+  .account-section {
+    gap: 32px;
+    grid-template-columns: 1fr 1.5fr;
+  }
+  .inline-input {
+    display: block;
+  }
+}
+@media (max-width: 620px) {
+  .account-heading {
+    display: block;
+    padding-block: 36px;
+  }
+  .account-heading p {
+    margin-top: 24px;
+    font-size: 16px;
+  }
+  .organization-line,
+  .account-section {
+    display: block;
+  }
+  .organization-line form {
+    margin-top: 28px;
+  }
+  .section-intro {
+    margin-bottom: 30px;
+  }
+  .account-section {
+    padding-block: 34px;
+  }
+  .usage-ledger {
+    gap: 18px;
+  }
+  .usage-ledger dd {
+    font-size: 18px;
+  }
+  .two-fields {
+    display: block;
+  }
+  .account-index {
+    gap: 12px 20px;
+  }
+  .account-page .account-actions {
+    align-items: stretch;
+  }
+  .secret-output {
+    padding: 18px;
+  }
+}

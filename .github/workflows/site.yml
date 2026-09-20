@@ -79,6 +79,12 @@ jobs:
       - name: Exercise Gate receipt trust and local privacy in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_receipt.py --root public
 
+      - name: Exercise Gate account isolation and credential handling in Chromium
+        run: .site-test-venv/bin/python tests/browser_gate_account.py --root public
+
+      - name: Exercise authenticated Paddle checkout boundaries in Chromium
+        run: .site-test-venv/bin/python tests/browser_gate_checkout.py --root public
+
       - name: Exercise Atomic Roc Roc missions and replay in Chromium
         run: .site-test-venv/bin/python tests/browser_atomic.py --root public
 
