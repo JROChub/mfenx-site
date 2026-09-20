@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <title>Evidence — MFENX</title>
+    <meta
+      name="description"
+      content="A measured local ONNX release receipt and retained MFENX execution evidence."
+    />
+    <link rel="canonical" href="https://mfenx.com/evidence/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a><a href="/verify/">Verify</a
+        ><a href="/docs/">Documentation</a><a href="/pricing/">Pricing</a
+        ><a href="/labs/">Research ↗</a>
+      </nav>
+    </header>
+    <main class="page" id="content">
+      <section class="document-head">
+        <div>
+          <div class="section-label">MFENX / Evidence</div>
+          <h1>A result with its record.</h1>
+          <p>
+            Inspect what was executed, what was measured and what the receipt
+            authenticates. Measurements describe their recorded workload and
+            environment.
+          </p>
+        </div>
+        <aside>
+          Local ONNX evaluation<br />CKODMK 0.5.1<br />ONNX Runtime 1.28.0
+        </aside>
+      </section>
+      <div class="document-grid document-body">
+        <div class="section-label">Optdigits / finite evaluation</div>
+        <div class="reading">
+          <h2>One candidate.<br />The same recorded decisions.</h2>
+          <p>
+            The included demonstration evaluates the retained Optdigits source
+            and graph-optimized candidate against the official test partition.
+            The Gate issuer ran the local engine and produced a compact receipt
+            only after its contract passed.
+          </p>
+          <table>
+            <caption>
+              Recorded classification results
+            </caption>
+            <tbody>
+              <tr>
+                <th scope="row">Evaluation samples</th>
+                <td>1,797</td>
+              </tr>
+              <tr>
+                <th scope="row">Source correct</th>
+                <td>1,729</td>
+              </tr>
+              <tr>
+                <th scope="row">Candidate correct</th>
+                <td>1,729</td>
+              </tr>
+              <tr>
+                <th scope="row">Decision changes</th>
+                <td>0</td>
+              </tr>
+              <tr>
+                <th scope="row">Candidate format</th>
+                <td>ONNX · CPU execution</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            The public example key is for demonstration, not a production trust
+            root. Loading the example checks the signed statement and candidate
+            identity; it does not rerun inference in the receipt verifier.
+          </p>
+          <div class="actions">
+            <a class="button" href="/verify/">Check the measured example</a>
+          </div>
+          <p>
+            <a href="/verify/example/release-receipt.json" download
+              >Receipt JSON</a
+            >
+            ·
+            <a href="/verify/example/evidence.json" download
+              >Execution summary</a
+            >
+            ·
+            <a href="/verify/example/issuer-public.der" download
+              >Demonstration public key</a
+            >
+            · <a href="/verify/example/model.onnx" download>Candidate model</a>
+          </p>
+          <p class="note">
+            Source engine revision:
+            <code>ec05863c3e3b85fdcc7a397fc720f59577ebc76a</code>. The example
+            is a local functional evaluation, not a comparison against a
+            competing service or a claim of general model equivalence.
+          </p>
+          <h2>The underlying execution</h2>
+          <p>
+            <a href="/evidence/onnx-release/evaluation-report.json" download
+              >Full evaluation report</a
+            >
+            ·
+            <a href="/evidence/onnx-release/approved-contract.json" download
+              >Approved contract</a
+            >
+            ·
+            <a href="/evidence/onnx-release/run-manifest.json" download
+              >Run manifest</a
+            >
+          </p>
+          <p>
+            <a href="/evidence/onnx-release/source.onnx" download
+              >Source model</a
+            >
+            ·
+            <a href="/evidence/onnx-release/candidate.onnx" download
+              >Candidate model</a
+            >
+            ·
+            <a href="/evidence/onnx-release/dataset.npz" download
+              >Evaluation dataset</a
+            >
+            ·
+            <a href="/evidence/onnx-release/README.md"
+              >Method and dataset attribution</a
+            >
+          </p>
+          <p>
+            The raw report and contract are byte-bound by the receipt. The
+            evaluation ran in a temporary hostname namespace; the recorded CPU
+            and runtime are the actual execution environment. To replay on a
+            different host, approve a new host-bound contract rather than
+            relaxing this one.
+          </p>
+          <h2>Retained research evidence</h2>
+          <p>
+            <a href="/ckodmk/">CKODMK</a> retains its interactive model checks
+            and finite evaluation material.
+            <a href="/lightsout/">Lights Out</a> retains its signed release
+            evidence, exact-arithmetic demonstrations and workload-specific
+            performance results.
+          </p>
+          <p>
+            Those records remain distinct from Gate’s commercial account service
+            and from any future GPU measurements.
+          </p>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a
+        ><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>

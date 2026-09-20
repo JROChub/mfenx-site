@@ -49,7 +49,7 @@ def main() -> int:
             home = context.new_page()
             home_requests: list[str] = []
             home.on("request", lambda request: home_requests.append(request.url))
-            assert_no_runtime_errors(home, failures, origin + "/")
+            assert_no_runtime_errors(home, failures, origin + "/labs/")
             try:
                 # finishBoot adds .hidden; its CSS deliberately makes the element
                 # invisible. Require completed startup, then its hidden state,
@@ -77,9 +77,9 @@ def main() -> int:
                 home.locator("#sfcs-orbit-run").click()
                 home.wait_for_function("document.querySelector('#sfcs-run-console')?.dataset.status === 'valid'", timeout=15_000)
             except (AssertionError, Exception) as exc:
-                failures.append(f"homepage interaction check: {exc}")
+                failures.append(f"retained research homepage interaction check: {exc}")
             if any("rpc.mfenx.com" in url for url in home_requests):
-                failures.append("homepage requested rpc.mfenx.com")
+                failures.append("retained research homepage requested rpc.mfenx.com")
             home.close()
 
             for width in (320, 390, 768, 1440):

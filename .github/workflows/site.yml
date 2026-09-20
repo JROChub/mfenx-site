@@ -56,6 +56,12 @@ jobs:
       - name: Check the exact game engine and independent replay
         run: node tests/test_atomic_engine.mjs
 
+      - name: Check research deep-link compatibility
+        run: node tests/test_gate_legacy_links.mjs
+
+      - name: Bind Gate public evidence to the measured execution
+        run: python3 -m unittest -v tests.test_gate_evidence
+
       - name: Install pinned browser test runtime
         shell: bash
         run: |
@@ -66,6 +72,12 @@ jobs:
 
       - name: Exercise the production payload in Chromium
         run: .site-test-venv/bin/python tests/browser_smoke.py --root public
+
+      - name: Exercise Gate evaluation and signed-model replay in Chromium
+        run: .site-test-venv/bin/python tests/browser_gate_evaluation.py --root public
+
+      - name: Exercise Gate receipt trust and local privacy in Chromium
+        run: .site-test-venv/bin/python tests/browser_gate_receipt.py --root public
 
       - name: Exercise Atomic Roc Roc missions and replay in Chromium
         run: .site-test-venv/bin/python tests/browser_atomic.py --root public

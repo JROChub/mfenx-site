@@ -1,0 +1,34 @@
+MFENX Gate free verification permission, version 1
+Copyright 2026 mfenx LLC.
+
+Verification is free. mfenx LLC grants permission to use and copy this version
+of the MFENX Gate receipt-verification functionality, including in commercial
+organizations and disconnected environments, without an account, subscription,
+per-verification fee or expiration. Unmodified verification software may be
+redistributed with this notice and the applicable third-party notices intact.
+
+This permission covers browser/receipt.js and the Python verify_receipt API,
+the mfenx-gate verify command, and supporting code needed for those operations.
+Installing the containing package to access those operations is permitted.
+
+Local development and evaluation are also permitted without charge. Individuals
+and organizations may install and run the original Gate SDK locally to create
+test keys, inspect checkpoints, evaluate models, test integrations and issue
+non-production test receipts. Test receipts must not be represented as a paid
+MFENX production service, a production deployment authorization or an MFENX
+endorsement. This permission has no subscription or account requirement.
+
+Production or commercial receipt issuance, organizational governance,
+hosted-control-plane operation and OEM issuance products require a separate
+agreement with mfenx LLC. Free verification remains permitted in production
+and commercial organizations. These distinctions do not alter licenses or
+rights for separately supplied third-party engines.
+
+Verification checks the stated cryptographic and schema conditions. It does
+not warrant that an issuer is honest, a model is safe, the host is trustworthy,
+or an evaluation establishes behavior beyond its recorded scope. No warranty,
+service-level commitment or regulatory certification is supplied by this free
+permission. Applicable rights that cannot lawfully be limited remain intact.
+
+MFENX names and marks may identify the source of an unmodified verifier; this
+permission does not authorize claims of MFENX endorsement of another product.

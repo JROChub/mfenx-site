@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <title>Private deployment — MFENX</title>
+    <meta
+      name="description"
+      content="MFENX Gate architecture, data handling and procurement material for private model admission."
+    />
+    <link rel="canonical" href="https://mfenx.com/enterprise/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a><a href="/verify/">Verify</a
+        ><a href="/docs/">Documentation</a><a href="/pricing/">Pricing</a
+        ><a href="/labs/">Research ↗</a>
+      </nav>
+    </header>
+    <main class="page" id="content">
+      <section class="document-head">
+        <div>
+          <div class="section-label">Gate / Private deployment</div>
+          <h1>Keep the evaluation<br />inside your boundary.</h1>
+          <p>
+            Local artifacts, locally controlled signing keys, portable receipts.
+            Review the data flow before introducing a managed service or a
+            deployment gate.
+          </p>
+        </div>
+        <aside>
+          Technical procurement record
+          <p>
+            <a href="/enterprise/security-overview.md" download
+              >Download security overview ↓</a
+            >
+          </p>
+        </aside>
+      </section>
+      <div class="document-grid document-body">
+        <nav class="contents" aria-label="On this page">
+          <a href="#data-flow">Data flow</a
+          ><a href="#trust">Trust and enforcement</a
+          ><a href="#operations">Operational controls</a
+          ><a href="#procurement">Procurement</a>
+        </nav>
+        <div class="reading">
+          <h2 id="data-flow">What crosses the boundary</h2>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Material</th>
+                  <th scope="col">Local workflow</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Model and dataset</th>
+                  <td>
+                    Read and evaluated on the operator’s machine. Not included
+                    in the compact receipt.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Private signing key</th>
+                  <td>
+                    Held by the issuer. Not sent to the browser verifier or
+                    billing service.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Compact receipt</th>
+                  <td>
+                    Exported locally. Shared only when the operator chooses.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Public trust key</th>
+                  <td>
+                    Distributed through the recipient’s approved trust channel.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Payment information</th>
+                  <td>
+                    Handled by the payment provider when managed checkout is
+                    activated.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Receipt fields can still disclose model identities, evaluation
+            counts and an issuer name. Treat a receipt as business information.
+            Selective sharing is not anonymity.
+          </p>
+          <h2 id="trust">The admission boundary</h2>
+          <p>
+            The receipt verifier checks the selected issuer key, signature,
+            schema, validity and commitments. The consuming deployment must also
+            pin the approved policy and load the same artifact bytes that were
+            checked.
+          </p>
+          <p>
+            A release pipeline can block publication after a failed local
+            evaluation. It does not prevent an operator with unrestricted host
+            access from running a different executable. Keep signing credentials
+            and policy approval separate from untrusted model submissions.
+          </p>
+          <h2 id="operations">Controls to configure</h2>
+          <p>
+            Define key ownership, rotation, expiry, approved contract digests,
+            release permissions and recovery procedures. Package the exact
+            runtime and its dependencies for an offline deployment; acceptance
+            must execute inside that target environment.
+          </p>
+          <p>
+            The optional control plane requires configured authentication,
+            persistent storage, TLS, backups and a verified payment integration.
+            Browser verification itself has no account database, advertising
+            code or file-upload endpoint.
+          </p>
+          <h2 id="procurement">An asynchronous review</h2>
+          <p>
+            Begin with the downloadable technical record and the
+            <a href="/docs/#assurance">assurance definitions</a>. The product’s
+            third-party notices remain attached to the relevant components.
+            Commercial terms, a deployment-specific data agreement and any
+            requested tax forms are executed separately; they are not implied by
+            a technical receipt.
+          </p>
+          <p>
+            <a href="/enterprise/security-overview.md" download
+              >Download the security and data-flow record ↓</a
+            >
+          </p>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a
+        ><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <title>Verify a release receipt — MFENX</title>
+    <meta
+      name="description"
+      content="Free local verification of MFENX release receipts. Select an independently trusted issuer key. Your files are not uploaded."
+    />
+    <link rel="canonical" href="https://mfenx.com/verify/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <script type="module" src="/verify/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a><a href="/verify/">Verify</a
+        ><a href="/docs/">Documentation</a><a href="/pricing/">Pricing</a
+        ><a href="/labs/">Research ↗</a>
+      </nav>
+    </header>
+    <main class="page" id="content">
+      <section class="document-head">
+        <div>
+          <div class="section-label">Gate / Free verification</div>
+          <h1>Inspect the release.</h1>
+          <p>
+            Check a signed receipt against a key you trust. Add the model to
+            check its exact identity. All file processing happens in this
+            browser.
+          </p>
+        </div>
+        <aside>
+          No account.<br />No upload.<br />No verification fee.
+          <p><a href="/docs/#trust">How to choose a trust key ↗</a></p>
+        </aside>
+      </section>
+      <div class="instrument-line">
+        <span>Release Receipt v1 · P-256 / SHA-256</span
+        ><button class="plain-button" type="button" id="load-example">
+          Load the measured example
+        </button>
+      </div>
+      <noscript
+        ><p class="note">
+          Local verification requires JavaScript and Web Crypto. The
+          <a href="/docs/">offline CLI</a> provides the same receipt check.
+        </p></noscript
+      >
+      <div class="verify-layout">
+        <form class="verify-form" id="verify-form">
+          <fieldset>
+            <legend>Local inputs</legend>
+            <div class="field">
+              <label for="receipt">Release receipt</label
+              ><input
+                id="receipt"
+                name="receipt"
+                type="file"
+                accept=".json,application/json"
+                required
+              />
+              <p class="note">
+                Compact receipt JSON, up to 64 KiB. Not a PCM model package.
+              </p>
+            </div>
+            <div class="field">
+              <label for="trust-key">Trusted issuer key</label
+              ><input
+                id="trust-key"
+                name="trust-key"
+                type="file"
+                accept=".der,application/octet-stream"
+                required
+              />
+              <p class="note">
+                P-256 SPKI in DER format. Obtain this key through your release
+                authority, independently of the receipt.
+              </p>
+            </div>
+            <div class="field">
+              <label for="model"
+                >Model <span class="muted">(optional)</span></label
+              ><input id="model" name="model" type="file" />
+              <p class="note">
+                Up to 64 MiB in this browser. Use the streaming CLI for larger
+                artifacts.
+              </p>
+            </div>
+            <details>
+              <summary>Check an approved contract</summary>
+              <div class="field">
+                <label for="contract-digest">Expected contract SHA-256</label
+                ><input
+                  id="contract-digest"
+                  name="contract-digest"
+                  type="text"
+                  spellcheck="false"
+                  autocomplete="off"
+                  placeholder="sha256:…"
+                  maxlength="71"
+                  pattern="sha256:[0-9a-f]{64}"
+                />
+                <p class="note">
+                  Use the digest your release authority approved, not one copied
+                  from an untrusted receipt.
+                </p>
+              </div>
+            </details>
+            <div class="actions">
+              <button class="button" id="verify-button" type="submit">
+                Verify locally</button
+              ><button class="plain-button" id="clear-button" type="button">
+                Clear inputs
+              </button>
+            </div>
+            <p class="privacy-note" id="input-note">
+              Files stay in browser memory. Nothing is saved to an account or
+              sent to a server. Reloading clears the inputs.
+            </p>
+          </fieldset>
+        </form>
+        <section
+          class="verify-result"
+          id="result"
+          aria-labelledby="result-title"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <div class="result-eyebrow" id="result-state">LOCAL VERIFIER</div>
+          <h2 id="result-title">Awaiting a receipt.</h2>
+          <p class="result-summary" id="result-summary">
+            Choose a receipt and a trusted key. The result will separate
+            signature authentication, model binding and behavioral evidence.
+          </p>
+          <ul class="verification-checks" id="checks">
+            <li>
+              <span>Issuer signature</span
+              ><strong id="check-signature">Not checked</strong>
+            </li>
+            <li>
+              <span>Model identity</span
+              ><strong id="check-artifact">Not checked</strong>
+            </li>
+            <li>
+              <span>Approved contract</span
+              ><strong id="check-contract">Not checked</strong>
+            </li>
+            <li>
+              <span>Behavioral evidence</span
+              ><strong id="check-behavior">Not checked</strong>
+            </li>
+            <li>
+              <span>Independent replay</span
+              ><strong id="check-replay">Not performed</strong>
+            </li>
+          </ul>
+          <div class="result-root" id="result-root" hidden></div>
+          <details class="receipt-details" id="receipt-details" hidden>
+            <summary>Inspect authenticated statement</summary>
+            <pre id="receipt-json"></pre>
+          </details>
+          <p class="note" id="result-scope">
+            A valid signature authenticates the issuer’s statement. To execute
+            the evaluation again, use
+            <a href="/gate/">local behavioral replay</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a
+        ><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>

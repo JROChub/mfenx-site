@@ -1,0 +1,164 @@
+.gate-evaluation .document-head > .reading {
+  grid-column: 9 / 13;
+  align-self: end;
+  margin-top: 0;
+}
+.gate-evaluation .evaluation-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  border-top: 1px solid var(--ink, #171c18);
+  padding-block: 2rem 4rem;
+}
+.gate-evaluation .evaluation-entry h2 {
+  margin-top: 0;
+}
+.gate-evaluation .evaluation-entry h2 + p,
+.gate-evaluation .evaluation-reference h2 + p {
+  margin-top: 1.3rem;
+}
+.gate-evaluation .evaluation-entry .button {
+  margin-block: 0.6rem 1rem;
+}
+.gate-evaluation .evaluation-preparation {
+  border-left: 1px solid #c8ccc2;
+  padding-left: 1.5rem;
+}
+.gate-evaluation .evaluation-preparation h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+.gate-evaluation .evaluation-preparation ul {
+  padding-left: 1.15rem;
+}
+.gate-evaluation .evaluation-preparation li + li {
+  margin-top: 0.7rem;
+}
+.gate-evaluation .evaluation-preparation p {
+  font-size: 0.95rem;
+}
+.gate-evaluation .evaluation-sequence {
+  max-width: 62rem;
+  padding-block: 0 5rem;
+}
+.gate-evaluation .evaluation-sequence > h2 {
+  margin-bottom: 1.6rem;
+}
+.gate-evaluation .evaluation-sequence ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.gate-evaluation .evaluation-sequence li {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1rem;
+  padding-block: 1.4rem;
+  border-top: 1px solid #c8ccc2;
+}
+.gate-evaluation .sequence-number {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  padding-top: 0.25rem;
+  color: #365e46;
+}
+.gate-evaluation .evaluation-sequence h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.gate-evaluation .evaluation-sequence p {
+  margin: 0.5rem 0 0;
+  max-width: 68ch;
+}
+.gate-evaluation .evaluation-reference {
+  padding-block: 2rem 3rem;
+  border-top: 1px solid var(--ink, #171c18);
+}
+.gate-evaluation .evaluation-scroll-note {
+  display: none;
+}
+.gate-evaluation .evaluation-table-wrap {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+.gate-evaluation table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 1rem;
+}
+.gate-evaluation th,
+.gate-evaluation td {
+  vertical-align: top;
+  padding: 1.2rem 1rem 1.2rem 0;
+  border-bottom: 1px solid #c8ccc2;
+}
+.gate-evaluation thead th {
+  padding-top: 0;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+.gate-evaluation tbody th {
+  width: 23%;
+  font-weight: 500;
+  border-top: 0;
+}
+.gate-evaluation tbody td:nth-child(2) {
+  width: 59%;
+}
+.gate-evaluation td:last-child {
+  min-width: 8.5rem;
+  padding-right: 0;
+}
+.gate-evaluation .evaluation-reading {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: 3rem 5rem;
+}
+.gate-evaluation .evaluation-reading h2 {
+  margin-top: 0.3rem;
+  max-width: 15ch;
+}
+.gate-evaluation .evaluation-reading p:first-child {
+  margin-top: 0;
+}
+@media (max-width: 720px) {
+  .gate-evaluation .evaluation-scroll-note {
+    display: block;
+    margin-top: 1.2rem;
+  }
+  .gate-evaluation .evaluation-entry,
+  .gate-evaluation .evaluation-reading {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .gate-evaluation .evaluation-entry {
+    padding-bottom: 3rem;
+  }
+  .gate-evaluation .evaluation-preparation {
+    border-left: 0;
+    border-top: 1px solid #c8ccc2;
+    padding: 1.5rem 0 0;
+  }
+  .gate-evaluation .evaluation-sequence {
+    padding-bottom: 2.5rem;
+  }
+  .gate-evaluation .evaluation-sequence li {
+    grid-template-columns: 2rem 1fr;
+  }
+  .gate-evaluation .evaluation-reading {
+    padding-block: 1rem 3rem;
+  }
+  .gate-evaluation .evaluation-reading h2 {
+    max-width: none;
+  }
+  .gate-evaluation table {
+    min-width: 40rem;
+  }
+}
+@media (max-width: 700px) {
+  .gate-evaluation .document-head > .reading {
+    grid-column: 1;
+  }
+}
