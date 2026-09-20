@@ -1,0 +1,36 @@
+{
+  "components": 13,
+  "dependency_nodes": 14,
+  "frozen_archive_sha256": "36cb5d234c7b5648f3885d80b0841c1547d771d9ac051116ec271eb247f81ac5",
+  "frozen_wheel_sha256": "aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d",
+  "inventoried_wheels": {
+    "dist/runtime-wheelhouse/cffi-2.1.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl": "a931079504ecc49efed7744c476a5c343a92fabf66dec2db95edb1b2fdc770e2",
+    "dist/runtime-wheelhouse/cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl": "82148ec5bddac30b51a5b3c1945075f896fa022cb93f8e4a01e9f6ee95292c5f",
+    "dist/runtime-wheelhouse/flatbuffers-25.12.19-py2.py3-none-any.whl": "7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4",
+    "dist/runtime-wheelhouse/mfenx_ckodmk-0.5.1-py3-none-any.whl": "d5e5d1ff8da95601ac78986c9d1d29f010aac4e608a6856b9e07f127d29c7ee7",
+    "dist/runtime-wheelhouse/mfenx_gate-1.0.0-py3-none-any.whl": "aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d",
+    "dist/runtime-wheelhouse/ml_dtypes-0.6.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl": "26b1f1fa4f0435a2946859823f6e2bf06796f1e9f10f5a05b08a5e3c8f46ff69",
+    "dist/runtime-wheelhouse/numpy-2.3.5-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl": "11e06aa0af8c0f05104d56450d6093ee639e15f24ecf62d417329d06e522e017",
+    "dist/runtime-wheelhouse/onnx-1.22.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl": "955e02e1f6d385b53d52f9cd7b9cdf5caf417c300bcfe3c64c6d542be763845b",
+    "dist/runtime-wheelhouse/onnxruntime-1.28.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl": "54fa221d669282bd8f582708ce4c96010a7e9fb0661f9006b37fe2fedafb73fe",
+    "dist/runtime-wheelhouse/packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+    "dist/runtime-wheelhouse/protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl": "89f23aa53c24553a2416fd4fd1ec06f74fa42b14b546d8883128813f775bbfd2",
+    "dist/runtime-wheelhouse/pycparser-3.0-py3-none-any.whl": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992",
+    "dist/runtime-wheelhouse/typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+    "dist/wheelhouse/cffi-2.1.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl": "a931079504ecc49efed7744c476a5c343a92fabf66dec2db95edb1b2fdc770e2",
+    "dist/wheelhouse/cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl": "82148ec5bddac30b51a5b3c1945075f896fa022cb93f8e4a01e9f6ee95292c5f",
+    "dist/wheelhouse/mfenx_gate-1.0.0-py3-none-any.whl": "aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d",
+    "dist/wheelhouse/pycparser-3.0-py3-none-any.whl": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992"
+  },
+  "sbom_sha256": "1caa323e2a70d62dc377847d2e46149efa4a361c967dce7f3f5243377d844260",
+  "schema": "https://cyclonedx.org/schema/bom-1.6.schema.json",
+  "schema_sha256": {
+    "bom-1.6.schema.json": "1ebcb88a2c845ecb6ff7bee7aeabdff9422cb0347f3d6875b241bd444b7e098f",
+    "jsf-0.82.schema.json": "2faf5eb3651f2ae5f46091a131770d8d847bbd121139d19c85fc7051bfa58c46",
+    "spdx.schema.json": "33863a360fc4d348e183d89c1ca7aa0877f481e7eb55be2d4102a30386188a10"
+  },
+  "scope": "SDK/runtime wheel inventory; separate control plane not included",
+  "status": "PASS",
+  "validator": "jsonschema",
+  "validator_version": "4.26.0"
+}

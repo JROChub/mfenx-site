@@ -3,6 +3,10 @@ import hashlib
 import json
 from pathlib import Path
 import unittest
+import tempfile
+import zipfile
+
+from scripts.build_gate_technical_pack import MEMBERS, build
 
 ROOT = Path(__file__).resolve().parents[1] / "public"
 
@@ -53,6 +57,24 @@ class GateEvidence(unittest.TestCase):
         self.assertEqual(self.report["device"]["observed_before"]["node_name"], "mfenx-gate-validation")
         self.assertEqual(self.report["device"]["observed_after"]["node_name"], "mfenx-gate-validation")
         self.assertEqual(self.report["authentication"], "none")
+
+    def test_sdk_inventory_identifies_the_distributed_wheel(self):
+        record = json.loads((ROOT / "enterprise/GATE-SBOM.validation.json").read_text())
+        self.assertEqual(record["sbom_sha256"], digest(ROOT / "enterprise/GATE-SBOM.cdx.json").removeprefix("sha256:"))
+        self.assertEqual(record["frozen_wheel_sha256"], digest(ROOT / "gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl").removeprefix("sha256:"))
+        self.assertEqual(record["status"], "PASS")
+
+    def test_technical_pack_has_exact_allowlisted_content(self):
+        path = ROOT / "enterprise/mfenx-gate-technical-pack-v1.zip"
+        with zipfile.ZipFile(path) as archive:
+            self.assertEqual(set(archive.namelist()), set(MEMBERS))
+            self.assertEqual(len(archive.namelist()), len(MEMBERS))
+            for name, relative in MEMBERS.items():
+                self.assertEqual(archive.read(name), (ROOT / relative).read_bytes())
+        with tempfile.TemporaryDirectory() as temporary:
+            repeat = Path(temporary) / "pack.zip"
+            build(ROOT, repeat)
+            self.assertEqual(repeat.read_bytes(), path.read_bytes())
 
 
 if __name__ == "__main__":
