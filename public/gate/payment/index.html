@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.paddle.com/paddle/v2/paddle.js; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.paddle.com; frame-src https://*.paddle.com; img-src 'self' data: https://*.paddle.com; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>Review purchase — MFENX Gate</title>
+    <script type="module" src="./payment.js"></script>
+    <link rel="stylesheet" href="./payment.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to purchase review</a>
+    <header class="masthead">
+      <a class="wordmark" href="https://mfenx.com/" aria-label="MFENX home">MFENX</a>
+      <span>Gate / Purchase</span>
+    </header>
+    <main id="main" tabindex="-1">
+      <header class="heading">
+        <h1>Review your purchase.</h1>
+        <p>A separate payment workspace.<br />Your browser key stays on the licensing site.</p>
+      </header>
+      <p id="payment-status" role="status" aria-live="polite">Checking the signed checkout request…</p>
+      <noscript><p>JavaScript and browser cryptography are required to check this purchase request. Free local receipt verification remains available through the CLI.</p></noscript>
+      <section id="payment-review" aria-labelledby="review-heading" hidden>
+        <div class="margin">
+          <h2 id="review-heading">Order</h2>
+          <p id="payment-environment" class="note"></p>
+        </div>
+        <div class="details">
+          <dl class="ledger">
+            <div><dt>License</dt><dd id="payment-plan"></dd></div>
+            <div><dt>Recurring price</dt><dd id="payment-price"></dd></div>
+            <div><dt>Deployment</dt><dd>One customer-operated deployment</dd></div>
+            <div><dt>Use</dt><dd>Internal business use</dd></div>
+            <div><dt>Payment provider</dt><dd>Paddle</dd></div>
+          </dl>
+          <p>Review the final total, applicable taxes and renewal terms in Paddle before paying. Cancellation stops future renewal; the current paid term remains subject to the license terms.</p>
+          <p class="terms">Read the <a href="https://mfenx.com/terms/" target="_blank" rel="noopener noreferrer">license terms</a>, <a href="https://mfenx.com/privacy/" target="_blank" rel="noopener noreferrer">privacy notice</a> and <a href="https://mfenx.com/refunds/" target="_blank" rel="noopener noreferrer">refund policy</a>.</p>
+          <button id="payment-open" type="button" disabled>Continue to Paddle</button>
+          <p class="note">This request expires five minutes after preparation. If it expires or checkout is closed, return to licensing to prepare another request.</p>
+        </div>
+      </section>
+      <section class="handoff" aria-labelledby="handoff-heading">
+        <h2 id="handoff-heading">After payment</h2>
+        <div>
+          <p>Return to the licensing site in the browser that holds your key. Refresh the license status and download the confirmed license.</p>
+          <p class="note">This page does not issue a license or confirm payment. The licensing service checks the transaction independently.</p>
+          <a class="return-link" href="https://license.mfenx.com/gate/license/">Return to licensing →</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>mfenx LLC</p>
+      <nav aria-label="Legal and support">
+        <a href="https://mfenx.com/terms/">Terms</a>
+        <a href="https://mfenx.com/privacy/">Privacy</a>
+        <a href="https://mfenx.com/refunds/">Refunds</a>
+        <a href="https://mfenx.com/support/">Purchase support</a>
+      </nav>
+    </footer>
+  </body>
+</html>

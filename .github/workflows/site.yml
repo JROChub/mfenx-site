@@ -65,12 +65,15 @@ jobs:
       - name: Check customer-operated offer and closed checkout
         run: python3 -m unittest -v tests.test_gate_delivery_copy
 
+      - name: Check commercial terms, privacy and support navigation
+        run: python3 -m unittest -v tests.test_gate_legal_pages
+
       - name: Install pinned browser test runtime
         shell: bash
         run: |
           set -euo pipefail
           python3 -m venv .site-test-venv
-          .site-test-venv/bin/python -m pip install --disable-pip-version-check --no-input playwright==1.62.0
+          .site-test-venv/bin/python -m pip install --disable-pip-version-check --no-input playwright==1.62.0 pytest==9.1.1 cryptography==50.0.0
           .site-test-venv/bin/python -m playwright install --with-deps chromium
 
       - name: Exercise the production payload in Chromium
@@ -90,6 +93,9 @@ jobs:
 
       - name: Exercise local-key licensing and recovery boundaries in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_license.py --root public
+
+      - name: Exercise isolated payment handoff and signed tickets in Chromium
+        run: .site-test-venv/bin/python -m pytest tests/browser_gate_payment.py -q
 
       - name: Exercise Atomic Roc Roc missions and replay in Chromium
         run: .site-test-venv/bin/python tests/browser_atomic.py --root public
