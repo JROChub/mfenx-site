@@ -100,6 +100,9 @@ jobs:
       - name: Exercise isolated payment handoff and signed tickets in Chromium
         run: .site-test-venv/bin/python -m pytest tests/browser_gate_payment.py -q
 
+      - name: Exercise provider billing continuation in Chromium
+        run: .site-test-venv/bin/python -m pytest tests/browser_gate_billing.py -q
+
       - name: Exercise runtime installation documentation in Chromium
         run: .site-test-venv/bin/python -m pytest tests/browser_gate_runtime.py -q
 
