@@ -168,6 +168,12 @@
             <legend>Choose a license</legend>
             <div id="plan-options"></div>
           </fieldset>
+          <label class="license-check" id="terms-consent" for="terms-accepted" hidden>
+            <input type="checkbox" id="terms-accepted" />
+            <span>I accept the <a href="https://mfenx.com/terms/" target="_blank" rel="noopener noreferrer">MFENX Gate terms</a>
+              for this recurring subscription. See the <a href="https://mfenx.com/refunds/" target="_blank" rel="noopener noreferrer">cancellation and refund policy</a>
+              and <a href="https://mfenx.com/privacy/" target="_blank" rel="noopener noreferrer">privacy notice</a>.</span>
+          </label>
           <div class="license-actions">
             <button type="button" class="button" id="license-buy" disabled>
               Prepare checkout
@@ -237,9 +243,9 @@
             Open Paddle subscription management ↗
           </a>
           <p class="note">
-            A license grants the software rights stated in that document. It is
-            not a model-admission receipt or proof that a model passed
-            evaluation.
+            The commercial terms grant software rights. This signed document
+            records your current entitlement; it is not a model-admission
+            receipt or proof that a model passed evaluation.
           </p>
         </div>
       </section>
@@ -262,9 +268,13 @@
     </main>
     <footer class="site-footer">
       <p>MFENX · Local model admission</p>
-      <a href="https://mfenx.com/verify/"
-        >Verify a release receipt without a license ↗</a
-      >
+      <nav aria-label="Footer navigation">
+        <a href="https://mfenx.com/verify/">Free receipt verification ↗</a>
+        <a href="https://mfenx.com/terms/">Terms</a>
+        <a href="https://mfenx.com/privacy/">Privacy</a>
+        <a href="https://mfenx.com/refunds/">Refunds</a>
+        <a href="https://mfenx.com/support/">Support</a>
+      </nav>
     </footer>
   </body>
 </html>

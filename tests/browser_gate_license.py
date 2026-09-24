@@ -142,6 +142,23 @@ class Service:
             else:
                 assert self.licenses[holder]["request_id"] == body["request"]["request_id"]
             response = {"license_id": identifier, "transaction_id": transaction, "url": "https://sandbox-pay.paddle.io/hsc_" + "a" * 26 + "_" + "b" * 20 + "?transaction_id=" + transaction, "environment": "sandbox", "entitlement_granted": False}
+            if self.variant and self.variant.startswith("web_"):
+                now = int(time.time())
+                plan = body["request"]["plan"]
+                offer = self.config["plans"][plan]
+                payload = {"schema":"mfenx.gate.checkout.v1", "issuer":ORIGIN,
+                    "audience":"https://pay.mfenx.com", "environment":"sandbox",
+                    "key_id":self.config["issuer"]["key_id"], "transaction_id":transaction,
+                    "plan":plan, "currency":"USD", "unit_price_minor":offer["usd_minor"],
+                    "interval":offer["interval"], "quantity":1, "issued_at":now, "expires_at":now+300}
+                if self.variant == "web_wrong_transaction": payload["transaction_id"] = "txn_"+"z"*26
+                if self.variant == "web_wrong_price": payload["unit_price_minor"] = 1
+                if self.variant == "web_expired": payload.update(issued_at=now-301, expires_at=now-1)
+                envelope = {"algorithm":"Ed25519", "key_id":payload["key_id"], "payload":payload, "signature":self.sign(payload)}
+                if self.variant == "web_tampered": payload["quantity"] = 2
+                encoded = canonical(envelope).encode()
+                if self.variant == "web_duplicate": encoded = encoded.replace(b'"algorithm":"Ed25519"', b'"algorithm":"Ed25519","algorithm":"Ed25519"')
+                response["url"] = "https://pay.mfenx.com/#ticket="+base64.urlsafe_b64encode(encoded).decode().rstrip("=")
             if self.variant == "documented_path": response["url"] = response["url"].replace("sandbox-pay.paddle.io/hsc_", "sandbox.pay.paddle.io/checkout/hsc_")
             if self.variant == "wrong_host": response["url"] = "https://sandbox.pay.paddle.io.evil.invalid/checkout/test?transaction_id=" + transaction
             if self.variant == "extra_query": response["url"] += "&user_email=not-permitted%40example.invalid"
@@ -325,7 +342,33 @@ def run(root, chromium):
         expect(page.locator("#checkout-link")).to_be_visible()
         assert "sandbox.pay.paddle.io/checkout/hsc_" in page.locator("#checkout-link").get_attribute("href")
         context.close()
-        for variant in ("wrong_host", "extra_query", "wrong_transaction"):
+        service.variant = "web_valid"
+        service.config["terms"] = {"url": "https://mfenx.com/terms/", "sha256": "sha256:" + "a" * 64}
+        context, page = workspace()
+        create(page)
+        page.locator("#backup-saved").check()
+        expect(page.locator("#terms-consent")).to_be_visible()
+        expect(page.locator("#terms-accepted")).not_to_be_checked()
+        expect(page.locator("#license-buy")).to_be_disabled()
+        before = len(service.proofs)
+        page.locator("#license-buy").dispatch_event("click")
+        expect(page.locator("#license-status")).to_contain_text("Accept the commercial terms")
+        assert len(service.proofs) == before
+        page.locator("#terms-accepted").check()
+        expect(page.locator("#license-buy")).to_be_enabled()
+        page.locator("#license-buy").click()
+        expect(page.locator("#checkout-link")).to_be_visible()
+        assert page.locator("#checkout-link").get_attribute("href").startswith("https://pay.mfenx.com/#ticket=")
+        assert [body for path, body, _ in service.requests if path.endswith("/checkout")][-1]["request"]["terms_sha256"] == service.config["terms"]["sha256"]
+        expect(page.locator("#license-download")).to_be_disabled()
+        page.reload()
+        expect(page.locator("#license-buy")).to_have_text("Resume checkout")
+        expect(page.locator("#terms-accepted")).not_to_be_checked()
+        expect(page.locator("#license-buy")).to_be_disabled()
+        context.close()
+        del service.config["terms"]
+        for variant in ("wrong_host", "extra_query", "wrong_transaction", "web_wrong_transaction",
+                        "web_wrong_price", "web_expired", "web_tampered", "web_duplicate"):
             service.variant = variant
             context, page = workspace()
             create(page)

@@ -212,6 +212,7 @@ function controls() {
   $("license-buy").disabled =
     !ready ||
     config?.checkout_enabled !== true ||
+    (config?.terms && !$("terms-accepted").checked) ||
     !identity.backup_saved ||
     (Boolean(identity.license_id) && !identity.request_id) ||
     current?.state === "active" ||
@@ -258,10 +259,39 @@ function renderIdentity() {
     "Stored locally in this browser’s IndexedDB. The stored private key cannot be exported through WebCrypto.";
 }
 
-function hostedCheckout(value, transaction, environment) {
-  if (typeof value !== "string" || value.length > 2048)
+async function hostedCheckout(value, transaction, environment, plan) {
+  if (typeof value !== "string" || value.length > 4200)
     throw new Error("Unsupported payment link.");
   const url = new URL(value);
+  if (url.origin === "https://pay.mfenx.com") {
+    if (url.href !== value || url.pathname !== "/" || url.search || url.username || url.password ||
+        !/^#ticket=[A-Za-z0-9_-]{1,4096}$/.test(url.hash))
+      throw new Error("The payment link is not a canonical checkout ticket.");
+    try {
+      const token = url.hash.slice(8);
+      const bytes = base64ToBytes(token.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4-token.length%4)%4), 4096);
+      const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+      const doc = JSON.parse(text);
+      if (canonical(doc) !== text || Object.keys(doc).sort().join(",") !== "algorithm,key_id,payload,signature")
+        throw new Error();
+      const p = doc.payload;
+      const offer = config.plans[plan];
+      const expected = { schema: "mfenx.gate.checkout.v1", issuer: location.origin,
+        audience: "https://pay.mfenx.com", environment, key_id: config.issuer.key_id,
+        transaction_id: transaction, plan, currency: "USD", unit_price_minor: offer.usd_minor,
+        interval: offer.interval, quantity: 1, issued_at: p.issued_at, expires_at: p.expires_at };
+      if (doc.algorithm !== "Ed25519" || doc.key_id !== config.issuer.key_id ||
+          canonical(p) !== canonical(expected) || !Number.isSafeInteger(p.issued_at) || p.issued_at <= 0 ||
+          !Number.isSafeInteger(p.expires_at) || p.expires_at-p.issued_at !== 300 ||
+          p.issued_at*1000 > Date.now()+60000 || p.expires_at*1000 <= Date.now()) throw new Error();
+      const signature = base64ToBytes(doc.signature, 128);
+      if (signature.length !== 64 || !(await crypto.subtle.verify("Ed25519", issuerKey, signature, encode.encode(canonical(p)))))
+        throw new Error();
+      return url.href;
+    } catch {
+      throw new Error("The payment link does not match this signed purchase.");
+    }
+  }
   const hosts =
     environment === "sandbox"
       ? ["sandbox.pay.paddle.io", "sandbox-pay.paddle.io"]
@@ -335,6 +365,13 @@ async function configure() {
       throw new Error("The licensing service returned unsupported pricing.");
   }
   result.portal_url = portalURL(result.portal_url, result.environment);
+  if (result.terms !== undefined && (!result.terms ||
+      Object.keys(result.terms).sort().join(",") !== "sha256,url" ||
+      result.terms.url !== "https://mfenx.com/terms/" ||
+      !/^sha256:[a-f0-9]{64}$/.test(result.terms.sha256)))
+    throw new Error("The commercial terms could not be confirmed.");
+  $("terms-consent").hidden = !result.terms;
+  $("terms-accepted").checked = false;
   if (result.available) {
     if (
       result.issuer?.algorithm !== "Ed25519" ||
@@ -537,6 +574,7 @@ async function verifyDocument(document) {
 }
 
 $("key-understood").addEventListener("change", controls);
+$("terms-accepted").addEventListener("change", controls);
 $("key-create").addEventListener("click", () =>
   perform(async () => {
     const password = $("backup-password").value;
@@ -591,6 +629,8 @@ $("license-buy").addEventListener("click", () =>
   perform(async () => {
     if (config?.checkout_enabled !== true)
       throw new Error("New purchases are paused. Existing licenses remain accessible.");
+    if (config?.terms && !$("terms-accepted").checked)
+      throw new Error("Accept the commercial terms before preparing checkout.");
     if (
       !identity?.backup_saved ||
       (identity.license_id && !identity.request_id) ||
@@ -621,6 +661,7 @@ $("license-buy").addEventListener("click", () =>
       result = await operation("checkout", {
         plan,
         request_id: identity.request_id,
+        ...(config.terms ? {terms_sha256: config.terms.sha256} : {}),
       });
     } catch (error) {
       if (error.recovery_license_id)
@@ -640,7 +681,7 @@ $("license-buy").addEventListener("click", () =>
     const url =
       result.url === null
         ? null
-        : hostedCheckout(result.url, result.transaction_id, result.environment);
+        : await hostedCheckout(result.url, result.transaction_id, result.environment, plan);
     identity = await updateIdentity(identity.key_id, {
       license_id: result.license_id,
       transaction_id: result.transaction_id,
