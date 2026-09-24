@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <title>Install the organization runtime — MFENX Gate</title>
+    <meta name="description" content="Authenticate the signed MFENX Gate organization runtime release, install its locked wheels offline and verify the installed service." />
+    <link rel="canonical" href="https://mfenx.com/docs/runtime/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css" />
+    <link rel="stylesheet" href="/docs/runtime/runtime.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a><a href="/verify/">Verify</a><a href="/docs/" aria-current="page">Documentation</a><a href="/pricing/">Pricing</a><a href="/labs/">Research ↗</a>
+      </nav>
+    </header>
+    <main class="page" id="content" tabindex="-1">
+      <header class="document-head runtime-heading">
+        <div>
+          <p class="section-label">Gate / Organization runtime</p>
+          <h1>Authenticate. Install. Accept.</h1>
+          <p>The customer-operated service for organization policy, receipt registration and usage allowances. Authenticate the release before running its installer; verify your purchased license separately.</p>
+        </div>
+        <aside>
+          Release <strong>0.3.0rc3</strong><br />Sequence 1<br />8,600,105-byte archive
+          <p>CPython 3.13<br />Linux x86_64<br />glibc 2.34 or newer</p>
+        </aside>
+      </header>
+      <div class="document-grid document-body">
+        <nav class="contents" aria-label="On this page">
+          <a href="#download">Release files</a><a href="#trust">Publisher trust</a><a href="#authenticate">Authenticate the bytes</a><a href="#install">Offline installation</a><a href="#configure">Deployment and license</a><a href="#acceptance">Installed acceptance</a><a href="#renewal">Renewal and support</a>
+        </nav>
+        <div class="reading">
+          <h2 id="download">Release files</h2>
+          <p>Download the complete delivery packet. The archive contains 22 locked wheels, installation and acceptance tools, and original license notices. Model evaluation uses the <a href="/docs/#install">separate SDK and CKODMK installation</a>.</p>
+          <div class="table-scroll" tabindex="0" aria-label="Release downloads">
+            <table>
+              <thead><tr><th scope="col">Object</th><th scope="col">File</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Runtime archive</th><td><a href="/gate/downloads/runtime-0.3.0rc3/mfenx-gate-licensed-runtime-0.3.0rc3-linux-x86_64-py313.tar.gz" download>Linux x86_64 / CPython 3.13 bundle</a></td></tr>
+                <tr><th scope="row">Signed description</th><td><a href="/gate/downloads/runtime-0.3.0rc3/delivery-manifest.json" download>delivery-manifest.json</a></td></tr>
+                <tr><th scope="row">Detached signature</th><td><a href="/gate/downloads/runtime-0.3.0rc3/delivery-manifest.sig" download>delivery-manifest.sig</a></td></tr>
+                <tr><th scope="row">Local verifier</th><td><a href="/gate/downloads/runtime-0.3.0rc3/delivery_manifest.py" download>delivery_manifest.py</a></td></tr>
+                <tr><th scope="row">Publisher public key</th><td><a href="/gate/downloads/runtime-0.3.0rc3/publisher.pem" download>publisher.pem</a></td></tr>
+                <tr><th scope="row">Installation reference</th><td><a href="/gate/downloads/runtime-0.3.0rc3/quickstart.md" download>Complete command-by-command guide</a></td></tr>
+                <tr><th scope="row">Public trust reference</th><td><a href="/gate/downloads/runtime-0.3.0rc3/release-pins.json" download>Release and issuer pins</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">A signed release authenticates software delivery. It is not a purchased entitlement, a model-admission result or an indication that live checkout is enabled. The licensing service reports purchase availability. Standalone receipt verification remains free.</p>
+
+          <h2 id="trust">Confirm the publisher independently</h2>
+          <p>Enroll the full publisher fingerprint through an already trusted MFENX channel or your administrator’s trust configuration. A fingerprint downloaded beside an archive does not authenticate itself. Store the accepted version and sequence floor outside the download directory.</p>
+          <dl class="runtime-pins">
+            <div><dt>Publisher · Ed25519 SPKI SHA-256</dt><dd><code>c11c70a4a29721aec1df7322a5dfae328ff4a60ebed110570cbd27279bca12a2</code></dd></div>
+            <div><dt>Version / minimum sequence</dt><dd>0.3.0rc3 / 1</dd></div>
+            <div><dt>Manifest validity · UTC</dt><dd><time datetime="2026-09-24T01:40:00Z">24 September 2026, 01:40</time> to <time datetime="2027-09-24T01:40:00Z">24 September 2027, 01:40</time>, excluding the end.</dd></div>
+          </dl>
+          <p>The manifest binds a separate live entitlement issuer at <code>https://license.mfenx.com</code>, key ID <code>mfenx-license-live-20260924</code>. Its public SPKI SHA-256 is:</p>
+          <p class="runtime-digest"><code>2c04b488e5151534ec5cc58d2cbcd66e7924db207a45d3789a0c24ad68088e4d</code></p>
+          <p>Publisher, entitlement issuer and customer purchase key have different roles. This packet is scoped to live entitlements; sandbox licenses do not become live licenses by changing configuration.</p>
+
+          <h2 id="authenticate">Check before execution</h2>
+          <p>Use a new private directory owned by your operator. Do not use symlinks or allow other users to replace the files. OpenSSL with Ed25519 support and CPython 3.13 must already be installed.</p>
+          <pre><code>openssl pkey -pubin -in publisher.pem -outform DER | openssl dgst -sha256</code></pre>
+          <p>Compare the complete result with your enrolled publisher pin. Then construct the domain-separated signature input using only the standard library:</p>
+          <pre><code>python3.13 -I - &lt;&lt;'PY'
+from pathlib import Path
+raw = Path('delivery-manifest.json').read_bytes()
+if not 0 &lt; len(raw) &lt;= 16384:
+    raise SystemExit('Manifest size rejected')
+with Path('signed-message.bin').open('xb') as output:
+    output.write(b'MFENX-GATE-DELIVERY-MANIFEST-V1\n' + raw)
+PY
+openssl pkeyutl -verify -pubin -inkey publisher.pem -rawin \
+  -in signed-message.bin -sigfile delivery-manifest.sig</code></pre>
+          <p>Stop unless OpenSSL succeeds. Inspect the authenticated manifest as data: check product, target, exact version, sequence, current time and issuer scope. Compare both the archive and verifier byte counts and SHA-256 values with their signed records before extracting or executing either.</p>
+          <pre><code>wc -c mfenx-gate-licensed-runtime-0.3.0rc3-linux-x86_64-py313.tar.gz delivery_manifest.py
+sha256sum mfenx-gate-licensed-runtime-0.3.0rc3-linux-x86_64-py313.tar.gz delivery_manifest.py</code></pre>
+          <dl class="runtime-pins">
+            <div><dt>Archive · 8,600,105 bytes</dt><dd><code>180f92ca6cf053eb7ebb10a0bbf2ad2e9f1a060e9ad761d4669fabb5047769b5</code></dd></div>
+            <div><dt>Verifier · 17,460 bytes</dt><dd><code>3340d0452be607204064a463af1149f8a5684f83f4184395b885234a83846cff</code></dd></div>
+          </dl>
+          <p class="note">The detached signature covers exact manifest bytes, not reformatted JSON. A reliable clock and administrator-maintained release policy are required: an offline check cannot discover newer releases or revoked keys.</p>
+
+          <h2 id="install">Install without a package index</h2>
+          <p>After authentication, extract the archive into your private directory. Choose a new, persistent runtime environment outside the extracted bundle; replace the absolute paths below with your operator-owned locations.</p>
+          <pre><code>tar -xzf mfenx-gate-licensed-runtime-0.3.0rc3-linux-x86_64-py313.tar.gz
+cd mfenx-gate-licensed-runtime
+python3.13 -I install.py /absolute/path/to/new-runtime-venv</code></pre>
+          <p>The installer rejects an existing destination, verifies its inventory and installs the exact hashed wheels without dependency resolution or network package downloads. Python’s <code>venv</code> and pip bootstrap must already be present. It does not start or register a service.</p>
+          <p>Use the installed Python to verify the full delivery contract and export its authenticated public issuer trust into a new directory:</p>
+          <pre><code>/absolute/path/to/new-runtime-venv/bin/python -I /absolute/download/delivery_manifest.py verify \
+  --manifest /absolute/download/delivery-manifest.json \
+  --signature /absolute/download/delivery-manifest.sig \
+  --publisher-key /absolute/download/publisher.pem \
+  --publisher-key-sha256 sha256:c11c70a4a29721aec1df7322a5dfae328ff4a60ebed110570cbd27279bca12a2 \
+  --archive /absolute/download/mfenx-gate-licensed-runtime-0.3.0rc3-linux-x86_64-py313.tar.gz \
+  --expected-version 0.3.0rc3 --minimum-sequence 1 \
+  --expected-origin https://license.mfenx.com \
+  --trust-directory /absolute/private/new-trust-directory</code></pre>
+          <p>Use your enrolled publisher pin and retained sequence floor, increasing that floor after accepting a later release. This command exports <code>trusted-license-issuer.pem</code> and <code>verified-release-trust.json</code>. It does not grant a license or alter runtime configuration.</p>
+
+          <h2 id="configure">Connect your deployment and license</h2>
+          <p>Follow the bundled <code>runtime-configuration.md</code>. Your organization supplies its OIDC identity provider, database, TLS proxy, backups and public runtime origin. MFENX billing configuration does not belong in this customer runtime.</p>
+          <p>When purchasing through <a href="https://license.mfenx.com/gate/license/">the licensing workspace</a>, retain your encrypted key-recovery file and passphrase separately. Record the holder fingerprint from your own purchase key, not solely from the downloaded license. Refresh after payment and download the confirmed entitlement.</p>
+          <p>Configure the authenticated issuer public key, key ID, origin and environment, your independently recorded holder fingerprint, and the license file path. Set the organization plan explicitly: the default allowance is Developer and cannot exceed the purchased plan. A valid software license does not replace organization authorization.</p>
+          <pre><code>/absolute/path/to/new-runtime-venv/bin/python -I -m gate_control.license_verify \
+  /absolute/private/runtime/license.json \
+  --issuer-key /absolute/private/new-trust-directory/trusted-license-issuer.pem \
+  --key-id mfenx-license-live-20260924 \
+  --issuer https://license.mfenx.com \
+  --holder-sha256 sha256:OWN_PURCHASE_KEY_FINGERPRINT</code></pre>
+
+          <h2 id="acceptance">Exercise the installed runtime</h2>
+          <p>From the extracted bundle, run its 14-case acceptance worker with a new empty, operator-owned scratch directory. It uses synthetic licenses and identities, real loopback HTTP and Python-level network guards. It does not activate your purchase or validate your organization’s identity-provider integration.</p>
+          <pre><code>/absolute/path/to/new-runtime-venv/bin/python -I acceptance.py \
+  --_worker /absolute/path/to/empty-scratch --_expected-version 0.3.0rc3</code></pre>
+          <p>After your own deployment acceptance, use the licensed entry point behind your configured TLS proxy:</p>
+          <pre><code>/absolute/path/to/new-runtime-venv/bin/uvicorn \
+  gate_control.licensed_app:create_app --factory \
+  --host 127.0.0.1 --port 8090 --workers 1 --no-access-log</code></pre>
+          <p>Do not substitute the legacy <code>gate_control.app:create_app</code> factory. A health HTTP 200 establishes liveness, not paid admission: inspect <code>paid_features_available</code> and test an authorized governed operation. Missing or invalid licenses fail governed requests closed.</p>
+
+          <h2 id="renewal">Keep the signed term current</h2>
+          <p>Team and Business grants need renewal before their signed expiry. The bundle includes <code>tools/renew_license.py</code> and its customer-renewal guide. Test that one-shot helper with your protected recovery files and independent trust pins before scheduling it. No scheduled job is installed automatically.</p>
+          <p>Private air-gap delivery remains manual and disconnected. Cancellation prevents fresh grants, not use of an already issued offline grant before its signed expiry. Free receipt verification is independent of the organization subscription.</p>
+          <p>The archive and its notices are unchanged. The external delivery signature authenticates this retained release; older build-time candidate wording inside it is not silently rewritten. Software rights follow the <a href="/terms/">commercial terms</a> and applicable order. For assistance, use <a href="/support/">support</a>; do not send private keys, passphrases, models or datasets.</p>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer"><a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a><a href="/enterprise/">Private deployment</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/refunds/">Refunds</a><a href="/support/">Support</a></nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>

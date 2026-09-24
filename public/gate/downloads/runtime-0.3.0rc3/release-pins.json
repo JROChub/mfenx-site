@@ -1,0 +1,12 @@
+{
+  "schema": "mfenx.gate.public-release-pins.v1",
+  "product": "mfenx-gate-licensed-runtime",
+  "version": "0.3.0rc3",
+  "minimum_sequence": 1,
+  "publisher_spki_sha256": "sha256:c11c70a4a29721aec1df7322a5dfae328ff4a60ebed110570cbd27279bca12a2",
+  "license_origin": "https://license.mfenx.com",
+  "license_environment": "live",
+  "license_key_id": "mfenx-license-live-20260924",
+  "license_issuer_spki_sha256": "sha256:2c04b488e5151534ec5cc58d2cbcd66e7924db207a45d3789a0c24ad68088e4d",
+  "trust_note": "Public enrollment reference, not an independent signature or entitlement. Confirm publisher fingerprint through an already trusted channel and retain the accepted sequence floor in administrator-controlled configuration."
+}

@@ -1,0 +1,8 @@
+.runtime-heading h1 { font-size: clamp(2rem, 3.2vw, 3rem); }
+.runtime-heading .section-label { margin-top: 0; }
+.runtime-pins { margin-block: 1.8rem; }
+.runtime-pins > div { border-bottom: 1px solid var(--line); padding-block: 0.8rem; }
+.runtime-pins dt { font-size: 0.86rem; color: var(--muted); }
+.runtime-pins dd { margin: 0.35rem 0 0; font-size: 0.95rem; }
+.runtime-pins code, .runtime-digest code { overflow-wrap: anywhere; word-break: break-word; }
+.runtime-digest { border-left: 2px solid var(--line); padding-left: 1rem; }
