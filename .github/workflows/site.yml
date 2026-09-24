@@ -68,6 +68,9 @@ jobs:
       - name: Check commercial terms, privacy and support navigation
         run: python3 -m unittest -v tests.test_gate_legal_pages
 
+      - name: Authenticate the organization-runtime delivery packet
+        run: python3 -m unittest -v tests.test_gate_runtime_delivery
+
       - name: Install pinned browser test runtime
         shell: bash
         run: |
@@ -96,6 +99,9 @@ jobs:
 
       - name: Exercise isolated payment handoff and signed tickets in Chromium
         run: .site-test-venv/bin/python -m pytest tests/browser_gate_payment.py -q
+
+      - name: Exercise runtime installation documentation in Chromium
+        run: .site-test-venv/bin/python -m pytest tests/browser_gate_runtime.py -q
 
       - name: Exercise Atomic Roc Roc missions and replay in Chromium
         run: .site-test-venv/bin/python tests/browser_atomic.py --root public
