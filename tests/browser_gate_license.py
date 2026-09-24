@@ -44,7 +44,7 @@ class Service:
         self.command("genpkey", "-algorithm", "Ed25519", "-out", str(self.key))
         self.spki = self.command("pkey", "-in", str(self.key), "-pubout", "-outform", "DER")
         self.config = {
-            "available": True, "environment": "sandbox",
+            "available": True, "checkout_enabled": True, "environment": "sandbox",
             "plans": {"team": {"usd_minor": 39900, "interval": "month"}, "private": {"usd_minor": 2400000, "interval": "year"}},
             "portal_url": "https://sandbox-customer-portal.paddle.com/cpl_example/login",
             "issuer": {"algorithm": "Ed25519", "key_id": "fixture-license-issuer", "public_key_spki_base64": b64(self.spki)},
@@ -336,6 +336,21 @@ def run(root, chromium):
             expect(page.locator("#checkout-link")).to_be_hidden()
             context.close()
         service.variant = None
+
+        service.config["checkout_enabled"] = False
+        context, page = workspace()
+        create(page)
+        page.locator("#backup-saved").check()
+        expect(page.locator("#license-buy")).to_be_disabled()
+        expect(page.locator("#license-refresh")).to_be_enabled()
+        expect(page.locator("#license-plans")).to_be_hidden()
+        expect(page.locator("#purchase-status")).to_contain_text("purchases are paused")
+        checkout_count = len([path for path, _, _ in service.requests if path.endswith("/checkout")])
+        page.locator("#license-buy").dispatch_event("click")
+        expect(page.locator("#license-status")).to_contain_text("purchases are paused")
+        assert len([path for path, _, _ in service.requests if path.endswith("/checkout")]) == checkout_count
+        context.close()
+        service.config["checkout_enabled"] = True
 
         service.config["available"] = False
         context = browser.new_context()
