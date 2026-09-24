@@ -201,12 +201,17 @@ class RuntimeDelivery(unittest.TestCase):
         self.assertIn("--proto '=https'", guide)
 
     def test_security_record_separates_customer_runtime_from_merchant_service(self):
-        text = (ROOT / "enterprise/security-overview.md").read_text()
+        text = (ROOT / "enterprise/runtime-security.md").read_text()
         self.assertNotIn("verified payment-provider configuration", text)
         self.assertNotIn("A managed history service is optional", text)
         self.assertIn("not an MFENX-hosted receipt-history service", text)
         self.assertIn("does not need Paddle credentials", text)
         self.assertIn("The original technical-pack ZIP", text)
+        self.assertIn("historical SDK record", text)
+        self.assertIn("/enterprise/runtime-security.md", self.page.links)
+        enterprise = Document((ROOT / "enterprise/index.html").read_text())
+        self.assertIn("/enterprise/runtime-security.md", enterprise.links)
+        self.assertIn("historical SDK evidence", enterprise.prose)
 
 
 if __name__ == "__main__":

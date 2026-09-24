@@ -108,6 +108,7 @@ python3.13 -I install.py /absolute/path/to/new-runtime-venv</code></pre>
 
           <h2 id="configure">Connect your deployment and license</h2>
           <p>Follow the bundled <code>runtime-configuration.md</code>. Your organization supplies its OIDC identity provider, database, TLS proxy, backups and public runtime origin. MFENX billing configuration does not belong in this customer runtime.</p>
+          <p>The <a href="/enterprise/runtime-security.md">current runtime security and data-flow record</a> describes this separation. The retained technical-pack v1 ZIP is historical SDK evidence, not the current organization-runtime configuration guide.</p>
           <p>When purchasing through <a href="https://license.mfenx.com/gate/license/">the licensing workspace</a>, retain your encrypted key-recovery file and passphrase separately. Record the holder fingerprint from your own purchase key, not solely from the downloaded license. Refresh after payment and download the confirmed entitlement.</p>
           <p>Configure the authenticated issuer public key, key ID, origin and environment, your independently recorded holder fingerprint, and the license file path. Set the organization plan explicitly: the default allowance is Developer and cannot exceed the purchased plan. A valid software license does not replace organization authorization.</p>
           <pre><code>/absolute/path/to/new-runtime-venv/bin/python -I -m gate_control.license_verify \
