@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ec" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.paddle.com/paddle/v2/paddle.js; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.paddle.com; frame-src https://*.paddle.com; img-src 'self' data: https://*.paddle.com; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>Continue billing — MFENX Gate</title>
+    <script type="module" src="./billing.js"></script>
+    <link rel="stylesheet" href="../payment.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to billing review</a>
+    <header class="masthead">
+      <a class="wordmark" href="https://mfenx.com/" aria-label="MFENX home">MFENX</a>
+      <span>Gate / Billing</span>
+    </header>
+    <main id="main" tabindex="-1">
+      <header class="heading">
+        <h1>Continue with Paddle.</h1>
+        <p>Use your Paddle billing link to update a payment method or settle a payment. Your purchase key stays on the licensing site.</p>
+      </header>
+      <p id="payment-status" role="status" aria-live="polite">Checking the billing link…</p>
+      <noscript><p>JavaScript is required to open Paddle here. You can also use the customer portal linked from your Paddle receipt.</p></noscript>
+      <section id="payment-review" aria-labelledby="review-heading" hidden>
+        <div class="margin">
+          <h2 id="review-heading">Before continuing</h2>
+          <p id="payment-environment" class="note"></p>
+        </div>
+        <div class="details">
+          <p>Paddle will show the subscription, the purpose of this request and any amount due. Review those details before confirming. A payment-method update may also collect an overdue payment.</p>
+          <p>This link identifies an existing Paddle transaction. It is not a signed MFENX purchase offer or a software license.</p>
+          <p class="terms">Read the <a href="https://mfenx.com/terms/" target="_blank" rel="noopener noreferrer">license terms</a>, <a href="https://mfenx.com/privacy/" target="_blank" rel="noopener noreferrer">privacy notice</a> and <a href="https://mfenx.com/refunds/" target="_blank" rel="noopener noreferrer">refund policy</a>.</p>
+          <button id="payment-open" type="button" disabled>Continue to Paddle</button>
+        </div>
+      </section>
+      <section class="handoff" aria-labelledby="handoff-heading">
+        <h2 id="handoff-heading">Your license</h2>
+        <div>
+          <p>After completing the request, return to the licensing site in the browser that holds your key and refresh its status.</p>
+          <p class="note">This page does not collect your purchase key, confirm payment or issue a license. The licensing service checks the provider’s current record independently.</p>
+          <a class="return-link" href="https://license.mfenx.com/gate/license/">Return to licensing →</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>mfenx LLC</p>
+      <nav aria-label="Legal and support">
+        <a href="https://mfenx.com/terms/">Terms</a>
+        <a href="https://mfenx.com/privacy/">Privacy</a>
+        <a href="https://mfenx.com/refunds/">Refunds</a>
+        <a href="https://mfenx.com/support/">Billing support</a>
+      </nav>
+    </footer>
+  </body>
+</html>
