@@ -350,6 +350,10 @@ def run(root, chromium):
         expect(page.locator("#terms-consent")).to_be_visible()
         expect(page.locator("#terms-accepted")).not_to_be_checked()
         expect(page.locator("#license-buy")).to_be_disabled()
+        # Backup acknowledgement is persisted asynchronously. Wait for the
+        # workspace to leave that operation before probing the consent guard;
+        # the purchase button remains disabled for both states.
+        expect(page.locator("#backup-download")).to_be_enabled()
         before = len(service.proofs)
         page.locator("#license-buy").dispatch_event("click")
         expect(page.locator("#license-status")).to_contain_text("Accept the commercial terms")
