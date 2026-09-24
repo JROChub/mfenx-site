@@ -62,6 +62,9 @@ jobs:
       - name: Bind Gate public evidence to the measured execution
         run: python3 -m unittest -v tests.test_gate_evidence
 
+      - name: Check customer-operated offer and closed checkout
+        run: python3 -m unittest -v tests.test_gate_delivery_copy
+
       - name: Install pinned browser test runtime
         shell: bash
         run: |

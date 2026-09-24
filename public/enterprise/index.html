@@ -30,8 +30,7 @@
           <h1>Keep the evaluation<br />inside your boundary.</h1>
           <p>
             Local artifacts, locally controlled signing keys, portable receipts.
-            Review the data flow before introducing a managed service or a
-            deployment gate.
+            Review the data flow before introducing a deployment gate.
           </p>
         </div>
         <aside>
@@ -90,8 +89,8 @@
                 <tr>
                   <th scope="row">Payment information</th>
                   <td>
-                    Handled by the payment provider when managed checkout is
-                    activated.
+                    Handled by Paddle when paid checkout is activated. MFENX
+                    licensing uses a local purchase key, not a customer account.
                   </td>
                 </tr>
               </tbody>
@@ -132,8 +131,10 @@
             must execute inside that target environment.
           </p>
           <p>
-            The optional control plane requires configured authentication,
-            persistent storage, TLS, backups and a verified payment integration.
+            The optional organization service runs in the customer environment
+            with customer-controlled authentication, storage, TLS and backups.
+            Software licensing is separate from model admission and receipt
+            verification; it does not send organization records to MFENX.
             Browser verification itself has no account database, advertising
             code or file-upload endpoint.
           </p>

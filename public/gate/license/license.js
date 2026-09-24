@@ -138,6 +138,8 @@ async function operation(action, request) {
     throw new Error(
       "A browser key and an available licensing service are required.",
     );
+  if (action === "checkout" && config.checkout_enabled !== true)
+    throw new Error("New purchases are paused. Existing licenses remain accessible.");
   const snapshot = identity;
   const token = generation;
   const challenge = await api("/v1/licenses/challenge", {
@@ -206,9 +208,10 @@ function controls() {
   $("backup-download").disabled = busy || !identity?.backup;
   $("backup-saved").disabled = busy || !identity;
   $("license-plans").disabled =
-    !ready || Boolean(identity?.license_id) || Boolean(identity?.request_id);
+    !ready || config?.checkout_enabled !== true || Boolean(identity?.license_id) || Boolean(identity?.request_id);
   $("license-buy").disabled =
     !ready ||
+    config?.checkout_enabled !== true ||
     !identity.backup_saved ||
     (Boolean(identity.license_id) && !identity.request_id) ||
     current?.state === "active" ||
@@ -310,6 +313,7 @@ async function configure() {
   const result = await api("/v1/licenses/config");
   if (
     typeof result.available !== "boolean" ||
+    typeof result.checkout_enabled !== "boolean" ||
     !["sandbox", "live"].includes(result.environment) ||
     !result.plans ||
     typeof result.plans !== "object" ||
@@ -372,10 +376,12 @@ async function configure() {
     label.append(input, name, price);
     $("plan-options").append(label);
   }
-  $("license-plans").hidden = !config.available;
+  $("license-plans").hidden = !config.available || !config.checkout_enabled;
   $("purchase-status").textContent = !config.available
     ? "Checkout is not configured on this website. No purchase can be started here."
-    : config.environment === "sandbox"
+    : !config.checkout_enabled
+      ? "New purchases are paused. Existing licenses can still be refreshed and downloaded."
+      : config.environment === "sandbox"
       ? "Sandbox — test payments only. No live subscription can be purchased here."
       : "Live subscription. Review the recurring terms and total on Paddle before paying.";
 }
@@ -583,6 +589,8 @@ $("backup-saved").addEventListener("change", () =>
 
 $("license-buy").addEventListener("click", () =>
   perform(async () => {
+    if (config?.checkout_enabled !== true)
+      throw new Error("New purchases are paused. Existing licenses remain accessible.");
     if (
       !identity?.backup_saved ||
       (identity.license_id && !identity.request_id) ||
