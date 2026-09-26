@@ -62,7 +62,7 @@ jobs:
       - name: Bind Gate public evidence to the measured execution
         run: python3 -m unittest -v tests.test_gate_evidence
 
-      - name: Check customer-operated offer and closed checkout
+      - name: Check customer-operated offer and purchase entry
         run: python3 -m unittest -v tests.test_gate_delivery_copy
 
       - name: Check commercial terms, privacy and support navigation
@@ -103,7 +103,7 @@ jobs:
       - name: Exercise provider billing continuation in Chromium
         run: .site-test-venv/bin/python -m pytest tests/browser_gate_billing.py -q
 
-      - name: Exercise runtime installation documentation in Chromium
+      - name: Exercise runtime delivery and purchase-entry documentation in Chromium
         run: .site-test-venv/bin/python -m pytest tests/browser_gate_runtime.py -q
 
       - name: Exercise Atomic Roc Roc missions and replay in Chromium
