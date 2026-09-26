@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f3ec" />
+    <meta name="theme-color" content="#fafaf8" />
     <meta
       name="description"
       content="Evaluate a model locally, replay its required behavioral contract and inspect signed release evidence with MFENX Gate."
@@ -12,10 +12,10 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
-    <title>Local model admission — MFENX Gate</title>
+    <title>Gate | MFENX</title>
     <link rel="canonical" href="https://mfenx.com/gate/" />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/gate.css" />
+    <link rel="stylesheet" href="/gate.css?v=20260926" />
     <link rel="stylesheet" href="/gate/evaluation.css" />
   </head>
   <body>
@@ -24,39 +24,62 @@
       <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
       <nav class="site-nav" aria-label="Main navigation">
         <a href="/gate/" aria-current="page">Gate</a>
-        <a href="/verify/">Verify</a>
+        <a href="/lightsout/">Lights Out</a>
+        <a href="/labs/">Technology</a>
+        <a href="/docs/">Developers</a>
+        <a href="/company/">Company</a>
         <a href="/pricing/">Pricing</a>
-        <a href="/docs/">Documentation</a>
+        <a class="nav-start" href="/verify/">Verify a receipt</a>
       </nav>
     </header>
     <main class="page gate-evaluation" id="main" tabindex="-1">
-      <header class="document-head">
-        <div>
-          <p class="section-label">MFENX Gate / Local evaluation</p>
-          <h1>Set the conditions.<br />Test the candidate.</h1>
+      <p class="breadline"><a href="/">Home</a> / Gate</p>
+      <header class="product-opening">
+        <div class="product-copy">
+          <p class="product-kicker">Local model admission</p>
+          <h1 class="product-title">Gate</h1>
+          <p class="product-deck">Check the model before you release it.</p>
+          <p>
+            Run the required evaluation, check the signed package and confirm
+            the exact candidate on your own machine.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="/ckodmk/#pcm-gate">Open signed model admission <span aria-hidden="true">→</span></a>
+            <a href="/docs/">Read the documentation <span aria-hidden="true">→</span></a>
+          </div>
+          <p class="note">No account or model upload required.</p>
         </div>
-        <p class="reading">
-          A model release is a decision about particular bytes, a particular
-          source and a particular evaluation contract. Make that decision on
-          your own machine.
-        </p>
+        <div class="product-art" aria-hidden="true">
+          <img src="/assets/mfenx-fold.svg" alt="" />
+        </div>
       </header>
+
+      <section class="facts-row" aria-label="Gate at a glance">
+        <div>
+          <h2>Local evaluation</h2>
+          <p>The selected model and evaluation files stay on your device.</p>
+        </div>
+        <div>
+          <h2>Exact artifacts</h2>
+          <p>Check that the model bytes match the signed package.</p>
+        </div>
+        <div>
+          <h2>Defined limits</h2>
+          <p>Test the candidate against the package’s evaluation contract.</p>
+        </div>
+      </section>
 
       <section class="evaluation-entry" aria-labelledby="evaluate-title">
         <div>
-          <h2 id="evaluate-title">Open the local evaluator</h2>
+          <p class="section-label">The evaluation workspace</p>
+          <h2 id="evaluate-title">Bring a model and its contract.</h2>
           <p class="reading">
-            CKODMK is the evaluation engine in MFENX Gate. Its browser workspace
-            runs supported ONNX models, compares source and candidate outputs,
-            and replays the contract carried by a signed model package.
+            CKODMK powers Gate’s local evaluation. The browser workspace runs
+            supported ONNX models, compares source and candidate outputs, and
+            replays the contract in a signed package.
           </p>
-          <a class="button" href="/ckodmk/#pcm-gate"
-            >Open signed-model admission</a
-          >
           <p class="note">
-            No account or upload. The evaluator and its runtime download to your
-            browser; the model and evaluation files you select stay on this
-            device.
+            The evaluator and its runtime download to your browser.
           </p>
         </div>
         <aside class="evaluation-preparation" aria-labelledby="bring-title">
@@ -72,8 +95,8 @@
             <li>A browser capable of running ONNX Runtime Web.</li>
           </ul>
           <p>
-            Or select <strong>Verify included PCM</strong> inside the evaluator
-            to replay the published trained-model example.
+            To try the published example, select
+            <strong>Verify included PCM</strong> inside the evaluator.
           </p>
         </aside>
       </section>
@@ -97,9 +120,8 @@
             <div>
               <h3>Replay the required behavior</h3>
               <p>
-                The engine executes the included evaluation contract locally and
-                checks the candidate’s measured results against its acceptance
-                limits.
+                The engine runs the included evaluation contract locally and
+                checks the measured results against its acceptance limits.
               </p>
             </div>
           </li>
@@ -122,8 +144,7 @@
           <h2 id="workflow-title">Choose the right evidence</h2>
           <p class="reading">
             Receipt authentication, artifact inspection and behavioral replay
-            answer different questions. Select the operation that your release
-            policy requires.
+            answer different questions.
           </p>
         </div>
         <p class="note evaluation-scroll-note">
@@ -163,7 +184,7 @@
                 <td><a href="/ckodmk/#pcm-gate">Replay package</a></td>
               </tr>
               <tr>
-                <th scope="row">Source–candidate comparison</th>
+                <th scope="row">Source and candidate comparison</th>
                 <td>
                   How supported ONNX candidates compare on the evaluation data
                   you select, including measured decisions, accuracy and
@@ -174,9 +195,9 @@
               <tr>
                 <th scope="row">Large checkpoint inspection</th>
                 <td>
-                  The identity and structure of safetensors or weights-only
-                  PyTorch checkpoints. Behavioral testing requires a compatible
-                  execution adapter and evaluation contract.
+                  The identity and structure of safetensors files or PyTorch
+                  checkpoints containing only weights. Behavioral testing
+                  requires a compatible execution adapter and evaluation contract.
                 </td>
                 <td><a href="/ckodmk/#install">CKODMK CLI</a></td>
               </tr>
@@ -189,15 +210,17 @@
         <h2 id="results-title">Read the result in context.</h2>
         <div class="reading">
           <p>
-            An accepted evaluation concerns the recorded model, data, contract
-            and execution environment. Keep those identities together when a
-            candidate is quantized, converted or packaged for another device.
+            An accepted evaluation applies to the recorded model, data, contract
+            and environment. Keep those identities together when converting or
+            repackaging a candidate.
           </p>
           <p>
-            Start with the
-            <a href="/ckodmk/#results">published CKODMK reference runs</a>, then
-            run the same workflow with your own acceptance contract. For
-            automation, use the
+            Passing a finite evaluation is not a guarantee about every future
+            input. Your release policy must specify the checks you require.
+          </p>
+          <p>
+            Inspect the <a href="/ckodmk/#results">published CKODMK reference runs</a>
+            or automate your workflow with the
             <a href="/docs/">local CLI and integration documentation</a>.
           </p>
         </div>

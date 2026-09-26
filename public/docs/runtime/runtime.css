@@ -1,4 +1,4 @@
-.runtime-heading h1 { font-size: clamp(2rem, 3.2vw, 3rem); }
+.runtime-heading h1 { font-size: clamp(32px, 3vw, 44px); }
 .runtime-heading .section-label { margin-top: 0; }
 .runtime-pins { margin-block: 1.8rem; }
 .runtime-pins > div { border-bottom: 1px solid var(--line); padding-block: 0.8rem; }

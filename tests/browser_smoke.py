@@ -93,8 +93,7 @@ def main() -> int:
                 try:
                     page.wait_for_selector("#release-state.pass", timeout=20_000)
                     heading = page.locator("main h1").first.inner_text().lower()
-                    assert "supercomputer" in heading, "Lights Out H1 does not identify the product as a supercomputer"
-                    assert "qqfenx" in heading, "Lights Out H1 does not identify the QQfenx engine"
+                    assert heading == "lights out", "Lights Out H1 does not identify the product"
                     assert page.locator("#qqfenx").count() == 1
                     assert "32 → 8 → 0" in page.locator(".qqfenx-proof").inner_text()
                     assert "0 / 8" in page.locator(".qqfenx-proof .signal").inner_text()

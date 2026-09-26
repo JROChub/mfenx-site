@@ -289,7 +289,8 @@ def validate(root: Path) -> list[str]:
         product_text = product_page.read_text(encoding="utf-8")
         product_lower = product_text.lower()
         for required in (
-            "a local <em>supercomputer</em>",
+            "<h1>lights out</h1>",
+            "c11 qqfenx executes exact tensor workloads on linux",
             "release v0.1.3",
             'id="hero-current-release"',
             'id="qqfenx"',

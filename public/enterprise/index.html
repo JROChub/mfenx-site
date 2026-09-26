@@ -3,34 +3,38 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f3ec" />
-    <title>Private deployment — MFENX</title>
+    <meta name="theme-color" content="#fafaf8" />
+    <title>Private deployment | MFENX</title>
     <meta
       name="description"
       content="MFENX Gate architecture, data handling and procurement material for private model admission."
     />
     <link rel="canonical" href="https://mfenx.com/enterprise/" />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/gate.css" />
+    <link rel="stylesheet" href="/gate.css?v=20260926" />
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header">
       <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="/gate/">Gate</a><a href="/verify/">Verify</a
-        ><a href="/docs/">Documentation</a><a href="/pricing/">Pricing</a
-        ><a href="/labs/">Research ↗</a>
+        <a href="/gate/">Gate</a>
+        <a href="/lightsout/">Lights Out</a>
+        <a href="/labs/">Technology</a>
+        <a href="/docs/">Developers</a>
+        <a href="/company/">Company</a>
+        <a href="/pricing/">Pricing</a>
+        <a class="nav-start" href="/verify/">Verify a receipt</a>
       </nav>
     </header>
-    <main class="page" id="content">
+    <main class="page" id="content" tabindex="-1">
       <section class="document-head">
         <div>
           <div class="section-label">Gate / Private deployment</div>
-          <h1>Keep the evaluation<br />inside your boundary.</h1>
+          <h1>Deploy Gate in your environment.</h1>
           <p>
-            Local artifacts, locally controlled signing keys, portable receipts.
-            Review the data flow before introducing a deployment gate.
+            Review the architecture, data flow and operational controls for
+            local model admission.
           </p>
         </div>
         <aside>
@@ -54,7 +58,7 @@
           ><a href="#procurement">Procurement</a>
         </nav>
         <div class="reading">
-          <h2 id="data-flow">What crosses the boundary</h2>
+          <h2 id="data-flow">Where the data goes</h2>
           <div class="table-scroll">
             <table>
               <thead>
@@ -105,7 +109,7 @@
             counts and an issuer name. Treat a receipt as business information.
             Selective sharing is not anonymity.
           </p>
-          <h2 id="trust">The admission boundary</h2>
+          <h2 id="trust">Trust and enforcement</h2>
           <p>
             The receipt verifier checks the selected issuer key, signature,
             schema, validity and commitments. The consuming deployment must also
@@ -141,29 +145,29 @@
           </p>
           <p>
             The optional organization service runs in the customer environment
-            with customer-controlled authentication, storage, TLS and backups.
+            with authentication, storage, TLS and backups under your control.
             Software licensing is separate from model admission and receipt
             verification; it does not send organization records to MFENX.
             Browser verification itself has no account database, advertising
-            code or file-upload endpoint.
+            code or endpoint for uploading files.
           </p>
-          <h2 id="procurement">An asynchronous review</h2>
+          <h2 id="procurement">Procurement review</h2>
           <p>
             Begin with the current runtime security record and the
             <a href="/docs/#assurance">assurance definitions</a>. The product’s
-            third-party notices remain attached to the relevant components.
+            notices for third party software remain attached to the relevant components.
             Paid internal use follows the <a href="/terms/">commercial terms</a>
-            and any applicable order. Deployment-specific data agreements and
-            requested tax forms are separate documents; they are not implied by
-            a technical receipt.
+            and any applicable order. Data agreements for your deployment and
+            requested tax forms are separate documents. A technical receipt
+            does not imply either.
           </p>
           <p>
             <a href="/enterprise/runtime-security.md" download
-              >Download the current security and data-flow record ↓</a
+              >Download the current security and data flow record ↓</a
             >
           </p>
           <p>
-            The technical-pack v1 ZIP and its
+            The technical pack v1 ZIP and its
             <a href="/enterprise/security-overview.md">original security overview</a>
             remain unchanged as historical SDK evidence. Their deployment
             wording does not replace the current runtime instructions.

@@ -82,6 +82,9 @@ jobs:
       - name: Exercise the production payload in Chromium
         run: .site-test-venv/bin/python tests/browser_smoke.py --root public
 
+      - name: Check product layout, keyboard navigation and readable text
+        run: .site-test-venv/bin/python tests/browser_site_design.py --root public
+
       - name: Exercise Gate evaluation and signed-model replay in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_evaluation.py --root public
 

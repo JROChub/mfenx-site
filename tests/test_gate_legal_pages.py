@@ -54,7 +54,7 @@ class LegalPages(unittest.TestCase):
                 for tag in ("html", "title", "h1", "main", "footer"):
                     self.assertEqual(sum(t == tag for t, _ in page.tags), 1)
                 self.assertIn(("html", {"lang": "en"}), page.tags)
-                self.assertIn(("link", {"rel": "stylesheet", "href": "/gate.css"}), page.tags)
+                self.assertIn(("link", {"rel": "stylesheet", "href": "/gate.css?v=20260926"}), page.tags)
                 self.assertIn(("link", {"rel": "canonical", "href": f"https://mfenx.com/{name}/"}), page.tags)
                 self.assertIn("#content", page.links)
                 self.assertEqual(len(page.ids), len(set(page.ids)))

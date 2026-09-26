@@ -1,14 +1,150 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=/">
-  <link rel="canonical" href="https://mfenx.com/">
-  <title>MFENX Power House</title>
-</head>
-<body>
-  <p><a href="/">Open MFENX Power House</a></p>
-  <script>location.replace("/" + location.search + location.hash);</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fafaf8" />
+    <meta name="description" content="Power House connects computational identity, Rootprint lineage and portable evidence. Explore the Rust library, public artifacts and local verification lab." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>Power House | MFENX</title>
+    <link rel="canonical" href="https://mfenx.com/power-house/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css?v=20260926" />
+    <script src="/power-house/legacy-links.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a>
+        <a href="/lightsout/">Lights Out</a>
+        <a href="/labs/">Technology</a>
+        <a href="/docs/">Developers</a>
+        <a href="/company/">Company</a>
+        <a href="/pricing/">Pricing</a>
+        <a class="nav-start" href="/verify/">Verify a receipt</a>
+      </nav>
+    </header>
+    <main class="page" id="main" tabindex="-1">
+      <p class="breadline"><a href="/">Home</a> / Power House</p>
+      <header class="product-opening">
+        <div class="product-copy">
+          <p class="product-kicker">Computational identity</p>
+          <h1 class="product-title">Power House</h1>
+          <p class="product-deck">Keep the artifact and its evidence together.</p>
+          <p>
+            Power House is a Rust library for deterministic verification,
+            artifact identity and recorded lineage. Its portable formats let
+            you inspect how an artifact connects to its history.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="/labs/">Explore the lab <span aria-hidden="true">→</span></a>
+            <a href="https://docs.rs/power_house/latest/power_house/">Read the Rust documentation <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="product-art" aria-hidden="true">
+          <img src="/assets/mfenx-fold.svg" alt="" />
+        </div>
+      </header>
+
+      <section class="facts-row" aria-label="Power House formats">
+        <div>
+          <h2>Artifact identity</h2>
+          <p>A Power House Archive, or <code>.pha</code>, binds core proof data and recorded context to a deterministic fingerprint.</p>
+        </div>
+        <div>
+          <h2>Rootprint</h2>
+          <p>A graph of artifacts records parent relationships, branches and merges.</p>
+        </div>
+        <div>
+          <h2>Memory Capsule</h2>
+          <p>A portable package brings together core artifacts, lineage, replay state and supporting evidence.</p>
+        </div>
+      </section>
+
+      <section class="feature-spread" aria-labelledby="lineage-title">
+        <div class="reading">
+          <p class="section-label">Inside a Rootprint</p>
+          <h2 id="lineage-title">A history you can inspect.</h2>
+          <p>
+            The public sample starts with a branch called <code>main</code>.
+            Two branches, <code>audit</code> and <code>candidate</code>, share
+            that parent. A later branch records both as its parents.
+          </p>
+          <p>
+            Open the artifact to inspect its fields, then use the lab to
+            examine the verification path and the recorded relationships.
+          </p>
+          <p><a href="/artifacts/rootprint-valid.json">Read the sample artifact <span aria-hidden="true">→</span></a></p>
+        </div>
+        <figure class="product-figure">
+          <figcaption>Public Rootprint sample</figcaption>
+          <table>
+            <thead>
+              <tr><th scope="col">Branch</th><th scope="col">Parents</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row"><code>main</code></th><td>None</td></tr>
+              <tr><th scope="row"><code>audit</code></th><td><code>main</code></td></tr>
+              <tr><th scope="row"><code>candidate</code></th><td><code>main</code></td></tr>
+              <tr><th scope="row"><code>accepted</code></th><td><code>audit</code>, <code>candidate</code></td></tr>
+            </tbody>
+          </table>
+          <p class="note">Branch labels are taken from the published example.</p>
+        </figure>
+      </section>
+
+      <section class="feature-spread" aria-labelledby="scope-title">
+        <div class="reading">
+          <p class="section-label">Using the library</p>
+          <h2 id="scope-title">Read the verification record.</h2>
+          <p>
+            A fingerprint identifies recorded content. Verification checks
+            the proof relation and trust conditions relevant to the
+            application. The library keeps these operations distinct.
+          </p>
+          <p>
+            Optional external proof attachments do not change an artifact’s
+            core Power House identity. Review the documented verification
+            rules before relying on an attachment.
+          </p>
+        </div>
+        <div class="reading">
+          <h3>Start with the published interfaces.</h3>
+          <p><code>cargo add power_house</code></p>
+          <p>
+            The Rust documentation describes the available modules and feature
+            flags. Memory Capsule documentation covers verification, replay
+            and challenge workflows.
+          </p>
+          <p><a href="https://docs.rs/power_house/latest/power_house/memory/">Memory Capsule documentation <span aria-hidden="true">↗</span></a></p>
+        </div>
+      </section>
+
+      <section class="feature-spread" aria-labelledby="resources-title">
+        <div>
+          <p class="section-label">Explore further</p>
+          <h2 id="resources-title">Tools and references</h2>
+          <p class="reading">Use the lab for public examples and the library documentation for integration details.</p>
+        </div>
+        <ul class="resource-index">
+          <li><a href="/labs/?mode=rootprint">Rootprint lab <span aria-hidden="true">→</span></a><p>Inspect the retained sample and its lineage.</p></li>
+          <li><a href="/labs/#verify">Local artifact verifier <span aria-hidden="true">→</span></a><p>Open the lab’s browser verification tools.</p></li>
+          <li><a href="https://crates.io/crates/power_house">Rust crate <span aria-hidden="true">↗</span></a><p>Package releases and installation information.</p></li>
+          <li><a href="https://github.com/JROChub/power_house/blob/main/docs/verification_guide.md">Verification guide <span aria-hidden="true">↗</span></a><p>Reproduction steps and verification rules.</p></li>
+          <li><a href="https://github.com/JROChub/power_house/blob/main/docs/security_model.md">Security model <span aria-hidden="true">↗</span></a><p>Assumptions and limits for the core formats.</p></li>
+        </ul>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer navigation">
+        <a href="/company/">Company</a><a href="/docs/">Documentation</a>
+        <a href="/support/">Support</a><a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
 </html>
