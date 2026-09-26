@@ -78,3 +78,21 @@ def test_keyboard_skip_link_and_section_navigation(page):
         "link", name="Installed acceptance", exact=True).click()
     assert page.url.endswith("#acceptance")
     expect(page.get_by_role("heading", name="Exercise the installed runtime")).to_be_in_viewport()
+
+
+@pytest.mark.parametrize("width", [320, 390, 768, 1440])
+def test_purchase_entry_is_readable_and_does_not_load_payment_code(page, width):
+    page.set_viewport_size({"width": width, "height": 900})
+    page.goto(ORIGIN + "/pricing/")
+    assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+    purchase = page.get_by_role("link", name="Choose a subscription")
+    expect(purchase).to_have_attribute("href", "https://license.mfenx.com/gate/license/")
+    expect(purchase).to_be_visible()
+    purchase.focus()
+    expect(purchase).to_be_focused()
+    expect(page.get_by_role("link", name="Review installation requirements")).to_have_attribute(
+        "href", "/docs/runtime/")
+    assert page.locator("script, iframe, form").count() == 0
+    page.goto(ORIGIN + "/support/")
+    expect(page.get_by_role("link", name="software-license page")).to_have_attribute(
+        "href", "https://license.mfenx.com/gate/license/")

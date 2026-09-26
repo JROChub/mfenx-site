@@ -90,7 +90,10 @@ class LegalPages(unittest.TestCase):
                         self.assertEqual(link, CONTACT)
                     elif target.netloc:
                         self.assertEqual(target.scheme, "https")
-                        self.assertIn(target.netloc, ("www.paddle.com", "paddle.net"))
+                        allowed = {"www.paddle.com", "paddle.net"}
+                        if name == "support" and link == "https://license.mfenx.com/gate/license/":
+                            allowed.add("license.mfenx.com")
+                        self.assertIn(target.netloc, allowed)
 
     def test_purchase_and_product_surfaces_expose_legal_pages_in_footer(self):
         for path in ("index.html", "gate/index.html", "pricing/index.html", "docs/index.html",

@@ -44,13 +44,24 @@ class DeliveryCopy(unittest.TestCase):
         self.assertIn("/ organization / month", rows["Team"][1])
         self.assertIn("/ organization / month", rows["Business"][1])
 
-    def test_no_checkout_before_delivery_and_activation(self):
+    def test_purchase_entry_uses_separate_licensing_workspace(self):
         source = (ROOT / "pricing/index.html").read_text()
         self.assertNotIn("/account/", source)
         self.assertNotIn("pay.paddle", source)
         self.assertNotIn("Managed service", source)
         self.assertIn("No payment is collected on this page.", source)
-        self.assertIn("software\n        delivery and live payment activation", source)
+        self.assertIn('href="https://license.mfenx.com/gate/license/"', source)
+        self.assertIn('href="/docs/runtime/"', source)
+        self.assertIn('href="/terms/"', source)
+        self.assertIn("No MFENX account is required.", source)
+        self.assertNotIn("Paid subscriptions open after", source)
+        self.assertNotIn("<script", source)
+        self.assertNotIn("<iframe", source)
+
+    def test_recovery_link_returns_to_the_same_purchase_key_origin(self):
+        source = (ROOT / "support/index.html").read_text()
+        self.assertIn('href="https://license.mfenx.com/gate/license/"', source)
+        self.assertNotIn('href="/gate/license/"', source)
 
     def test_free_verification_is_not_an_organization_subscription(self):
         source = (ROOT / "pricing/index.html").read_text()
