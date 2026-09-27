@@ -766,10 +766,23 @@ function renderGraph(packet) {
     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
     group.setAttribute("class", `graph-node ${node.id === selectedNode ? "selected" : ""}`);
     group.setAttribute("transform", `translate(${position.x} ${position.y})`);
-    group.addEventListener("click", () => {
+    group.setAttribute("role", "button");
+    group.setAttribute("tabindex", "0");
+    group.setAttribute("aria-label", `${node.kind || "Node"}: ${node.label || node.id}`);
+    group.setAttribute("aria-pressed", String(node.id === selectedNode));
+    const selectNode = (restoreFocus = false) => {
       selectedNode = node.id;
       renderGraph(packet);
       renderInspector(packet);
+      if (restoreFocus) {
+        svg.querySelector('.graph-node[aria-pressed="true"]')?.focus();
+      }
+    };
+    group.addEventListener("click", () => selectNode());
+    group.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      selectNode(true);
     });
     const halo = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
     halo.setAttribute("class", "node-halo");

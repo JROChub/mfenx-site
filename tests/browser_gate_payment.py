@@ -459,4 +459,4 @@ def test_document_security_policy_and_relative_assets():
     assert "'unsafe-eval'" not in csp
     assert any(attrs.get("name") == "referrer" and attrs.get("content") == "no-referrer" for attrs in metas)
     assert [attrs["src"] for tag, attrs in parsed.tags if tag == "script"] == ["./payment.js"]
-    assert [attrs["href"] for tag, attrs in parsed.tags if tag == "link"] == ["./payment.css"]
+    assert [attrs["href"] for tag, attrs in parsed.tags if tag == "link"] == ["./payment.css?v=20260926-instrument"]

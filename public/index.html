@@ -3,13 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fafaf8" />
+    <meta name="theme-color" content="#f7f8fa" />
     <title>MFENX | Local model admission</title>
-    <meta name="description" content="Evaluate a model against a release policy. Bind its identity and evaluation to a signed receipt. Verify locally, without uploading your model or data." />
+    <meta
+      name="description"
+      content="Evaluate a model against a release policy. Bind its identity and evaluation to a signed receipt. Verify locally, without uploading your model or data."
+    />
     <link rel="canonical" href="https://mfenx.com/" />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/gate.css?v=20260926" />
+    <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
     <script defer src="/gate-legacy-links.js"></script>
+    <script defer src="/evidence-explorer.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -22,96 +26,164 @@
         <a class="nav-start" href="/verify/">Verify a receipt</a>
       </nav>
     </header>
-    <main class="page home-page" id="content" tabindex="-1">
-      <section class="home-opening" aria-labelledby="intro-title">
-        <div class="home-introduction">
-          <p class="product-kicker">MFENX Gate</p>
-          <h1 id="intro-title">Verify the model<br />before it runs.</h1>
-          <p class="home-deck">A release decision should travel with the model.</p>
-          <p>Evaluate the candidate, record the exact artifact and sign the result. Your models and evaluation data stay in your environment.</p>
-          <div class="actions">
-            <a class="button" href="/gate/">Evaluate a model <span aria-hidden="true">→</span></a>
-            <a class="text-link" href="/verify/">Verify a receipt free</a>
+    <main class="page instrument-home" id="content" tabindex="-1">
+      <header class="workspace-heading">
+        <h1>Model admission and verifiable computation</h1>
+        <p>Local files. Inspectable decisions.</p>
+      </header>
+      <section
+        class="evidence-workspace"
+        aria-label="Published evidence explorer"
+      >
+        <div class="workspace-rail">
+          <h2>Published records</h2>
+          <div
+            id="evidence-tabs"
+            role="tablist"
+            aria-label="Record type"
+            aria-orientation="vertical"
+          >
+            <button
+              id="tab-receipt"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="evidence-panel"
+              data-record="receipt"
+            >
+              Model release
+            </button>
+            <button
+              id="tab-execution"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="evidence-panel"
+              data-record="execution"
+              tabindex="-1"
+            >
+              Execution evidence
+            </button>
+            <button
+              id="tab-lineage"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="evidence-panel"
+              data-record="lineage"
+              tabindex="-1"
+            >
+              Artifact lineage
+            </button>
           </div>
-          <p class="note">No account is needed for local evaluation or receipt verification.</p>
+          <p class="rail-note">Select a record, then inspect its components.</p>
+          <a href="/verify/">Verify your own receipt</a>
         </div>
-        <div class="home-object">
-          <img class="home-fold" src="/assets/mfenx-fold.svg" alt="" width="640" height="430" aria-hidden="true" />
-          <figure class="release-record">
-            <div class="record-heading"><span>Release record</span><span class="record-format">Published example</span></div>
-            <h2>Optdigits / ONNX</h2>
-            <p class="record-context">Source and candidate classification results</p>
-            <dl>
-              <div><dt>Evaluation samples</dt><dd>1,797</dd></div>
-              <div><dt>Source correct</dt><dd>1,729</dd></div>
-              <div><dt>Candidate correct</dt><dd>1,729</dd></div>
-              <div><dt>Decision changes</dt><dd>0</dd></div>
-              <div><dt>Issuer</dt><dd>MFENX demonstration key</dd></div>
-            </dl>
-            <figcaption>A finite evaluation from the published example. Open the record to inspect the inputs, method and signed statement.</figcaption>
-            <a href="/evidence/">Inspect the evidence <span aria-hidden="true">→</span></a>
-          </figure>
+        <div
+          id="evidence-panel"
+          class="evidence-panel"
+          role="tabpanel"
+          aria-labelledby="tab-receipt"
+          aria-busy="true"
+          tabindex="0"
+        >
+          <header class="record-heading">
+            <h2 id="record-title">Model release</h2>
+            <span id="record-format">Published example</span>
+          </header>
+          <div class="record-diagram" id="record-diagram">
+            <svg
+              class="record-connections"
+              viewBox="0 0 600 360"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                id="record-path"
+                d="M90 90H300V270H510 M90 270H300 M300 90H510"
+              />
+            </svg>
+            <div id="record-nodes" class="record-nodes"></div>
+          </div>
+          <p id="record-status" role="status" aria-live="polite">
+            Loading the published record.
+          </p>
+          <div class="record-actions">
+            <a id="record-source" href="/verify/example/release-receipt.json"
+              >Source JSON</a
+            ><a id="record-verify" href="/verify/">Open the verifier</a
+            ><button
+              id="record-retry"
+              class="plain-button"
+              type="button"
+              hidden
+            >
+              Retry loading
+            </button>
+          </div>
+          <noscript
+            ><p>
+              Open the
+              <a href="/verify/example/release-receipt.json">release receipt</a
+              >,
+              <a href="/lightsout/evidence/v0.1.6/summary.json"
+                >execution evidence</a
+              >
+              or
+              <a href="/artifacts/rootprint-valid.json">lineage record</a>
+              directly. Interactive inspection requires JavaScript.
+            </p></noscript
+          >
         </div>
+        <aside class="record-inspection" aria-labelledby="inspector-title">
+          <h2 id="inspector-title">Selected component</h2>
+          <div id="record-inspector">
+            <p class="note">The source record will appear here.</p>
+          </div>
+        </aside>
       </section>
-
-      <section class="home-products" aria-labelledby="products-title">
-        <div class="section-introduction">
-          <h2 id="products-title">One release. A complete record.</h2>
-          <p>Admission, computation and identity have distinct jobs.</p>
-        </div>
-        <div class="product-directory">
-          <article>
-            <span class="directory-number" aria-hidden="true">01</span>
-            <h3><a href="/gate/">Gate <span aria-hidden="true">↗</span></a></h3>
-            <p>Evaluate the candidate against its contract. Check the signed package before releasing the model.</p>
-            <a class="directory-detail" href="/docs/">Model admission guide</a>
-          </article>
-          <article>
-            <span class="directory-number" aria-hidden="true">02</span>
-            <h3><a href="/lightsout/">Lights Out <span aria-hidden="true">↗</span></a></h3>
-            <p>Run supported native workloads with exact arithmetic and an independent replay record.</p>
-            <a class="directory-detail" href="/lightsout/#verify">Execution evidence</a>
-          </article>
-          <article>
-            <span class="directory-number" aria-hidden="true">03</span>
-            <h3><a href="/power-house/">Power House <span aria-hidden="true">↗</span></a></h3>
-            <p>Identify the artifact and retain the commitments behind its verification history.</p>
-            <a class="directory-detail" href="/labs/">Research instruments</a>
-          </article>
-        </div>
+      <div class="workspace-caption">
+        <p>
+          The explorer reads published records. Signature verification and
+          behavioral replay run in their respective tools.
+        </p>
+        <a href="/evidence/">Methods and evidence</a>
+      </div>
+      <section class="instrument-directory" aria-labelledby="directory-title">
+        <h2 id="directory-title">Workspaces</h2>
+        <dl>
+          <div>
+            <dt><a href="/gate/">Gate</a></dt>
+            <dd>Evaluate and admit a model</dd>
+            <dd><a href="/ckodmk/#pcm-gate">Open CKODMK</a></dd>
+          </div>
+          <div>
+            <dt><a href="/lightsout/">Lights Out</a></dt>
+            <dd>Execute and independently replay</dd>
+            <dd><a href="/lightsout/#verify">Inspect execution evidence</a></dd>
+          </div>
+          <div>
+            <dt><a href="/power-house/">Power House</a></dt>
+            <dd>Inspect identity and lineage</dd>
+            <dd><a href="/labs/">Open the research instruments</a></dd>
+          </div>
+        </dl>
       </section>
-
-      <section class="home-method" aria-labelledby="method-title">
-        <div>
-          <p class="product-kicker">The release workflow</p>
-          <h2 id="method-title">Keep the files.<br /> Share the evidence.</h2>
-          <p>The receipt carries identities, the evaluation contract’s digest and the issuer’s result. It does not contain model weights or evaluation samples.</p>
-          <a href="/docs/#assurance">Understand the verification modes <span aria-hidden="true">→</span></a>
-        </div>
-        <ol class="method-sequence">
-          <li><span aria-hidden="true">01</span><div><h3>Identify the exact candidate</h3><p>Bind the source and candidate to cryptographic digests.</p></div></li>
-          <li><span aria-hidden="true">02</span><div><h3>Run the required evaluation</h3><p>Compare the measured results with the contract’s acceptance limits.</p></div></li>
-          <li><span aria-hidden="true">03</span><div><h3>Sign and inspect the result</h3><p>Check the issuer’s signature locally. Replay behavior separately when your policy requires it.</p></div></li>
-        </ol>
-      </section>
-
-      <section class="home-reference" aria-labelledby="reference-title">
-        <div><h2 id="reference-title">Start with a working example.</h2><p>Inspect a receipt in your browser, then add the same check to a release pipeline.</p></div>
-        <nav class="resource-index" aria-label="Getting started">
-          <a href="/verify/"><span>Free receipt verifier</span><span aria-hidden="true">→</span></a>
-          <a href="/docs/#first-check"><span>Your first local check</span><span aria-hidden="true">→</span></a>
-          <a href="/pricing/"><span>Plans and pricing</span><span aria-hidden="true">→</span></a>
-          <a href="/enterprise/"><span>Private deployment and security</span><span aria-hidden="true">→</span></a>
-        </nav>
-      </section>
+      <nav class="reference-strip" aria-label="Implementation and procurement">
+        <a href="/docs/">CLI and CI integration</a
+        ><a href="/pricing/">Plans and pricing</a
+        ><a href="/enterprise/">Private deployment</a
+        ><a href="/company/">Company</a>
+      </nav>
     </main>
     <footer class="site-footer">
       <span>mfenx LLC</span>
       <nav aria-label="Footer">
         <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a>
-        <a href="/enterprise/#data-flow">Data handling</a><a href="/labs/">Research</a>
-        <a href="/terms/">Terms</a><a href="/privacy/">Privacy</a>
-        <a href="/refunds/">Refunds</a><a href="/support/">Support</a>
+        <a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a> <a href="/terms/">Terms</a
+        ><a href="/privacy/">Privacy</a> <a href="/refunds/">Refunds</a
+        ><a href="/support/">Support</a>
       </nav>
       <span class="end-note">San Francisco, California</span>
     </footer>

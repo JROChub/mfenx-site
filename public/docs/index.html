@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fafaf8" />
+    <meta name="theme-color" content="#f7f8fa" />
     <title>Gate documentation | MFENX</title>
     <meta
       name="description"
@@ -11,7 +11,7 @@
     />
     <link rel="canonical" href="https://mfenx.com/docs/" />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/gate.css?v=20260926" />
+    <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -250,8 +250,36 @@ mfenx-gate issue-integrity \
             inference.
           </p>
           <p>
+            <a href="/docs/model-release.yml" download>Download the pinned CI starter</a>
+            and save it as <code>.github/workflows/model-release.yml</code>.
+            It runs manually against your default branch and verifies only;
+            it does not issue receipts or deploy a model. Replace the two
+            <code>release/</code> paths with your actual receipt and model.
+          </p>
+          <p>
+            First create the <code>model-release</code> environment, restrict it
+            to your protected default branch, and configure your required
+            approvals. Set <code>MODEL_RELEASE_TRUST_SPKI_BASE64</code> to the
+            base64 encoding of your independently trusted P-256 SPKI DER public
+            key, and <code>MODEL_RELEASE_CONTRACT_SHA256</code> to the approved
+            <code>sha256:</code> digest followed by 64 lowercase hexadecimal
+            characters. Keep these values outside the candidate change. No
+            signing private key belongs in this verification job.
+          </p>
+          <p>
+            Successful verification reports <code>ATTESTATION_VERIFIED</code>,
+            <code>artifactStatus: MATCH</code> and <code>contractStatus: MATCH</code>;
+            <code>replayStatus: NOT_PERFORMED</code> remains explicit. Missing
+            trust, an incorrect policy digest or changed model bytes fail the
+            job. Any later release step must use the exact bytes that passed,
+            not a fresh download or rebuild. Review the pinned action revisions
+            before adopting or updating the example. Package installation uses
+            the network; a runner without network access needs the same
+            verified CLI and its dependencies installed beforehand.
+          </p>
+          <p>
             <a href="/enterprise/security-overview.md" download
-              >Download the technical procurement record ↓</a
+              >Download the technical procurement record </a
             >
           </p>
         </div>

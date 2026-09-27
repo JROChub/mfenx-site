@@ -152,7 +152,7 @@ class RuntimeDelivery(unittest.TestCase):
         self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
         self.assertIn(("html", {"lang": "en"}), self.page.tags)
         self.assertIn(("link", {"rel": "canonical", "href": "https://mfenx.com/docs/runtime/"}), self.page.tags)
-        self.assertIn(("link", {"rel": "stylesheet", "href": "/gate.css?v=20260926"}), self.page.tags)
+        self.assertIn(("link", {"rel": "stylesheet", "href": "/gate.css?v=20260926-instrument"}), self.page.tags)
         self.assertIn("#content", self.page.links)
         levels = [int(tag[1]) for tag, _ in self.page.tags if tag in ("h1", "h2", "h3", "h4")]
         self.assertEqual(levels[0], 1)

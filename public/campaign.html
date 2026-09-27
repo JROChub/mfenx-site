@@ -3,29 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050807">
+  <meta name="theme-color" content="#f7f8fa">
   <meta name="description" content="Live 72-hour reliability and controlled failure campaign for the MFENX Power House network.">
   <title>MFENX Reliability Campaign</title>
   <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg?v=20260729-transparent">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/powerhouse-logo.png?v=20260729-transparent">
-  <link rel="preload" href="assets/earth-night.jpg" as="image">
-  <link rel="stylesheet" href="campaign.css?v=20260708-finality-evidence1">
+  <link rel="stylesheet" href="campaign.css?v=20260926-instrument">
 </head>
 <body>
+  <a class="skip-link" href="#workspace">Skip to reliability evidence</a>
   <div class="earth-field" aria-hidden="true"></div>
   <header>
-    <a class="brand" href="status.html">
+    <a class="brand" href="/">
       <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
-      <span><b>MFENX</b><small>RELIABILITY CONTROL</small></span>
+      <span><b>MFENX</b><small>Reliability</small></span>
     </a>
+    <nav aria-label="Research navigation">
+      <a href="/gate/">Gate</a>
+      <a href="/labs/">Research lab</a>
+      <a href="status.html">Network status</a>
+      <a href="register.html">Node registry</a>
+    </nav>
     <div class="campaign-clock"><span>UTC</span><b id="utc-clock">--:--:--</b></div>
   </header>
 
-  <main>
+  <main id="workspace" tabindex="-1">
     <section class="campaign-hero" aria-labelledby="campaign-title">
       <div>
         <span class="eyebrow">CHAIN 177155 / EXTERNAL CONTROL PLANE</span>
-        <h1 id="campaign-title">72-HOUR RELIABILITY CAMPAIGN</h1>
+        <h1 id="campaign-title">72-hour reliability campaign</h1>
         <div class="campaign-state"><i></i><b id="campaign-state">CONNECTING</b><span id="campaign-phase">TELEMETRY HANDSHAKE</span></div>
       </div>
       <dl class="hero-time">

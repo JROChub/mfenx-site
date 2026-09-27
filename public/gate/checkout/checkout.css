@@ -11,7 +11,7 @@
   margin-bottom: 3rem;
 }
 .checkout-title h1 {
-  font-size: clamp(32px, 3vw, 44px);
+  font-size: 14px;
   line-height: 1.15;
   margin: 0;
 }
@@ -31,7 +31,7 @@
   padding: 1rem 0;
 }
 .checkout-ledger dt {
-  font-weight: 500;
+  font-weight: 400;
 }
 .checkout-ledger dd {
   margin: 0;
@@ -41,7 +41,7 @@
   max-width: 43rem;
 }
 .checkout-environment {
-  font-weight: 600;
+  font-weight: 400;
 }
 #checkout-status {
   max-width: 43rem;

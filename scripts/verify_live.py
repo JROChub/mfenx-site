@@ -14,6 +14,10 @@ from urllib.request import Request, urlopen
 
 
 BLOCKED_ROUTES = (
+    "/lightsout/atomic/",
+    "/lightsout/atomic/index.html",
+    "/lightsout/atomic/atomic.mjs",
+    "/lightsout/atomic/qqfenx.wasm",
     "/README.md",
     "/LICENSE",
     "/SECURITY.md",

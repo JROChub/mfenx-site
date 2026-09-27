@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local-only layout and keyboard checks for the public product pages.
+"""Local-only layout and keyboard checks for every published HTML page.
 
 Payment, account, licensing, and cryptographic behavior remain covered by their
 dedicated browser suites. This pass neither follows external purchase links nor
@@ -12,6 +12,7 @@ import argparse
 import functools
 from html.parser import HTMLParser
 import http.server
+import json
 from pathlib import Path
 import threading
 from urllib.parse import unquote, urlsplit
@@ -24,8 +25,15 @@ ROUTES = (
     "/enterprise/", "/evidence/", "/compute/", "/company/", "/power-house/",
     "/lightsout/", "/lightsout/commercial-licensing.html",
     "/terms/", "/privacy/", "/refunds/", "/support/",
+    "/gate/account/", "/gate/checkout/", "/gate/license/",
+    "/gate/payment/", "/gate/payment/billing/",
+    "/labs/", "/ckodmk/", "/sain/", "/tessaryn/",
+    "/campaign.html", "/register.html", "/status.html", "/slbit.html",
 )
 WIDTHS = (320, 390, 768, 1440)
+SAIN_STATUS = "https://sain-mfenx-gateway.jrochub-resonance.workers.dev/api/status"
+NETWORK_STATUS = "https://rpc.mfenx.com/network-status.json"
+API_PATHS = {"/auth/session", "/v1/session", "/v1/licenses/config"}
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -80,7 +88,7 @@ CONTRAST = r"""() => {
     const node = walker.currentNode, element = node.parentElement;
     const text = node.textContent.trim();
     if (!text || !element || reviewed.has(element) ||
-        element.closest('script, style, [hidden], [aria-hidden="true"], :disabled, [aria-disabled="true"]')) continue;
+        element.closest('script, style, [hidden], [inert], [aria-hidden="true"], :disabled, [aria-disabled="true"]')) continue;
     const style = getComputedStyle(element);
     if (style.visibility !== 'visible' || style.display === 'none') continue;
     const range = document.createRange();
@@ -102,6 +110,103 @@ CONTRAST = r"""() => {
 }"""
 
 
+TYPOGRAPHY = r"""() => {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const failures = [], checked = new Set();
+  while (walker.nextNode()) {
+    const text = walker.currentNode, element = text.parentElement;
+    if (!text.textContent.trim() || !element || checked.has(element) ||
+        element.closest('script, style, [hidden], [inert], [aria-hidden="true"]')) continue;
+    const style = getComputedStyle(element);
+    if (style.display === 'none' || style.visibility !== 'visible') continue;
+    const range = document.createRange(); range.selectNodeContents(text);
+    if (![...range.getClientRects()].some(rect => rect.width > 0 && rect.height > 0 && rect.right > 0 && rect.left < innerWidth)) continue;
+    checked.add(element);
+    const size = parseFloat(style.fontSize), weight = parseFloat(style.fontWeight);
+    if (size > 16 || weight > 400) failures.push({text: text.textContent.trim().slice(0, 75), size, weight});
+  }
+  for (const element of document.querySelectorAll('button, input, textarea, select')) {
+    if (!element.checkVisibility() || element.closest('[hidden], [inert], [aria-hidden="true"]')) continue;
+    const style = getComputedStyle(element), size = parseFloat(style.fontSize), weight = parseFloat(style.fontWeight);
+    if (size > 16 || weight > 400) failures.push({text: element.id || element.tagName, size, weight});
+  }
+  return {checked: checked.size, failures};
+}"""
+
+
+def published_routes(root: Path) -> set[str]:
+    routes = set()
+    for path in root.rglob("*.html"):
+        relative = path.relative_to(root).as_posix()
+        routes.add("/" + relative.removesuffix("index.html") if path.name == "index.html" else "/" + relative)
+    return routes
+
+
+def prepare_page(page, route: str) -> None:
+    if route == "/labs/":
+        page.wait_for_selector("#boot-screen.hidden", state="attached", timeout=30_000)
+        page.wait_for_selector("#boot-screen", state="hidden", timeout=30_000)
+    elif route == "/tessaryn/":
+        page.wait_for_selector("#app[data-ready='true']", timeout=30_000)
+    elif route == "/sain/":
+        expect(page.locator("#connectionLabel")).to_have_text("LOCAL CORTEX READY")
+
+
+def check_skip_focus(page, route: str) -> None:
+    # Some live instruments deliberately focus their primary input on startup.
+    # Verify the real skip control by focusing it explicitly in that family;
+    # document pages must still expose it as their first keyboard stop.
+    skip = page.locator(".skip-link:visible, .skip:visible")
+    expect(skip).to_have_count(1)
+    if route == "/sain/":
+        skip.focus()
+    else:
+        page.keyboard.press("Tab")
+    expect(skip).to_be_focused()
+    href = skip.evaluate("node => node.href")
+    destination, current = urlsplit(href), urlsplit(page.url)
+    assert (destination.scheme, destination.netloc, destination.path, destination.query) == (
+        current.scheme, current.netloc, current.path, current.query
+    ) and destination.fragment, "Skip target must remain in this document"
+    target = "#" + destination.fragment
+    page.keyboard.press("Enter")
+    expect(page.locator(target)).to_be_focused()
+
+
+def check_panel(page, selector: str) -> None:
+    panel = page.locator(selector)
+    expect(panel).to_be_visible()
+    assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"Open panel overflows: {selector}"
+    box = panel.bounding_box()
+    assert box and box["x"] >= -1 and box["x"] + box["width"] <= page.viewport_size["width"] + 1, selector
+    typography = page.evaluate(TYPOGRAPHY)
+    assert not typography["failures"], f"Panel typography: {typography['failures']}"
+    contrast = page.evaluate(CONTRAST)
+    assert not contrast["failures"], f"Panel contrast: {contrast['failures']}"
+
+
+def check_instrument_panel(page, route: str) -> None:
+    if route == "/labs/":
+        page.locator("#portal-top-toggle").click()
+        expect(page.locator("#portal-drawer")).to_have_attribute("aria-hidden", "false")
+        check_panel(page, "#portal-drawer")
+        page.locator("#portal-panel-close").click()
+    elif route == "/tessaryn/":
+        page.locator("#verify-button").click()
+        expect(page.locator("#verify-title")).to_have_text("LOCAL WORLD ACCEPTED", timeout=30_000)
+        check_panel(page, "#verification-dialog")
+        assert page.locator("#verification-dialog").evaluate("node => node.contains(document.activeElement)"), "Dialog does not receive keyboard focus"
+        page.keyboard.press("Escape")
+        expect(page.locator("#verification-dialog")).not_to_be_visible()
+    elif route == "/sain/":
+        page.locator("#focusComposer").click()
+        expect(page.locator("#question")).to_be_focused()
+        page.locator("#webMode").click()
+        expect(page.locator("#webMode")).to_have_attribute("aria-pressed", "true")
+        page.locator("#webMode").click()
+        expect(page.locator("#webMode")).to_have_attribute("aria-pressed", "false")
+
+
 def check_local_links(page, root: Path, origin: str, cache: dict[Path, set[str]]) -> None:
     links = page.locator("a[href]").evaluate_all("nodes => nodes.map(node => node.href)")
     for href in links:
@@ -109,6 +214,9 @@ def check_local_links(page, root: Path, origin: str, cache: dict[Path, set[str]]
         if f"{parsed.scheme}://{parsed.netloc}" != origin:
             continue
         path = (root / unquote(parsed.path).lstrip("/")).resolve()
+        if parsed.path == "/auth/login":
+            # This is a server-owned authentication route, not a Pages file.
+            continue
         assert path.is_relative_to(root), href
         if path.is_dir():
             path /= "index.html"
@@ -116,7 +224,7 @@ def check_local_links(page, root: Path, origin: str, cache: dict[Path, set[str]]
         if parsed.fragment and path.suffix == ".html":
             # These retained application routes open lab panels rather than
             # scrolling to static elements; test_gate_legacy_links covers them.
-            if path == root / "labs/index.html" and parsed.fragment in {"verify", "sfcs", "sfcs-run"}:
+            if path in {root / "labs/index.html", root / "index.html"} and parsed.fragment in {"verify", "sfcs", "sfcs-run"}:
                 continue
             if path not in cache:
                 cache[path] = Identifiers(path.read_text()).ids
@@ -128,6 +236,7 @@ def check_local_links(page, root: Path, origin: str, cache: dict[Path, set[str]]
 def run(root: Path, chromium: str | None, output: Path | None,
         routes: tuple[str, ...] = ROUTES, widths: tuple[int, ...] = WIDTHS) -> int:
     root = root.resolve()
+    assert set(ROUTES) == published_routes(root), "Every published HTML route must have explicit design coverage"
     if output:
         output.mkdir(parents=True, exist_ok=True)
     server = http.server.ThreadingHTTPServer(
@@ -142,10 +251,25 @@ def run(root: Path, chromium: str | None, output: Path | None,
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(executable_path=chromium, headless=True)
             context = browser.new_context(reduced_motion="reduce", service_workers="block")
+            context.add_init_script("""if (location.pathname === '/sain/') {
+                sessionStorage.setItem('sainAccessToken', 'synthetic-local-layout-fixture');
+            }""")
 
             def local_only(route):
                 url = route.request.url
-                if not url.startswith(origin + "/"):
+                path = urlsplit(url).path
+                if url == SAIN_STATUS and route.request.method == "GET":
+                    route.fulfill(content_type="application/json", body=json.dumps({"ok": True, "snapshot": {
+                        "identity_id": "sha256:" + "1" * 64, "generation": 1, "integrity": 1,
+                        "memory_entries": 0, "causal_models": 0, "energy": 1, "stress": 0,
+                        "capabilities": 0, "cognitive_genomes": 0, "current_goal": "Local browser layout fixture",
+                        "cortex_ready": True,
+                    }}))
+                elif route.request.method in {"GET", "HEAD"} and (
+                    url == NETWORK_STATUS or (url.startswith(origin + "/") and path in API_PATHS)
+                ):
+                    route.fulfill(status=503, content_type="application/json", body='{"error":"Unavailable in local browser test","detail":"Unavailable in local browser test"}')
+                elif not url.startswith(origin + "/"):
                     failures.append(f"Unexpected external request: {url}")
                     route.abort()
                 elif route.request.method not in {"GET", "HEAD"}:
@@ -162,11 +286,13 @@ def run(root: Path, chromium: str | None, output: Path | None,
                     page.set_viewport_size({"width": width, "height": 1000})
                     page.on("pageerror", lambda error, label=label: failures.append(f"{label}: {error}"))
                     page.on("response", lambda response, label=label: failures.append(
-                        f"{label}: HTTP {response.status} {response.url}") if response.status >= 400 else None)
+                        f"{label}: HTTP {response.status} {response.url}") if response.status >= 400
+                        and response.url != NETWORK_STATUS and urlsplit(response.url).path not in API_PATHS else None)
                     try:
                         response = page.goto(origin + route, wait_until="networkidle")
                         assert response and response.status == 200, "Route did not load"
-                        expect(page.locator("h1")).to_have_count(1)
+                        prepare_page(page, route)
+                        expect(page.locator("h1:visible")).to_have_count(1)
                         expect(page.get_by_role("main")).to_have_count(1)
                         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), "Horizontal overflow"
                         clipped = page.evaluate("""() => [...document.querySelectorAll('h1, .site-header a, .mast a, .product-nav a')]
@@ -174,13 +300,10 @@ def run(root: Path, chromium: str | None, output: Path | None,
                               return rect.width > 0 && rect.height > 0 && (rect.left < -1 || rect.right > innerWidth + 1);})
                             .map(node => node.textContent.trim())""")
                         assert not clipped, f"Clipped heading or navigation: {clipped}"
-                        maximum = 34 if width <= 600 else 44
-                        size = page.locator("h1").evaluate("node => parseFloat(getComputedStyle(node).fontSize)")
-                        assert size <= maximum, f"Heading is {size}px; maximum is {maximum}px"
-                        page.keyboard.press("Tab")
-                        expect(page.locator(".skip-link")).to_be_focused()
-                        page.keyboard.press("Enter")
-                        expect(page.get_by_role("main")).to_be_focused()
+                        typography = page.evaluate(TYPOGRAPHY)
+                        assert typography["checked"] >= 10, "Insufficient visible text coverage"
+                        assert not typography["failures"], f"Oversized or bold text: {typography['failures']}"
+                        check_skip_focus(page, route)
                         check_local_links(page, root, origin, cache)
                         for menu in page.locator("header details").all():
                             summary = menu.locator("summary").first
@@ -198,6 +321,7 @@ def run(root: Path, chromium: str | None, output: Path | None,
                         contrast = page.evaluate(CONTRAST)
                         assert contrast["checked"] >= 10, f"Insufficient readable-text coverage: {contrast}"
                         assert not contrast["failures"], f"Text contrast below WCAG AA: {contrast['failures']}"
+                        check_instrument_panel(page, route)
                     except Exception as error:
                         failures.append(f"{label}: {error}")
                         print(f"FAIL: {label}: {error}", flush=True)
@@ -207,7 +331,7 @@ def run(root: Path, chromium: str | None, output: Path | None,
                             name = route.strip("/").replace("/", "-").replace(".html", "") or "home"
                             page.screenshot(path=str(output / f"{name}-{width}.png"), full_page=True)
                         page.close()
-                print(f"Checked {len(routes)} product routes at {width}px", flush=True)
+                print(f"Checked {len(routes)} published routes at {width}px", flush=True)
             legacy = context.new_page()
             # Isolate the redirect from the unchanged research application's
             # startup. Its own full browser suite exercises the lab itself.
@@ -232,7 +356,7 @@ def run(root: Path, chromium: str | None, output: Path | None,
         print("ERROR:", failure)
     if failures:
         return 1
-    print(f"PASS: {len(routes)} product routes at {len(widths)} widths; restrained headings; keyboard menus and skip links; local destinations; solid-background text contrast; local-only requests")
+    print(f"PASS: {len(routes)} published routes at {len(widths)} widths; small regular text; instrument panels; keyboard menus and skip links; local destinations; solid-background text contrast; locally intercepted requests")
     return 0
 
 
