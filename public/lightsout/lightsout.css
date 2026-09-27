@@ -279,8 +279,7 @@ main :is(article, aside, section, div, header, figure) {
 }
 .hero-actions :is(a, button),
 .run-facts > a,
-.verify-action > button,
-.atomic-invitation > a {
+.verify-action > button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -505,36 +504,6 @@ main > section,
 }
 .software-note {
   border-top: 1px solid var(--rule);
-}
-.atomic-invitation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
-  padding: 32px var(--space);
-  margin-block: 24px;
-  background: #f1edf4;
-  border-left: 2px solid var(--violet);
-}
-.atomic-invitation p {
-  font-size: 12px;
-  color: #62506e;
-  letter-spacing: 0;
-}
-.atomic-invitation span {
-  display: block;
-  max-width: 66ch;
-  color: var(--muted);
-  font-size: 14px;
-}
-.atomic-invitation > a {
-  flex: 0 0 auto;
-  gap: 24px;
-  border-color: var(--violet);
-}
-.atomic-invitation > a:hover {
-  background: #e7e0ec;
-  color: var(--ink);
 }
 .qqfenx-law {
   display: grid;
@@ -1655,15 +1624,6 @@ footer > time {
   .hpc-release-update-grid article,
   .hpc-release-update-grid article:nth-child(n + 4) {
     grid-column: auto;
-  }
-  .atomic-invitation {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 24px;
-  }
-  .atomic-invitation > a {
-    width: 100%;
   }
   .qqfenx-law > aside {
     padding: 22px;
