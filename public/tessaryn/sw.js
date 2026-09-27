@@ -1,6 +1,7 @@
-const CACHE = "tessaryn-origin-v0-1-0-alpha-2-portable2";
+const CACHE = "tessaryn-origin-v0-1-0-alpha-2-instrument-20260926";
 const CORE = [
   "./",
+  "./instrument.css?v=20260926",
   "./world/vesper-court.json",
   "./manifest.webmanifest",
   "./tessaryn-mark.svg",
@@ -15,7 +16,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))),
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith("tessaryn-origin-") && key !== CACHE).map((key) => caches.delete(key)))),
   );
   self.clients.claim();
 });

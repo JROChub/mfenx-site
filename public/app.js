@@ -2859,6 +2859,7 @@ function renderLuminousGraph(graph, sidecar, replay) {
 
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 100 100");
+  svg.setAttribute("preserveAspectRatio", "none");
   svg.setAttribute("aria-hidden", "true");
   svg.classList.add("luminous-edges");
   for (const branch of replay.branches) {

@@ -12,12 +12,12 @@
   margin-bottom: 26px;
 }
 .account-heading h1 {
-  font-size: clamp(32px, 3vw, 44px);
+  font-size: 14px;
   max-width: 12ch;
 }
 .account-heading p {
   max-width: 48ch;
-  font-size: 18px;
+  font-size: 14px;
 }
 .session-actions,
 .account-actions {
@@ -40,7 +40,7 @@
   color: var(--paper);
   border-radius: 0;
   padding: 10px 16px;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
 }
 .account-page button:hover:not(:disabled) {
@@ -70,7 +70,7 @@
   border-block: 1px solid var(--line);
 }
 .organization-line h2 {
-  font-size: 22px;
+  font-size: 14px;
   margin-bottom: 20px;
 }
 .organization-line form {
@@ -98,7 +98,7 @@
   background: #fbfaf5;
   color: var(--ink);
   padding: 10px;
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 17px;
 }
 .account-page textarea,
@@ -124,7 +124,7 @@
   min-width: 0;
 }
 .account-page legend {
-  font-size: 18px;
+  font-size: 14px;
   margin-bottom: 22px;
   padding: 0;
 }
@@ -148,11 +148,11 @@
   scroll-margin-top: 22px;
 }
 .account-section h2 {
-  font-size: 28px;
+  font-size: 14px;
   margin-bottom: 18px;
 }
 .section-intro p {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
@@ -170,12 +170,12 @@
   padding-top: 9px;
 }
 .usage-ledger dt {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
 }
 .usage-ledger dd {
   margin: 6px 0 0;
-  font-size: 20px;
+  font-size: 14px;
   overflow-wrap: anywhere;
 }
 .account-page .checkboxes {
@@ -210,7 +210,7 @@
   margin-top: 30px;
 }
 .secret-output h3 {
-  font-size: 21px;
+  font-size: 14px;
 }
 .record-list {
   margin-top: 30px;
@@ -223,7 +223,7 @@
   font:
     14px/1.5 Consolas,
     monospace;
-  letter-spacing: normal;
+  letter-spacing: 0;
   overflow-wrap: anywhere;
 }
 .record-list p {
@@ -239,7 +239,7 @@
 }
 .account-page summary {
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
 }
 .account-page pre {
   max-width: 100%;
@@ -250,7 +250,7 @@
 }
 #operation-status {
   margin-block: 22px;
-  font-size: 16px;
+  font-size: 14px;
   overflow-wrap: anywhere;
 }
 #operation-status:empty {
@@ -284,7 +284,7 @@
   }
   .account-heading p {
     margin-top: 24px;
-    font-size: 16px;
+    font-size: 14px;
   }
   .organization-line,
   .account-section {
@@ -303,7 +303,7 @@
     gap: 18px;
   }
   .usage-ledger dd {
-    font-size: 18px;
+    font-size: 14px;
   }
   .two-fields {
     display: block;

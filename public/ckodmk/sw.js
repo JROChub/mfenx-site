@@ -1,12 +1,12 @@
 "use strict";
 
-const CACHE_NAME = "ckodmk-browser-v0.5.1-2";
+const CACHE_NAME = "ckodmk-browser-v0.5.1-instrument-20260926";
 const MAX_CORE_ASSET_BYTES = 16 * 1024 * 1024;
 const CORE = Object.freeze([
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./styles.css?v=20260811b",
+  "./styles.css?v=20260926-instrument",
   "./app.js?v=20260810h",
   "./browser-optimizer.js?v=20260810f",
   "./browser-gate.js?v=20260811a",

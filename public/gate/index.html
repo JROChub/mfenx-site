@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fafaf8" />
+    <meta name="theme-color" content="#f7f8fa" />
     <meta
       name="description"
       content="Evaluate a model locally, replay its required behavioral contract and inspect signed release evidence with MFENX Gate."
@@ -44,13 +44,12 @@
             the exact candidate on your own machine.
           </p>
           <div class="hero-actions">
-            <a class="button" href="/ckodmk/#pcm-gate">Open signed model admission <span aria-hidden="true">→</span></a>
-            <a href="/docs/">Read the documentation <span aria-hidden="true">→</span></a>
+            <a class="button" href="/ckodmk/#pcm-gate"
+              >Open signed model admission</a
+            >
+            <a href="/docs/">Read the documentation</a>
           </div>
           <p class="note">No account or model upload required.</p>
-        </div>
-        <div class="product-art" aria-hidden="true">
-          <img src="/assets/mfenx-fold.svg" alt="" />
         </div>
       </header>
 
@@ -69,76 +68,79 @@
         </div>
       </section>
 
-      <section class="evaluation-entry" aria-labelledby="evaluate-title">
-        <div>
-          <p class="section-label">The evaluation workspace</p>
-          <h2 id="evaluate-title">Bring a model and its contract.</h2>
-          <p class="reading">
-            CKODMK powers Gate’s local evaluation. The browser workspace runs
-            supported ONNX models, compares source and candidate outputs, and
-            replays the contract in a signed package.
-          </p>
-          <p class="note">
-            The evaluator and its runtime download to your browser.
-          </p>
-        </div>
-        <aside class="evaluation-preparation" aria-labelledby="bring-title">
-          <h3 id="bring-title">For your own signed package</h3>
-          <ul>
+      <details class="method-details">
+        <summary>Package requirements and admission checks</summary>
+        <section class="evaluation-entry" aria-labelledby="evaluate-title">
+          <div>
+            <p class="section-label">The evaluation workspace</p>
+            <h2 id="evaluate-title">Bring a model and its contract.</h2>
+            <p class="reading">
+              CKODMK powers Gate’s local evaluation. The browser workspace runs
+              supported ONNX models, compares source and candidate outputs, and
+              replays the contract in a signed package.
+            </p>
+            <p class="note">
+              The evaluator and its runtime download to your browser.
+            </p>
+          </div>
+          <aside class="evaluation-preparation" aria-labelledby="bring-title">
+            <h3 id="bring-title">For your own signed package</h3>
+            <ul>
+              <li>
+                The CKODMK <span class="mono">.pcm</span> package containing the
+                source, candidate and replay data.
+              </li>
+              <li>
+                The issuer’s P-256 public key, obtained through a trusted
+                channel.
+              </li>
+              <li>A browser capable of running ONNX Runtime Web.</li>
+            </ul>
+            <p>
+              To try the published example, select
+              <strong>Verify included PCM</strong> inside the evaluator.
+            </p>
+          </aside>
+        </section>
+
+        <section class="evaluation-sequence" aria-labelledby="decision-title">
+          <h2 id="decision-title">What the gate checks</h2>
+          <ol>
             <li>
-              The CKODMK <span class="mono">.pcm</span> package containing the
-              source, candidate and replay data.
+              <span class="sequence-number" aria-hidden="true">01</span>
+              <div>
+                <h3>Authorize the package</h3>
+                <p>
+                  The issuer signature, validity period, release authorization
+                  and lineage must verify. The model files must match the
+                  package’s artifact bindings.
+                </p>
+              </div>
             </li>
             <li>
-              The issuer’s P-256 public key, obtained through a trusted channel.
+              <span class="sequence-number" aria-hidden="true">02</span>
+              <div>
+                <h3>Replay the required behavior</h3>
+                <p>
+                  The engine runs the included evaluation contract locally and
+                  checks the measured results against its acceptance limits.
+                </p>
+              </div>
             </li>
-            <li>A browser capable of running ONNX Runtime Web.</li>
-          </ul>
-          <p>
-            To try the published example, select
-            <strong>Verify included PCM</strong> inside the evaluator.
-          </p>
-        </aside>
-      </section>
-
-      <section class="evaluation-sequence" aria-labelledby="decision-title">
-        <h2 id="decision-title">What the gate checks</h2>
-        <ol>
-          <li>
-            <span class="sequence-number" aria-hidden="true">01</span>
-            <div>
-              <h3>Authorize the package</h3>
-              <p>
-                The issuer signature, validity period, release authorization and
-                lineage must verify. The model files must match the package’s
-                artifact bindings.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span class="sequence-number" aria-hidden="true">02</span>
-            <div>
-              <h3>Replay the required behavior</h3>
-              <p>
-                The engine runs the included evaluation contract locally and
-                checks the measured results against its acceptance limits.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span class="sequence-number" aria-hidden="true">03</span>
-            <div>
-              <h3>Release the exact candidate</h3>
-              <p>
-                The evaluator unlocks its candidate download only after its
-                required checks pass. Your deployment pipeline must enforce its
-                own corresponding gate before loading a model.
-              </p>
-            </div>
-          </li>
-        </ol>
-      </section>
-
+            <li>
+              <span class="sequence-number" aria-hidden="true">03</span>
+              <div>
+                <h3>Release the exact candidate</h3>
+                <p>
+                  The evaluator unlocks its candidate download only after its
+                  required checks pass. Your deployment pipeline must enforce
+                  its own corresponding gate before loading a model.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
+      </details>
       <section class="evaluation-reference" aria-labelledby="workflow-title">
         <div>
           <h2 id="workflow-title">Choose the right evidence</h2>
@@ -197,7 +199,8 @@
                 <td>
                   The identity and structure of safetensors files or PyTorch
                   checkpoints containing only weights. Behavioral testing
-                  requires a compatible execution adapter and evaluation contract.
+                  requires a compatible execution adapter and evaluation
+                  contract.
                 </td>
                 <td><a href="/ckodmk/#install">CKODMK CLI</a></td>
               </tr>
@@ -219,7 +222,8 @@
             input. Your release policy must specify the checks you require.
           </p>
           <p>
-            Inspect the <a href="/ckodmk/#results">published CKODMK reference runs</a>
+            Inspect the
+            <a href="/ckodmk/#results">published CKODMK reference runs</a>
             or automate your workflow with the
             <a href="/docs/">local CLI and integration documentation</a>.
           </p>

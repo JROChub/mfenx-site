@@ -19,7 +19,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=20260811b">
+  <link rel="stylesheet" href="styles.css?v=20260926-instrument">
   <script src="vendor/ort/ort.wasm.min.js" integrity="sha384-W2a9V+AEW9nNVTsl4WkYb9OmIWx/xOM2HJY/aTYflneh497ZVsWN9NG3ezc+1SAk" defer></script>
   <script src="app.js?v=20260810h" defer></script>
   <script src="browser-optimizer.js?v=20260810f" defer></script>
@@ -47,8 +47,8 @@
     <section class="intro" aria-labelledby="intro-title">
       <div>
         <p class="product-version">CKODMK 0.5.1</p>
-        <h1 id="intro-title">Verify a model before it runs.</h1>
-        <p>CKODMK checks a signed model package, binds it to its source and contract, replays the required behavioral checks locally, and blocks model admission when any required condition fails.</p>
+        <h1 id="intro-title">Local model evaluation</h1>
+        <p>Verify a signed package or compare source and candidate models. Files are processed on this device.</p>
       </div>
       <dl class="runtime-summary" aria-label="Application properties">
         <div><dt>Execution</dt><dd>In this browser</dd></div>
@@ -58,9 +58,9 @@
       </dl>
     </section>
 
-    <section id="pcm-gate" class="pcm-section" aria-labelledby="pcm-title">
+    <section id="pcm-gate" class="pcm-section" aria-labelledby="pcm-title" tabindex="-1">
       <header class="workspace-header">
-        <div><p class="section-label">Admission gate</p><h2 id="pcm-title">Proof-carrying model</h2></div>
+        <div><p class="section-label">Admission gate</p><h2 id="pcm-title">Signed model package</h2></div>
         <p>The candidate cannot be downloaded from this gate until its issuer signature, RootID, file bindings, validity period and required behavioral checks pass.</p>
       </header>
       <div class="pcm-card">
@@ -79,6 +79,8 @@
             <li id="pcm-check-replay" data-state="waiting"><span>2</span><div><strong>Runtime replay</strong><small>Every required behavioral contract check</small></div><b>Waiting</b></li>
             <li id="pcm-check-admission" data-state="waiting"><span>3</span><div><strong>Admission</strong><small>Unlock only the candidate that passed</small></div><b>Locked</b></li>
           </ol>
+          <details class="record-details">
+            <summary>Package identity and authorization</summary>
           <dl>
             <div><dt>Statement RootID</dt><dd id="pcm-root-id">Not verified</dd></div>
             <div><dt>Issuer</dt><dd id="pcm-issuer">Not verified</dd></div>
@@ -90,6 +92,7 @@
             <div><dt>Native parameters</dt><dd id="pcm-parameters">Not verified</dd></div>
             <div><dt>Precision</dt><dd id="pcm-precision">Not verified</dd></div>
           </dl>
+          </details>
           <button id="download-admitted-model" type="button" disabled>Download admitted model</button>
         </div>
       </div>

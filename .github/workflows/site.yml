@@ -18,7 +18,7 @@ jobs:
   validate:
     name: Validate production payload
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Check out the reviewed commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -53,11 +53,14 @@ jobs:
             node --check "$file"
           done < <(find public -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
-      - name: Check the exact game engine and independent replay
-        run: node tests/test_atomic_engine.mjs
-
       - name: Check research deep-link compatibility
         run: node tests/test_gate_legacy_links.mjs
+
+      - name: Keep the retired game out of the published website
+        run: python3 -m unittest -v tests.test_retired_atomic
+
+      - name: Preserve independent instrument offline caches
+        run: node tests/test_instrument_cache_isolation.mjs
 
       - name: Bind Gate public evidence to the measured execution
         run: python3 -m unittest -v tests.test_gate_evidence
@@ -79,11 +82,20 @@ jobs:
           .site-test-venv/bin/python -m pip install --disable-pip-version-check --no-input playwright==1.62.0 pytest==9.1.1 cryptography==50.0.0
           .site-test-venv/bin/python -m playwright install --with-deps chromium
 
+      - name: Check the pinned model release CI starter
+        run: .site-test-venv/bin/python -m unittest -v tests.test_gate_ci_starter
+
       - name: Exercise the production payload in Chromium
         run: .site-test-venv/bin/python tests/browser_smoke.py --root public
 
       - name: Check product layout, keyboard navigation and readable text
         run: .site-test-venv/bin/python tests/browser_site_design.py --root public
+
+      - name: Exercise published-record inspection and stale-response safety
+        run: .site-test-venv/bin/python tests/browser_home_evidence.py --root public
+
+      - name: Exercise research instruments and unavailable service states
+        run: .site-test-venv/bin/python tests/browser_research_interfaces.py --root public
 
       - name: Exercise Gate evaluation and signed-model replay in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_evaluation.py --root public
@@ -108,9 +120,6 @@ jobs:
 
       - name: Exercise runtime delivery and purchase-entry documentation in Chromium
         run: .site-test-venv/bin/python -m pytest tests/browser_gate_runtime.py -q
-
-      - name: Exercise Atomic Roc Roc missions and replay in Chromium
-        run: .site-test-venv/bin/python tests/browser_atomic.py --root public
 
   deploy:
     name: Deploy mfenx.com

@@ -3,33 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050807">
+  <meta name="theme-color" content="#f7f8fa">
   <meta name="description" content="Signed observer and validator registration for the MFENX Power House network.">
   <title>MFENX Node Registration</title>
   <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg?v=20260729-transparent">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/powerhouse-logo.png?v=20260729-transparent">
-  <link rel="preload" href="assets/earth-night.jpg" as="image">
-  <link rel="stylesheet" href="register.css">
+  <link rel="stylesheet" href="register.css?v=20260926-instrument">
 </head>
 <body>
+  <a class="skip-link" href="#workspace">Skip to registration</a>
   <div class="earth-field" aria-hidden="true"></div>
 
   <header>
     <a class="brand" href="/">
       <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
-      <span><b>MFENX</b><small>NODE REGISTRY</small></span>
+      <span><b>MFENX</b><small>Node registry</small></span>
     </a>
     <nav aria-label="Registration navigation">
-      <a href="status.html">STATUS</a>
-      <a href="https://github.com/JROChub/power_house/blob/main/docs/observer_registry.md">DOCS</a>
+      <a href="/gate/">Gate</a>
+      <a href="/labs/">Research lab</a>
+      <a href="status.html">Network status</a>
+      <a href="https://github.com/JROChub/power_house/blob/main/docs/observer_registry.md">Registry reference</a>
     </nav>
   </header>
 
-  <main>
+  <main id="workspace" tabindex="-1">
     <section class="registration-hero" aria-labelledby="registration-title">
       <div>
         <span class="eyebrow">SIGNED IDENTITY / CHAIN 177155</span>
-        <h1 id="registration-title">REGISTER A PUBLIC NODE</h1>
+        <h1 id="registration-title">Register a public node</h1>
         <p>Run the guided observer setup, diagnose firewall and NAT issues, then submit signed JSON directly to the cryptographically verified public registry.</p>
       </div>
       <div class="security-meter" aria-label="Security model">
@@ -38,12 +40,13 @@
       </div>
     </section>
 
-    <section class="onboarding-steps" aria-label="Observer onboarding steps">
+    <details class="onboarding-steps" aria-label="Observer onboarding steps">
+      <summary>Setup, diagnostics and admission</summary>
       <article><span>01</span><b>SETUP</b><p>Create or reuse a local key and generate a signed observer registration.</p></article>
       <article><span>02</span><b>DOCTOR</b><p>Detect occupied ports, local firewall, NAT, metrics identity, and public reachability.</p></article>
       <article><span>03</span><b>PROBE</b><p>Use the production-side external probe so router hairpin failures do not mislead operators.</p></article>
       <article><span>04</span><b>SUBMIT</b><p>Submit only signed JSON. Production still verifies identity before counting the observer.</p></article>
-    </section>
+    </details>
 
     <section class="registration-grid" aria-label="Registration workspace">
       <article class="command-panel">

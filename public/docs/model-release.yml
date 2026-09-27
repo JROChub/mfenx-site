@@ -1,0 +1,58 @@
+# Save as .github/workflows/model-release.yml in your repository.
+# First protect the model-release environment and your release branch.
+# Set the two environment variables documented at https://mfenx.com/docs/#integration.
+# Replace release/model.onnx and release/release-receipt.json with your real paths.
+# This workflow verifies only. It does not issue receipts, replay inference or deploy.
+name: Verify model release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: model-release
+    steps:
+      - name: Read the protected release branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Install the checksum pinned verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -c 'import sys; assert sys.version_info >= (3, 11)'
+          wheel="$RUNNER_TEMP/mfenx_gate-1.0.0-py3-none-any.whl"
+          curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+            --max-time 60 --max-filesize 10485760 \
+            https://mfenx.com/gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl \
+            --output "$wheel"
+          printf '%s  %s\n' 'aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d' "$wheel" | sha256sum --check --strict
+          python3 -m venv "$RUNNER_TEMP/mfenx-gate"
+          "$RUNNER_TEMP/mfenx-gate/bin/python" -m pip install --disable-pip-version-check "$wheel"
+          printf '%s\n' "$RUNNER_TEMP/mfenx-gate/bin" >> "$GITHUB_PATH"
+
+      - name: Write independently approved public trust
+        shell: bash
+        env:
+          MFENX_TRUST_SPKI: ${{ vars.MODEL_RELEASE_TRUST_SPKI_BASE64 }}
+          MFENX_APPROVED_CONTRACT: ${{ vars.MODEL_RELEASE_CONTRACT_SHA256 }}
+        run: |
+          set -euo pipefail
+          test -n "$MFENX_TRUST_SPKI"
+          [[ "$MFENX_APPROVED_CONTRACT" =~ ^sha256:[0-9a-f]{64}$ ]]
+          printf '%s' "$MFENX_TRUST_SPKI" | base64 --decode > "$RUNNER_TEMP/mfenx-issuer.der"
+
+      - name: Verify receipt, artifact and approved contract
+        uses: JROChub/model-gate-action@3b0ede631c1038bbdf76e3a1a1b439606f14e9a6
+        with:
+          receipt: release/release-receipt.json
+          model: release/model.onnx
+          trusted-public-key: ${{ runner.temp }}/mfenx-issuer.der
+          approved-contract-sha256: ${{ vars.MODEL_RELEASE_CONTRACT_SHA256 }}

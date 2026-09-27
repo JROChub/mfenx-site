@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#111511">
+    <meta name="theme-color" content="#f7f8fa">
     <meta
       name="description"
       content="TESSARYN experimental synthetic Origin: a native, local-first World Cell construction."
@@ -15,10 +15,11 @@
     <link rel="modulepreload" crossorigin href="./assets/icons-DDPCI9Tp.js">
     <link rel="modulepreload" crossorigin href="./assets/three-DcRUVr7Q.js">
     <link rel="modulepreload" crossorigin href="./assets/three-BvS9nFhU.js">
-    <link rel="stylesheet" crossorigin href="./assets/index-DqLIcRKt.css">
+    <link rel="stylesheet" href="./instrument.css?v=20260926">
   </head>
   <body>
-    <div id="app" class="app-shell" data-ready="false">
+    <a class="skip-link" href="#app">Skip to world workspace</a>
+    <main id="app" class="app-shell" data-ready="false" tabindex="-1">
       <canvas
         id="world-canvas"
         aria-label="Traversable synthetic TESSARYN Origin"
@@ -28,11 +29,11 @@
       <header class="topbar">
         <a class="brand" href="./" aria-label="TESSARYN home">
           <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span><b>TESSARYN</b><small>SELF-ASSEMBLING WORLD</small></span>
+          <span><h1 id="origin-name">CONDENSING</h1><small>TESSARYN / Synthetic world workspace</small></span>
         </a>
         <div class="origin-title">
           <small>ACTIVE ORIGIN</small>
-          <h1 id="origin-name">CONDENSING</h1>
+          <b>TESSARYN</b>
         </div>
         <div class="top-states" aria-live="polite">
           <span id="network-state"><i></i>LOCAL</span>
@@ -112,7 +113,7 @@
 
       <aside id="challenge-drawer" class="challenge-drawer" aria-label="Mutation Lab" aria-hidden="true" inert>
         <header>
-          <div><small>LOCAL MUTATION LAB</small><b>WATCH FALSEHOOD STOP</b></div>
+          <div><small>Local mutation lab</small><b>Test a fixture mutation</b></div>
           <button id="challenge-close" class="icon-button" type="button" title="Close mutation lab">
             <i data-lucide="x"></i>
           </button>
@@ -171,11 +172,11 @@
       <div id="boot-field" class="boot-field">
         <div class="boot-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <small>TESSARYN / SYNTHETIC ORIGIN 01</small>
-        <b>THE WORLD IS CONSTRUCTED</b>
+        <b>Loading world workspace</b>
         <span id="boot-status">READING LOCAL CELL MANIFESTS</span>
       </div>
 
       <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    </div>
+    </main>
   </body>
 </html>

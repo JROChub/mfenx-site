@@ -3,38 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#010405">
+  <meta name="theme-color" content="#f7f8fa">
   <meta name="description" content="SLBIT 3.1 Meaning Observatory for locally verifying semantic packets, transcript digests, anchors, summaries, and proof meaning.">
   <meta property="og:title" content="SLBIT 3.1 Meaning Observatory">
-  <meta property="og:description" content="The proof says it verified. SLBIT shows what it meant.">
+  <meta property="og:description" content="Inspect semantic packets, transcript digests and proof bindings locally.">
   <meta property="og:image" content="https://mfenx.com/assets/proof-lattice.webp">
   <title>MFENX | SLBIT 3.1 Meaning Observatory</title>
   <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg?v=20260729-transparent">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/powerhouse-logo.png?v=20260729-transparent">
-  <link rel="preload" href="assets/proof-lattice.webp" as="image">
-  <link rel="stylesheet" href="slbit.css">
+  <link rel="stylesheet" href="slbit.css?v=20260926-instrument">
 </head>
 <body>
+  <a class="skip-link" href="#workspace">Skip to packet inspector</a>
   <div class="field" aria-hidden="true"></div>
 
   <header class="topbar">
     <a class="brand" href="/">
       <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
-      <span><b>MFENX</b><small>SLBIT 3.1 / MEANING OBSERVATORY</small></span>
+      <span><b>MFENX</b><small>SLBIT 3.1</small></span>
     </a>
     <nav aria-label="Navigation">
-      <a href="/">OBSERVATORY</a>
-      <a href="status.html">STATUS</a>
-      <a href="campaign.html">72H SOAK</a>
-      <a href="https://docs.rs/slbit">DOCS.RS</a>
+      <a href="/gate/">Gate</a>
+      <a href="/labs/">Research lab</a>
+      <a href="status.html">Network status</a>
+      <a href="campaign.html">Reliability</a>
+      <a href="https://docs.rs/slbit">API</a>
     </nav>
   </header>
 
-  <main>
+  <main id="workspace" tabindex="-1">
     <section class="hero" aria-labelledby="title">
       <div class="hero-copy">
         <span>SLBIT 3.1 / LOCAL MEANING INSPECTION</span>
-        <h1 id="title">MEANING OBSERVATORY</h1>
+        <h1 id="title">Semantic packet inspector</h1>
         <p>Local semantic packet verification, authority inspection, deterministic ask reports, and proof meaning without changing proof identity.</p>
       </div>
       <div class="hero-state" aria-label="Verification state">
@@ -57,7 +58,8 @@
       <button id="copy-llm" type="button">COPY LLM CONTEXT</button>
     </section>
 
-    <section class="meaning-console" aria-label="SLBIT 3.1 meaning inspection">
+    <details class="meaning-console" aria-label="SLBIT 3.1 meaning inspection">
+      <summary>Authority and interpretation</summary>
       <article class="boundary-card">
         <span>TRUTH BOUNDARY</span>
         <h2 id="boundary-state">INSPECTING PACKET</h2>
@@ -65,14 +67,14 @@
       </article>
       <div class="authority-strip" id="authority-strip" aria-label="Authority counts"></div>
       <div class="ask-grid" id="ask-grid" aria-label="Deterministic ask report"></div>
-    </section>
+    </details>
 
     <section class="explorer-grid">
-      <section class="verification-panel" aria-label="Packet verification">
-        <div class="panel-head">
-          <span>LOCAL VERIFIER</span>
+      <details class="verification-panel" aria-label="Packet verification">
+        <summary>
+          <span>Local verification record</span>
           <b id="verify-state">BUILDING SAMPLE</b>
-        </div>
+        </summary>
         <dl class="digest-list">
           <div><dt>PACKET ID</dt><dd id="packet-id">--</dd></div>
           <div><dt>PACKET DIGEST</dt><dd id="packet-digest">--</dd></div>
@@ -80,9 +82,9 @@
           <div><dt>SEMANTIC GRAPH</dt><dd id="graph-digest">--</dd></div>
         </dl>
         <div class="gate-stack" id="gate-stack"></div>
-      </section>
+      </details>
 
-      <section class="graph-panel" aria-label="Semantic graph">
+      <section class="graph-panel" aria-label="Semantic graph" tabindex="0">
         <div class="panel-head">
           <span>SEMANTIC DAG</span>
           <b id="graph-count">0 NODES / 0 EDGES</b>
@@ -109,13 +111,14 @@
         <div id="timeline" class="timeline"></div>
       </section>
 
-      <section class="json-panel" aria-label="Packet JSON preview">
+      <details class="json-panel" aria-label="Packet JSON preview">
+        <summary>Canonical packet JSON</summary>
         <div class="panel-head">
           <span>CANONICAL PACKET JSON</span>
           <b id="json-size">0 B</b>
         </div>
         <pre id="json-preview"></pre>
-      </section>
+      </details>
     </section>
   </main>
 

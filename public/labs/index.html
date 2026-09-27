@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#010405">
-  <meta name="description" content="MFENX.COM: public verification tools, Rootprint observability, and Lights Out software-defined local supercomputer evidence.">
-  <meta property="og:title" content="MFENX.COM Orbital Observatory">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="Local verification instruments, Rootprint lineage, SFCS identity checks and computational evidence.">
+  <meta property="og:title" content="MFENX Research Lab">
   <meta property="og:description" content="Verify artifacts, inspect Rootprint lineage, run SFCS demos, and watch the live MFENX verification field.">
   <meta property="og:image" content="https://mfenx.com/assets/proof-lattice.webp">
   <meta property="og:url" content="https://mfenx.com/labs/">
-  <title>MFENX Labs — Proof Observatory</title>
+  <title>MFENX Research Lab</title>
   <link rel="canonical" href="https://mfenx.com/labs/">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/assets/powerhouse-logo.svg?v=20260729-transparent">
@@ -20,18 +20,17 @@
   <link rel="preload" href="/assets/earth-night.jpg" as="image" crossorigin="anonymous" media="(min-width: 761px)">
   <link rel="preload" href="/assets/earth-day-mobile.jpg" as="image" crossorigin="anonymous" media="(max-width: 760px)">
   <link rel="preload" href="/assets/earth-night-mobile.jpg" as="image" crossorigin="anonymous" media="(max-width: 760px)">
-  <link rel="stylesheet" href="/app.css?v=20260709-orbital-observatory2">
-  <link rel="stylesheet" href="/observatory.css?v=20260728-v040">
-  <link rel="stylesheet" href="/release-v040.css?v=20260728-desktop-observatory-frame">
+  <link rel="stylesheet" href="/labs/interface.css?v=20260926">
 </head>
-<body>
+<body class="lab-page">
+  <a class="skip-link" href="/labs/#research-workspace">Skip to instruments</a>
   <div id="boot-screen" class="boot-screen" aria-live="polite">
     <div class="boot-mark">
       <img src="/assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
       <i></i>
     </div>
     <strong>POWER HOUSE</strong>
-    <span>CALIBRATING PUBLIC VERIFICATION FIELD</span>
+    <span>Loading verification instruments</span>
     <div class="boot-track"><b id="boot-progress"></b></div>
   </div>
 
@@ -47,7 +46,7 @@
         <img src="/assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
         <span>
           <strong>MFENX</strong>
-          <small>POWER HOUSE + ROOTPRINT + SLBIT / PROOF OBSERVATORY</small>
+          <small>Research lab</small>
         </span>
       </a>
 
@@ -60,10 +59,12 @@
       </div>
 
       <nav class="top-actions" aria-label="Project and instrument controls">
+        <a href="/gate/">Gate</a>
+        <a href="/verify/">Receipts</a>
         <a href="/ckodmk/" title="CKODMK model deployment assurance">
           <span data-icon="shield-check"></span><b>CKODMK</b>
         </a>
-        <a href="/lightsout/" title="Lights Out software-defined local supercomputer">
+        <a href="/lightsout/" title="Lights Out compute">
           <span data-icon="crosshair"></span><b>LIGHTS OUT</b>
         </a>
         <a href="https://docs.rs/power_house" title="Rust API documentation">
@@ -76,13 +77,13 @@
           <span data-icon="code"></span><b>SOURCE</b>
         </a>
         <button id="portal-top-toggle" type="button" aria-label="Open instant verifier" aria-expanded="false" aria-controls="portal-drawer" title="Instant verifier">
-          <span data-icon="search"></span><b>VERIFY</b>
+          <span data-icon="search"></span><b>Local input</b>
         </button>
         <button id="observatory-toggle" type="button" aria-label="Open world observatory" title="World observatory">
-          <span data-icon="globe"></span><b>EARTH</b>
+          <span data-icon="globe"></span><b>World clocks</b>
         </button>
         <button id="evaluation-toggle" class="evaluation-toggle" type="button" aria-label="Open commercial evaluation" title="Commercial evaluation">
-          <span data-icon="building-2"></span><b>EVALUATE</b>
+          <span data-icon="building-2"></span><b>References</b>
         </button>
       </nav>
     </header>
@@ -91,8 +92,8 @@
       <div class="portal-drawer-shell">
         <header class="portal-drawer-head">
           <div>
-            <span>LOCAL PROOF LAB / MFENX.COM</span>
-            <h2>VERIFY HERE. NOTHING LEAVES.</h2>
+            <span>Local input</span>
+            <h2>Identity and artifact verification</h2>
             <p>Run published verifier paths, inspect portable artifacts, or create a deterministic RootID observation from your own input. Arbitrary-input fingerprinting records what you supplied; it does not prove that the input is true.</p>
           </div>
           <button id="portal-panel-close" type="button" aria-label="Close Orbital Observatory portal">
@@ -230,6 +231,8 @@
         <div><span>CORE</span><b>DETERMINISTIC</b></div>
       </div>
 
+      <details class="lab-references">
+      <summary>Release references</summary>
       <div class="release-links" aria-label="Power House release instruments">
         <a href="https://docs.rs/power_house/latest/power_house/memory/" title="Memory Capsule API">
           <span>MEMORY CAPSULE V1</span>
@@ -244,9 +247,10 @@
           <b>ORIGIN + SOVEREIGN PRIVATE VM</b>
         </a>
       </div>
+      </details>
     </aside>
 
-    <main class="center-stage">
+    <main id="research-workspace" class="center-stage" tabindex="-1">
       <div class="stage-label">
         <span id="stage-city">GREENWICH</span>
         <strong id="stage-time">00:00:00</strong>
@@ -258,13 +262,12 @@
       <div id="orbital-label-layer" class="orbital-label-layer" aria-hidden="true"></div>
 
       <section class="proof-monument" aria-label="Selected proof scale">
-        <div class="monument-thesis">
-          <span>VERIFICATION IS THE CREATION BOUNDARY</span>
-          <b>LOCAL-FIRST / PORTABLE / REPLAYABLE</b>
-        </div>
+        <h1>Verification workspace</h1>
+        <details class="mode-specification">
+        <summary>Selected proof specification</summary>
         <span id="orbit-kicker">DETERMINISTIC IDENTITY GRAPH</span>
         <div class="monument-title">
-          <h1>POWER HOUSE</h1>
+          <span>Power House</span>
           <b id="monument-index">01</b>
         </div>
         <div class="domain-equation">
@@ -277,6 +280,7 @@
           <div><span>VERIFIER PATH</span><b id="verifier-path">CORE-ONLY DAG REPLAY</b></div>
           <div><span>EXTERNAL PROOFS</span><b id="allocation-value">STRICTLY OPTIONAL</b></div>
         </div>
+        </details>
         <div class="hero-actions" aria-label="Primary proof commands">
           <button id="hero-run-button" class="hero-run-button" type="button">
             <span data-icon="play"></span>
@@ -284,7 +288,7 @@
           </button>
           <button id="hero-portal-button" class="hero-portal-button" type="button">
             <span data-icon="search"></span>
-            <span><small>YOUR INPUT</small><b>LOCAL PROOF LAB</b></span>
+            <span><small>Your input</small><b>Open local verifier</b></span>
           </button>
         </div>
         <dl class="hero-trust-meter" aria-label="Verification trust boundary">
@@ -305,7 +309,7 @@
       <button id="sfcs-orbit-toggle" class="sfcs-orbit-toggle" type="button" aria-expanded="false" aria-controls="sfcs-orbit-panel" title="Open SFCS Sovereign VM receipt instrument">
         <span data-icon="brain-circuit"></span>
         <b>SFCS</b>
-        <small>OPEN / RUN</small>
+        <small>Identity bridge</small>
       </button>
 
       <div id="sfcs-orbit-panel" class="sfcs-orbit-panel">
@@ -478,8 +482,8 @@
 
       <div class="evaluation-lead">
         <span>FOR RESEARCH / INFRASTRUCTURE / AUDIT</span>
-        <strong>Bring the workload that should not fit.</strong>
-        <p>Define the statement, domain, trust boundary, and rejection criteria. Power House turns the evaluation into a reproducible verifier path.</p>
+        <strong>Reproduce the selected verification path.</strong>
+        <p>Inspect the statement, domain, public artifact and rejection criteria before running an evaluation.</p>
       </div>
 
       <dl class="evaluation-spec">
@@ -504,8 +508,8 @@
     <section id="luminous-explorer" class="luminous-explorer" aria-label="Human-observable Rootprint">
       <header class="luminous-heading">
         <div>
-          <span>HUMAN-OBSERVABLE ROOTPRINT</span>
-          <b>CRYPTOGRAPHIC TRUTH / SEMANTIC MEANING</b>
+          <span>Rootprint graph</span>
+          <b>Identity and semantic binding</b>
         </div>
         <dl>
           <div><dt>CORE</dt><dd id="luminous-core-state">AWAITING</dd></div>
@@ -513,7 +517,7 @@
           <div><dt>PACKETS</dt><dd id="luminous-packet-count">0 / 4</dd></div>
         </dl>
         <button id="luminous-toggle" class="luminous-toggle" type="button" aria-expanded="false" aria-controls="luminous-workspace" aria-label="Expand proof explorer" title="Expand proof explorer">
-          <span data-icon="chevron-right"></span>
+          <span>Inspect</span>
         </button>
       </header>
       <div id="luminous-workspace" class="luminous-workspace">
@@ -558,10 +562,10 @@
           <span data-icon="upload"></span><b>LOCAL FILE</b>
         </button>
         <a id="download-button" class="download-button" href="/artifacts/rootprint-valid.json" download title="Download selected public artifact">
-          <span data-icon="download"></span>
+          <span data-icon="download"></span><span>Artifact</span>
         </a>
         <button id="share-button" class="share-button" type="button" disabled title="Share verification result">
-          <span data-icon="share-2"></span>
+          <span data-icon="share-2"></span><span>Share</span>
         </button>
         <button id="verify-button" class="verify-button" type="button">
           <span>VERIFY GRAPH</span>

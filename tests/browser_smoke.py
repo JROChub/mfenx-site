@@ -94,7 +94,14 @@ def main() -> int:
                     page.wait_for_selector("#release-state.pass", timeout=20_000)
                     heading = page.locator("main h1").first.inner_text().lower()
                     assert heading == "lights out", "Lights Out H1 does not identify the product"
+                    page.keyboard.press("Tab")
+                    assert page.locator(".skip-link").evaluate("node => node === document.activeElement")
+                    page.keyboard.press("Enter")
+                    assert page.locator("main").evaluate("node => node === document.activeElement")
                     assert page.locator("#qqfenx").count() == 1
+                    qqfenx_disclosure = page.locator("details.instrument-section").filter(has=page.locator("#qqfenx"))
+                    qqfenx_disclosure.locator(":scope > summary").click()
+                    assert qqfenx_disclosure.evaluate("node => node.open")
                     assert "32 → 8 → 0" in page.locator(".qqfenx-proof").inner_text()
                     assert "0 / 8" in page.locator(".qqfenx-proof .signal").inner_text()
                     assert "Q8 · Q16 · Q24 · Q32" in page.locator(".quotient-route").inner_text()
@@ -120,16 +127,12 @@ def main() -> int:
                         .map(node => node.textContent.trim())""")
                     assert not clipped, f"clipped product navigation/content: {clipped}"
                     assert page.locator("main h1").count() == 1
-                    assert page.locator("nav[aria-label='Lights Out navigation'] a").count() == 7
-                    assert page.locator(".atomic-invitation a[href='atomic/']").count() == 1
+                    assert page.locator("nav[aria-label='Lights Out navigation'] a").count() == 6
+                    assert page.locator(".atomic-invitation, a[href*='atomic/']").count() == 0
                     invalid_fragments = page.evaluate("""() => [...document.querySelectorAll('a[href^="#"]')]
                         .map(link => link.getAttribute('href').slice(1))
                         .filter(id => !id || !document.getElementById(id))""")
                     assert not invalid_fragments, f"unresolved fragment links: {invalid_fragments}"
-                    page.keyboard.press("Tab")
-                    assert page.locator(".skip-link").evaluate("node => node === document.activeElement")
-                    page.keyboard.press("Enter")
-                    assert page.locator("main").evaluate("node => node === document.activeElement")
                     assert not page.locator("#execution-foundation").evaluate("node => node.open")
                     page.locator("#open-execution-evidence").click()
                     assert page.locator("#execution-foundation").evaluate("node => node.open")
@@ -184,6 +187,7 @@ def main() -> int:
                 assert rejected.locator("#verification-status").get_attribute("data-state") == "fail"
                 assert rejected.locator("#release-verdict").inner_text() == "REJECTED"
                 assert rejected.locator("#release-speedup").text_content() == "—"
+                rejected.locator("details.instrument-section").filter(has=rejected.locator("#scientific-hpc")).locator(":scope > summary").click()
                 assert rejected.locator("[data-scientific-values]:visible").count() == 0
                 assert rejected.locator(".hero a[href='commercial-licensing.html']").is_visible()
                 rejected.unroute(rejection_route)
@@ -201,6 +205,7 @@ def main() -> int:
                 assert no_script.locator(".noscript-note").is_visible()
                 assert no_script.locator(".hero a[href='commercial-licensing.html']").is_visible()
                 assert no_script.locator("#resident-gpu").is_visible()
+                no_script.locator("details.instrument-section").filter(has=no_script.locator("#scientific-hpc")).locator(":scope > summary").click()
                 assert no_script.locator("[data-scientific-values]:visible").count() == 0
                 assert no_script.locator("#execution-foundation > summary").is_visible()
             except (AssertionError, Exception) as exc:
@@ -211,7 +216,9 @@ def main() -> int:
             assert_no_runtime_errors(tessaryn, failures, origin + "/tessaryn/")
             try:
                 tessaryn.wait_for_function("document.body.dataset.ready === 'true'", timeout=20_000)
+                assert tessaryn.locator("h1:visible").count() == 1
                 assert tessaryn.locator("h1#origin-name").count() == 1
+                assert tessaryn.locator("#origin-name").inner_text() not in {"", "CONDENSING"}
             except (AssertionError, Exception) as exc:
                 failures.append(f"Tessaryn accessibility check: {exc}")
             tessaryn.close()

@@ -3,25 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050807">
+  <meta name="theme-color" content="#f7f8fa">
   <meta name="description" content="Live operational status for the MFENX Power House network and LAX MFENX RPC.">
   <title>MFENX Network Status</title>
   <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg?v=20260729-transparent">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/powerhouse-logo.png?v=20260729-transparent">
-  <link rel="preload" href="assets/earth-night.jpg" as="image">
-  <link rel="stylesheet" href="status.css">
+  <link rel="stylesheet" href="status.css?v=20260926-instrument">
 </head>
 <body>
+  <a class="skip-link" href="#workspace">Skip to network status</a>
   <div class="earth-field" aria-hidden="true"></div>
   <header>
     <a class="brand" href="/">
       <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
-      <span><b>MFENX</b><small>POWER HOUSE NETWORK CONTROL</small></span>
+      <span><b>MFENX</b><small>Network status</small></span>
     </a>
+    <nav aria-label="Research navigation">
+      <a href="/gate/">Gate</a>
+      <a href="/labs/">Research lab</a>
+      <a href="campaign.html">Reliability</a>
+      <a href="register.html">Node registry</a>
+    </nav>
     <div class="release"><span>RELEASE</span><b>v0.4.0</b></div>
   </header>
 
-  <main>
+  <main id="workspace" tabindex="-1">
     <section class="network-state" aria-labelledby="status-title">
       <div>
         <span class="eyebrow">LAX MFENX RPC / CHAIN 177155</span>
