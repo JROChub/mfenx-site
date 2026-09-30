@@ -39,7 +39,7 @@
       </header>
       <div class="document-grid document-body">
         <nav class="contents" aria-label="On this page">
-          <a href="#download">Release files</a><a href="#trust">Publisher trust</a><a href="#authenticate">Authenticate the bytes</a><a href="#install">Offline installation</a><a href="#configure">Deployment and license</a><a href="#acceptance">Installed acceptance</a><a href="#renewal">Renewal and support</a>
+          <a href="#download">Release files</a><a href="#trust">Publisher trust</a><a href="#authenticate">Authenticate the bytes</a><a href="#install">Offline installation</a><a href="#configure">Deployment and license</a><a href="#acceptance">Installed acceptance</a><a href="#register">Register a release receipt</a><a href="#renewal">Renewal and support</a>
         </nav>
         <div class="reading">
           <h2 id="download">Release files</h2>
@@ -133,6 +133,38 @@ python3.13 -I install.py /absolute/path/to/new-runtime-venv</code></pre>
   gate_control.licensed_app:create_app --factory \
   --host 127.0.0.1 --port 8090 --workers 1 --no-access-log</code></pre>
           <p>Do not substitute the legacy <code>gate_control.app:create_app</code> factory. A health HTTP 200 establishes liveness, not paid admission: inspect <code>paid_features_available</code> and test an authorized governed operation. Missing or invalid licenses fail governed requests closed.</p>
+
+          <h2 id="register">Register a release receipt</h2>
+          <p>Connect a release process to the organization service you operate. Registration checks a signed receipt against your organization’s current issuer keys and policy, consumes its local registration allowance and optionally retains searchable metadata in your database. Standalone receipt verification remains free; registration requires an active runtime license, customer identity and organization authorization. This is not a request to the MFENX licensing service or native network.</p>
+          <p>Your administrator must first enroll an independently trusted P-256 receipt-issuer key, publish an approved organization policy and supply your organization ID. The existing API provides <code>POST /v1/orgs/{org}/issuer-keys</code> and <code>POST /v1/orgs/{org}/policies</code> for an authenticated customer administrator. Obtain a short-lived scoped token from <code>POST /v1/orgs/{org}/tokens</code>, with only <code>policies:read</code> and <code>receipts:write</code>. These identities and records belong to your own runtime; no MFENX account is created.</p>
+          <p>Get the approved <strong>organization policy digest</strong> from your administrator through a trusted channel. This is the policy response’s <code>sha256</code>, not its nested <code>evaluation_contract_sha256</code>. Do not automatically approve a policy fetched from a candidate change. The registration sample reads the current policy and compares it with your independent pin before sending a receipt.</p>
+          <p><a href="/gate/downloads/register_receipt.py" download>Download the registration integration sample</a> · Python 3.11 or newer, standard library only. It is separate from the signed runtime delivery packet. Inspect it and authenticate the following checksum through your trusted release process before execution; a checksum downloaded beside a file is not independent publisher authentication.</p>
+          <pre><code>sha256sum register_receipt.py
+# Expected SHA-256:
+# 0cbd43b8e1b75ea2b8a8192731468eec1c2165188e1e5ca4119155839d96969c</code></pre>
+          <p>First use the already installed <a href="/docs/#install">Gate verifier</a> to check the receipt, exact model and independently approved evaluation-contract digest locally. Keep these files in an operator-controlled directory. This check authenticates the issuer statement and artifact; it does not replay inference. Complete any behavioral replay or other checks required by your release policy separately.</p>
+          <pre><code>mfenx-gate verify release-receipt.json \
+  --trusted-public-key issuer-public.der \
+  --model candidate.onnx \
+  --expected-contract-sha256 "$APPROVED_CONTRACT_SHA256"</code></pre>
+          <p>Stop on a nonzero result. In Bash, read the scoped token without putting it in shell history or command arguments, then invoke the reviewed sample. Replace the customer origin and organization ID below, and set <code>APPROVED_ORGANIZATION_POLICY_SHA256</code> to your administrator’s approved <code>sha256:</code> digest. Do not enable shell tracing or print the token. A secret manager can supply the same environment variable in an approved CI job.</p>
+          <pre><code>(
+  set +x
+  read -r -s -p 'Customer runtime token: ' MFENX_GATE_TOKEN || exit 1
+  printf '\n'
+  export MFENX_GATE_TOKEN
+  python3 register_receipt.py \
+    --runtime-url https://gate.customer.example \
+    --organization YOUR_ORGANIZATION_ID \
+    --receipt release-receipt.json \
+    --expected-policy-sha256 "$APPROVED_ORGANIZATION_POLICY_SHA256"
+)</code></pre>
+          <p class="note">The subshell keeps the entered token out of the parent shell and returns the Python command’s exit status. Your CI job must honor that status and stop on failure. Restrict runtime credentials to trusted release jobs, never untrusted pull requests. Environment variables are not a substitute for host isolation.</p>
+          <p>The sample sends only the compact receipt to the explicitly selected customer origin, using <code>POST /v1/orgs/{org}/receipts</code>. It does not read or upload model weights, datasets, signing keys, purchase-key recovery files or licenses. Receipt contents can still reveal issuer names, commitments and evaluation counts. By default <code>retain_metadata</code> is false: the runtime keeps the minimal registration/idempotency and allowance record, not searchable receipt metadata. Add <code>--retain-metadata</code> only when your organization wants that history.</p>
+          <p>Success reports <code>registered: true</code> and <code>attestation_status: ATTESTATION_VERIFIED</code>, but also <code>artifact_status: NOT_CHECKED</code>, <code>replay_status: NOT_PERFORMED</code> and <code>deployment_authorized: false</code>. Those fields describe the runtime registration, not your separate local verification. Review <code>required_local_checks</code>; registration does not complete them or authorize deployment. Your release system must enforce its own checks and load the exact validated bytes.</p>
+          <p>The retry key is stable for the canonical receipt and organization. An unchanged retry under the same policy and metadata choice returns <code>replayed: true</code> without another allowance count. A changed policy, metadata choice or conflicting existing receipt record can return HTTP <code>409</code>; stop for operator review rather than inventing a new key or accepting a new policy automatically. An issuer revocation or receipt expiry can also prevent a retry.</p>
+          <p>The API does not support conditional policy writes: a policy can change after the preflight check. The sample rejects a response with a different policy version or digest, but registration may already have occurred. The same uncertainty applies to timeouts or interrupted responses. Retry only unchanged inputs or inspect the customer runtime; a failed client result is never deployment approval.</p>
+          <p>HTTP <code>401</code>/<code>403</code> means credentials or authorization need review; <code>422</code> means the receipt did not satisfy policy; <code>429</code> means the allowance was reached, without an automatic overage charge; <code>503</code> means the licensed runtime is unavailable. The sample never retries automatically, never follows redirects and ignores ambient HTTP proxy settings. TLS certificate validation is required. Its overall network deadline defaults to 20 seconds (<code>--timeout</code>, 1–60). Plain HTTP is available only for a literal loopback address with the explicit development flag <code>--allow-loopback-http</code>.</p>
 
           <h2 id="renewal">Keep the signed term current</h2>
           <p>Team and Business grants need renewal before their signed expiry. The bundle includes <code>tools/renew_license.py</code> and its customer-renewal guide. Test that one-shot helper with your protected recovery files and independent trust pins before scheduling it. No scheduled job is installed automatically.</p>

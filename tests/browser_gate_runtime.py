@@ -1,5 +1,6 @@
 """Runtime delivery documentation: local files only, no external requests."""
 
+import hashlib
 import mimetypes
 import os
 from pathlib import Path
@@ -58,10 +59,13 @@ def test_readable_installation_and_downloads(page, width):
     expect(page.get_by_role("heading", level=1)).to_have_text("Authenticate. Install. Accept.")
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
     expect(page.get_by_role("main")).to_be_visible()
-    expect(page.locator("a[download]")).to_have_count(7)
-    for link in page.locator("a[download]").all():
+    expect(page.locator("a[download]")).to_have_count(8)
+    release_files = page.locator('a[download][href^="/gate/downloads/runtime-0.3.0rc3/"]')
+    expect(release_files).to_have_count(7)
+    for link in release_files.all():
         assert link.get_attribute("href").startswith("/gate/downloads/runtime-0.3.0rc3/")
         assert (ROOT / link.get_attribute("href").lstrip("/")).is_file()
+    expect(page.locator('a[download][href="/gate/downloads/register_receipt.py"]')).to_have_count(1)
     for anchor in page.get_by_role("navigation", name="On this page").get_by_role("link").all():
         target = anchor.get_attribute("href")
         expect(page.locator(target)).to_have_count(1)
@@ -78,6 +82,28 @@ def test_keyboard_skip_link_and_section_navigation(page):
         "link", name="Installed acceptance", exact=True).click()
     assert page.url.endswith("#acceptance")
     expect(page.get_by_role("heading", name="Exercise the installed runtime")).to_be_in_viewport()
+
+
+def test_registration_sample_download_and_navigation(page):
+    page.goto(ORIGIN + "/docs/runtime/")
+    page.get_by_role("navigation", name="On this page").get_by_role(
+        "link", name="Register a release receipt", exact=True).click()
+    expect(page.get_by_role("heading", name="Register a release receipt", exact=True)).to_be_in_viewport()
+    sample = page.get_by_role("link", name="Download the registration integration sample", exact=True)
+    expect(sample).to_have_attribute("download", "")
+    expect(sample).to_have_attribute("href", "/gate/downloads/register_receipt.py")
+    # Read bytes without executing the sample or bypassing browser safeguards
+    # for executable downloads. The request remains inside the local fixture.
+    actual = bytes(page.evaluate("""async url => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Sample unavailable');
+      return [...new Uint8Array(await response.arrayBuffer())];
+    }""", sample.get_attribute("href")))
+    assert actual == (ROOT / "gate/downloads/register_receipt.py").read_bytes()
+    assert hashlib.sha256(actual).hexdigest() == "0cbd43b8e1b75ea2b8a8192731468eec1c2165188e1e5ca4119155839d96969c"
+    page.goto(ORIGIN + "/docs/")
+    page.locator('a[href="/docs/runtime/#register"]').click()
+    expect(page).to_have_url(ORIGIN + "/docs/runtime/#register")
 
 
 @pytest.mark.parametrize("width", [320, 390, 768, 1440])

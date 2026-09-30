@@ -88,6 +88,9 @@ jobs:
       - name: Check the pinned model release CI starter
         run: .site-test-venv/bin/python -m unittest -v tests.test_gate_ci_starter
 
+      - name: Check customer runtime receipt registration
+        run: PYTHONDONTWRITEBYTECODE=1 .site-test-venv/bin/python -m unittest -v tests.test_gate_receipt_registration
+
       - name: Exercise the production payload in Chromium
         run: .site-test-venv/bin/python tests/browser_smoke.py --root public
 
