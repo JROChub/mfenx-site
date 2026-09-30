@@ -1,5 +1,8 @@
 {
-  "name": "mfenx",
+  "name": "MFENX original history (retired)",
+  "status": "retired",
+  "historyRestored": false,
+  "retirementReason": "The original chain ledger could not be recovered. No replacement history is served at the legacy RPC endpoint.",
   "chain": "MFENX",
   "chainId": 177155,
   "networkId": 177155,
@@ -8,10 +11,8 @@
     "symbol": "JULIAN",
     "decimals": 18
   },
-  "rpc": [
-    "https://rpc.mfenx.com"
-  ],
-  "infoURL": "https://mfenx.com/power-house",
+  "rpc": [],
+  "infoURL": "https://mfenx.com/status.html",
   "logo": {
     "https": "https://mfenx.com/assets/mfenx-network.png",
     "ipfs": "ipfs://QmRfVbYhLSo68KLPJb9gHD7CPzCgPNEZpQLafL4AwGQxoV",

@@ -1,0 +1,17 @@
+{
+  "name": "MFENX Native 2026",
+  "chain": "MFENX",
+  "chainId": 2026092601,
+  "networkId": 2026092601,
+  "historyId": "mfenx-native-2026-09-27",
+  "genesisHash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+  "previousChainId": 177155,
+  "previousHistoryRestored": false,
+  "initialAccounts": 0,
+  "initialSupply": "0",
+  "rpc": ["https://2026.rpc.mfenx.com"],
+  "infoURL": "https://mfenx.com/status.html",
+  "topology": {"validatorCount": 3, "quorum": 2, "hostCount": 1, "failureDomainCount": 1},
+  "publicEnrollment": {"observers": false, "validators": false},
+  "notice": "New network history, not restored ledger continuity. All validator processes share one host; quorum does not guarantee leader failover. Metadata is not a wallet compatibility claim."
+}

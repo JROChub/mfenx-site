@@ -32,7 +32,7 @@ ROUTES = (
 )
 WIDTHS = (320, 390, 768, 1440)
 SAIN_STATUS = "https://sain-mfenx-gateway.jrochub-resonance.workers.dev/api/status"
-NETWORK_STATUS = "https://rpc.mfenx.com/network-status.json"
+NETWORK_STATUS = "https://2026.rpc.mfenx.com/network-status.json"
 API_PATHS = {"/auth/session", "/v1/session", "/v1/licenses/config"}
 
 

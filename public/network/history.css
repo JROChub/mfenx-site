@@ -1,0 +1,18 @@
+@import url("/status.css?v=20260926-instrument");
+.history-notice { margin: 18px 0; padding: 16px; border: 1px solid var(--line); background: var(--panel); }
+.history-notice p + p { margin-top: 8px; }
+.history-identity { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; padding: 16px 0; }
+.history-identity div { min-width: 0; }
+.history-identity dt { color: var(--muted); font-size: 12px; }
+.history-identity dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.history-table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+.history-table th, .history-table td { text-align: left; font-weight: 400; padding: 12px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.history-table th { font-size: 12px; color: var(--muted); }
+.history-table-wrap { overflow-x: auto; }
+.history-table code { font-size: 12px; }
+.history-controls { display: flex; flex-wrap: wrap; gap: 12px; padding: 18px 0; }
+.history-status { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.history-status p { margin-top: 10px; }
+#submission-package { display: block; width: 100%; margin-top: 8px; }
+.history-table { table-layout: fixed; }
+@media (max-width: 600px) { .history-identity { grid-template-columns: 1fr; } }
