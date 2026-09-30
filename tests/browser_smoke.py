@@ -238,6 +238,13 @@ def main() -> int:
             slbit.close()
 
             register = context.new_page()
+            # This smoke suite checks the static registration interface. Live
+            # transport and fail-closed telemetry have their own contract suite;
+            # do not let DNS availability or page-close aborts decide this test.
+            def unavailable_network(route):
+                assert route.request.method == "GET"
+                route.fulfill(status=200, content_type="application/json", body='{"error":"Network unavailable in local smoke test"}')
+            register.route("https://license.mfenx.com/network/2026/network-status.json", unavailable_network)
             assert_no_runtime_errors(register, failures, origin + "/register.html")
             try:
                 assert register.locator('label[for="submission-package"]').count() == 1
