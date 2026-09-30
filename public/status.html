@@ -3,102 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8fa">
-  <meta name="description" content="Live operational status for the MFENX Power House network and LAX MFENX RPC.">
-  <title>MFENX Network Status</title>
-  <link rel="icon" type="image/svg+xml" href="assets/powerhouse-logo.svg?v=20260729-transparent">
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/powerhouse-logo.png?v=20260729-transparent">
-  <link rel="stylesheet" href="status.css?v=20260926-instrument">
+  <meta name="description" content="Identity-bound observations for MFENX Native 2026, a new network history on one host.">
+  <title>MFENX Native 2026 | Network status</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/network/history.css?v=20260927-history1">
 </head>
 <body>
   <a class="skip-link" href="#workspace">Skip to network status</a>
-  <div class="earth-field" aria-hidden="true"></div>
   <header>
-    <a class="brand" href="/">
-      <img src="assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
-      <span><b>MFENX</b><small>Network status</small></span>
-    </a>
-    <nav aria-label="Research navigation">
-      <a href="/gate/">Gate</a>
-      <a href="/labs/">Research lab</a>
-      <a href="campaign.html">Reliability</a>
-      <a href="register.html">Node registry</a>
-    </nav>
-    <div class="release"><span>RELEASE</span><b>v0.4.0</b></div>
+    <a class="brand" href="/"><span>MFENX</span></a>
+    <nav aria-label="Network navigation"><a href="/gate/">Gate</a><a href="/labs/">Research lab</a><a href="/campaign.html">Measurements</a><a href="/register.html">Enrollment</a></nav>
   </header>
-
   <main id="workspace" tabindex="-1">
     <section class="network-state" aria-labelledby="status-title">
-      <div>
-        <span class="eyebrow">LAX MFENX RPC / CHAIN 177155</span>
-        <h1 id="status-title">NETWORK <b id="state-label">CONNECTING</b></h1>
-        <p id="state-detail">Waiting for independent edge and validator telemetry.</p>
-      </div>
-      <div class="pulse" id="state-pulse" aria-hidden="true"><i></i><i></i><i></i></div>
+      <h1 id="status-title">MFENX Native 2026 network status</h1>
+      <p id="state-label" role="status">CONNECTING</p>
+      <p id="state-detail">Waiting for a current observation matching the published network identity.</p>
     </section>
-
-    <section class="telemetry-grid" aria-label="Live network telemetry">
-      <article>
-        <span>PUBLIC RPC</span>
-        <b id="rpc-state">CHECKING</b>
-        <small id="rpc-endpoint">https://rpc.mfenx.com</small>
-      </article>
-      <article>
-        <span>VALIDATORS</span>
-        <b id="validators">-- / --</b>
-        <small id="validator-identity">SIGNED REGISTRY CHECKING</small>
-      </article>
-      <article>
-        <span>BLOCK HEIGHT</span>
-        <b id="block-height">--</b>
-        <small>QUORUM-FINALIZED NATIVE CHAIN</small>
-      </article>
-      <article>
-        <span>PEER LINKS</span>
-        <b id="peer-count">--</b>
-        <small>VALIDATOR MESH OBSERVATIONS</small>
-      </article>
-      <article>
-        <span>PUBLIC OBSERVERS</span>
-        <b id="observer-count">-- / --</b>
-        <small id="observer-registry">OBSERVER REGISTRY AWAITING</small>
-      </article>
-      <article>
-        <span>24H AVAILABILITY</span>
-        <b id="uptime">COLLECTING</b>
-        <small>EXTERNAL BLACKBOX PROBE</small>
-      </article>
-      <article>
-        <span>CLIENT</span>
-        <b id="client-version">--</b>
-        <small>DEPLOYED BINARY IDENTITY</small>
-      </article>
+    <section class="history-notice" aria-label="New network history">
+      <p>MFENX Native 2026 starts a new history with empty genesis accounts. Balances and transactions from the retired chain 177155 are not carried forward.</p>
+      <p>Three validators share one host in sfo3. Quorum is two; operational status requires all three.</p>
+      <p>The public RPC is read only. Signed transaction submission is restricted to the operator's protected loopback interface.</p>
     </section>
-
-    <section class="regions" aria-label="Validator regions">
-      <div class="region-head">
-        <span>REGIONAL QUORUM</span>
-        <time id="updated-at">NOT YET UPDATED</time>
-      </div>
-      <ol>
-        <li><i></i><span>LAX EDGE</span><b>GLOBAL INGRESS</b></li>
-        <li><i></i><span>NYC3</span><b>VALIDATOR 1</b></li>
-        <li><i></i><span>SFO3</span><b>VALIDATOR 2</b></li>
-        <li><i></i><span>AMS3</span><b>VALIDATOR 3</b></li>
-        <li><i></i><span>PUBLIC OBSERVERS</span><b id="observer-links">0 CONNECTIONS</b></li>
-      </ol>
+    <dl class="history-identity">
+      <div><dt>Network</dt><dd id="network-name">MFENX Native 2026</dd></div>
+      <div><dt>Chain ID</dt><dd>2026092601</dd></div>
+      <div><dt>History ID</dt><dd>mfenx-native-2026-09-27</dd></div>
+      <div><dt>Public read-only RPC</dt><dd><a href="https://license.mfenx.com/network/2026/">https://license.mfenx.com/network/2026/</a></dd></div>
+      <div><dt>Observed genesis hash</dt><dd id="genesis-hash">Not available</dd></div>
+      <div><dt>Service inception, not the genesis timestamp</dt><dd id="started-at">Not available</dd></div>
+    </dl>
+    <section class="telemetry-grid" aria-label="Latest reported health sample">
+      <article><span>Read-only RPC</span><b id="rpc-state">CHECKING</b></article>
+      <article><span>Healthy validator processes</span><b id="validators">Not available</b></article>
+      <article><span>Finalized height</span><b id="block-height">Not available</b></article>
+      <article><span>Quorum sample</span><b id="quorum-state">Not available</b></article>
+      <article><span>Region and host count</span><b id="region">Not available</b></article>
+      <article><span>Runtime identity</span><b id="client-version">Not available</b></article>
+      <article><span>Sampled at</span><b id="sampled-at">Not available</b></article>
+      <article><span>Last finalized block time</span><b id="last-finalized">Not available</b></article>
+      <article><span>Successful health samples</span><b id="sample-count">Not available</b></article>
+      <article><span>Observed sample success</span><b id="sample-success">Not available</b></article>
+      <article><span>Measured coverage</span><b id="sample-coverage">Not available</b></article>
     </section>
-
-    <footer>
-      <a href="campaign.html">72H RELIABILITY CAMPAIGN</a>
-      <a href="https://rpc.mfenx.com/network-status.json">STATUS API</a>
-      <a href="https://github.com/JROChub/power_house/blob/main/docs/sfcs_zkvm.md">SFCS PRIVATE VM EVIDENCE</a>
-      <a href="register.html">REGISTER NODE</a>
-      <a href="https://github.com/JROChub/power_house/blob/main/docs/observer_registry.md">OBSERVER REGISTRY</a>
-      <a href="https://github.com/JROChub/power_house/blob/main/docs/incident_response.md">INCIDENT PROCESS</a>
-      <a href="https://chainlist.org/chain/177155">CHAINLIST</a>
-    </footer>
+    <section class="history-status" aria-labelledby="validator-title">
+      <h2 id="validator-title">Validator observations</h2>
+      <p>Operational means all three processes were healthy with matching height, tip and genesis in the latest sample, with reachable RPC and quorum agreement. Two healthy processes are degraded.</p>
+      <div class="history-table-wrap"><table class="history-table"><thead><tr><th scope="col">Node</th><th scope="col">Observation</th><th scope="col">Height</th><th scope="col">Peer identity</th></tr></thead><tbody id="validator-rows"></tbody></table></div>
+      <p>Health is sampled every fifteen seconds. Empty blocks are scheduled daily, so block age alone is not a failure signal. These reported observations are not signed proofs or a guarantee of uninterrupted availability.</p>
+      <p id="updated-at">No current observation</p>
+    </section>
+    <footer><a href="/network/2026092601.json">New network metadata</a><a href="/network/177155.json">Retired chain metadata</a><a href="https://license.mfenx.com/network/2026/network-status.json">Status JSON</a><a href="https://license.mfenx.com/network/2026/network-manifest.json">Public manifest</a><a href="/campaign.html">Measurement limits</a></footer>
   </main>
-  <script src="status.js" defer></script>
+  <script type="module" src="/status.js?v=20260927-history1"></script>
 </body>
 </html>

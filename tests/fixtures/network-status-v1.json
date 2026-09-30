@@ -1,0 +1,28 @@
+{
+  "schema": "mfenx.network-status.v1",
+  "generated_at": "2026-09-27T07:00:00Z",
+  "sampled_at": "2026-09-27T07:00:00Z",
+  "identity": {
+    "name": "MFENX Native 2026", "chain_id": 2026092601,
+    "history_id": "mfenx-native-2026-09-27",
+    "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+    "started_at": "2026-09-27T06:58:00Z",
+    "previous_chain_id": 177155, "previous_history_restored": false
+  },
+  "topology": {"validator_count": 3, "quorum": 2, "host_count": 1, "failure_domain_count": 1, "regions": ["sfo3"]},
+  "status": "operational", "rpc": {"reachable": true, "url": "https://license.mfenx.com/network/2026/"},
+  "validators_healthy": 3, "block_height": 1,
+  "tip_hash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+  "client": "Synthetic browser fixture, not a deployed runtime",
+  "quorum_agreement": true,
+  "validators": [
+    {"node_id": "fixture-1", "peer_id": "synthetic-peer-1", "healthy": true, "admission": "open", "height": 1, "tip_hash": "0x1111111111111111111111111111111111111111111111111111111111111111", "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e"},
+    {"node_id": "fixture-2", "peer_id": "synthetic-peer-2", "healthy": true, "admission": "open", "height": 1, "tip_hash": "0x1111111111111111111111111111111111111111111111111111111111111111", "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e"},
+    {"node_id": "fixture-3", "peer_id": "synthetic-peer-3", "healthy": true, "admission": "open", "height": 1, "tip_hash": "0x1111111111111111111111111111111111111111111111111111111111111111", "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e"}
+  ],
+  "enrollment": {"observers": false, "validators": false},
+  "availability": {"window_seconds": 86400, "observed_seconds": 120, "sample_count": 24, "successful_samples": 23, "percent": 95.83333333333333},
+  "reliability_campaign": {"status": "not_started"},
+  "last_finalized_at": "2026-09-27T06:59:00Z",
+  "empty_block_interval_seconds": 86400
+}
