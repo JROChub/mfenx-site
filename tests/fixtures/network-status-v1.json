@@ -10,7 +10,7 @@
     "previous_chain_id": 177155, "previous_history_restored": false
   },
   "topology": {"validator_count": 3, "quorum": 2, "host_count": 1, "failure_domain_count": 1, "regions": ["sfo3"]},
-  "status": "operational", "rpc": {"reachable": true, "url": "https://2026.rpc.mfenx.com"},
+  "status": "operational", "rpc": {"reachable": true, "url": "https://license.mfenx.com/network/2026/"},
   "validators_healthy": 3, "block_height": 1,
   "tip_hash": "0x1111111111111111111111111111111111111111111111111111111111111111",
   "client": "Synthetic browser fixture, not a deployed runtime",

@@ -3,8 +3,8 @@ export const NETWORK = Object.freeze({
   name: "MFENX Native 2026",
   chainId: 2026092601,
   historyId: "mfenx-native-2026-09-27",
-  apiRoot: "https://2026.rpc.mfenx.com",
-  statusUrl: "https://2026.rpc.mfenx.com/network-status.json",
+  apiRoot: "https://license.mfenx.com/network/2026/",
+  statusUrl: "https://license.mfenx.com/network/2026/network-status.json",
   genesisHash: "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
 });
 export const MAX_AGE_MS = 60_000;

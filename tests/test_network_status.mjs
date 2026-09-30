@@ -29,6 +29,8 @@ const mutations = {
   "duplicate peer": data => data.validators[1].peer_id = data.validators[0].peer_id,
   "RPC down claimed operational": data => data.rpc.reachable = false,
   "legacy RPC URL": data => data.rpc.url = "https://rpc.mfenx.com",
+  "unpublished RPC hostname": data => data.rpc.url = "https://2026.rpc.mfenx.com",
+  "unscoped shared hostname": data => data.rpc.url = "https://license.mfenx.com/",
   "missing RPC URL": data => delete data.rpc.url,
   "no agreement claimed operational": data => data.quorum_agreement = false,
   "two validators claimed operational": data => { data.validators[2].healthy = false; data.validators_healthy = 2; },
@@ -66,7 +68,8 @@ const mutations = {
 };
 test("valid new-history snapshot and reviewed pin", () => {
   assert.equal(check(fresh()).status, "operational");
-  assert.equal(NETWORK.statusUrl, "https://2026.rpc.mfenx.com/network-status.json");
+  assert.equal(NETWORK.apiRoot, "https://license.mfenx.com/network/2026/");
+  assert.equal(NETWORK.statusUrl, "https://license.mfenx.com/network/2026/network-status.json");
   assert.throws(() => validateStatus(fresh(), now, null), /not configured/);
 });
 for (const [name, mutate] of Object.entries(mutations)) test(`reject ${name}`, () => {
@@ -126,7 +129,7 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
 test("published enrollment script cannot probe or submit; old bootstrap addresses absent", async () => {
   for (const name of ["register.html", "register.js", "status.html", "status.js", "campaign.html", "campaign.js", "network/status-client.js", "network/history-view.js"]) {
     const text = await readFile(new URL(`../public/${name}`, import.meta.url), "utf8");
-    assert.doesNotMatch(text, /159\.203\.109\.128|64\.23\.182\.213|164\.92\.150\.22|https:\/\/rpc\.mfenx\.com|observer-probe|observer-registrations/);
+    assert.doesNotMatch(text, /159\.203\.109\.128|64\.23\.182\.213|164\.92\.150\.22|https:\/\/(?:2026\.)?rpc\.mfenx\.com|observer-probe|observer-registrations/);
   }
 });
 test("poll has a five-second abort deadline, no overlap and cancellable retry", async () => {

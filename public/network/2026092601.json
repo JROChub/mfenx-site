@@ -9,7 +9,7 @@
   "previousHistoryRestored": false,
   "initialAccounts": 0,
   "initialSupply": "0",
-  "rpc": ["https://2026.rpc.mfenx.com"],
+  "rpc": ["https://license.mfenx.com/network/2026/"],
   "infoURL": "https://mfenx.com/status.html",
   "topology": {"validatorCount": 3, "quorum": 2, "hostCount": 1, "failureDomainCount": 1},
   "publicEnrollment": {"observers": false, "validators": false},
