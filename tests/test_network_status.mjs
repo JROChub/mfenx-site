@@ -32,6 +32,7 @@ const mutations = {
   "legacy RPC URL": data => data.rpc.url = "https://rpc.mfenx.com",
   "unpublished RPC hostname": data => data.rpc.url = "https://2026.rpc.mfenx.com",
   "unscoped shared hostname": data => data.rpc.url = "https://license.mfenx.com/",
+  "unpinned telemetry alias": data => data.rpc.url = "https://rpc.mfenx.com/2026/",
   "missing RPC URL": data => delete data.rpc.url,
   "no agreement claimed operational": data => data.quorum_agreement = false,
   "two validators claimed operational": data => { data.validators[2].healthy = false; data.validators_healthy = 2; },
@@ -125,13 +126,17 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));
   assert.equal(retired.chainId, 177155); assert.deepEqual(retired.rpc, []); assert.equal(retired.status, "retired");
   assert.equal(retired.historyRestored, false); assert.equal(current.chainId, NETWORK.chainId);
-  assert.equal(current.genesisHash, NETWORK.genesisHash); assert.deepEqual(current.rpc, [NETWORK.apiRoot]);
+  assert.equal(current.genesisHash, NETWORK.genesisHash);
+  assert.deepEqual(current.rpc, [NETWORK.apiRoot, "https://rpc.mfenx.com/2026/"]);
   assert.equal(current.protocol, "mfenx-native"); assert.equal(current.evmCompatible, false);
   assert.equal(current.publicRpcMode, "read_only"); assert.equal(current.transactionSubmission, "operator_only");
   assert.equal(current.manifestURL, `${NETWORK.apiRoot}network-manifest.json`);
   assert.equal(current.statusURL, NETWORK.statusUrl);
   assert.equal(retired.currentNetworkMetadataURL, "https://mfenx.com/network/2026092601.json");
   assert.equal(retired.retirementRecordURL, "https://github.com/ethereum-lists/chains/pull/8790");
+  const page = await readFile(new URL("../public/status.html", import.meta.url), "utf8");
+  assert.match(page, /href="https:\/\/rpc\.mfenx\.com\/2026\/"/);
+  assert.match(page, /href="https:\/\/license\.mfenx\.com\/network\/2026\/"/);
 });
 test("network PNG is published with exact dimensions, content digest and download link", async () => {
   const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));
@@ -152,7 +157,8 @@ test("network PNG is published with exact dimensions, content digest and downloa
 });
 test("published enrollment script cannot probe or submit; old bootstrap addresses absent", async () => {
   for (const name of ["register.html", "register.js", "status.html", "status.js", "campaign.html", "campaign.js", "network/status-client.js", "network/history-view.js"]) {
-    const text = await readFile(new URL(`../public/${name}`, import.meta.url), "utf8");
+    let text = await readFile(new URL(`../public/${name}`, import.meta.url), "utf8");
+    if (name === "status.html") text = text.replaceAll("https://rpc.mfenx.com/2026/", "CURRENT_SCOPED_RPC");
     assert.doesNotMatch(text, /159\.203\.109\.128|64\.23\.182\.213|164\.92\.150\.22|https:\/\/(?:2026\.)?rpc\.mfenx\.com|observer-probe|observer-registrations/);
   }
 });

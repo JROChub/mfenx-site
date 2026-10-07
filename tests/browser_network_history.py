@@ -98,6 +98,8 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                     expect(page.locator("h1:visible")).to_have_count(1)
                     check_skip_focus(page, path)
                     if path == "/status.html":
+                        expect(page.get_by_role("link", name="https://rpc.mfenx.com/2026/", exact=True)).to_have_attribute("href", "https://rpc.mfenx.com/2026/")
+                        expect(page.locator('a[href="https://rpc.mfenx.com/"]')).to_have_count(0)
                         expect(page.locator("#validators")).to_have_text("3 / 3")
                         expect(page.locator("#genesis-hash")).to_have_text(template["identity"]["genesis_hash"])
                         expect(page.locator("#validator-rows tr")).to_have_count(3)
