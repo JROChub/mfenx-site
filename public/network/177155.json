@@ -13,6 +13,8 @@
   },
   "rpc": [],
   "infoURL": "https://mfenx.com/status.html",
+  "retirementRecordURL": "https://github.com/ethereum-lists/chains/pull/8790",
+  "currentNetworkMetadataURL": "https://mfenx.com/network/2026092601.json",
   "logo": {
     "https": "https://mfenx.com/assets/mfenx-network.png",
     "ipfs": "ipfs://QmRfVbYhLSo68KLPJb9gHD7CPzCgPNEZpQLafL4AwGQxoV",

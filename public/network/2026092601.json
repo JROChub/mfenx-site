@@ -9,8 +9,21 @@
   "previousHistoryRestored": false,
   "initialAccounts": 0,
   "initialSupply": "0",
+  "protocol": "mfenx-native",
+  "evmCompatible": false,
+  "publicRpcMode": "read_only",
+  "transactionSubmission": "operator_only",
   "rpc": ["https://license.mfenx.com/network/2026/"],
   "infoURL": "https://mfenx.com/status.html",
+  "manifestURL": "https://license.mfenx.com/network/2026/network-manifest.json",
+  "statusURL": "https://license.mfenx.com/network/2026/network-status.json",
+  "logo": {
+    "https": "https://mfenx.com/assets/mfenx-network.png",
+    "sha256": "c16a32c782a2b13cdf6c3296c66d3a4c9dadd04a22b388f6ea6c023301d24e31",
+    "width": 1024,
+    "height": 1024,
+    "format": "png"
+  },
   "topology": {"validatorCount": 3, "quorum": 2, "hostCount": 1, "failureDomainCount": 1},
   "publicEnrollment": {"observers": false, "validators": false},
   "notice": "New network history, not restored ledger continuity. All validator processes share one host; quorum does not guarantee leader failover. Metadata is not a wallet compatibility claim."
