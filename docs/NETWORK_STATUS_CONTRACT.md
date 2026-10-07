@@ -6,6 +6,18 @@ The website fetches only `GET https://license.mfenx.com/network/2026/network-sta
 
 Legacy `https://rpc.mfenx.com` remains DNS-unavailable and does not serve or redirect to the new history. No HTTP retirement response is promised. `public/network/177155.json` retains the old identifier but has no RPC entries. The new metadata is `/network/2026092601.json`. The canonical RPC is `https://license.mfenx.com/network/2026/`; its manifest is `https://license.mfenx.com/network/2026/network-manifest.json` (alias `manifest.json` under the same prefix). This dedicated route uses existing HTTPS infrastructure and remains separate from license and payment handlers. No wallet compatibility is claimed.
 
+The static metadata declares `protocol: mfenx-native`, `evmCompatible: false`,
+`publicRpcMode: read_only` and `transactionSubmission: operator_only`, consistent
+with the deployed runtime and manifest. Ethereum-shaped identity methods do not
+establish EVM execution or Ethereum transaction compatibility. The metadata links
+to the live manifest and observations, not a static availability claim.
+
+Both history records identify the existing 1024 by 1024 PNG with its SHA-256
+digest. The status page exposes the same file for download. The retired record
+links to ethereum-lists/chains PR 8790 and the distinct current history without
+redirecting its RPC or implying restored balances. A third-party merge or listing
+is not a certification of the runtime or its availability.
+
 The public RPC is read only: `eth_sendRawTransaction` is not offered by the gateway. Signed transaction submission remains operator only through the protected loopback interface. The manifest declares `public_rpc_mode: read_only` and `transaction_submission: operator_only`. This prevents unrestricted public writes from exhausting the finite history capacity; it does not claim unlimited retention or throughput.
 
 ## Required status fields

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { setImmediate as tick } from "node:timers/promises";
@@ -125,6 +126,29 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   assert.equal(retired.chainId, 177155); assert.deepEqual(retired.rpc, []); assert.equal(retired.status, "retired");
   assert.equal(retired.historyRestored, false); assert.equal(current.chainId, NETWORK.chainId);
   assert.equal(current.genesisHash, NETWORK.genesisHash); assert.deepEqual(current.rpc, [NETWORK.apiRoot]);
+  assert.equal(current.protocol, "mfenx-native"); assert.equal(current.evmCompatible, false);
+  assert.equal(current.publicRpcMode, "read_only"); assert.equal(current.transactionSubmission, "operator_only");
+  assert.equal(current.manifestURL, `${NETWORK.apiRoot}network-manifest.json`);
+  assert.equal(current.statusURL, NETWORK.statusUrl);
+  assert.equal(retired.currentNetworkMetadataURL, "https://mfenx.com/network/2026092601.json");
+  assert.equal(retired.retirementRecordURL, "https://github.com/ethereum-lists/chains/pull/8790");
+});
+test("network PNG is published with exact dimensions, content digest and download link", async () => {
+  const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));
+  const retired = JSON.parse(await readFile(new URL("../public/network/177155.json", import.meta.url)));
+  const png = await readFile(new URL("../public/assets/mfenx-network.png", import.meta.url));
+  assert.deepEqual(png.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  assert.equal(png.toString("ascii", 12, 16), "IHDR");
+  assert.ok(png.length < 250000);
+  for (const metadata of [current, retired]) {
+    assert.equal(metadata.logo.https, "https://mfenx.com/assets/mfenx-network.png");
+    assert.equal(metadata.logo.format, "png");
+    assert.equal(metadata.logo.sha256, createHash("sha256").update(png).digest("hex"));
+    assert.equal(metadata.logo.width, png.readUInt32BE(16));
+    assert.equal(metadata.logo.height, png.readUInt32BE(20));
+  }
+  const page = await readFile(new URL("../public/status.html", import.meta.url), "utf8");
+  assert.match(page, /href="\/assets\/mfenx-network\.png" download="mfenx-network\.png"/);
 });
 test("published enrollment script cannot probe or submit; old bootstrap addresses absent", async () => {
   for (const name of ["register.html", "register.js", "status.html", "status.js", "campaign.html", "campaign.js", "network/status-client.js", "network/history-view.js"]) {
