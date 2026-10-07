@@ -13,7 +13,7 @@
   "evmCompatible": false,
   "publicRpcMode": "read_only",
   "transactionSubmission": "operator_only",
-  "rpc": ["https://license.mfenx.com/network/2026/"],
+  "rpc": ["https://license.mfenx.com/network/2026/", "https://rpc.mfenx.com/2026/"],
   "infoURL": "https://mfenx.com/status.html",
   "manifestURL": "https://license.mfenx.com/network/2026/network-manifest.json",
   "statusURL": "https://license.mfenx.com/network/2026/network-status.json",
