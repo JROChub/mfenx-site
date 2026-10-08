@@ -292,6 +292,7 @@ def run(root: Path, chromium: str | None, output: Path | None,
                         response = page.goto(origin + route, wait_until="networkidle")
                         assert response and response.status == 200, "Route did not load"
                         prepare_page(page, route)
+                        expect(page).to_have_title("MFENX")
                         expect(page.locator("h1:visible")).to_have_count(1)
                         expect(page.get_by_role("main")).to_have_count(1)
                         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), "Horizontal overflow"
