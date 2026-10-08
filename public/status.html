@@ -12,7 +12,7 @@
   <a class="skip-link" href="#workspace">Skip to network status</a>
   <header>
     <a class="brand" href="/"><span>MFENX</span></a>
-    <nav aria-label="Network navigation"><a href="/gate/">Gate</a><a href="/labs/">Research lab</a><a href="/campaign.html">Measurements</a><a href="/register.html">Enrollment</a></nav>
+    <nav aria-label="Network navigation"><a href="/gate/">Gate</a><a href="/labs/">Research lab</a><a href="/network/contracts.html">Contract execution</a><a href="/campaign.html">Measurements</a><a href="/register.html">Enrollment</a></nav>
   </header>
   <main id="workspace" tabindex="-1">
     <section class="network-state" aria-labelledby="status-title">
@@ -23,13 +23,13 @@
     <section class="history-notice" aria-label="New network history">
       <p>MFENX Native 2026 starts a new history with empty genesis accounts. Balances and transactions from the retired chain 177155 are not carried forward.</p>
       <p>Three validators share one host in sfo3. Quorum is two; operational status requires all three.</p>
-      <p>The public RPC accepts signed native transfers. Wallet queries include gas estimation, fee history, account balances, nonces and finalized transaction receipts.</p>
+      <p>The public RPC accepts signed contract deployments, contract calls and native transfers. MFENX validators execute Cancun bytecode and independently replay each proposed state transition before quorum acceptance. <a href="/network/contracts.html">Execution profile and live contract record</a>.</p>
     </section>
     <dl class="history-identity">
       <div><dt>Network</dt><dd id="network-name">MFENX Native 2026</dd></div>
       <div><dt>Chain ID</dt><dd>2026092601</dd></div>
       <div><dt>History ID</dt><dd>mfenx-native-2026-09-27</dd></div>
-      <div><dt>Public native-transfer RPC</dt><dd><a href="https://rpc.mfenx.com/2026/">https://rpc.mfenx.com/2026/</a></dd></div>
+      <div><dt>Public contract RPC</dt><dd><a href="https://rpc.mfenx.com/2026/">https://rpc.mfenx.com/2026/</a></dd></div>
       <div><dt>Alternate RPC</dt><dd><a href="https://license.mfenx.com/network/2026/">https://license.mfenx.com/network/2026/</a></dd></div>
       <div><dt>Observed genesis hash</dt><dd id="genesis-hash">Not available</dd></div>
       <div><dt>Service inception, not the genesis timestamp</dt><dd id="started-at">Not available</dd></div>

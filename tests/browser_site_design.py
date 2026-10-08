@@ -28,7 +28,7 @@ ROUTES = (
     "/gate/account/", "/gate/checkout/", "/gate/license/",
     "/gate/payment/", "/gate/payment/billing/",
     "/labs/", "/ckodmk/", "/sain/", "/tessaryn/",
-    "/campaign.html", "/register.html", "/status.html", "/slbit.html",
+    "/campaign.html", "/register.html", "/status.html", "/network/contracts.html", "/slbit.html",
 )
 WIDTHS = (320, 390, 768, 1440)
 SAIN_STATUS = "https://sain-mfenx-gateway.jrochub-resonance.workers.dev/api/status"
