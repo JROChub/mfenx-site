@@ -10,10 +10,31 @@
   "initialAccounts": 0,
   "initialSupply": "0",
   "protocol": "mfenx-native",
-  "evmCompatible": false,
-  "publicRpcMode": "native_transfers",
-  "transactionSubmission": "public_signed_native",
-  "capabilities": ["native_signed_transfers", "gas_estimation", "fee_history", "account_history", "bounded_rpc_batches"],
+  "evmCompatible": true,
+  "publicRpcMode": "evm_contracts",
+  "transactionSubmission": "public_signed_evm",
+  "capabilities": ["native_signed_transfers", "contract_creation", "contract_calls", "contract_storage", "event_logs", "quorum_execution_replay", "gas_estimation", "fee_history", "account_history", "bounded_rpc_batches"],
+  "execution": {
+    "profile": "mfenx-evm-cancun-fee-free-v1",
+    "evmRevision": "cancun",
+    "backend": "revm",
+    "backendVersion": "43.0.3",
+    "activationHeight": 14,
+    "transactionType": "0x02",
+    "blockGasLimit": 3000000,
+    "gasPriceWei": "0",
+    "validatorReplay": true,
+    "stateCommitment": "mfenx-evm-contract-state-v1"
+  },
+  "executionDocsURL": "https://mfenx.com/network/contracts.html",
+  "executionEvidenceURL": "https://mfenx.com/network/execution-20261008.json",
+  "executionLedgerURL": "https://mfenx.com/network/execution-20261008-ledger.json",
+  "validatorSource": {
+    "release": "20261008.3",
+    "commit": "d07d6efe6f3e752077c09b846da5ea8c60372830",
+    "url": "https://mfenx.com/network/validator-execution-20261008.3.tar.gz",
+    "sha256": "5da858924e47e1d376d6729f1b6e4d9fc659bd308039f45566e7547d26034db6"
+  },
   "rpc": ["https://license.mfenx.com/network/2026/", "https://rpc.mfenx.com/2026/"],
   "infoURL": "https://mfenx.com/status.html",
   "manifestURL": "https://license.mfenx.com/network/2026/network-manifest.json",
@@ -27,5 +48,5 @@
   },
   "topology": {"validatorCount": 3, "quorum": 2, "hostCount": 1, "failureDomainCount": 1},
   "publicEnrollment": {"observers": false, "validators": false},
-  "notice": "New network history, not restored ledger continuity. All validator processes share one host; quorum does not guarantee leader failover. Metadata is not a wallet compatibility claim."
+  "notice": "Chain 2026092601 retains its existing genesis and finalized history. Cancun execution begins at block 14 under the published MFENX fee-free profile and native consensus. Its state commitment is canonical MFENX state, not an Ethereum Merkle Patricia trie. All three validators share one host; chain 177155 remains retired."
 }

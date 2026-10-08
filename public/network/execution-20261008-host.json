@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "executed_at": "2026-10-08T05:14:00.774571+00:00",
+  "validators": [
+    {
+      "activation_height": 14,
+      "chain_id": 2026092601,
+      "contract_state_root": "0xfbf326a1180f76a956cc9cbb062aed7f8713e06fa2d457bf39cc7a7a1a7a9380",
+      "execution_profile": "mfenx-evm-cancun-fee-free-v1",
+      "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+      "height": 18,
+      "quorum": 2,
+      "tip": "0x0e2426d02c9c762e38810a6b1f58300a8c25081d59352b10cd4d937a3dc11cff",
+      "validators": 3,
+      "node": "validator-1",
+      "ledger_bytes": 42627,
+      "historical_prefix_preserved": true,
+      "matching_public_receipts": true,
+      "committed_storage_value": 42,
+      "total_native_balance_wei": "0"
+    },
+    {
+      "activation_height": 14,
+      "chain_id": 2026092601,
+      "contract_state_root": "0xfbf326a1180f76a956cc9cbb062aed7f8713e06fa2d457bf39cc7a7a1a7a9380",
+      "execution_profile": "mfenx-evm-cancun-fee-free-v1",
+      "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+      "height": 18,
+      "quorum": 2,
+      "tip": "0x0e2426d02c9c762e38810a6b1f58300a8c25081d59352b10cd4d937a3dc11cff",
+      "validators": 3,
+      "node": "validator-2",
+      "ledger_bytes": 42627,
+      "historical_prefix_preserved": true,
+      "matching_public_receipts": true,
+      "committed_storage_value": 42,
+      "total_native_balance_wei": "0"
+    },
+    {
+      "activation_height": 14,
+      "chain_id": 2026092601,
+      "contract_state_root": "0xfbf326a1180f76a956cc9cbb062aed7f8713e06fa2d457bf39cc7a7a1a7a9380",
+      "execution_profile": "mfenx-evm-cancun-fee-free-v1",
+      "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+      "height": 18,
+      "quorum": 2,
+      "tip": "0x0e2426d02c9c762e38810a6b1f58300a8c25081d59352b10cd4d937a3dc11cff",
+      "validators": 3,
+      "node": "validator-3",
+      "ledger_bytes": 42627,
+      "historical_prefix_preserved": true,
+      "matching_public_receipts": true,
+      "committed_storage_value": 42,
+      "total_native_balance_wei": "0"
+    }
+  ],
+  "restart_tested": true,
+  "license_and_proxy_pids_unchanged": {
+    "mfenx-license.service": "305771",
+    "mfenx-license-caddy.service": "179800"
+  },
+  "resources": {
+    "MemoryCurrent": "37945344",
+    "MemoryPeak": "46518272",
+    "MemoryMax": "100663296",
+    "CPUQuotaPerSecUSec": "200ms",
+    "ControlGroup": "/mfenx.slice/mfenx-native.slice",
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "monthly_host_usd": 4,
+  "new_cloud_resources": 0
+}

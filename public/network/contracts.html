@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MFENX validator contract execution: Cancun bytecode, signed transactions, independent quorum replay and a reproducible live acceptance record.">
+  <title>Contract execution | MFENX Native 2026</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/network/history.css?v=20260927-history1">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to contract execution</a>
+  <header>
+    <a class="brand" href="/"><span>MFENX</span></a>
+    <nav aria-label="Network navigation"><a href="/status.html">Network status</a><a href="/network/2026092601.json">Metadata</a><a href="/labs/">Research lab</a></nav>
+  </header>
+  <main id="workspace" tabindex="-1">
+    <section class="network-state" aria-labelledby="execution-title">
+      <h1 id="execution-title">Contract execution on MFENX validators</h1>
+      <p>Deployment, storage, calls and event logs execute inside MFENX’s validator runtime. Validators reproduce the proposed execution result, gas use and state commitment before signing a block. Code, storage and receipts persist with the finalized ledger.</p>
+    </section>
+    <dl class="history-identity">
+      <div><dt>Chain ID</dt><dd>2026092601</dd></div>
+      <div><dt>Activation</dt><dd>Block 14 · 8 October 2026 UTC</dd></div>
+      <div><dt>Execution profile</dt><dd><code>mfenx-evm-cancun-fee-free-v1</code></dd></div>
+      <div><dt>Interpreter</dt><dd>REVM 43.0.3 · Cancun</dd></div>
+      <div><dt>Signed transactions</dt><dd>EIP-1559 type 2; both fee fields zero</dd></div>
+      <div><dt>Gas limit</dt><dd>3,000,000 per block and transaction</dd></div>
+      <div><dt>Public RPC</dt><dd><a href="https://rpc.mfenx.com/2026/">https://rpc.mfenx.com/2026/</a></dd></div>
+      <div><dt>Alternate RPC</dt><dd><a href="https://license.mfenx.com/network/2026/">https://license.mfenx.com/network/2026/</a></dd></div>
+    </dl>
+    <section class="history-status" aria-labelledby="read-title">
+      <h2 id="read-title">Read the deployed acceptance contract</h2>
+      <p>Contract <code>0x434b6fe1469cba0e48298df783a9462aae785ca0</code> was deployed in block 14 and set to 42 in block 15. Subsequent reverting and out-of-gas transactions left its storage unchanged. All three validators retained the same state and receipts after a complete validator restart.</p>
+      <pre><code>curl https://rpc.mfenx.com/2026/ \
+  -H 'Content-Type: application/json' \
+  --data '{"jsonrpc":"2.0","id":1,"method":"eth_call","params":[{"to":"0x434b6fe1469cba0e48298df783a9462aae785ca0","data":"0x3fa4f245"},"latest"]}'</code></pre>
+      <p><code>value()</code> returns <code>0x000000000000000000000000000000000000000000000000000000000000002a</code>, the ABI encoding of 42.</p>
+      <p>Deployment transaction: <code>0x3e5bfc49b00f593d29c3be4cdc1a07c48e8ce10b91625bd33d327784aa7fd9b3</code>.</p>
+      <p><a href="/network/execution-20261008.json">Live execution record and transaction receipts</a> · <a href="/network/execution-20261008-ledger.json" download>Finalized ledger through block 18</a> · <a href="/network/execution-20261008-host.json">Quorum and restart record</a> · <a href="/network/MFENXExecutionProbe.sol" download>Acceptance contract source</a></p>
+    </section>
+    <section class="history-status" aria-labelledby="deploy-title">
+      <h2 id="deploy-title">Deploy a contract</h2>
+      <p>Compile Solidity with the EVM target set to <code>cancun</code>. Sign locally with chain ID <code>2026092601</code>, transaction type <code>2</code>, <code>maxFeePerGas = 0</code> and <code>maxPriorityFeePerGas = 0</code>. Use the sender’s next nonce and a gas limit at or below 3,000,000. Contract creation leaves the destination unset and places the initcode in the data field.</p>
+      <p>Submit the signed bytes using <code>eth_sendRawTransaction</code>. Poll <code>eth_getTransactionReceipt</code>; <code>status: 0x1</code> indicates success, while <code>status: 0x0</code> records a reverted or halted execution. A failed included transaction advances the nonce but rolls back contract changes. Signing keys remain in your wallet or local signer.</p>
+      <p><code>eth_call</code> simulates without committing state. <code>eth_estimateGas</code> returns a gas limit tested by simulation, rather than a fixed placeholder. <code>eth_getCode</code>, <code>eth_getStorageAt</code> and <code>eth_getLogs</code> expose the finalized execution result.</p>
+      <p>The public gateway admits signed transactions at a sustained rate of one every five seconds, with a short burst allowance. Initcode and calldata are limited to 49,152 bytes; signed transactions to 51,200 bytes. Log queries cover at most 128 blocks and 256 matching records. The <a href="https://license.mfenx.com/network/2026/network-manifest.json">runtime manifest</a> publishes the resource limits.</p>
+    </section>
+    <section class="history-status" aria-labelledby="replay-title">
+      <h2 id="replay-title">Reproduce acceptance</h2>
+      <p>Release <code>20261008.3</code> retains the existing Power House license and separates the validator runtime from the published Power House 0.4.0 crate. The source archive includes the pinned dependency lockfile and the standalone ledger validation tool. This tool verifies signatures, replays native and contract transactions, and checks every committed state root and execution receipt.</p>
+      <p>Download the <a href="/network/validator-execution-20261008.3.tar.gz" download>corresponding validator source</a> and the ledger above. With Rust 1.93.1:</p>
+      <pre><code>mkdir mfenx-validator-source
+tar -xzf validator-execution-20261008.3.tar.gz -C mfenx-validator-source
+cd mfenx-validator-source
+cargo build --locked --release --features net --example native_release_tool
+./target/release/examples/native_release_tool validate-state ../execution-20261008-ledger.json</code></pre>
+      <p>Source archive SHA-256: <code>5da858924e47e1d376d6729f1b6e4d9fc659bd308039f45566e7547d26034db6</code>.</p>
+      <p>The acceptance suite passed 112 Rust library tests and 58 gateway tests. A three-process integration run tested deployment, nested calls, historical reads, logs, rollback, gas exhaustion, large signed payloads, mutation rejection and restart recovery. The live record covers the deployed Solidity contract, both TLS RPC routes and identical receipts on all three validators.</p>
+    </section>
+    <section class="history-status" aria-labelledby="consensus-title">
+      <h2 id="consensus-title">Consensus and state format</h2>
+      <p>MFENX uses its native Ed25519 validator consensus with a two-of-three quorum. The three processes currently share one host. Cancun instruction semantics run under the fee-free MFENX profile; network blocks and state use MFENX’s native formats.</p>
+      <p><code>mfenx-evm-contract-state-v1</code> commits to canonical sorted accounts, bytecode and storage using a domain-separated Keccak digest. It is not an Ethereum Merkle Patricia trie. <code>BLOCKHASH</code> reads finalized MFENX block hashes; <code>PREVRANDAO</code> uses the parent hash and is not a randomness beacon. Query <code>mfenx_getExecutionProfile</code> to inspect the active profile and transaction admission status.</p>
+    </section>
+    <footer><a href="/status.html">Network status</a><a href="/network/2026092601.json">Network metadata</a><a href="/network/execution-20261008.json">Execution record</a><a href="/network/validator-execution-20261008.3.tar.gz">Validator source</a></footer>
+  </main>
+</body>
+</html>

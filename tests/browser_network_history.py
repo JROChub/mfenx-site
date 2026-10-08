@@ -116,6 +116,17 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                         page.evaluate("scrollTo(0,0)")
                         page.screenshot(path=str(output / f"{path[1:-5]}-{width}.png"), full_page=True)
                     print(f"PASS {path} identity, samples, keyboard and layout at {width}px", flush=True)
+                page.goto(origin + "/network/contracts.html", wait_until="networkidle")
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), ("contracts", width)
+                assert not page.evaluate(TYPOGRAPHY)["failures"], ("contracts", width)
+                expect(page.locator("h1:visible")).to_have_count(1)
+                check_skip_focus(page, "/network/contracts.html")
+                expect(page.get_by_role("link", name="Acceptance contract source")).to_have_attribute("href", "/network/MFENXExecutionProbe.sol")
+                expect(page.get_by_role("link", name="Finalized ledger through block 18")).to_have_attribute("download", "")
+                expect(page.get_by_role("link", name="corresponding validator source")).to_have_attribute("download", "")
+                if output and width in (390, 1440):
+                    page.screenshot(path=str(output / f"contracts-{width}.png"), full_page=True)
+                print(f"PASS contract documentation, source links, keyboard and layout at {width}px", flush=True)
                 page.close()
 
             page = context.new_page()

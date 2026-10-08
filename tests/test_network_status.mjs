@@ -128,9 +128,14 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   assert.equal(retired.historyRestored, false); assert.equal(current.chainId, NETWORK.chainId);
   assert.equal(current.genesisHash, NETWORK.genesisHash);
   assert.deepEqual(current.rpc, [NETWORK.apiRoot, "https://rpc.mfenx.com/2026/"]);
-  assert.equal(current.protocol, "mfenx-native"); assert.equal(current.evmCompatible, false);
-  assert.equal(current.publicRpcMode, "native_transfers"); assert.equal(current.transactionSubmission, "public_signed_native");
-  assert.deepEqual(current.capabilities, ["native_signed_transfers", "gas_estimation", "fee_history", "account_history", "bounded_rpc_batches"]);
+  assert.equal(current.protocol, "mfenx-native"); assert.equal(current.evmCompatible, true);
+  assert.equal(current.publicRpcMode, "evm_contracts"); assert.equal(current.transactionSubmission, "public_signed_evm");
+  assert.deepEqual(current.capabilities, ["native_signed_transfers", "contract_creation", "contract_calls", "contract_storage", "event_logs", "quorum_execution_replay", "gas_estimation", "fee_history", "account_history", "bounded_rpc_batches"]);
+  assert.deepEqual(current.execution, {
+    profile: "mfenx-evm-cancun-fee-free-v1", evmRevision: "cancun", backend: "revm", backendVersion: "43.0.3",
+    activationHeight: 14, transactionType: "0x02", blockGasLimit: 3000000, gasPriceWei: "0",
+    validatorReplay: true, stateCommitment: "mfenx-evm-contract-state-v1",
+  });
   assert.equal(current.manifestURL, `${NETWORK.apiRoot}network-manifest.json`);
   assert.equal(current.statusURL, NETWORK.statusUrl);
   assert.equal(retired.currentNetworkMetadataURL, "https://mfenx.com/network/2026092601.json");
@@ -138,8 +143,67 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   const page = await readFile(new URL("../public/status.html", import.meta.url), "utf8");
   assert.match(page, /href="https:\/\/rpc\.mfenx\.com\/2026\/"/);
   assert.match(page, /href="https:\/\/license\.mfenx\.com\/network\/2026\/"/);
-  assert.match(page, /public RPC accepts signed native transfers/);
+  assert.match(page, /public RPC accepts signed contract deployments, contract calls and native transfers/);
+  assert.match(page, /href="\/network\/contracts\.html"/);
   assert.doesNotMatch(page, /public RPC is read only|protected loopback interface/);
+});
+test("contract execution record binds the published source and finalized ledger", async () => {
+  const load = async path => JSON.parse(await readFile(new URL(`../public/network/${path}`, import.meta.url)));
+  const current = await load("2026092601.json");
+  const record = await load("execution-20261008.json");
+  const ledger = await load("execution-20261008-ledger.json");
+  const host = await load("execution-20261008-host.json");
+  const archive = await readFile(new URL("../public/network/validator-execution-20261008.3.tar.gz", import.meta.url));
+  const page = await readFile(new URL("../public/network/contracts.html", import.meta.url), "utf8");
+  assert.equal(current.executionDocsURL, "https://mfenx.com/network/contracts.html");
+  assert.equal(current.executionEvidenceURL, "https://mfenx.com/network/execution-20261008.json");
+  assert.equal(current.executionLedgerURL, "https://mfenx.com/network/execution-20261008-ledger.json");
+  assert.equal(current.validatorSource.sha256, createHash("sha256").update(archive).digest("hex"));
+  assert.equal(record.status, "passed");
+  assert.equal(record.chain_id, NETWORK.chainId);
+  assert.equal(record.genesis_hash, NETWORK.genesisHash);
+  assert.equal(record.asset_value_transferred_wei, "0");
+  assert.ok(Object.values(record.checks).length >= 6);
+  assert.ok(Object.values(record.checks).every(passed => passed === true));
+  assert.equal(ledger.chain_id, NETWORK.chainId);
+  assert.equal(ledger.quorum, 2);
+  assert.equal(ledger.validators.length, 3);
+  assert.equal(new Set(ledger.validators).size, 3);
+  assert.equal(ledger.blocks[0].proposal.hash, NETWORK.genesisHash);
+  assert.equal(ledger.blocks.length, 19);
+  assert.equal(ledger.evm.activation_height, current.execution.activationHeight);
+  assert.equal(host.status, "passed");
+  assert.equal(host.restart_tested, true);
+  assert.equal(host.validators.length, ledger.validators.length);
+  for (const validator of host.validators) {
+    assert.equal(validator.height, ledger.blocks.length - 1);
+    assert.equal(validator.genesis_hash, NETWORK.genesisHash);
+    assert.equal(validator.tip, ledger.blocks.at(-1).proposal.hash);
+    assert.equal(validator.contract_state_root, ledger.blocks.at(-1).proposal.state_root);
+    assert.equal(validator.execution_profile, current.execution.profile);
+    assert.equal(validator.historical_prefix_preserved, true);
+    assert.equal(validator.matching_public_receipts, true);
+    assert.equal(validator.committed_storage_value, 42);
+  }
+  const contract = ledger.evm.accounts[record.contract_address];
+  assert.ok(contract.code.length > 500);
+  assert.equal(BigInt(contract.storage["0x" + "0".repeat(64)]), 42n);
+  for (const [hash, {receipt}] of Object.entries(record.transactions)) {
+    const block = ledger.blocks[Number(BigInt(receipt.blockNumber))];
+    assert.equal(block.proposal.hash, receipt.blockHash);
+    assert.equal(block.proposal.evm.profile, current.execution.profile);
+    const committed = block.proposal.evm.receipts.find(entry => entry.transaction_hash === hash);
+    assert.ok(committed, `Missing finalized receipt ${hash}`);
+    assert.equal(Number(BigInt(receipt.gasUsed)), committed.gas_used);
+    assert.equal(Number(BigInt(receipt.status)), Number(committed.success));
+    assert.ok(block.votes.length >= ledger.quorum);
+  }
+  assert.match(page, new RegExp(record.contract_address));
+  assert.match(page, new RegExp(current.validatorSource.sha256));
+  assert.match(page, /validate-state \.\.\/execution-20261008-ledger\.json/);
+  assert.match(page, /not an Ethereum Merkle Patricia trie/);
+  assert.match(page, /href="\/network\/MFENXExecutionProbe\.sol" download/);
+  assert.doesNotMatch(page, /<script|<strong|<b[\s>]|style="/);
 });
 test("network PNG is published with exact dimensions, content digest and download link", async () => {
   const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));
