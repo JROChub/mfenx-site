@@ -129,7 +129,8 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   assert.equal(current.genesisHash, NETWORK.genesisHash);
   assert.deepEqual(current.rpc, [NETWORK.apiRoot, "https://rpc.mfenx.com/2026/"]);
   assert.equal(current.protocol, "mfenx-native"); assert.equal(current.evmCompatible, false);
-  assert.equal(current.publicRpcMode, "read_only"); assert.equal(current.transactionSubmission, "operator_only");
+  assert.equal(current.publicRpcMode, "native_transfers"); assert.equal(current.transactionSubmission, "public_signed_native");
+  assert.deepEqual(current.capabilities, ["native_signed_transfers", "gas_estimation", "fee_history", "account_history", "bounded_rpc_batches"]);
   assert.equal(current.manifestURL, `${NETWORK.apiRoot}network-manifest.json`);
   assert.equal(current.statusURL, NETWORK.statusUrl);
   assert.equal(retired.currentNetworkMetadataURL, "https://mfenx.com/network/2026092601.json");
@@ -137,6 +138,8 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   const page = await readFile(new URL("../public/status.html", import.meta.url), "utf8");
   assert.match(page, /href="https:\/\/rpc\.mfenx\.com\/2026\/"/);
   assert.match(page, /href="https:\/\/license\.mfenx\.com\/network\/2026\/"/);
+  assert.match(page, /public RPC accepts signed native transfers/);
+  assert.doesNotMatch(page, /public RPC is read only|protected loopback interface/);
 });
 test("network PNG is published with exact dimensions, content digest and download link", async () => {
   const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));
