@@ -53,6 +53,11 @@ jobs:
             node --check "$file"
           done < <(find public -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
+      - name: Check text-and-data-mining declarations on every page
+        run: |
+          python3 scripts/apply_tdm_declarations.py --check
+          python3 -m unittest -v tests.test_tdm_declarations
+
       - name: Check research deep-link compatibility
         run: node tests/test_gate_legacy_links.mjs
 

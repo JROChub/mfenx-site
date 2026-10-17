@@ -105,6 +105,9 @@ def head(title: str, description: str, canonical: str, csp: str, extra: str = ""
     <meta name="description" content="{html.escape(description)}" />
     <link rel="canonical" href="{canonical}" />
     <link rel="icon" href="/favicon.ico" />
+    <meta name="tdm-reservation" content="1" />
+    <meta name="tdm-policy" content="https://mfenx.com/tweek/policy/no-ai/" />
+    <meta name="robots" content="noai, noimageai" />
     <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
     <link rel="stylesheet" href="/tweek/tweek.css?v={CSS_V}" />
     <meta http-equiv="Content-Security-Policy" content="{csp}" />
@@ -128,8 +131,6 @@ PROTECT = head(
     "Nothing is uploaded.",
     "https://mfenx.com/tweek/",
     CSP_APP,
-    '    <meta name="tdm-reservation" content="1" />\n'
-    '    <meta name="tdm-policy" content="https://mfenx.com/tweek/policy/no-ai/" />\n'
     '    <script type="module" src="/tweek/app.js"></script>\n',
 ) + header("/tweek/") + f"""    <main class="page" id="content" tabindex="-1">
       <section class="document-head">
@@ -320,7 +321,7 @@ def policy_page(pid: str) -> str:
         "Machine-readable and human-readable text-and-data-mining policy referenced by tweek-ing protected files.",
         url,
         CSP_STATIC,
-        f'    <meta name="tdm-reservation" content="{tdm}" />\n    <meta name="tdm-policy" content="{url}" />\n',
+        "",
     ) + header(None) + f"""    <main class="page" id="content" tabindex="-1">
       <section class="document-head">
         <div>
