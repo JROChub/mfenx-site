@@ -6,7 +6,8 @@
 import { concat, hex, fromHex, utf8, fromUtf8, sha256 } from "./bytes.mjs";
 
 export const OTS_MAGIC = new Uint8Array([0x00, 0x4f, 0x70, 0x65, 0x6e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x73, 0x00, 0x00, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x00, 0xbf, 0x89, 0xe2, 0xe8, 0x84, 0xe8, 0x92, 0x94]);
-export const CALENDARS = ["https://a.pool.opentimestamps.org", "https://b.pool.opentimestamps.org", "https://a.pool.eternitywall.com", "https://ots.btc.catallaxy.com"];
+// Browser-reachable calendars only: ots.btc.catallaxy.com accepts digests but sends no CORS headers, so it is omitted here.
+export const CALENDARS = ["https://a.pool.opentimestamps.org", "https://b.pool.opentimestamps.org", "https://a.pool.eternitywall.com"];
 const OP = { append: 0xf0, prepend: 0xf1, reverse: 0xf2, hexlify: 0xf3, sha1: 0x02, ripemd160: 0x03, sha256: 0x08, keccak256: 0x67 };
 const ATT_PENDING = "83dfe30d2ef90c8e", ATT_BITCOIN = "0588960d73d71901", ATT_LITECOIN = "06869a0d73d71b45";
 

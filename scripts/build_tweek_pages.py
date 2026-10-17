@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent / "public" / "tweek"
 CSS_V = "20261017"
 OTS_HOSTS = (
     "https://a.pool.opentimestamps.org https://b.pool.opentimestamps.org "
-    "https://a.pool.eternitywall.com https://ots.btc.catallaxy.com"
+    "https://a.pool.eternitywall.com"
 )
 CSP_APP = (
     "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; "
