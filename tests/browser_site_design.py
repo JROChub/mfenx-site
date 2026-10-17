@@ -28,6 +28,8 @@ ROUTES = (
     "/gate/account/", "/gate/checkout/", "/gate/license/",
     "/gate/payment/", "/gate/payment/billing/",
     "/labs/", "/ckodmk/", "/sain/", "/tessaryn/",
+    "/tweek/", "/tweek/verify/", "/tweek/policy/no-ai/", "/tweek/policy/no-genai/",
+    "/tweek/policy/search-only/", "/tweek/policy/all-reserved/", "/tweek/policy/allowed/",
     "/campaign.html", "/register.html", "/status.html", "/network/contracts.html", "/slbit.html",
 )
 WIDTHS = (320, 390, 768, 1440)

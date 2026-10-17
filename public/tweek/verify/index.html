@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8fa" />
+    <title>MFENX</title>
+    <meta property="og:title" content="Verify a tweek-ing protected file | MFENX" />
+    <meta name="description" content="Check a tweek-ing protected file locally: signature, content digest, declared AI policy, invisible watermark and Bitcoin timestamp. Nothing is uploaded." />
+    <link rel="canonical" href="https://mfenx.com/tweek/verify/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
+    <link rel="stylesheet" href="/tweek/tweek.css?v=20261017" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://a.pool.opentimestamps.org https://b.pool.opentimestamps.org https://a.pool.eternitywall.com https://ots.btc.catallaxy.com; base-uri 'none'; form-action 'none'; object-src 'none'" />
+    <script type="module" src="/tweek/verify/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a>
+        <a href="/lightsout/">Lights Out</a>
+        <a href="/tweek/">tweek-ing</a>
+        <a href="/labs/">Technology</a>
+        <a href="/docs/">Developers</a>
+        <a href="/company/">Company</a>
+        <a href="/pricing/">Pricing</a>
+        <a class="nav-start" href="/verify/">Verify a receipt</a>
+      </nav>
+    </header>
+    <main class="page" id="content" tabindex="-1">
+      <section class="document-head">
+        <div>
+          <div class="section-label">tweek-ing / Free verification</div>
+          <h1>Read what the file says about itself.</h1>
+          <p>Drop a protected file. The verifier recomputes the content digest, checks the signature against the embedded key, reads the declared AI policy, scans for the invisible watermark and inspects the timestamp proof. Your files are processed in this browser.</p>
+        </div>
+        <aside>No account.<br />No upload.<br />No verification fee.<p><a href="/tweek/">Protect a file ↗</a></p></aside>
+      </section>
+      <div class="instrument-line"><span>Manifest v1 · Ed25519 / ES256 · SHA-256 · OpenTimestamps</span><a class="plain-button" href="/tweek/#limits">Known limits</a></div>
+      <div class="tweek-layout">
+        <form class="verify-form" id="verify-form">
+          <fieldset>
+            <legend>Local inputs</legend>
+            <div class="field">
+              <label for="file">Protected file</label><input id="file" name="file" type="file" required />
+              <p class="note">Any file produced by tweek-ing, or any image or text you suspect carries a tweek-ing watermark.</p>
+            </div>
+            <div class="field">
+              <label for="sidecar">Sidecar manifest <span class="muted">(optional, .tweek.json)</span></label><input id="sidecar" name="sidecar" type="file" accept=".json,application/json" />
+              <p class="note">Needed to verify signatures on code and text files, or when the file's metadata was stripped.</p>
+            </div>
+            <div class="field">
+              <label for="ots">Timestamp proof <span class="muted">(optional, .tweek.ots)</span></label><input id="ots" name="ots" type="file" accept=".ots" />
+            </div>
+            <div class="actions">
+              <button class="button" id="verify-button" type="submit">Verify locally</button><button class="plain-button" id="clear-button" type="button">Clear inputs</button>
+            </div>
+            <p class="privacy-note">Files stay in browser memory. The only network request this page can make is an optional timestamp upgrade to the OpenTimestamps calendar named inside your .ots proof.</p>
+          </fieldset>
+        </form>
+        <section class="results" id="results" aria-live="polite">
+          <div class="result-card pending" id="result-card">
+            <div class="eyebrow" id="result-state">LOCAL VERIFIER</div>
+            <h2 id="result-title">Awaiting a file.</h2>
+            <p class="result-summary" id="result-summary">The result separates authorship (signature), integrity (content digest), declared terms (policy), resilience (watermark) and time (Bitcoin attestation).</p>
+            <ul class="verification-checks" id="checks"></ul>
+            <dl class="meta" id="meta" hidden></dl>
+            <div class="downloads" id="actions" hidden></div>
+            <details class="receipt-details" id="manifest-details" hidden><summary>Inspect the signed manifest</summary><pre class="code" id="manifest-json"></pre></details>
+            <details class="receipt-details" id="xmp-details" hidden><summary>Inspect embedded XMP fields</summary><pre class="code" id="xmp-fields"></pre></details>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/tweek/verify/">tweek-ing verifier</a><a href="/verify/">Free verifier</a
+        ><a href="/docs/">Documentation</a><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>
