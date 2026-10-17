@@ -1,0 +1,66 @@
+/* tweek-ing: provenance + AI-permission instrument. Extends the Gate document system. */
+.tweek-layout { display: grid; grid-template-columns: 5fr 7fr; gap: 60px; padding-bottom: 90px; }
+.dropzone { display: block; border: 1px dashed var(--line); padding: 34px 24px; text-align: center; color: var(--muted); font-size: 14px; cursor: pointer; transition: border-color .15s, background .15s; }
+.dropzone:hover, .dropzone.drag { border-color: var(--green); background: var(--wash); color: var(--ink); }
+.dropzone strong { display: block; color: var(--ink); font-size: 16px; font-weight: 400; margin-bottom: 6px; }
+.dropzone input { display: none; }
+.field-gap { margin-top: 18px; }
+.field textarea { width: 100%; min-height: 120px; padding: 10px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 0; font-size: 14px; resize: vertical; }
+.toggle-list { list-style: none; padding: 0; margin: 0 0 25px; border-top: 1px solid var(--line); }
+.toggle-list li { display: grid; grid-template-columns: 24px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; align-items: start; }
+.toggle-list input[type="checkbox"] { margin: 3px 0 0; width: 18px; height: 18px; accent-color: var(--green); }
+.toggle-list label { font-weight: 400; color: var(--ink); cursor: pointer; }
+.toggle-list .plain-label { font-weight: 400; }
+.toggle-list .note { margin: 4px 0 0; font-size: 13px; }
+.toggle-list .sub { margin-top: 10px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
+.toggle-list input[type="range"] { width: 160px; margin: 0; accent-color: var(--green); }
+.key-panel { font-size: 13px; padding: 16px 18px; background: var(--wash); border-left: 3px solid var(--violet); margin-top: 12px; }
+.key-panel .identity { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 13px; word-break: break-all; color: var(--ink); display: block; margin: 6px 0 10px; }
+.key-panel .row { display: flex; gap: 18px; flex-wrap: wrap; }
+.key-panel .row label { font-weight: 400; }
+.pointer { cursor: pointer; }
+.results { min-width: 0; display: grid; gap: 28px; align-self: start; }
+.result-card { background: var(--wash); border-top: 3px solid var(--green); padding: 26px 30px; }
+.result-card.pending { border-color: var(--violet); }
+.result-card.error { border-color: var(--error); background: #f0e5dd; }
+.result-card h2 { font-size: 16px; font-weight: 400; margin: 0 0 4px; overflow-wrap: anywhere; }
+.result-card .eyebrow { font-size: 12px; color: var(--green); margin-bottom: 14px; letter-spacing: .04em; }
+.result-card.pending .eyebrow { color: var(--violet); }
+.result-card.error .eyebrow { color: var(--error); }
+.result-card .meta { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; font-size: 13px; margin: 18px 0; }
+.result-card .meta dt { color: var(--muted); }
+.result-card .meta dd { margin: 0; overflow-wrap: anywhere; font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 12.5px; }
+.result-card .verification-checks { margin: 18px 0; }
+.result-card .verification-checks li { align-items: baseline; }
+.downloads { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 18px 0 8px; }
+.downloads a, .downloads button { display: inline-block; padding: 10px 14px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 14px; background: var(--paper); cursor: pointer; font: inherit; border-radius: 0; }
+.downloads a.primary { background: var(--ink); color: var(--paper); }
+.downloads a:hover, .downloads button:hover { border-color: var(--green); color: var(--green); }
+.downloads a.primary:hover { color: var(--paper); background: var(--green); }
+.downloads button:disabled { opacity: .5; cursor: default; }
+.notes { font-size: 13px; color: var(--muted); margin: 10px 0 0; padding-left: 18px; }
+.snippets { margin-top: 22px; font-size: 13px; }
+.snippets .tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid #c6cdbd; }
+.snippets .tabs button { font: inherit; font-size: 13px; background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 12px; cursor: pointer; color: var(--muted); margin-bottom: -1px; }
+.snippets .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--green); }
+pre.code { background: var(--paper); border: 1px solid var(--line); padding: 14px; font-size: 11.5px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; overflow: auto; margin: 0; }
+.copy-line { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 8px 0 6px; }
+.preview { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 6px; }
+.preview figure { margin: 0; font-size: 12px; color: var(--muted); }
+.preview img, .preview canvas { width: 100%; height: auto; display: block; border: 1px solid var(--line); background: #fff; }
+.chip { display: inline-block; font-size: 12px; padding: 2px 8px; border: 1px solid currentColor; margin-left: 8px; vertical-align: middle; }
+.status-warn { color: #8a6a12; }
+.status-skip { color: var(--muted); }
+.canary { font-family: "SFMono-Regular", Consolas, Menlo, monospace; background: var(--paper); border: 1px solid var(--line); padding: 2px 6px; }
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 50px 0 70px; border-top: 1px solid var(--line); font-size: 14px; }
+.how h3 { font-size: 16px; font-weight: 400; margin: 0 0 8px; }
+.how p { margin: 0; color: var(--muted); }
+.limits { padding: 0 0 80px; font-size: 14px; max-width: 78ch; }
+.limits h2 { font-size: 16px; font-weight: 400; margin-bottom: 14px; }
+.limits li { margin-bottom: 8px; }
+.policy-body { max-width: 78ch; padding-bottom: 80px; font-size: 15px; }
+.policy-body h2 { font-size: 16px; font-weight: 400; margin-top: 34px; color: var(--muted); }
+.policy-body dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 22px; font-size: 14px; }
+.policy-body dd { margin: 0; overflow-wrap: anywhere; }
+.progress { font-size: 13px; color: var(--muted); margin-top: 10px; }
+@media (max-width: 960px) { .tweek-layout { grid-template-columns: 1fr; gap: 40px; } .how { grid-template-columns: 1fr; gap: 24px; } .preview { grid-template-columns: 1fr; } .result-card .meta { grid-template-columns: 1fr; gap: 2px; } }
