@@ -57,7 +57,11 @@ def public_files(root: Path) -> list[Path]:
     return sorted(
         path
         for path in root.rglob("*")
-        if path.is_file() and not path.relative_to(root).as_posix().startswith(".")
+        if path.is_file()
+        and (
+            path.relative_to(root).as_posix().startswith(".well-known/")
+            or not path.relative_to(root).as_posix().startswith(".")
+        )
     )
 
 
