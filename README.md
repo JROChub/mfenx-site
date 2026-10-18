@@ -40,6 +40,11 @@ node tests/test_tweek_engine.mjs            # containers, watermarks, signing, O
 node tests/browser_tweek.mjs                # real Chromium journey (needs global @playwright/test)
 ```
 
+The site applies the same declarations to itself: `public/robots.txt`,
+`public/.well-known/tdmrep.json`, `public/sitemap.txt` and `tdm-reservation`,
+`tdm-policy` and `robots` meta tags in every page head. After adding a page run
+`python3 scripts/apply_tdm_declarations.py`; CI runs it with `--check`.
+
 ## Validate locally
 
 ```bash
