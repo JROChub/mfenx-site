@@ -13,6 +13,9 @@
 .history-controls { display: flex; flex-wrap: wrap; gap: 12px; padding: 18px 0; }
 .history-status { padding: 16px 0; border-bottom: 1px solid var(--line); }
 .history-status p { margin-top: 10px; }
+.network-logo { display: block; border-radius: 50%; margin-bottom: 12px; }
+.history-controls label { display: flex; align-items: center; gap: 8px; }
+.history-controls select { max-width: 220px; }
 #submission-package { display: block; width: 100%; margin-top: 8px; }
 .history-table { table-layout: fixed; }
 @media (max-width: 600px) { .history-identity { grid-template-columns: 1fr; } }
