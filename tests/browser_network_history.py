@@ -35,6 +35,12 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
         data["last_finalized_at"] = iso(now - timedelta(seconds=60))
         if mode == "stale":
             data["sampled_at"] = iso(now - timedelta(seconds=61))
+        elif mode == "twelve_second" or mode == "overdue_twelve_second":
+            data["empty_block_interval_seconds"] = 12
+            if mode == "overdue_twelve_second":
+                data["last_finalized_at"] = iso(now - timedelta(seconds=103))
+        elif mode == "unreviewed_interval":
+            data["empty_block_interval_seconds"] = 15
         elif mode == "wrong_history":
             data["identity"]["chain_id"] = 177155
         elif mode == "wrong_genesis":
@@ -131,7 +137,7 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
 
             page = context.new_page()
             page.on("pageerror", lambda error: failures.append(str(error)))
-            for mode in ("stale", "wrong_history", "wrong_genesis", "future", "two_operational", "campaign_passed", "enrollment_enabled", "http_error", "redirect", "malformed"):
+            for mode in ("stale", "overdue_twelve_second", "unreviewed_interval", "wrong_history", "wrong_genesis", "future", "two_operational", "campaign_passed", "enrollment_enabled", "http_error", "redirect", "malformed"):
                 page.goto(origin + "/status.html", wait_until="networkidle")
                 expect(page.locator("#state-label")).to_have_text("UNAVAILABLE")
                 expect(page.locator("#validators")).to_have_text("Not available")
@@ -139,6 +145,11 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                 expect(page.locator("#sample-success")).to_have_text("Not available")
                 expect(page.locator("#validator-rows tr")).to_have_count(0)
                 print(f"PASS reject {mode} and clear claimed metrics", flush=True)
+            mode = "twelve_second"
+            for path in ("/status.html", "/campaign.html", "/register.html"):
+                page.goto(origin + path, wait_until="networkidle")
+                expect(page.locator("#state-label")).to_have_text("OPERATIONAL")
+            print("PASS twelve-second sampler interval on all observation pages", flush=True)
             mode = "degraded"
             page.goto(origin + "/status.html", wait_until="networkidle")
             expect(page.locator("#state-label")).to_have_text("DEGRADED")

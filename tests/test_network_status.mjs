@@ -97,10 +97,35 @@ test("starting observations carry null height, tip and sample percentage", () =>
 test("Python UTC fractional timestamps are accepted", () => {
   const data = fresh(); data.generated_at = "2026-09-27T07:00:00.000000+00:00"; check(data);
 });
-test("daily empty-block schedule accepts idle chain but rejects overdue tip", () => {
-  const data = fresh(); data.identity.started_at = "2026-09-26T05:00:00Z";
-  data.last_finalized_at = "2026-09-26T07:00:00Z"; check(data);
-  data.last_finalized_at = "2026-09-26T06:58:29Z"; assert.throws(() => check(data), /heartbeat/);
+for (const interval of [12, 86400]) test(`${interval}-second cadence uses its own exact freshness boundary`, () => {
+  const data = fresh(); data.empty_block_interval_seconds = interval;
+  data.identity.started_at = "2026-09-26T05:00:00Z";
+  data.last_finalized_at = new Date(now - interval * 1000).toISOString(); check(data);
+  data.last_finalized_at = new Date(now - (interval + 90) * 1000).toISOString(); check(data);
+  data.last_finalized_at = new Date(now - (interval + 90) * 1000 - 1).toISOString();
+  assert.throws(() => check(data), /heartbeat/);
+});
+for (const interval of [undefined, null, "12", "86400", 0, 1, 15, 12.5, 86401, NaN, Infinity]) {
+  test(`reject unreviewed empty-block interval ${String(interval)} (${typeof interval})`, () => {
+    const data = fresh(); data.empty_block_interval_seconds = interval;
+    assert.throws(() => check(data), /empty-block schedule/);
+  });
+}
+test("twelve-second cadence keeps the twenty-four-hour observation window", () => {
+  const data = fresh(); data.empty_block_interval_seconds = 12;
+  assert.equal(check(data).availability.window_seconds, 86400);
+  data.availability.window_seconds = 12;
+  assert.throws(() => check(data), /observation window/);
+});
+test("observation pages load the cadence-aware module versions through every import", async () => {
+  for (const pageName of ["status", "campaign", "register"]) {
+    const page = await readFile(new URL(`../public/${pageName}.html`, import.meta.url), "utf8");
+    assert.ok(page.includes(`src="/${pageName}.js?v=20261019-cadence1"`));
+    const entry = await readFile(new URL(`../public/${pageName}.js`, import.meta.url), "utf8");
+    assert.ok(entry.includes('/network/history-view.js?v=20261019-cadence1'));
+  }
+  const view = await readFile(new URL("../public/network/history-view.js", import.meta.url), "utf8");
+  assert.ok(view.includes('./status-client.js?v=20261019-cadence1'));
 });
 test("fetch uses exact new URL, no credentials, no redirects, bounded JSON", async () => {
   let captured;
@@ -146,6 +171,16 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   assert.match(page, /public RPC accepts signed contract deployments, contract calls and native transfers/);
   assert.match(page, /href="\/network\/contracts\.html"/);
   assert.doesNotMatch(page, /public RPC is read only|protected loopback interface/);
+  assert.match(page, /empty-block interval reported by the sampler/);
+  assert.doesNotMatch(page, /Empty blocks are scheduled daily|Empty blocks are scheduled every twelve seconds/);
+  const campaign = await readFile(new URL("../public/campaign.html", import.meta.url), "utf8");
+  assert.match(campaign, /sampler reports the configured empty-block interval/);
+  assert.match(campaign, /public RPC accepts signed contract deployments, contract calls and native transfers/);
+  assert.doesNotMatch(campaign, /Empty blocks are scheduled daily|public RPC is read only|protected loopback interface/);
+  const contract = await readFile(new URL("../docs/NETWORK_STATUS_CONTRACT.md", import.meta.url), "utf8");
+  assert.match(contract, /`evmCompatible: true`/);
+  assert.match(contract, /`transactionSubmission: public_signed_evm`/);
+  assert.doesNotMatch(contract, /`evmCompatible: false`|`publicRpcMode: read_only`|`transactionSubmission: operator_only`|eth_sendRawTransaction` is not offered/);
 });
 test("contract execution record binds the published source and finalized ledger", async () => {
   const load = async path => JSON.parse(await readFile(new URL(`../public/network/${path}`, import.meta.url)));

@@ -53,7 +53,7 @@ export function validateStatus(value, now = Date.now(), genesisHash = NETWORK.ge
     const finalized = instant(data.last_finalized_at, "last_finalized_at");
     requireValue(finalized >= started && finalized <= generated + 10_000, "Finalized time is outside this history");
   }
-  requireValue(data.empty_block_interval_seconds === 86400, "Unexpected empty-block schedule");
+  requireValue([12, 86400].includes(data.empty_block_interval_seconds), "Unexpected empty-block schedule");
   const topology = record(data.topology, "Topology");
   requireValue(topology.validator_count === 3 && topology.quorum === 2 && topology.host_count === 1 && topology.failure_domain_count === 1,
     "Unexpected deployment topology");
@@ -100,7 +100,8 @@ export function validateStatus(value, now = Date.now(), genesisHash = NETWORK.ge
     requireValue(healthy.every(item => item.height === data.block_height && item.tip_hash === healthy[0].tip_hash),
       "Operational validators disagree on the current tip");
     const finalized = instant(data.last_finalized_at, "last_finalized_at");
-    requireValue(sampled - finalized <= 86_490_000, "Operational tip is older than the heartbeat tolerance");
+    requireValue(sampled - finalized <= (data.empty_block_interval_seconds + 90) * 1000,
+      "Operational tip is older than the heartbeat tolerance");
   }
   const enrollment = record(data.enrollment, "Enrollment");
   requireValue(enrollment.observers === false && enrollment.validators === false, "Enrollment is not enabled for this reviewed deployment");
