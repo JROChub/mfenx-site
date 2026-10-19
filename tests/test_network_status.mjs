@@ -173,6 +173,10 @@ test("retired chain has no RPC and new metadata has exact identity", async () =>
   assert.doesNotMatch(page, /public RPC is read only|protected loopback interface/);
   assert.match(page, /empty-block interval reported by the sampler/);
   assert.doesNotMatch(page, /Empty blocks are scheduled daily|Empty blocks are scheduled every twelve seconds/);
+  const campaign = await readFile(new URL("../public/campaign.html", import.meta.url), "utf8");
+  assert.match(campaign, /sampler reports the configured empty-block interval/);
+  assert.match(campaign, /public RPC accepts signed contract deployments, contract calls and native transfers/);
+  assert.doesNotMatch(campaign, /Empty blocks are scheduled daily|public RPC is read only|protected loopback interface/);
   const contract = await readFile(new URL("../docs/NETWORK_STATUS_CONTRACT.md", import.meta.url), "utf8");
   assert.match(contract, /`evmCompatible: true`/);
   assert.match(contract, /`transactionSubmission: public_signed_evm`/);
