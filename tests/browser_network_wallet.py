@@ -48,7 +48,7 @@ def run(root, chromium):
                     return '0x78c3b839';
                 }};
                 window.addEventListener('eip6963:requestProvider', () => {
-                    const detail = {info:{name:'Zerion',uuid:'test-zerion'},provider};
+                    const detail = {info:{name:'Test wallet',uuid:'test-wallet'},provider};
                     dispatchEvent(new CustomEvent('eip6963:announceProvider', {detail}));
                     dispatchEvent(new CustomEvent('eip6963:announceProvider', {detail}));
                 });
@@ -60,9 +60,9 @@ def run(root, chromium):
                 page.goto(origin + "/status.html", wait_until="networkidle")
                 assert page.evaluate("walletCalls.length") == 0
                 expect(page.locator("#network-wallet option")).to_have_count(1)
-                expect(page.locator("#network-wallet option")).to_have_text("Zerion")
+                expect(page.locator("#network-wallet option")).to_have_text("Test wallet")
                 assert page.locator(".network-logo").evaluate("img => img.complete && img.naturalWidth === 1024")
-                page.get_by_text("Manual setup in Zerion", exact=True).click()
+                page.get_by_text("Manual network setup", exact=True).click()
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), width
                 page.locator("#add-network").click()
                 expect(page.locator("#wallet-result")).to_contain_text("Your wallet is connected")

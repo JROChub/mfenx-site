@@ -18,8 +18,8 @@ window.addEventListener("eip6963:announceProvider", event => {
 });
 window.dispatchEvent(new Event("eip6963:requestProvider"));
 if (window.ethereum?.providers?.length) {
-  for (const provider of window.ethereum.providers) offer(provider, provider.isZerion ? "Zerion" : "Browser wallet");
-} else offer(window.ethereum, window.ethereum?.isZerion ? "Zerion" : "Browser wallet");
+  for (const provider of window.ethereum.providers) offer(provider, "Browser wallet");
+} else offer(window.ethereum, "Browser wallet");
 
 button.addEventListener("click", async () => {
   if (button.disabled) return;

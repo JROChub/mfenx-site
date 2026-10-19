@@ -14,7 +14,7 @@
     <meta name="robots" content="noai, noimageai" />
     <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
     <link rel="stylesheet" href="/tweek/tweek.css?v=20261017" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://a.pool.opentimestamps.org https://b.pool.opentimestamps.org https://a.pool.eternitywall.com; base-uri 'none'; form-action 'none'; object-src 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://a.pool.opentimestamps.org https://b.pool.opentimestamps.org https://a.pool.eternitywall.com https://alice.btc.calendar.opentimestamps.org https://bob.btc.calendar.opentimestamps.org https://finney.calendar.eternitywall.com; base-uri 'none'; form-action 'none'; object-src 'none'" />
     <script type="module" src="/tweek/verify/app.js"></script>
   </head>
   <body>
@@ -56,11 +56,12 @@
             </div>
             <div class="field">
               <label for="ots">Timestamp proof <span class="muted">(optional, .tweek.ots)</span></label><input id="ots" name="ots" type="file" accept=".ots" />
+              <p class="note">The verifier checks proof encoding and manifest binding. Bitcoin attestations require independent block-header verification. Calendar access failures do not establish whether a timestamp is pending or confirmed.</p>
             </div>
             <div class="actions">
               <button class="button" id="verify-button" type="submit">Verify locally</button><button class="plain-button" id="clear-button" type="button">Clear inputs</button>
             </div>
-            <p class="privacy-note">Files stay in browser memory. The only network request this page can make is an optional timestamp upgrade to the OpenTimestamps calendar named inside your .ots proof.</p>
+            <p class="privacy-note">File contents stay in browser memory. Optional timestamp actions send the manifest hash to public calendars or retrieve attestations from the calendars named in your proof.</p>
           </fieldset>
         </form>
         <section class="results" id="results" aria-live="polite">
