@@ -5,7 +5,7 @@ import test from "node:test";
 import { setImmediate as tick } from "node:timers/promises";
 
 const source = await readFile(new URL("../public/network/status-client.js", import.meta.url), "utf8");
-const { NETWORK, validateStatus, fetchStatus, pollStatus } = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
+const { NETWORK, validateStatus, fetchStatus, pollStatus, storageObservation } = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
 const fixture = JSON.parse(await readFile(new URL("./fixtures/network-status-v1.json", import.meta.url), "utf8"));
 const now = Date.parse(fixture.generated_at);
 const fresh = () => structuredClone(fixture);
@@ -97,7 +97,7 @@ test("starting observations carry null height, tip and sample percentage", () =>
 test("Python UTC fractional timestamps are accepted", () => {
   const data = fresh(); data.generated_at = "2026-09-27T07:00:00.000000+00:00"; check(data);
 });
-for (const interval of [12, 86400]) test(`${interval}-second cadence uses its own exact freshness boundary`, () => {
+for (const interval of [12]) test(`${interval}-second cadence uses its own exact freshness boundary`, () => {
   const data = fresh(); data.empty_block_interval_seconds = interval;
   data.identity.started_at = "2026-09-26T05:00:00Z";
   data.last_finalized_at = new Date(now - interval * 1000).toISOString(); check(data);
@@ -105,7 +105,7 @@ for (const interval of [12, 86400]) test(`${interval}-second cadence uses its ow
   data.last_finalized_at = new Date(now - (interval + 90) * 1000 - 1).toISOString();
   assert.throws(() => check(data), /heartbeat/);
 });
-for (const interval of [undefined, null, "12", "86400", 0, 1, 15, 12.5, 86401, NaN, Infinity]) {
+for (const interval of [undefined, null, "12", "86400", 0, 1, 15, 12.5, 86400, 86401, NaN, Infinity]) {
   test(`reject unreviewed empty-block interval ${String(interval)} (${typeof interval})`, () => {
     const data = fresh(); data.empty_block_interval_seconds = interval;
     assert.throws(() => check(data), /empty-block schedule/);
@@ -117,15 +117,68 @@ test("twelve-second cadence keeps the twenty-four-hour observation window", () =
   data.availability.window_seconds = 12;
   assert.throws(() => check(data), /observation window/);
 });
+const storage = overrides => ({schema: "mfenx.native-storage-observation.v1", sampled_at_unix: now / 1000,
+  ok: true, warning: null, ...overrides});
+test("storage and backup warnings remain separate from consensus health", () => {
+  const capacity = "observed_growth_reaches_storage_boundary_within_seven_days";
+  const data = fresh(); data.storage = storage({warning: capacity, warnings: [capacity, "backup_stale"]});
+  assert.equal(check(data).status, "operational");
+  const observation = storageObservation(data.storage, now);
+  assert.equal(observation.available, true);
+  assert.deepEqual(observation.warningCodes, [capacity, "backup_stale"]);
+  assert.match(observation.message, /within seven days/);
+  assert.match(observation.message, /host backup is overdue/);
+});
+test("storage checks distinguish a reported failure from absent observations", () => {
+  assert.match(storageObservation(storage({}), now).message, /reported no warning/);
+  const failed = storageObservation(storage({ok: false, warning: "storage_observation_failed"}), now);
+  assert.equal(failed.available, true); assert.match(failed.message, /check failed/);
+  for (const value of [undefined, null, {ok: null, warning: "storage_observation_unavailable"}]) {
+    assert.equal(storageObservation(value, now).available, false);
+  }
+});
+for (const warning of ["disk_reserve_margin_below_one_gib", "backup_receipt_missing", "backup_receipt_invalid",
+  "backup_archive_missing", "backup_archive_metadata_invalid", "backup_receipt_time_invalid", "backup_storage_mode_mismatch", "backup_stale"]) {
+  test(`render reported ${warning} without changing operational status`, () => {
+    const data = fresh(); data.storage = storage({warning});
+    assert.equal(check(data).status, "operational");
+    const observation = storageObservation(data.storage, now);
+    assert.equal(observation.available, true);
+    assert.deepEqual(observation.warningCodes, [warning]);
+    assert.match(observation.message, /^(Storage|Backup) warning:/);
+  });
+}
+test("storage observations enforce freshness and clear malformed or unrecognized warnings", () => {
+  assert.equal(storageObservation(storage({sampled_at_unix: now / 1000 - 180}), now).available, true);
+  assert.equal(storageObservation(storage({sampled_at_unix: now / 1000 + 10}), now).available, true);
+  const invalid = [
+    [], "backup_stale", storage({schema: "unknown"}), storage({ok: "true"}),
+    storage({sampled_at_unix: "now"}), storage({sampled_at_unix: NaN}),
+    storage({sampled_at_unix: now / 1000 - 180.001}), storage({sampled_at_unix: now / 1000 + 10.001}),
+    storage({warning: "<img src=x onerror=alert(1)>"}), storage({warning: "__proto__"}),
+    storage({warning: "x".repeat(1000)}), storage({warning: "backup_stale", warnings: ["backup_stale", "backup_stale"]}),
+    storage({warning: "backup_stale", warnings: ["backup_stale", "backup_receipt_missing", "backup_receipt_invalid"]}),
+    storage({warning: null, warnings: ["backup_stale"]}), storage({warning: "backup_stale", warnings: ["unknown"]}),
+    storage({ok: false, warning: null}), storage({ok: true, warning: "storage_observation_failed"}),
+    storage({ok: false, warning: "storage_observation_failed", warnings: ["storage_observation_failed", "backup_stale"]}),
+  ];
+  for (const value of invalid) {
+    const observation = storageObservation(value, now);
+    assert.equal(observation.available, false);
+    assert.equal(observation.message, "Storage and backup observations are not available.");
+    const data = fresh(); data.storage = value;
+    assert.equal(check(data).status, "operational");
+  }
+});
 test("observation pages load the cadence-aware module versions through every import", async () => {
   for (const pageName of ["status", "campaign", "register"]) {
     const page = await readFile(new URL(`../public/${pageName}.html`, import.meta.url), "utf8");
-    assert.ok(page.includes(`src="/${pageName}.js?v=20261019-cadence1"`));
+    assert.ok(page.includes(`src="/${pageName}.js?v=20261019-storage1"`));
     const entry = await readFile(new URL(`../public/${pageName}.js`, import.meta.url), "utf8");
-    assert.ok(entry.includes('/network/history-view.js?v=20261019-cadence1'));
+    assert.ok(entry.includes('/network/history-view.js?v=20261019-storage1'));
   }
   const view = await readFile(new URL("../public/network/history-view.js", import.meta.url), "utf8");
-  assert.ok(view.includes('./status-client.js?v=20261019-cadence1'));
+  assert.ok(view.includes('./status-client.js?v=20261019-storage1'));
 });
 test("fetch uses exact new URL, no credentials, no redirects, bounded JSON", async () => {
   let captured;
@@ -193,7 +246,8 @@ test("contract execution record binds the published source and finalized ledger"
   assert.equal(current.executionDocsURL, "https://mfenx.com/network/contracts.html");
   assert.equal(current.executionEvidenceURL, "https://mfenx.com/network/execution-20261008.json");
   assert.equal(current.executionLedgerURL, "https://mfenx.com/network/execution-20261008-ledger.json");
-  assert.equal(current.validatorSource.sha256, createHash("sha256").update(archive).digest("hex"));
+  const historicalSourceSha256 = "5da858924e47e1d376d6729f1b6e4d9fc659bd308039f45566e7547d26034db6";
+  assert.equal(historicalSourceSha256, createHash("sha256").update(archive).digest("hex"));
   assert.equal(record.status, "passed");
   assert.equal(record.chain_id, NETWORK.chainId);
   assert.equal(record.genesis_hash, NETWORK.genesisHash);
@@ -234,11 +288,39 @@ test("contract execution record binds the published source and finalized ledger"
     assert.ok(block.votes.length >= ledger.quorum);
   }
   assert.match(page, new RegExp(record.contract_address));
-  assert.match(page, new RegExp(current.validatorSource.sha256));
+  assert.match(page, new RegExp(historicalSourceSha256));
   assert.match(page, /validate-state \.\.\/execution-20261008-ledger\.json/);
   assert.match(page, /not an Ethereum Merkle Patricia trie/);
   assert.match(page, /href="\/network\/MFENXExecutionProbe\.sol" download/);
   assert.doesNotMatch(page, /<script|<strong|<b[\s>]|style="/);
+});
+test("current validator source binds the separate storage release and acceptance evidence", async () => {
+  const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));
+  const record = JSON.parse(await readFile(new URL("../public/network/validator-storage-20261019.1.json", import.meta.url)));
+  const archive = await readFile(new URL("../public/network/validator-execution-20261019.1.tar.gz", import.meta.url));
+  const page = await readFile(new URL("../public/network/contracts.html", import.meta.url), "utf8");
+  assert.equal(current.validatorSource.release, "20261019.1");
+  assert.equal(current.validatorSource.sha256, createHash("sha256").update(archive).digest("hex"));
+  assert.equal(current.validatorSource.sha256, record.source.sha256);
+  assert.equal(current.validatorSource.url, record.source.url);
+  assert.equal(current.validatorSource.localGitRevision, record.source.localGitRevision);
+  assert.equal(current.validatorSource.localGitRevision, "cbfa978c7b07af210855e6e7b42d33c92bef22df");
+  assert.equal(Object.hasOwn(current.validatorSource, "commit"), false);
+  assert.equal(current.validatorSource.provenanceURL, "https://mfenx.com/network/validator-storage-20261019.1.json");
+  assert.equal(record.schema, "mfenx.validator-storage-release.v1");
+  assert.equal(record.chain.chainId, NETWORK.chainId);
+  assert.equal(record.chain.genesisHash, NETWORK.genesisHash);
+  assert.equal(record.storage.emptyBlockIntervalSeconds, 12);
+  assert.equal(record.storage.mainFileLimitBytes, 262549504);
+  assert.equal(record.validation.rust.failed, 0);
+  assert.equal(record.validation.operations.failed, 0);
+  assert.equal(record.validation.soak.passed, true);
+  assert.equal(record.validation.concurrentMaintenance.passed, true);
+  assert.equal(record.validation.capabilities.standalone.passed, true);
+  assert.equal(record.validation.capabilities.heldWal.passed, true);
+  assert.match(page, new RegExp(current.validatorSource.sha256));
+  assert.match(page, /native-store-tool verify --database/);
+  assert.match(page, /--max-bytes 536870912 --json/);
 });
 test("network PNG is published with exact dimensions, content digest and download link", async () => {
   const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));

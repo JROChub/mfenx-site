@@ -1,0 +1,403 @@
+{
+  "schema": "mfenx.validator-storage-release.v1",
+  "release": "20261019.1",
+  "recordedAt": "2026-10-19T05:51:11.732120+00:00",
+  "scope": "Build and acceptance evidence; live deployment is identified separately by the network manifest.",
+  "source": {
+    "url": "https://mfenx.com/network/validator-execution-20261019.1.tar.gz",
+    "sha256": "cecaf5f472993c1fe3bdc334a5ed540e350747ac16fd5cd1b520bad48bceff4a",
+    "localGitRevision": "cbfa978c7b07af210855e6e7b42d33c92bef22df",
+    "revisionScope": "Local Git revision imported from the published runtime basis archive; source archive SHA-256 is the public content binding."
+  },
+  "basis": {
+    "url": "https://mfenx.com/network/validator-execution-20261008.3.tar.gz",
+    "sha256": "5da858924e47e1d376d6729f1b6e4d9fc659bd308039f45566e7547d26034db6"
+  },
+  "build": {
+    "command": "CARGO_BUILD_JOBS=1 cargo build --release --locked --features net --bins",
+    "rustc": "1.93.1 (01f6ddf75 2026-02-11)",
+    "target": "x86_64-unknown-linux-gnu",
+    "features": [
+      "memory (default)",
+      "net"
+    ],
+    "cargoLockSha256": "833491c8bed0c8b84e2defd5c47bbc134e622867b4a7e75bf36b41cf94f84935",
+    "sqlite": "3.53.2",
+    "revm": "43.0.3"
+  },
+  "binaries": {
+    "julian": {
+      "sha256": "0d2a6c98a74b280b5143e314d1a4e693c8836d5201287ac526b60004453f6e6e",
+      "bytes": 21291768
+    },
+    "native-store-tool": {
+      "sha256": "bb0119908c4d8444177c641383745fb534c196bb2e4b5ca9c2e6283e2fc3f078",
+      "bytes": 7516936
+    }
+  },
+  "chain": {
+    "chainId": 2026092601,
+    "genesisHash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+    "historyId": "mfenx-native-2026-09-27",
+    "executionProfile": "mfenx-evm-cancun-fee-free-v1",
+    "activationHeight": 14
+  },
+  "storage": {
+    "mode": "sqlite",
+    "emptyBlockIntervalSeconds": 12,
+    "databaseAllocationBytes": 536870912,
+    "mainFileLimitBytes": 262549504,
+    "aggregateStateLimitBytes": 1073741824,
+    "aggregateBackupLimitBytes": 4294967296,
+    "freeDiskReserveBytes": 2147483648
+  },
+  "validation": {
+    "rust": {
+      "schema": "mfenx.runtime-test-result.v1",
+      "completed_at_utc": "2026-10-19T05:41:52.827863+00:00",
+      "command": "CARGO_BUILD_JOBS=1 cargo test --release --locked --features net --lib --bins --tests --no-fail-fast",
+      "exit_code": 0,
+      "passed": 152,
+      "failed": 0,
+      "features": [
+        "memory (default)",
+        "net"
+      ],
+      "optional_features_not_selected": [
+        "sfcs",
+        "sfcs-zk",
+        "sfcs-risc0"
+      ],
+      "compiler": "rustc 1.93.1 (01f6ddf75 2026-02-11)",
+      "scope": "Unit and integration suites selected by the production feature graph; feature-gated optional suites are not claimed.",
+      "input_sha256": {
+        "Cargo.toml": "a55fc6e9030efd2c556933e2c2d1801dd381d5b82de45231cbd890a2f738fa31",
+        "Cargo.lock": "833491c8bed0c8b84e2defd5c47bbc134e622867b4a7e75bf36b41cf94f84935",
+        "src/net/native_chain.rs": "c168b71ae8cb05ea26e05c59031772aa30ef1949a67848de724ccf18b0c09a8e",
+        "src/net/native_store.rs": "2f695487312740064433d3147d4fd9811170680c789a704c66cede5be3b83611",
+        "src/net/rpc.rs": "42724aed35de3434cfc194c2e320e6157f1bf0c8671714c9393bea739c8c7339",
+        "src/net/evm_rpc.rs": "a7a9a7dc8a3a391c986f3df16ec8384b33a9b665635dd59c12adb89a5496eed6",
+        "src/net/evm.rs": "4cd4f0f157cf12c25eddd64d26fdd720b5609e6080bf41d0fbf024103e020ef8",
+        "src/bin/native-store-tool.rs": "a3f61b6bdb3b28ff804d49c08cb70a2b92e7f405fff696a02446034bbd3a73a1"
+      }
+    },
+    "operations": {
+      "passed": 51,
+      "failed": 0,
+      "realMigrationBackupRecovery": true,
+      "legacyHeight": 37,
+      "legacyJsonUnchanged": true,
+      "signerLocksPreserved": true
+    },
+    "soak": {
+      "passed": true,
+      "seconds": 600,
+      "firstHeights": [
+        0,
+        0,
+        0
+      ],
+      "lastHeights": [
+        50,
+        50,
+        50
+      ],
+      "resourceEnd": {
+        "memory_current": 84725760,
+        "memory_peak": 84942848,
+        "memory_max": "100663296",
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0",
+          "sock_throttled": "0"
+        },
+        "cpu_max": "20000 100000",
+        "cpu_stat": {
+          "usage_usec": 8679472,
+          "user_usec": 7234242,
+          "system_usec": 1445229,
+          "nice_usec": 0,
+          "nr_periods": 2626,
+          "nr_throttled": 162,
+          "throttled_usec": 11757059,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        }
+      },
+      "standaloneBackupVerified": true,
+      "restartTested": true,
+      "binarySha256": {
+        "julian": "0d2a6c98a74b280b5143e314d1a4e693c8836d5201287ac526b60004453f6e6e",
+        "native-store-tool": "bb0119908c4d8444177c641383745fb534c196bb2e4b5ca9c2e6283e2fc3f078"
+      }
+    },
+    "concurrentMaintenance": {
+      "passed": true,
+      "elapsedSeconds": 182.16098024207167,
+      "heightAdvance": 16,
+      "resourceEnd": {
+        "memory_current": 28504064,
+        "memory_peak": 60456960,
+        "memory_max": "100663296",
+        "memory_high": "83886080",
+        "memory_swap_max": "0",
+        "pids_current": 15,
+        "pids_max": "64",
+        "cpu_max": "20000 100000",
+        "memory_events": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "cpu_stat": {
+          "usage_usec": 3231489,
+          "user_usec": 2448995,
+          "system_usec": 782494,
+          "nice_usec": 0,
+          "nr_periods": 886,
+          "nr_throttled": 77,
+          "throttled_usec": 8918029,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        }
+      },
+      "scope": "Three isolated empty-block validators and gateway; actual guard/status/backup on separate copied height-37 ledgers. Local file ownership and tc output are fixture substitutions. Guard/status remain resident for 3 seconds after their operation to force memory overlap. Coordinator excluded; no production traffic, live production WAL or sustained load is modeled.",
+      "cleanup": {
+        "schema": "mfenx.cluster-maintenance-cleanup.v1",
+        "observation_passed": true,
+        "cleanup_complete": true,
+        "production_access": false,
+        "validator_3": {
+          "stop_signal": "SIGINT",
+          "timeout_seconds": 20,
+          "systemd_result": "timeout",
+          "exit_signal": "SIGKILL",
+          "main_pid_after_stop": 0
+        },
+        "remaining_transient_services": 0,
+        "scope": "The timeout occurred after the 182-second acceptance interval. This run establishes bounded operation during observation, not graceful shutdown of every validator."
+      }
+    },
+    "capabilities": {
+      "standalone": {
+        "schema": "mfenx.local-backup-capability-test.v1",
+        "production_access": false,
+        "fixture_kind": "standalone",
+        "wal_fixture": null,
+        "capabilities": [
+          "CAP_DAC_READ_SEARCH"
+        ],
+        "source_owned_by_root": false,
+        "source_unchanged": true,
+        "source_sidecars_not_created": true,
+        "input_unchanged": true,
+        "source_files_before": {
+          "source.sqlite3": {
+            "bytes": 212992,
+            "sha256": "42b06ff6c3f8e273f401e91c4710da43b7eb027eaa4a418a1fe1d5a5fd34727e"
+          }
+        },
+        "source_files_after": {
+          "source.sqlite3": {
+            "bytes": 212992,
+            "sha256": "42b06ff6c3f8e273f401e91c4710da43b7eb027eaa4a418a1fe1d5a5fd34727e"
+          }
+        },
+        "inspect": {
+          "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+          "chain_id": 2026092601,
+          "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+          "head_valid": true,
+          "height": 37,
+          "integrity_checked": false,
+          "integrity_ok": false,
+          "main_file_budget_bytes": 262549504,
+          "pending_proposal": null,
+          "quorum": 2,
+          "schema": "mfenx.native-store-status.v1",
+          "sqlite_version": "3.53.2",
+          "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+          "validator_count": 3,
+          "votes_cast": {}
+        },
+        "backup": {
+          "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+          "chain_id": 2026092601,
+          "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+          "head_valid": true,
+          "height": 37,
+          "integrity_checked": true,
+          "integrity_ok": true,
+          "main_file_budget_bytes": 262549504,
+          "output_bytes": 212992,
+          "pending_proposal": null,
+          "quorum": 2,
+          "schema": "mfenx.native-store-status.v1",
+          "sqlite_version": "3.53.2",
+          "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+          "validator_count": 3,
+          "votes_cast": {}
+        },
+        "verify": {
+          "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+          "chain_id": 2026092601,
+          "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+          "head_valid": true,
+          "height": 37,
+          "integrity_checked": true,
+          "integrity_ok": true,
+          "main_file_budget_bytes": 262549504,
+          "pending_proposal": null,
+          "quorum": 2,
+          "schema": "mfenx.native-store-status.v1",
+          "sqlite_version": "3.53.2",
+          "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+          "validator_count": 3,
+          "votes_cast": {}
+        },
+        "scope": "Cross-owner read-only standalone snapshot; live WAL concurrency is tested separately by local_soak.py",
+        "passed": true
+      },
+      "heldWal": {
+        "schema": "mfenx.local-backup-capability-test.v1",
+        "production_access": false,
+        "fixture_kind": "committed-wal",
+        "wal_fixture": {
+          "sqlite_version": "3.53.4",
+          "user_version": 1,
+          "committed_wal_bytes": 4152,
+          "writer_connection_retained": true
+        },
+        "capabilities": [
+          "CAP_DAC_READ_SEARCH"
+        ],
+        "source_owned_by_root": false,
+        "source_unchanged": true,
+        "source_sidecars_not_created": true,
+        "input_unchanged": true,
+        "source_files_before": {
+          "source.sqlite3": {
+            "bytes": 212992,
+            "sha256": "d2a136aa75627d2bfc16a6593b3415b0545ea5d1c4c1593db468ecae8d42bca9"
+          },
+          "source.sqlite3-wal": {
+            "bytes": 4152,
+            "sha256": "92501c892eb7d22b4e9bbb08d4bbe398e99161cff4413468feafb2d15b44df48"
+          },
+          "source.sqlite3-shm": {
+            "bytes": 32768,
+            "sha256": "7d58530460280fb221612d872c953a9d5fd6fb840b0f916c0af49cec3e7d2e70"
+          }
+        },
+        "source_files_after": {
+          "source.sqlite3": {
+            "bytes": 212992,
+            "sha256": "d2a136aa75627d2bfc16a6593b3415b0545ea5d1c4c1593db468ecae8d42bca9"
+          },
+          "source.sqlite3-wal": {
+            "bytes": 4152,
+            "sha256": "92501c892eb7d22b4e9bbb08d4bbe398e99161cff4413468feafb2d15b44df48"
+          },
+          "source.sqlite3-shm": {
+            "bytes": 32768,
+            "sha256": "7d58530460280fb221612d872c953a9d5fd6fb840b0f916c0af49cec3e7d2e70"
+          }
+        },
+        "inspect": {
+          "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+          "chain_id": 2026092601,
+          "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+          "head_valid": true,
+          "height": 37,
+          "integrity_checked": false,
+          "integrity_ok": false,
+          "main_file_budget_bytes": 262549504,
+          "pending_proposal": null,
+          "quorum": 2,
+          "schema": "mfenx.native-store-status.v1",
+          "sqlite_version": "3.53.2",
+          "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+          "validator_count": 3,
+          "votes_cast": {}
+        },
+        "backup": {
+          "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+          "chain_id": 2026092601,
+          "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+          "head_valid": true,
+          "height": 37,
+          "integrity_checked": true,
+          "integrity_ok": true,
+          "main_file_budget_bytes": 262549504,
+          "output_bytes": 212992,
+          "pending_proposal": null,
+          "quorum": 2,
+          "schema": "mfenx.native-store-status.v1",
+          "sqlite_version": "3.53.2",
+          "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+          "validator_count": 3,
+          "votes_cast": {}
+        },
+        "verify": {
+          "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+          "chain_id": 2026092601,
+          "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+          "head_valid": true,
+          "height": 37,
+          "integrity_checked": true,
+          "integrity_ok": true,
+          "main_file_budget_bytes": 262549504,
+          "pending_proposal": null,
+          "quorum": 2,
+          "schema": "mfenx.native-store-status.v1",
+          "sqlite_version": "3.53.2",
+          "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+          "validator_count": 3,
+          "votes_cast": {}
+        },
+        "scope": "Cross-owner read-only committed WAL snapshot with an idle writer connection retained; concurrent writes are tested separately by local_soak.py",
+        "passed": true
+      }
+    },
+    "remoteCompatibility": {
+      "schema": "mfenx.remote-candidate-compatibility.v1",
+      "binaries_sha256": {
+        "julian": "0d2a6c98a74b280b5143e314d1a4e693c8836d5201287ac526b60004453f6e6e",
+        "native-store-tool": "bb0119908c4d8444177c641383745fb534c196bb2e4b5ca9c2e6283e2fc3f078"
+      },
+      "julian_version": "julian 0.1.0",
+      "isolated_copied_ledger_verification": {
+        "block_hash": "0xf2c70f9c3086cac51375879075480dcbfe21de764347477517ce347ad87ee9e1",
+        "chain_id": 2026092601,
+        "genesis_hash": "0x3b0b36b6acdcc5f0d7a1e38dd6621c58a9546a0e1a98cb58911b7646a0de5e8e",
+        "head_valid": true,
+        "height": 37,
+        "integrity_checked": true,
+        "integrity_ok": true,
+        "main_file_budget_bytes": 262549504,
+        "pending_proposal": null,
+        "quorum": 2,
+        "schema": "mfenx.native-store-status.v1",
+        "sqlite_version": "3.53.2",
+        "state_root": "0x95a8213bfbac1b0e3ec2ed496c1d8c80a7057379e693015ea427b772f2f9ec77",
+        "validator_count": 3,
+        "votes_cast": {}
+      },
+      "live_state_modified": false
+    }
+  },
+  "limits": [
+    "One physical host and one failure domain; no independent-host availability claim.",
+    "No leader-change protocol; an absent scheduled leader can stall finalization.",
+    "Finite storage and bounded replay; capacity projections are not retention guarantees.",
+    "Acceptance covers empty-block activity and small captured ledgers, not sustained transaction load or full-capacity history."
+  ]
+}
