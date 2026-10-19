@@ -1,4 +1,4 @@
-import { NETWORK, pollStatus } from "./status-client.js?v=20260927-history1";
+import { NETWORK, pollStatus } from "./status-client.js?v=20261019-cadence1";
 
 const set = (id, value) => { const node = document.getElementById(id); if (node) node.textContent = value; };
 const metrics = ["validators", "block-height", "sample-success", "sample-count", "sample-coverage", "client-version", "sampled-at", "last-finalized", "region", "quorum-state", "genesis-hash", "started-at"];

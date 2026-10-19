@@ -1,1 +1,1 @@
-import "/network/history-view.js?v=20260927-history1";
+import "/network/history-view.js?v=20261019-cadence1";

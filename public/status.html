@@ -75,12 +75,12 @@
       <h2 id="validator-title">Validator observations</h2>
       <p>Operational means all three processes were healthy with matching height, tip and genesis in the latest sample, with reachable RPC and quorum agreement. Two healthy processes are degraded.</p>
       <div class="history-table-wrap"><table class="history-table"><thead><tr><th scope="col">Node</th><th scope="col">Observation</th><th scope="col">Height</th><th scope="col">Peer identity</th></tr></thead><tbody id="validator-rows"></tbody></table></div>
-      <p>Health is sampled every fifteen seconds. Empty blocks are scheduled daily, so block age alone is not a failure signal. These reported observations are not signed proofs or a guarantee of uninterrupted availability.</p>
+      <p>Health is sampled every fifteen seconds. Block freshness is checked against the empty-block interval reported by the sampler, with ninety seconds of tolerance. Empty blocks do not establish transaction activity. These reported observations are not signed proofs or a guarantee of uninterrupted availability.</p>
       <p id="updated-at">No current observation</p>
     </section>
     <footer><a href="/network/2026092601.json">Network metadata</a><a href="/assets/mfenx-network.png" download="mfenx-network.png">Network icon (PNG)</a><a href="/network/177155.json">Retired chain metadata</a><a href="https://license.mfenx.com/network/2026/network-status.json">Status JSON</a><a href="https://license.mfenx.com/network/2026/network-manifest.json">Public manifest</a><a href="/campaign.html">Measurement limits</a></footer>
   </main>
-  <script type="module" src="/status.js?v=20260927-history1"></script>
+  <script type="module" src="/status.js?v=20261019-cadence1"></script>
   <script type="module" src="/network/wallet-ui.js?v=20261018"></script>
 </body>
 </html>
