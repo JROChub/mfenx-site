@@ -83,8 +83,14 @@ export async function verify(p) {
       const manifestDigest = manifest ? hex(await sha256(utf8(canonicalJson(manifest)))) : fields?.["tweek-manifest-sha256"];
       const bound = manifestDigest === parsed.digest;
       const btc = parsed.attestations.find((a) => a.type === "bitcoin");
-      timestamp = { digest: parsed.digest, bound, attestations: parsed.attestations, bitcoinHeight: btc?.height || null };
-      checks.push(check("timestamp", bound ? (btc ? "pass" : "warn") : "fail", bound ? (btc ? `Bitcoin-anchored timestamp: manifest existed before block ${btc.height}` : `Timestamp proof is bound to this manifest and is pending Bitcoin confirmation (${parsed.attestations.filter((a) => a.type === "pending").length} calendar${parsed.attestations.length > 1 ? "s" : ""}); upgrade later to finalise`) : "Timestamp proof is for a different manifest"));
+      const pending = parsed.attestations.filter((a) => a.type === "pending").length;
+      timestamp = { digest: parsed.digest, bound, attestations: parsed.attestations, bitcoinHeight: btc?.height ?? null, independentlyVerified: false };
+      const detail = btc
+        ? `Timestamp proof is bound to this manifest and contains a Bitcoin attestation for block ${btc.height}; block-header verification has not been performed, so anchoring is unverified`
+        : pending
+          ? `Timestamp proof is bound to this manifest and is pending Bitcoin confirmation (${pending} calendar${pending === 1 ? "" : "s"}); upgrade later to obtain additional attestations`
+          : "Timestamp proof is bound to this manifest but contains no supported Bitcoin or pending calendar attestation; anchoring is unverified";
+      checks.push(check("timestamp", bound ? "warn" : "fail", bound ? detail : "Timestamp proof is for a different manifest"));
     } catch (e) { checks.push(check("timestamp", "fail", "Could not parse the .ots proof: " + (e.message || e))); }
   }
 

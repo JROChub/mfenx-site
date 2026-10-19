@@ -61,6 +61,9 @@ jobs:
       - name: Check research deep-link compatibility
         run: node tests/test_gate_legacy_links.mjs
 
+      - name: Check Tweek signatures, proof parsing, and calendar outcomes
+        run: node --test tests/test_tweek_engine.mjs
+
       - name: Enforce new network identity and fail-closed health observations
         run: node --test tests/test_network_status.mjs tests/test_network_wallet.mjs
 
@@ -98,6 +101,9 @@ jobs:
 
       - name: Exercise the production payload in Chromium
         run: .site-test-venv/bin/python tests/browser_smoke.py --root public
+
+      - name: Exercise Tweek timestamp CSP, retries, and proof downloads
+        run: .site-test-venv/bin/python tests/browser_tweek_timestamps.py --root public
 
       - name: Check product layout, keyboard navigation and readable text
         run: .site-test-venv/bin/python tests/browser_site_design.py --root public

@@ -7,7 +7,7 @@ import { buildXmp, parseXmp, POLICIES } from "../public/tweek/engine/xmp.mjs";
 import { embedImage, detectImage, psnr, payloadFromId, idFromPayload } from "../public/tweek/engine/watermark-image.mjs";
 import { makeCanary, weaveProse, decodeZwAll, stripZw, encodeZw } from "../public/tweek/engine/watermark-text.mjs";
 import { generateKeyPair, exportPrivate, importPrivate, sign, verify as verifySig, exportPublic, canonicalJson } from "../public/tweek/engine/sign.mjs";
-import { stamp, parseProof, upgrade, varuint, OTS_MAGIC, sha256Sync } from "../public/tweek/engine/ots.mjs";
+import { stamp, parseProof, upgrade, serializeProof, varuint, OTS_MAGIC, sha256Sync } from "../public/tweek/engine/ots.mjs";
 import { protect, parseIdString, idString } from "../public/tweek/engine/protect.mjs";
 import { verify } from "../public/tweek/engine/verify.mjs";
 
@@ -179,14 +179,106 @@ await test("ots: stamp → .ots proof → parse (pending) → upgrade (bitcoin) 
   for (let i = 0; i < OTS_MAGIC.length; i++) assert.equal(r.proof[i], OTS_MAGIC[i]);
   const p = parseProof(r.proof); assert.equal(p.digest, hex(digest)); assert.equal(p.attestations.length, 1); assert.equal(p.attestations[0].type, "pending"); assert.equal(p.attestations[0].uri, "https://mock.calendar");
   const up = await upgrade(r.proof, { fetchFn }); assert.equal(up.upgraded, true);
+  assert.deepEqual(up.calendars, [{ url: "https://mock.calendar", status: "attestation-available" }]);
   const types = up.parsed.attestations.map((a) => a.type); assert.ok(types.includes("bitcoin")); assert.ok(!types.includes("pending"));
   assert.equal(up.parsed.attestations.find((a) => a.type === "bitcoin").height, 870000);
   assert.equal(hex(sha256Sync(utf8("abc"))), "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
   const dead = await stamp(digest, { fetchFn, calendars: ["https://dead.calendar"] }); assert.equal(dead.proof, null);
 });
 
+function pendingTimestamp(uri = "https://mock.calendar") {
+  const encoded = utf8(uri), payload = concat(varuint(encoded.length), encoded);
+  return concat(new Uint8Array([0x00]), Uint8Array.from(Buffer.from("83dfe30d2ef90c8e", "hex")), varuint(payload.length), payload);
+}
+function calendarResponse(status, bytes = new Uint8Array()) {
+  return { ok: status >= 200 && status < 300, status, arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) };
+}
+async function pendingProof() {
+  const digest = await sha256(utf8("timestamp status regression"));
+  const result = await stamp(digest, { calendars: ["https://mock.calendar"], fetchFn: async () => calendarResponse(200, pendingTimestamp()) });
+  assert.ok(result.proof);
+  return result.proof;
+}
+
+await test("ots: upgrade distinguishes pending, transport failure, and malformed responses without changing the proof", async () => {
+  const proof = await pendingProof();
+  const pending = pendingTimestamp();
+  const cases = [
+    ["pending 404", async () => calendarResponse(404), "pending", 404],
+    ["pending 200", async () => calendarResponse(200, pending), "pending", 200],
+    ["HTTP failure", async () => calendarResponse(503), "error", 503, "HTTP 503"],
+    ["blocked or disconnected", async () => { throw new TypeError("Failed to fetch"); }, "error", undefined, "Failed to fetch"],
+    ["empty response", async () => calendarResponse(200), "error", 200],
+    ["truncated response", async () => calendarResponse(200, pending.slice(0, -1)), "error", 200],
+    ["trailing response", async () => calendarResponse(200, concat(pending, new Uint8Array([0]))), "error", 200],
+    ["unsupported attestation", async () => calendarResponse(200, new Uint8Array(10)), "error", 200],
+  ];
+  for (const [label, fetchFn, status, httpStatus, error] of cases) {
+    const result = await upgrade(proof, { fetchFn });
+    assert.equal(result.upgraded, false, label);
+    assert.deepEqual(result.proof, proof, label);
+    assert.equal(result.calendars.length, 1, label);
+    assert.equal(result.calendars[0].url, "https://mock.calendar", label);
+    assert.equal(result.calendars[0].status, status, label);
+    assert.equal(result.calendars[0].httpStatus, httpStatus, label);
+    if (status === "error") assert.ok(result.calendars[0].error, label);
+    if (error) assert.equal(result.calendars[0].error, error, label);
+  }
+});
+
+await test("ots: the upgrade timeout covers reading the calendar response body", async () => {
+  const proof = await pendingProof();
+  const result = await upgrade(proof, { timeoutMs: 10, fetchFn: async (_url, { signal }) => ({
+    ok: true, status: 200,
+    arrayBuffer: () => new Promise((_resolve, reject) => {
+      signal.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), { once: true });
+    }),
+  }) });
+  assert.deepEqual(result.proof, proof);
+  assert.equal(result.upgraded, false);
+  assert.deepEqual(result.calendars, [{ url: "https://mock.calendar", status: "error", httpStatus: 200, error: "timeout" }]);
+});
+
+await test("ots: root attestations survive upgrade and malformed detached proofs are rejected", async () => {
+  const proof = await pendingProof(), height = varuint(870000);
+  const attestation = concat(Uint8Array.from(Buffer.from("0588960d73d71901", "hex")), varuint(height.length), height);
+  const response = concat(new Uint8Array([0]), attestation);
+  const result = await upgrade(proof, { fetchFn: async () => calendarResponse(200, response) });
+  assert.equal(result.upgraded, true);
+  assert.equal(result.calendars[0].status, "attestation-available");
+  assert.equal(result.parsed.attestations.length, 1);
+  assert.equal(result.parsed.attestations[0].type, "bitcoin");
+  assert.equal(result.parsed.attestations[0].height, 870000);
+  assert.throws(() => parseProof(proof.slice(0, -1)), /truncated/);
+  assert.throws(() => parseProof(concat(proof, new Uint8Array([0]))), /trailing/);
+});
+
 // ── end-to-end ──
 const key = await generateKeyPair();
+
+await test("verify: an unverified Bitcoin attestation cannot establish anchoring and a wrong manifest hash fails", async () => {
+  const protectedFile = await protect({ bytes: utf8("timestamp fixture"), name: "proof.txt", creator: { name: "Test" }, policyId: "no-ai", key, options: { timestamp: false, watermark: false } });
+  const digest = await sha256(utf8(protectedFile.manifestJson)), height = varuint(1);
+  const attestation = concat(Uint8Array.from(Buffer.from("0588960d73d71901", "hex")), varuint(height.length), height);
+  const proof = serializeProof(digest, { msg: digest, attestations: [attestation], ops: [] });
+  const input = { bytes: protectedFile.outputBytes, name: protectedFile.outputName, sidecar: protectedFile.manifestJson, ots: proof };
+  const result = await verify(input), timestampCheck = result.checks.find((c) => c.name === "timestamp");
+  assert.equal(result.timestamp.bound, true);
+  assert.equal(result.timestamp.bitcoinHeight, 1);
+  assert.equal(result.timestamp.independentlyVerified, false);
+  assert.equal(timestampCheck.status, "warn");
+  assert.match(timestampCheck.detail, /block-header verification has not been performed/);
+  assert.doesNotMatch(timestampCheck.detail, /manifest existed before|Bitcoin-anchored/);
+  const wrongHash = proof.slice(); wrongHash[OTS_MAGIC.length + 2] ^= 1;
+  const mismatch = await verify({ ...input, ots: wrongHash });
+  assert.equal(mismatch.verdict, "fail");
+  assert.equal(mismatch.timestamp.bound, false);
+  assert.equal(mismatch.checks.find((c) => c.name === "timestamp").status, "fail");
+  const unsupported = serializeProof(digest, { msg: digest, attestations: [new Uint8Array(9)], ops: [] });
+  const unknown = await verify({ ...input, ots: unsupported });
+  assert.equal(unknown.checks.find((c) => c.name === "timestamp").status, "warn");
+  assert.match(unknown.checks.find((c) => c.name === "timestamp").detail, /no supported Bitcoin or pending calendar attestation/);
+});
 const encode = async (pixels) => makePng(pixels);
 await test("e2e image: protect PNG → verify (all checks pass) → strip metadata → watermark-only → tamper → fail", async () => {
   const rec = []; const fetchFn = mockCalendar(rec);

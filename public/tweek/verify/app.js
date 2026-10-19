@@ -1,6 +1,6 @@
 // tweek-ing verify UI. Local-only; optional OpenTimestamps upgrade contacts the calendar named in the proof.
 import { verify } from "../engine/verify.mjs";
-import { upgrade, parseProof, stamp } from "../engine/ots.mjs";
+import { upgrade, stamp } from "../engine/ots.mjs";
 import { detectType } from "../engine/containers.mjs";
 import { sha256, utf8 } from "../engine/bytes.mjs";
 import { canonicalJson } from "../engine/sign.mjs";
@@ -51,7 +51,8 @@ async function run() {
 
 function show(r, ots) {
   const card = $("result-card");
-  const verdictText = { pass: ["VERIFIED", "Every check passed.", ""], fail: ["FAILED", "At least one check failed. Treat the file's claims as unproven.", "error"], "watermark-only": ["WATERMARK FOUND", "No manifest is present (metadata was removed), but the invisible watermark identifies the protected work.", ""], none: ["NOTHING FOUND", "This file carries no tweek-ing provenance or watermark.", "error"] }[r.verdict];
+  const limitations = r.checks.some((c) => c.status === "warn" || c.status === "skip");
+  const verdictText = { pass: limitations ? ["VERIFIED WITH LIMITATIONS", "No check failed. Review checks marked Attention or Not checked.", ""] : ["VERIFIED", "Every check passed.", ""], fail: ["FAILED", "At least one check failed. Treat the file's claims as unproven.", "error"], "watermark-only": ["WATERMARK FOUND", "No manifest is present (metadata was removed), but the invisible watermark identifies the protected work.", ""], none: ["NOTHING FOUND", "This file carries no tweek-ing provenance or watermark.", "error"] }[r.verdict];
   card.className = "result-card " + verdictText[2];
   $("result-state").textContent = verdictText[0];
   $("result-summary").textContent = verdictText[1];
@@ -72,26 +73,56 @@ function show(r, ots) {
   row("Canary", r.canary);
   row("Content digest", r.actualDigest);
   if (r.watermark) row("Watermark", r.watermark.detected ? `${r.watermark.id || r.watermark.ids.join(", ")}${r.watermark.confidence != null ? ` · confidence ${(r.watermark.confidence * 100).toFixed(0)}%` : ` · ${r.watermark.marks} marks`}` : "not detected");
-  if (r.timestamp) row("Timestamp", r.timestamp.bitcoinHeight ? `Bitcoin block ${r.timestamp.bitcoinHeight}` : `pending at ${r.timestamp.attestations.filter((a) => a.type === "pending").map((a) => a.uri).join(", ")}`);
+  const pendingCalendars = r.timestamp?.attestations.filter((a) => a.type === "pending") || [];
+  if (r.timestamp) row("Timestamp", !r.timestamp.bound ? "Proof does not bind to this manifest." : r.timestamp.bitcoinHeight != null ? `Attestation for Bitcoin block ${r.timestamp.bitcoinHeight}; independent block-header verification is required.` : pendingCalendars.length ? `Pending at ${pendingCalendars.map((a) => a.uri).join(", ")}` : "No supported Bitcoin or pending calendar attestation; anchoring is unverified.");
 
   const actions = $("actions"); actions.replaceChildren(); actions.hidden = false;
-  if (ots && r.timestamp && !r.timestamp.bitcoinHeight) {
-    const b = el("button", { type: "button", text: "Check for Bitcoin confirmation" });
+  if (ots && r.timestamp?.bound && r.timestamp.bitcoinHeight == null && pendingCalendars.length) {
+    const name = last.name.replace(/\.[^.]+$/, "") + ".tweek.ots";
+    const b = el("button", { id: "timestamp-upgrade", type: "button", text: "Check timestamp status" });
+    const status = el("p", { id: "timestamp-status", role: "status" });
+    let available = false;
     b.addEventListener("click", async () => {
-      b.disabled = true; b.textContent = "Contacting calendar…";
-      try { const u = await upgrade(ots); if (u.upgraded) { const h = u.parsed.attestations.find((a) => a.type === "bitcoin")?.height; b.textContent = `Confirmed in block ${h} — download upgraded proof`; b.disabled = false; b.onclick = () => download(u.proof, last.name.replace(/\.[^.]+$/, "") + ".tweek.ots"); } else { b.textContent = "Still pending — try again in a few hours"; } }
-      catch (e) { b.textContent = "Calendar unreachable: " + (e.message || e); }
+      b.disabled = true; status.textContent = "Contacting timestamp calendars…";
+      try {
+        const u = await upgrade(ots);
+        if (!b.isConnected) return;
+        if (u.upgraded) {
+          const h = u.parsed.attestations.find((a) => a.type === "bitcoin")?.height;
+          status.textContent = `Bitcoin attestation available for block ${h}. Independent block-header verification is still required.`;
+          const save = el("button", { id: "timestamp-download", type: "button", text: "Download upgraded .tweek.ots" });
+          save.addEventListener("click", () => download(u.proof, name));
+          actions.append(save); available = true;
+        } else {
+          const pending = u.calendars.filter((c) => c.status === "pending").length;
+          const errors = u.calendars.filter((c) => c.status === "error").length;
+          status.textContent = pending ? `Timestamp pending at ${pending} calendar${pending === 1 ? "" : "s"}. ${errors ? `${errors} calendar${errors === 1 ? " was" : "s were"} unavailable. ` : ""}You can retry this check.` : "Timestamp status could not be checked. Calendar responses were unavailable or invalid. You can retry this check.";
+        }
+      } catch (e) { if (b.isConnected) status.textContent = "Timestamp status could not be checked: " + (e.message || e); }
+      finally { b.disabled = available; }
     });
-    actions.append(b);
+    actions.append(b, status);
   }
   if (m && !ots) {
-    const b = el("button", { type: "button", text: "Stamp this manifest now (OpenTimestamps)" });
+    const b = el("button", { id: "timestamp-stamp", type: "button", text: "Stamp this manifest now (OpenTimestamps)" });
+    const status = el("p", { id: "timestamp-status", role: "status" });
+    let available = false;
     b.addEventListener("click", async () => {
-      b.disabled = true; b.textContent = "Submitting 32-byte hash…";
-      try { const s = await stamp(await sha256(utf8(canonicalJson(m)))); if (s.proof) { b.textContent = "Download .tweek.ots"; b.disabled = false; b.onclick = () => download(s.proof, (m.asset?.name || "manifest").replace(/\.[^.]+$/, "") + ".tweek.ots"); } else b.textContent = "Calendars unreachable"; }
-      catch (e) { b.textContent = "Failed: " + (e.message || e); }
+      b.disabled = true; status.textContent = "Submitting 32-byte hash…";
+      try {
+        const s = await stamp(await sha256(utf8(canonicalJson(m))));
+        if (!b.isConnected) return;
+        if (s.proof) {
+          const accepted = s.calendars.filter((c) => c.ok).length;
+          status.textContent = `Timestamp request accepted by ${accepted} calendar${accepted === 1 ? "" : "s"}. Bitcoin confirmation remains pending.`;
+          const save = el("button", { id: "timestamp-stamp-download", type: "button", text: "Download .tweek.ots" });
+          save.addEventListener("click", () => download(s.proof, (m.asset?.name || "manifest").replace(/\.[^.]+$/, "") + ".tweek.ots"));
+          actions.append(save); available = true;
+        } else status.textContent = "Timestamp calendars were unavailable. You can retry this request.";
+      } catch (e) { if (b.isConnected) status.textContent = "Timestamp request failed: " + (e.message || e); }
+      finally { b.disabled = available; }
     });
-    actions.append(b);
+    actions.append(b, status);
   }
   if (m) { const b = el("button", { type: "button", text: "Download embedded manifest" }); b.addEventListener("click", () => download(utf8(JSON.stringify(m, null, 2)), (m.asset?.name || "manifest").replace(/\.[^.]+$/, "") + ".tweek.json", "application/json")); actions.append(b); }
   if (m?.policy?.url) actions.append(el("a", { href: m.policy.url, text: "Read the policy page" }));

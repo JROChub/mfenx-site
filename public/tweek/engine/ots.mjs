@@ -12,7 +12,20 @@ const OP = { append: 0xf0, prepend: 0xf1, reverse: 0xf2, hexlify: 0xf3, sha1: 0x
 const ATT_PENDING = "83dfe30d2ef90c8e", ATT_BITCOIN = "0588960d73d71901", ATT_LITECOIN = "06869a0d73d71b45";
 
 export function varuint(n) { const out = []; while (n > 127) { out.push((n & 127) | 128); n = Math.floor(n / 128); } out.push(n); return new Uint8Array(out); }
-function readVaruint(b, o) { let n = 0, shift = 1; for (;;) { const x = b[o++]; n += (x & 127) * shift; if (!(x & 128)) break; shift *= 128; } return [n, o]; }
+function readBytes(b, o, n) {
+  if (!Number.isSafeInteger(o) || !Number.isSafeInteger(n) || o < 0 || n < 0 || o + n > b.length) throw new Error("truncated OpenTimestamps data");
+  return b.subarray(o, o + n);
+}
+function readVaruint(b, o) {
+  let n = 0, shift = 1;
+  for (;;) {
+    const x = readBytes(b, o++, 1)[0]; n += (x & 127) * shift;
+    if (!Number.isSafeInteger(n)) throw new Error("OpenTimestamps integer exceeds supported range");
+    if (!(x & 128)) return [n, o];
+    shift *= 128;
+    if (!Number.isSafeInteger(shift)) throw new Error("OpenTimestamps integer exceeds supported range");
+  }
+}
 const varbytes = (b) => concat(varuint(b.length), b);
 
 // ── tree model ──  Timestamp = { msg, attestations: [Uint8Array raw (tag‖varbytes payload)], ops: [{op: Uint8Array, ts: Timestamp}] }
@@ -26,17 +39,23 @@ function applyOp(tag, arg, msg) {
     default: throw new Error(`unsupported OpenTimestamps op 0x${tag.toString(16)} (use the ots CLI)`);
   }
 }
-function deserializeTs(b, o, msg) {
+function deserializeTs(b, o, msg, depth = 0) {
+  if (depth >= 256) throw new Error("OpenTimestamps tree exceeds supported depth");
   const ts = { msg, attestations: [], ops: [] };
   const one = (o) => {
-    const tag = b[o++];
-    if (tag === 0x00) { const t = b.subarray(o, o + 8); o += 8; let n; [n, o] = readVaruint(b, o); const payload = b.subarray(o, o + n); o += n; ts.attestations.push(concat(t, varbytes(payload))); return o; }
+    const tag = readBytes(b, o++, 1)[0];
+    if (tag === 0x00) { const t = readBytes(b, o, 8); o += 8; let n; [n, o] = readVaruint(b, o); const payload = readBytes(b, o, n); o += n; ts.attestations.push(concat(t, varbytes(payload))); return o; }
     let arg = new Uint8Array(0), opBytes;
-    if (tag === OP.append || tag === OP.prepend) { let n; [n, o] = readVaruint(b, o); arg = b.subarray(o, o + n); o += n; opBytes = concat(new Uint8Array([tag]), varbytes(arg)); } else opBytes = new Uint8Array([tag]);
-    const child = deserializeTs(b, o, applyOp(tag, arg, msg)); ts.ops.push({ op: opBytes, ts: child.ts }); return child.o;
+    if (tag === OP.append || tag === OP.prepend) { let n; [n, o] = readVaruint(b, o); arg = readBytes(b, o, n); o += n; opBytes = concat(new Uint8Array([tag]), varbytes(arg)); } else opBytes = new Uint8Array([tag]);
+    const child = deserializeTs(b, o, applyOp(tag, arg, msg), depth + 1); ts.ops.push({ op: opBytes, ts: child.ts }); return child.o;
   };
   for (;;) { if (b[o] === 0xff) { o = one(o + 1); continue; } o = one(o); break; }
   return { ts, o };
+}
+function completeTimestamp(b, o, msg) {
+  const parsed = deserializeTs(b, o, msg);
+  if (parsed.o !== b.length) throw new Error("trailing OpenTimestamps data");
+  return parsed.ts;
 }
 function serializeTs(ts) {
   const parts = [];
@@ -61,16 +80,24 @@ export function parseProof(proof) {
   for (let i = 0; i < OTS_MAGIC.length; i++) if (proof[i] !== OTS_MAGIC[i]) throw new Error("not an OpenTimestamps proof");
   let o = OTS_MAGIC.length, v; [v, o] = readVaruint(proof, o); if (v !== 1) throw new Error("unsupported proof version");
   if (proof[o++] !== OP.sha256) throw new Error("expected SHA256 file-hash op");
-  const digest = proof.subarray(o, o + 32); o += 32;
-  const { ts } = deserializeTs(proof, o, digest);
+  const digest = readBytes(proof, o, 32); o += 32;
+  const ts = completeTimestamp(proof, o, digest);
   return { digest: hex(digest), ts, attestations: collect(ts) };
 }
 function collect(ts, out = []) {
   for (const a of ts.attestations) {
     const t = hex(a.subarray(0, 8)); let [n, p] = readVaruint(a, 8); const payload = a.subarray(p, p + n);
-    if (t === ATT_PENDING) { const [l, q] = readVaruint(payload, 0); out.push({ type: "pending", uri: fromUtf8(payload.subarray(q, q + l)), commitment: hex(ts.msg) }); }
-    else if (t === ATT_BITCOIN) out.push({ type: "bitcoin", height: readVaruint(payload, 0)[0], merkleRoot: hex(ts.msg.slice().reverse()) });
-    else if (t === ATT_LITECOIN) out.push({ type: "litecoin", height: readVaruint(payload, 0)[0] });
+    if (t === ATT_PENDING) {
+      const [l, q] = readVaruint(payload, 0);
+      if (l > 1000 || q + l !== payload.length) throw new Error("invalid OpenTimestamps calendar URI length");
+      const uri = fromUtf8(readBytes(payload, q, l));
+      if (!/^[A-Za-z0-9._:/-]*$/.test(uri)) throw new Error("invalid OpenTimestamps calendar URI");
+      out.push({ type: "pending", uri, commitment: hex(ts.msg) });
+    } else if (t === ATT_BITCOIN || t === ATT_LITECOIN) {
+      const [height, end] = readVaruint(payload, 0);
+      if (end !== payload.length) throw new Error("invalid OpenTimestamps block attestation");
+      out.push(t === ATT_BITCOIN ? { type: "bitcoin", height, merkleRoot: hex(ts.msg.slice().reverse()) } : { type: "litecoin", height });
+    }
     else out.push({ type: "unknown:" + t });
   }
   for (const e of ts.ops) collect(e.ts, out);
@@ -87,7 +114,7 @@ export async function stamp(digest32, { calendars = CALENDARS, timeoutMs = 10000
       const r = await fetchFn(url + "/digest", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/vnd.opentimestamps.v1" }, body: digest32, signal: ctl.signal });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const body = new Uint8Array(await r.arrayBuffer());
-      const { ts } = deserializeTs(body, 0, digest32);
+      const ts = completeTimestamp(body, 0, digest32);
       if (!collect(ts).some((a) => a.type === "pending")) throw new Error("calendar returned no pending attestation");
       return { url, ok: true, ts };
     } catch (e) { return { url, ok: false, error: e.name === "AbortError" ? "timeout" : String(e.message || e) }; }
@@ -101,30 +128,44 @@ export async function stamp(digest32, { calendars = CALENDARS, timeoutMs = 10000
   return { proof: serializeProof(digest32, root), calendars: calendarsOut };
 }
 
-/** Try to replace pending attestations with Bitcoin attestations. Network only to the calendar URIs inside the proof. */
+/** Retrieve additional attestations from calendar URIs in the proof; block headers are not verified here. */
 export async function upgrade(proof, { fetchFn = globalThis.fetch, timeoutMs = 10000 } = {}) {
   const parsed = parseProof(proof);
   let changed = false;
+  const calendars = [];
   const visit = async (ts) => {
-    const keep = [];
-    for (const a of ts.attestations) {
+    // Snapshot the original tree so returned pending attestations are not queried recursively.
+    const attestations = [...ts.attestations], ops = [...ts.ops];
+    for (const a of attestations) {
       const t = hex(a.subarray(0, 8));
-      if (t !== ATT_PENDING) { keep.push(a); continue; }
+      if (t !== ATT_PENDING) continue;
       let [n, p] = readVaruint(a, 8); const payload = a.subarray(p, p + n); const [l, q] = readVaruint(payload, 0); const uri = fromUtf8(payload.subarray(q, q + l));
+      const outcome = { url: uri, status: "error" };
+      const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), timeoutMs);
       try {
-        const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), timeoutMs);
         const r = await fetchFn(`${uri.replace(/\/$/, "")}/timestamp/${hex(ts.msg)}`, { headers: { Accept: "application/vnd.opentimestamps.v1" }, signal: ctl.signal });
-        clearTimeout(tm);
-        if (r.ok) { const body = new Uint8Array(await r.arrayBuffer()); const sub = deserializeTs(body, 0, ts.msg).ts; if (collect(sub).some((x) => x.type === "bitcoin")) { mergeInto(ts, sub); changed = true; continue; } }
-      } catch { /* keep pending */ }
-      keep.push(a);
+        if (Number.isInteger(r.status)) outcome.httpStatus = r.status;
+        if (r.status === 404) outcome.status = "pending";
+        else if (!r.ok) outcome.error = `HTTP ${r.status}`;
+        else {
+          const body = new Uint8Array(await r.arrayBuffer());
+          if (body.length > 10000) throw new Error("calendar response exceeds size limit");
+          const sub = completeTimestamp(body, 0, ts.msg), found = collect(sub);
+          if (found.some((x) => x.type === "bitcoin")) {
+            mergeInto(ts, sub);
+            ts.attestations = ts.attestations.filter((x) => hex(x) !== hex(a));
+            changed = true; outcome.status = "attestation-available";
+          } else if (found.some((x) => x.type === "pending")) outcome.status = "pending";
+          else throw new Error("calendar returned no pending or Bitcoin attestation");
+        }
+      } catch (e) { outcome.error = ctl.signal.aborted || e.name === "AbortError" ? "timeout" : String(e.message || e); }
+      finally { clearTimeout(tm); calendars.push(outcome); }
     }
-    ts.attestations = keep;
-    for (const e of ts.ops) await visit(e.ts);
+    for (const e of ops) await visit(e.ts);
   };
   await visit(parsed.ts);
   const out = changed ? serializeProof(fromHex(parsed.digest), parsed.ts) : proof;
-  return { upgraded: changed, proof: out, parsed: parseProof(out) };
+  return { upgraded: changed, proof: out, parsed: parseProof(out), calendars };
 }
 
 // Synchronous SHA-256 to walk proof trees.
