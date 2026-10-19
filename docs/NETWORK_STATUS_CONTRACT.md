@@ -1,4 +1,4 @@
-# MFENX Native 2026 public observation contract
+MFENX Native 2026 public observation contract
 
 This is a new history, not recovery of chain 177155. It starts with empty accounts and zero supply. It does not restore balances, transactions or continuity. Three validator processes share one host in sfo3 and one failure domain. Quorum is two, but the deterministic leader has no failover. Two healthy processes therefore do not establish operational status.
 
@@ -25,7 +25,7 @@ is not a certification of the runtime or its availability.
 
 The public RPC accepts signed EIP-1559 transactions through `eth_sendRawTransaction` for contract deployment, contract calls and native transfers. The manifest declares `public_rpc_mode: evm_contracts` and `transaction_submission: public_signed_evm`. Public submission remains subject to gateway request, rate and execution limits and validator admission checks; the gateway does not request private keys. Enabled submission does not imply unlimited history capacity or throughput. The website's status polling remains read only.
 
-## Required status fields
+Required status fields
 
 The executable representative fixture is `tests/fixtures/network-status-v1.json`. Fixture peer identities, runtime string, timestamps and measurements are synthetic. Production fields are:
 
@@ -46,6 +46,6 @@ The executable representative fixture is `tests/fixtures/network-status-v1.json`
 
 HTTP errors, timeouts, malformed/oversize JSON, stale timestamps, identity mismatches and inconsistent observations clear prior live values rather than leaving stale healthy metrics on screen. Enrollment remains disabled even when the feed is unavailable or attempts to enable it. No changes apply to Gate, payment, license, receipts, research proofs or local model execution.
 
-## Tests
+Tests
 
 `node --test tests/test_network_status.mjs` checks identity, shape, semantic health, both accepted cadence values and their freshness boundaries, the unchanged 24-hour availability window, size limits and retired metadata. `python tests/browser_network_history.py --root public` uses local intercepted fixtures only, covers four viewport sizes, keyboard skip focus, disabled enrollment, both cadence values, stale/mismatched states, text escaping and valid-to-unavailable transition. Existing research/design suites retain unrelated checks and now expect deliberately disabled new-history enrollment.
