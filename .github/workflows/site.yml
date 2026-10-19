@@ -62,7 +62,7 @@ jobs:
         run: node tests/test_gate_legacy_links.mjs
 
       - name: Enforce new network identity and fail-closed health observations
-        run: node --test tests/test_network_status.mjs
+        run: node --test tests/test_network_status.mjs tests/test_network_wallet.mjs
 
       - name: Keep the retired game out of the published website
         run: python3 -m unittest -v tests.test_retired_atomic
@@ -110,6 +110,9 @@ jobs:
 
       - name: Exercise new history telemetry and disabled enrollment
         run: .site-test-venv/bin/python tests/browser_network_history.py --root public
+
+      - name: Exercise wallet discovery and verified chain setup
+        run: .site-test-venv/bin/python tests/browser_network_wallet.py --root public
 
       - name: Exercise Gate evaluation and signed-model replay in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_evaluation.py --root public
