@@ -320,6 +320,7 @@ test("current validator source binds the separate storage release and acceptance
   assert.equal(record.validation.capabilities.heldWal.passed, true);
   assert.match(page, new RegExp(current.validatorSource.sha256));
   assert.match(page, /native-store-tool verify --database/);
+  assert.match(page, /--max-bytes 536870912 --json/);
 });
 test("network PNG is published with exact dimensions, content digest and download link", async () => {
   const current = JSON.parse(await readFile(new URL("../public/network/2026092601.json", import.meta.url)));

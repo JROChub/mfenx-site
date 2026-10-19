@@ -57,7 +57,7 @@
 tar -xzf validator-execution-20261019.1.tar.gz --strip-components=1 -C mfenx-validator-20261019.1
 cd mfenx-validator-20261019.1
 CARGO_BUILD_JOBS=1 cargo build --release --locked --features net --bins
-./target/release/native-store-tool verify --database /path/to/snapshot.sqlite3 --json</code></pre>
+./target/release/native-store-tool verify --database /path/to/snapshot.sqlite3 --max-bytes 536870912 --json</code></pre>
       <p>The acceptance record covers 152 selected Rust tests, 51 operations checks, migration of captured history, backup recovery and a ten-minute local validator run. It records the measured resource limits and test scope. Storage is finite, and these checks do not establish sustained transaction throughput, indefinite retention or availability across independent hosts. The live manifest identifies the deployed runtime.</p>
       <p>The following October 8 acceptance record retains its original source and ledger for reproduction.</p>
       <p>Release <code>20261008.3</code> retains the existing Power House license and is distributed separately from the Power House v0.4.1 crate. The source archive includes the pinned dependency lockfile and the standalone ledger validation tool. This tool verifies signatures, replays native and contract transactions, and checks every committed state root and execution receipt.</p>
