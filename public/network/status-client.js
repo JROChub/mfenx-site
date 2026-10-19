@@ -32,6 +32,42 @@ function instant(value, name) {
   return time;
 }
 
+const STORAGE_MESSAGES = Object.freeze({
+  observed_growth_reaches_storage_boundary_within_seven_days: "Storage warning: at the observed growth rate, a configured limit may be reached within seven days.",
+  disk_reserve_margin_below_one_gib: "Storage warning: free space is within 1 GiB of the required disk reserve.",
+  backup_receipt_missing: "Backup warning: no completed host-backup receipt is available.",
+  backup_receipt_invalid: "Backup warning: the host-backup receipt failed validation.",
+  backup_archive_missing: "Backup warning: the recorded host-backup archive is missing.",
+  backup_archive_metadata_invalid: "Backup warning: the host-backup archive metadata failed validation.",
+  backup_receipt_time_invalid: "Backup warning: the host-backup receipt has an invalid timestamp.",
+  backup_storage_mode_mismatch: "Backup warning: the host backup uses a different storage format.",
+  backup_stale: "Backup warning: the latest host backup is overdue.",
+  storage_observation_failed: "Storage warning: the latest storage check failed.",
+  storage_observation_unavailable: "Storage and backup observations are not available.",
+});
+
+export function storageObservation(value, now = Date.now()) {
+  const unavailable = () => ({available: false, warningCodes: ["storage_observation_unavailable"],
+    message: STORAGE_MESSAGES.storage_observation_unavailable});
+  if (!value || typeof value !== "object" || Array.isArray(value)) return unavailable();
+  if (value.ok === null && value.warning === "storage_observation_unavailable") return unavailable();
+  if (value.schema !== "mfenx.native-storage-observation.v1" || typeof value.ok !== "boolean" ||
+      typeof value.sampled_at_unix !== "number" || !Number.isFinite(value.sampled_at_unix) ||
+      !Number.isFinite(now) || value.sampled_at_unix * 1000 > now + 10_000 ||
+      now - value.sampled_at_unix * 1000 > 180_000) return unavailable();
+  if (value.warning !== null && (typeof value.warning !== "string" || !Object.hasOwn(STORAGE_MESSAGES, value.warning))) return unavailable();
+  if (value.ok === false && value.warning !== "storage_observation_failed") return unavailable();
+  if (value.ok === true && ["storage_observation_failed", "storage_observation_unavailable"].includes(value.warning)) return unavailable();
+  const codes = value.warnings === undefined ? (value.warning === null ? [] : [value.warning]) : value.warnings;
+  if (!Array.isArray(codes) || codes.length > 2 || new Set(codes).size !== codes.length ||
+      codes.some(code => typeof code !== "string" || !Object.hasOwn(STORAGE_MESSAGES, code)) ||
+      (codes[0] ?? null) !== value.warning ||
+      (value.ok === false && codes.length !== 1) ||
+      (value.ok === true && codes.some(code => ["storage_observation_failed", "storage_observation_unavailable"].includes(code)))) return unavailable();
+  return {available: true, warningCodes: [...codes], message: codes.length ? codes.map(code => STORAGE_MESSAGES[code]).join(" ") :
+    "Storage and host-backup checks reported no warning."};
+}
+
 export function validateStatus(value, now = Date.now(), genesisHash = NETWORK.genesisHash) {
   const data = record(value, "Status");
   requireValue(data.schema === "mfenx.network-status.v1", "Unrecognized status schema");
@@ -53,7 +89,7 @@ export function validateStatus(value, now = Date.now(), genesisHash = NETWORK.ge
     const finalized = instant(data.last_finalized_at, "last_finalized_at");
     requireValue(finalized >= started && finalized <= generated + 10_000, "Finalized time is outside this history");
   }
-  requireValue([12, 86400].includes(data.empty_block_interval_seconds), "Unexpected empty-block schedule");
+  requireValue(data.empty_block_interval_seconds === 12, "Unexpected empty-block schedule");
   const topology = record(data.topology, "Topology");
   requireValue(topology.validator_count === 3 && topology.quorum === 2 && topology.host_count === 1 && topology.failure_domain_count === 1,
     "Unexpected deployment topology");

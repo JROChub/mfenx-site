@@ -24,5 +24,5 @@
   "availability": {"window_seconds": 86400, "observed_seconds": 120, "sample_count": 24, "successful_samples": 23, "percent": 95.83333333333333},
   "reliability_campaign": {"status": "not_started"},
   "last_finalized_at": "2026-09-27T06:59:00Z",
-  "empty_block_interval_seconds": 86400
+  "empty_block_interval_seconds": 12
 }

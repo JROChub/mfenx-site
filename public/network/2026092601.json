@@ -34,10 +34,11 @@
   "executionEvidenceURL": "https://mfenx.com/network/execution-20261008.json",
   "executionLedgerURL": "https://mfenx.com/network/execution-20261008-ledger.json",
   "validatorSource": {
-    "release": "20261008.3",
-    "commit": "d07d6efe6f3e752077c09b846da5ea8c60372830",
-    "url": "https://mfenx.com/network/validator-execution-20261008.3.tar.gz",
-    "sha256": "5da858924e47e1d376d6729f1b6e4d9fc659bd308039f45566e7547d26034db6"
+    "release": "20261019.1",
+    "localGitRevision": "cbfa978c7b07af210855e6e7b42d33c92bef22df",
+    "url": "https://mfenx.com/network/validator-execution-20261019.1.tar.gz",
+    "sha256": "cecaf5f472993c1fe3bdc334a5ed540e350747ac16fd5cd1b520bad48bceff4a",
+    "provenanceURL": "https://mfenx.com/network/validator-storage-20261019.1.json"
   },
   "rpc": ["https://license.mfenx.com/network/2026/", "https://rpc.mfenx.com/2026/"],
   "infoURL": "https://mfenx.com/status.html",

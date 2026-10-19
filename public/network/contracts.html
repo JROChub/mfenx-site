@@ -51,6 +51,15 @@
     </section>
     <section class="history-status" aria-labelledby="replay-title">
       <h2 id="replay-title">Reproduce acceptance</h2>
+      <p>Current validator release <code>20261019.1</code> adds SQLite history and consistent snapshot backups while retaining the chain identity and execution profile. Download the <a href="/network/validator-execution-20261019.1.tar.gz" download>current validator source</a> and its <a href="/network/validator-storage-20261019.1.json">build and acceptance record</a>. The archive is bound to local Git revision <code>cbfa978c7b07af210855e6e7b42d33c92bef22df</code> by SHA-256 <code>cecaf5f472993c1fe3bdc334a5ed540e350747ac16fd5cd1b520bad48bceff4a</code>; this is a separate validator source release from the Power House v0.4.1 crate.</p>
+      <p>With Rust 1.93.1, build the current runtime and storage tools:</p>
+      <pre><code>mkdir mfenx-validator-20261019.1
+tar -xzf validator-execution-20261019.1.tar.gz --strip-components=1 -C mfenx-validator-20261019.1
+cd mfenx-validator-20261019.1
+CARGO_BUILD_JOBS=1 cargo build --release --locked --features net --bins
+./target/release/native-store-tool verify --database /path/to/snapshot.sqlite3 --json</code></pre>
+      <p>The acceptance record covers 152 selected Rust tests, 51 operations checks, migration of captured history, backup recovery and a ten-minute local validator run. It records the measured resource limits and test scope. Storage is finite, and these checks do not establish sustained transaction throughput, indefinite retention or availability across independent hosts. The live manifest identifies the deployed runtime.</p>
+      <p>The following October 8 acceptance record retains its original source and ledger for reproduction.</p>
       <p>Release <code>20261008.3</code> retains the existing Power House license and is distributed separately from the Power House v0.4.1 crate. The source archive includes the pinned dependency lockfile and the standalone ledger validation tool. This tool verifies signatures, replays native and contract transactions, and checks every committed state root and execution receipt.</p>
       <p>Download the <a href="/network/validator-execution-20261008.3.tar.gz" download>corresponding validator source</a> and the ledger above. With Rust 1.93.1:</p>
       <pre><code>mkdir mfenx-validator-source
@@ -66,7 +75,7 @@ cargo build --locked --release --features net --example native_release_tool
       <p>MFENX uses its native Ed25519 validator consensus with a two-of-three quorum. The three processes currently share one host. Cancun instruction semantics run under the fee-free MFENX profile; network blocks and state use MFENX’s native formats.</p>
       <p><code>mfenx-evm-contract-state-v1</code> commits to canonical sorted accounts, bytecode and storage using a domain-separated Keccak digest. It is not an Ethereum Merkle Patricia trie. <code>BLOCKHASH</code> reads finalized MFENX block hashes; <code>PREVRANDAO</code> uses the parent hash and is not a randomness beacon. Query <code>mfenx_getExecutionProfile</code> to inspect the active profile and transaction admission status.</p>
     </section>
-    <footer><a href="/status.html">Network status</a><a href="/network/2026092601.json">Network metadata</a><a href="/network/execution-20261008.json">Execution record</a><a href="/network/validator-execution-20261008.3.tar.gz">Validator source</a></footer>
+    <footer><a href="/status.html">Network status</a><a href="/network/2026092601.json">Network metadata</a><a href="/network/execution-20261008.json">Execution record</a><a href="/network/validator-execution-20261019.1.tar.gz">Current validator source</a><a href="/network/validator-storage-20261019.1.json">Build and acceptance record</a></footer>
   </main>
 </body>
 </html>

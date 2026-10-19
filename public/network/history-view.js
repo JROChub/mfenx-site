@@ -1,4 +1,4 @@
-import { NETWORK, pollStatus } from "./status-client.js?v=20261019-cadence1";
+import { NETWORK, pollStatus, storageObservation } from "./status-client.js?v=20261019-storage1";
 
 const set = (id, value) => { const node = document.getElementById(id); if (node) node.textContent = value; };
 const metrics = ["validators", "block-height", "sample-success", "sample-count", "sample-coverage", "client-version", "sampled-at", "last-finalized", "region", "quorum-state", "genesis-hash", "started-at"];
@@ -9,6 +9,7 @@ function failure(message) {
   set("state-label", "UNAVAILABLE");
   set("rpc-state", "UNAVAILABLE");
   set("state-detail", `No current, identity-matched observation is available. ${message}`);
+  set("storage-observation", storageObservation(null).message);
   set("campaign-state", "STATUS UNAVAILABLE");
   set("registration-state", "Enrollment unavailable");
   document.body.dataset.state = "stalled";
@@ -22,6 +23,7 @@ function update(data) {
   document.body.dataset.state = "not_started";
   set("state-label", stateNames[data.status]);
   set("state-detail", `${data.validators_healthy} of 3 validator processes are healthy in the latest reported sample. All run on one host in one failure domain.`);
+  set("storage-observation", storageObservation(data.storage).message);
   set("rpc-state", data.rpc.reachable ? "ONLINE" : "UNAVAILABLE");
   set("validators", `${data.validators_healthy} / 3`);
   set("block-height", data.block_height === null ? "Not observed" : data.block_height.toLocaleString("en-US"));

@@ -41,6 +41,17 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                 data["last_finalized_at"] = iso(now - timedelta(seconds=103))
         elif mode == "unreviewed_interval":
             data["empty_block_interval_seconds"] = 15
+        elif mode == "retired_daily_interval":
+            data["empty_block_interval_seconds"] = 86400
+        elif mode in {"storage_warning", "storage_clear", "storage_unknown", "storage_stale"}:
+            data["storage"] = {"schema": "mfenx.native-storage-observation.v1", "sampled_at_unix": now.timestamp(), "ok": True, "warning": None}
+            if mode == "storage_warning":
+                warning = "observed_growth_reaches_storage_boundary_within_seven_days"
+                data["storage"].update(warning=warning, warnings=[warning, "backup_stale"])
+            elif mode == "storage_unknown":
+                data["storage"]["warning"] = '<img src=x onerror="window.injected=true">'
+            elif mode == "storage_stale":
+                data["storage"]["sampled_at_unix"] -= 181
         elif mode == "wrong_history":
             data["identity"]["chain_id"] = 177155
         elif mode == "wrong_genesis":
@@ -137,7 +148,7 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
 
             page = context.new_page()
             page.on("pageerror", lambda error: failures.append(str(error)))
-            for mode in ("stale", "overdue_twelve_second", "unreviewed_interval", "wrong_history", "wrong_genesis", "future", "two_operational", "campaign_passed", "enrollment_enabled", "http_error", "redirect", "malformed"):
+            for mode in ("stale", "overdue_twelve_second", "unreviewed_interval", "retired_daily_interval", "wrong_history", "wrong_genesis", "future", "two_operational", "campaign_passed", "enrollment_enabled", "http_error", "redirect", "malformed"):
                 page.goto(origin + "/status.html", wait_until="networkidle")
                 expect(page.locator("#state-label")).to_have_text("UNAVAILABLE")
                 expect(page.locator("#validators")).to_have_text("Not available")
@@ -150,6 +161,21 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                 page.goto(origin + path, wait_until="networkidle")
                 expect(page.locator("#state-label")).to_have_text("OPERATIONAL")
             print("PASS twelve-second sampler interval on all observation pages", flush=True)
+            mode = "storage_warning"
+            page.goto(origin + "/status.html", wait_until="networkidle")
+            expect(page.locator("#state-label")).to_have_text("OPERATIONAL")
+            expect(page.locator("#storage-observation")).to_contain_text("within seven days")
+            expect(page.locator("#storage-observation")).to_contain_text("host backup is overdue")
+            mode = "storage_clear"
+            expect(page.locator("#storage-observation")).to_have_text("Storage and host-backup checks reported no warning.", timeout=20_000)
+            expect(page.locator("#state-label")).to_have_text("OPERATIONAL")
+            for mode in ("storage_unknown", "storage_stale"):
+                page.goto(origin + "/status.html", wait_until="networkidle")
+                expect(page.locator("#state-label")).to_have_text("OPERATIONAL")
+                expect(page.locator("#storage-observation")).to_have_text("Storage and backup observations are not available.")
+                expect(page.locator("#storage-observation img")).to_have_count(0)
+                assert page.evaluate("window.injected === undefined")
+            print("PASS bounded storage and backup warnings remain separate from consensus health", flush=True)
             mode = "degraded"
             page.goto(origin + "/status.html", wait_until="networkidle")
             expect(page.locator("#state-label")).to_have_text("DEGRADED")
@@ -176,6 +202,7 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
             for selector in ("#validators", "#block-height", "#genesis-hash", "#sample-success", "#sampled-at"):
                 expect(page.locator(selector)).to_have_text("Not available")
             expect(page.locator("#updated-at")).to_have_text("No current observation")
+            expect(page.locator("#storage-observation")).to_have_text("Storage and backup observations are not available.")
             print("PASS later fetch failure removes every prior live metric", flush=True)
             mode = "valid"
             page.goto(origin + "/status.html", wait_until="networkidle")
