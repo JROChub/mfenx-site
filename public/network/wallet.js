@@ -51,7 +51,7 @@ export async function verifyRpc(url, fetcher = fetch) {
 }
 
 export async function addNetwork(provider, fetcher = fetch) {
-  if (!provider || typeof provider.request !== "function") throw new Error("Open this page in Zerion's dApp browser or install a compatible wallet extension.");
+  if (!provider || typeof provider.request !== "function") throw new Error("Open this page in your EVM wallet's dApp browser or use a compatible browser extension.");
   let verified;
   for (const url of CHAIN.rpcUrls) {
     try { verified = await verifyRpc(url, fetcher); break; } catch { /* Try the published alternate. */ }

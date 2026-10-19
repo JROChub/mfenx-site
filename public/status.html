@@ -45,18 +45,17 @@
         <label for="network-wallet">Wallet <select id="network-wallet" disabled aria-label="Choose wallet"></select></label>
         <button id="add-network" type="button">Add / switch to MFENX</button>
       </div>
-      <p id="wallet-result" role="status" aria-live="polite">Open this page in Zerion's dApp browser or use a browser wallet extension. Setup checks the RPC chain ID, genesis and sync status before asking your wallet to add it.</p>
+      <p id="wallet-result" role="status" aria-live="polite">Open this page in your EVM wallet's dApp browser or use a compatible browser extension. Setup checks the RPC chain ID, genesis and sync status before asking your wallet to add it.</p>
       <details>
-        <summary>Manual setup in Zerion</summary>
-        <p>Open Settings → Networks → Custom → Add network → Add network manually. Enter:</p>
+        <summary>Manual network setup</summary>
+        <p>In your wallet's network settings, add a custom EVM network with these values:</p>
         <dl class="history-identity">
           <div><dt>Network name</dt><dd>MFENX Native 2026</dd></div>
           <div><dt>Chain ID</dt><dd>2026092601</dd></div>
           <div><dt>RPC URL</dt><dd><code>https://rpc.mfenx.com/2026/</code></dd></div>
           <div><dt>Currency symbol / decimals</dt><dd>JULIAN / 18</dd></div>
         </dl>
-        <p>There is no block explorer URL to enter. The chain starts with zero issued currency and uses zero transaction fees. Old-chain balances are not restored. A custom network in Zerion supports dApp connections and native balance display; portfolio tokens, NFTs, history and automatic logos depend on Zerion's support.</p>
-        <p><a href="https://help.zerion.io/en/articles/8245267-add-custom-network-and-testnet">Zerion custom-network instructions</a> · <a href="https://help.zerion.io/en/articles/8186606-supported-networks-on-zerion">Zerion support limits</a></p>
+        <p>There is no block explorer URL to enter. The chain starts with zero issued currency and uses zero transaction fees. Old-chain balances are not restored.</p>
       </details>
     </section>
     <section class="telemetry-grid" aria-label="Latest reported health sample">

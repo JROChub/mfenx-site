@@ -128,8 +128,8 @@ def policy_options() -> str:
 PROTECT = head(
     "tweek-ing — protect your work from AI training, in your browser | MFENX",
     "Free. Embed standards-based AI opt-out metadata, a signed provenance manifest, an invisible "
-    "watermark and a Bitcoin-anchored timestamp into images, code, text, PDF, audio and video. "
-    "Nothing is uploaded.",
+    "watermark and an optional OpenTimestamps receipt into images, code, text, PDF, audio and video. "
+    "File contents remain local; optional timestamp requests send the manifest hash.",
     "https://mfenx.com/tweek/",
     CSP_APP,
     '    <script type="module" src="/tweek/app.js"></script>\n',
@@ -140,8 +140,8 @@ PROTECT = head(
           <h1>Your idea. Your terms. Written into the file.</h1>
           <p>
             Drop an image, document, source file, audio or video. tweek-ing signs it with a key only you hold,
-            writes every machine-readable AI opt-out standard into it, hides a watermark that survives
-            metadata stripping, and anchors the moment to Bitcoin. All in this browser. Nothing leaves your machine.
+            adds machine-readable policy metadata and, where supported, a watermark. Optional timestamping
+            sends the signed manifest's hash to public OpenTimestamps calendars. File contents remain in this browser.
           </p>
         </div>
         <aside>
@@ -215,7 +215,7 @@ PROTECT = head(
               <li>
                 <input type="checkbox" id="opt-timestamp" checked />
                 <div><label for="opt-timestamp">Bitcoin timestamp (OpenTimestamps)</label>
-                  <p class="note">The signed manifest's hash is submitted to public calendar servers; the proof becomes a Bitcoin-anchored attestation within hours. This is the only network request this page makes, and it carries only a 32-byte hash.</p>
+                  <p class="note">Public calendars receive the signed manifest's 32-byte hash and return a pending receipt. A Bitcoin attestation becomes available after the calendars obtain sufficient confirmations; completion time is not guaranteed. A completed proof requires independent verification against a Bitcoin block header.</p>
                 </div>
               </li>
             </ul>
@@ -223,19 +223,19 @@ PROTECT = head(
               <button class="button" id="protect-button" type="submit">Protect locally</button
               ><button class="plain-button" id="clear-button" type="button">Clear</button>
             </div>
-            <p class="privacy-note" id="input-note">Files stay in browser memory. Nothing is saved to an account or sent to a server. Reloading clears the inputs; your signing key stays in this browser until you remove it.</p>
+            <p class="privacy-note" id="input-note">File contents stay in browser memory. Optional timestamp requests send only the manifest hash to public calendars. Reloading clears the inputs; your signing key stays in this browser until you remove it.</p>
           </fieldset>
         </form>
         <section class="results" id="results" aria-live="polite">
           <div class="result-card pending" id="intro-card">
             <div class="eyebrow">LOCAL PROTECTOR</div>
             <h2>Awaiting a file.</h2>
-            <p class="result-summary">Each file comes back with a protected copy, a signed <code>.tweek.json</code> manifest, a <code>.tweek.ots</code> timestamp proof and copy-paste declarations for your website and repository.</p>
+            <p class="result-summary">Output includes a protected copy, a <code>.tweek.json</code> manifest and declarations for your website and repository. When timestamping is enabled and a calendar accepts the request, a <code>.tweek.ots</code> receipt is also available.</p>
             <ul class="verification-checks">
               <li><span>Provenance manifest</span><strong>Ed25519-signed, RFC 8785 canonical JSON</strong></li>
               <li><span>AI opt-out metadata</span><strong>IPTC Data Mining · TDM-Rep · XMP Rights · SPDX</strong></li>
               <li><span>Invisible watermark</span><strong>DCT-QIM (images) · zero-width + canary (text)</strong></li>
-              <li><span>Existence proof</span><strong>OpenTimestamps → Bitcoin</strong></li>
+              <li><span>Timestamp receipt</span><strong>OpenTimestamps → Bitcoin</strong></li>
               <li><span>Verifier</span><strong><a href="/tweek/verify/">mfenx.com/tweek/verify</a>, any XMP reader, any OTS client</strong></li>
             </ul>
           </div>
@@ -243,7 +243,7 @@ PROTECT = head(
       </div>
       <section class="how" aria-label="How it works">
         <div><h3>1 · Assert</h3><p>Standards-based declarations are what compliant crawlers read and what regulators and courts look for. The EU text-and-data-mining opt-out is binding in the EU; ignoring an explicit, machine-readable reservation is the behaviour being litigated now.</p></div>
-        <div><h3>2 · Prove</h3><p>The manifest binds your content's digest to your key and a Bitcoin-anchored time. Anyone can verify it offline, forever, without trusting mfenx.</p></div>
+        <div><h3>2 · Prove</h3><p>A signed manifest binds the content digest to the signing key. An OpenTimestamps proof can establish a time bound after calendar confirmation and verification against a Bitcoin block header. This browser checks proof encoding and manifest binding; it does not verify Bitcoin block headers.</p></div>
         <div><h3>3 · Detect</h3><p>Strip the metadata and the watermark still says which protected work this is. The canary phrase is unique to your file: search model outputs for it.</p></div>
       </section>
       <section class="limits" id="limits">
@@ -290,11 +290,12 @@ VERIFY = head(
             </div>
             <div class="field">
               <label for="ots">Timestamp proof <span class="muted">(optional, .tweek.ots)</span></label><input id="ots" name="ots" type="file" accept=".ots" />
+              <p class="note">The verifier checks proof encoding and manifest binding. Bitcoin attestations require independent block-header verification. Calendar access failures do not establish whether a timestamp is pending or confirmed.</p>
             </div>
             <div class="actions">
               <button class="button" id="verify-button" type="submit">Verify locally</button><button class="plain-button" id="clear-button" type="button">Clear inputs</button>
             </div>
-            <p class="privacy-note">Files stay in browser memory. The only network request this page can make is an optional timestamp upgrade to the OpenTimestamps calendar named inside your .ots proof.</p>
+            <p class="privacy-note">File contents stay in browser memory. Optional timestamp actions send the manifest hash to public calendars or retrieve attestations from the calendars named in your proof.</p>
           </fieldset>
         </form>
         <section class="results" id="results" aria-live="polite">
