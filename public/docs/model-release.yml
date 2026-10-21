@@ -28,12 +28,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 -c 'import sys; assert sys.version_info >= (3, 11)'
-          wheel="$RUNNER_TEMP/mfenx_gate-1.0.0-py3-none-any.whl"
+          wheel="$RUNNER_TEMP/mfenx_gate-1.0.1-py3-none-any.whl"
           curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
             --max-time 60 --max-filesize 10485760 \
-            https://mfenx.com/gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl \
+            https://mfenx.com/gate/downloads/mfenx_gate-1.0.1-py3-none-any.whl \
             --output "$wheel"
-          printf '%s  %s\n' 'aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d' "$wheel" | sha256sum --check --strict
+          printf '%s  %s\n' '14659e64788110d48e0b0069c81556c489096cc0650b34cf8a67a6cbb355d090' "$wheel" | sha256sum --check --strict
           python3 -m venv "$RUNNER_TEMP/mfenx-gate"
           "$RUNNER_TEMP/mfenx-gate/bin/python" -m pip install --disable-pip-version-check "$wheel"
           printf '%s\n' "$RUNNER_TEMP/mfenx-gate/bin" >> "$GITHUB_PATH"
