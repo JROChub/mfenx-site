@@ -10,7 +10,7 @@
     <title>MFENX</title>
     <meta
       name="description"
-      content="MFENX integrity receipts for five widely used public models, each verifiable locally with the free CLI."
+      content="MFENX integrity receipts for six widely used public models, each verifiable locally with the free CLI."
     />
     <link rel="canonical" href="https://mfenx.com/evidence/public-models/" />
     <link rel="icon" href="/favicon.ico" />
@@ -36,13 +36,13 @@
           <div class="section-label">MFENX / Evidence</div>
           <h1>Public-model admission records</h1>
           <p>
-            Five widely used open models, each with an MFENX integrity
+            Six widely used open models, each with an MFENX integrity
             receipt you can verify yourself in about five minutes with the
             free CLI. No account, and no trust in us, required.
           </p>
         </div>
         <aside>
-          Integrity tier<br />safetensors · 5 models<br />Issued 2026-10-21
+          Integrity tier<br />safetensors · 6 models<br />Issued 2026-10-21
         </aside>
       </section>
       <div class="document-grid document-body">
@@ -55,7 +55,7 @@
             the bytes in your hand are exactly the bytes the receipt binds,
             or the check rejects them.
           </p>
-          <pre><code>pip install 'mfenx-gate @ https://mfenx.com/gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl'
+          <pre><code>pip install 'mfenx-gate @ https://mfenx.com/gate/downloads/mfenx_gate-1.0.1-py3-none-any.whl'
 # 1. download model.safetensors from the model's Hugging Face repo (link per model below)
 # 2. download the model's receipt and proof-issuer-public.der from this page
 mfenx-gate verify distilbert-base-uncased-receipt.json --trusted-public-key proof-issuer-public.der --model model.safetensors
@@ -183,11 +183,57 @@ mfenx-gate verify distilbert-base-uncased-receipt.json --trusted-public-key proo
             >
             · Issued 2026-10-21 · One-byte tamper control: REJECTED
           </p>
+          <h2>Qwen/Qwen2.5-3B-Instruct</h2>
+          <p>
+            Source:
+            <a href="https://huggingface.co/Qwen/Qwen2.5-3B-Instruct"
+              >huggingface.co/Qwen/Qwen2.5-3B-Instruct</a
+            >
+            · Sharded checkpoint: 2 shards plus index · 6,171,926,992
+            bytes of shards · 6,171,962,573 bytes bound in total,
+            including the index
+          </p>
+          <p>
+            Member digests, each bound by the same receipt:<br />
+            <code>model-00001-of-00002.safetensors</code> · 3,968,658,944
+            bytes ·
+            <code
+              >sha256:67347b23fb4165b652eb6611f5e1f2a06dfcddba8e909df1b2b0b1857bee06c2</code
+            ><br />
+            <code>model-00002-of-00002.safetensors</code> · 2,203,268,048
+            bytes ·
+            <code
+              >sha256:a40d941d0e7e0b966ad8b62bb6d6b7c88cce1299197b599d9d0a4ce59aabfc1d</code
+            ><br />
+            <code>model.safetensors.index.json</code> · 35,581 bytes ·
+            <code
+              >sha256:bc8aaa0c87d4335177e01c765f1de0db81661c67c1a72fbfb0d521b09f5ddc56</code
+            >. Both shard digests are identical to the digests the
+            Hugging Face API publishes for those files.
+          </p>
+          <p>
+            <a href="receipts/qwen2.5-3b-instruct-receipt.json" download
+              >Receipt JSON</a
+            >
+            · Issued 2026-10-21 · One-byte tamper control: REJECTED
+            (verified for shard 1, shard 2, and the index separately;
+            removing a shard is also rejected)
+          </p>
+          <p>
+            This record requires the 1.0.1 CLI: sharded receipts are
+            verified against the checkpoint directory
+            (<code
+              >mfenx-gate verify qwen2.5-3b-instruct-receipt.json
+              --trusted-public-key proof-issuer-public.der --model
+              &lt;checkpoint directory&gt;</code
+            >). It was issued by gate 1.0.1 with engine CKODMK 0.5.2,
+            the release this page's install block now points to.
+          </p>
           <h2>Files</h2>
           <p>
             <a href="proof-issuer-public.der" download
               >proof-issuer-public.der</a
-            >, the public key for all five receipts.
+            >, the public key for all six receipts.
           </p>
           <p>
             Methodology and raw command logs are available on request.
