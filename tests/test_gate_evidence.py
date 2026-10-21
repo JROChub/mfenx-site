@@ -61,7 +61,7 @@ class GateEvidence(unittest.TestCase):
     def test_sdk_inventory_identifies_the_distributed_wheel(self):
         record = json.loads((ROOT / "enterprise/GATE-SBOM.validation.json").read_text())
         self.assertEqual(record["sbom_sha256"], digest(ROOT / "enterprise/GATE-SBOM.cdx.json").removeprefix("sha256:"))
-        self.assertEqual(record["frozen_wheel_sha256"], digest(ROOT / "gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl").removeprefix("sha256:"))
+        self.assertEqual(record["frozen_wheel_sha256"], digest(ROOT / "gate/downloads/mfenx_gate-1.0.1-py3-none-any.whl").removeprefix("sha256:"))
         self.assertEqual(record["status"], "PASS")
 
     def test_technical_pack_has_exact_allowlisted_content(self):

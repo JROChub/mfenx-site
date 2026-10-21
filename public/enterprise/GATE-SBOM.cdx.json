@@ -124,11 +124,11 @@
       "version": "25.12.19"
     },
     {
-      "bom-ref": "pkg:pypi/mfenx-ckodmk@0.5.1",
+      "bom-ref": "pkg:pypi/mfenx-ckodmk@0.5.2",
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "d5e5d1ff8da95601ac78986c9d1d29f010aac4e608a6856b9e07f127d29c7ee7"
+          "content": "4e8da4c8d98244257a3446b641e6473242ff4bda3e251d2180c8153c051052f4"
         }
       ],
       "licenses": [
@@ -140,7 +140,7 @@
       "properties": [
         {
           "name": "mfenx:inventory:wheel-filename",
-          "value": "mfenx_ckodmk-0.5.1-py3-none-any.whl"
+          "value": "mfenx_ckodmk-0.5.2-py3-none-any.whl"
         },
         {
           "name": "mfenx:inventory:lanes",
@@ -223,17 +223,17 @@
           "value": "pillow==12.3.0; extra == \"mobilenet-study\""
         }
       ],
-      "purl": "pkg:pypi/mfenx-ckodmk@0.5.1",
+      "purl": "pkg:pypi/mfenx-ckodmk@0.5.2",
       "scope": "required",
       "type": "library",
-      "version": "0.5.1"
+      "version": "0.5.2"
     },
     {
-      "bom-ref": "pkg:pypi/mfenx-gate@1.0.0",
+      "bom-ref": "pkg:pypi/mfenx-gate@1.0.1",
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d"
+          "content": "14659e64788110d48e0b0069c81556c489096cc0650b34cf8a67a6cbb355d090"
         }
       ],
       "licenses": [
@@ -245,7 +245,7 @@
       "properties": [
         {
           "name": "mfenx:inventory:wheel-filename",
-          "value": "mfenx_gate-1.0.0-py3-none-any.whl"
+          "value": "mfenx_gate-1.0.1-py3-none-any.whl"
         },
         {
           "name": "mfenx:inventory:lanes",
@@ -260,10 +260,10 @@
           "value": "cryptography==50.0.0"
         }
       ],
-      "purl": "pkg:pypi/mfenx-gate@1.0.0",
+      "purl": "pkg:pypi/mfenx-gate@1.0.1",
       "scope": "required",
       "type": "library",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "bom-ref": "pkg:pypi/ml-dtypes@0.6.0",
@@ -635,8 +635,8 @@
   "dependencies": [
     {
       "dependsOn": [
-        "pkg:pypi/mfenx-ckodmk@0.5.1",
-        "pkg:pypi/mfenx-gate@1.0.0"
+        "pkg:pypi/mfenx-ckodmk@0.5.2",
+        "pkg:pypi/mfenx-gate@1.0.1"
       ],
       "ref": "mfenx-gate-sdk-runtime-bundle-1.0.0"
     },
@@ -663,13 +663,13 @@
         "pkg:pypi/onnx@1.22.0",
         "pkg:pypi/onnxruntime@1.28.0"
       ],
-      "ref": "pkg:pypi/mfenx-ckodmk@0.5.1"
+      "ref": "pkg:pypi/mfenx-ckodmk@0.5.2"
     },
     {
       "dependsOn": [
         "pkg:pypi/cryptography@50.0.0"
       ],
-      "ref": "pkg:pypi/mfenx-gate@1.0.0"
+      "ref": "pkg:pypi/mfenx-gate@1.0.1"
     },
     {
       "dependsOn": [
