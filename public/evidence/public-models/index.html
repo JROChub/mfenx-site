@@ -10,7 +10,7 @@
     <title>MFENX</title>
     <meta
       name="description"
-      content="MFENX integrity receipts for four widely used public models, each verifiable locally with the free CLI."
+      content="MFENX integrity receipts for five widely used public models, each verifiable locally with the free CLI."
     />
     <link rel="canonical" href="https://mfenx.com/evidence/public-models/" />
     <link rel="icon" href="/favicon.ico" />
@@ -36,13 +36,13 @@
           <div class="section-label">MFENX / Evidence</div>
           <h1>Public-model admission records</h1>
           <p>
-            Four widely used open models, each with an MFENX integrity
+            Five widely used open models, each with an MFENX integrity
             receipt you can verify yourself in about five minutes with the
             free CLI. No account, and no trust in us, required.
           </p>
         </div>
         <aside>
-          Integrity tier<br />safetensors · 4 models<br />Issued 2026-10-21
+          Integrity tier<br />safetensors · 5 models<br />Issued 2026-10-21
         </aside>
       </section>
       <div class="document-grid document-body">
@@ -162,11 +162,32 @@ mfenx-gate verify distilbert-base-uncased-receipt.json --trusted-public-key proo
             >
             · Issued 2026-10-21 · One-byte tamper control: REJECTED
           </p>
+          <h2>Qwen/Qwen2.5-1.5B-Instruct</h2>
+          <p>
+            Source:
+            <a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct"
+              >huggingface.co/Qwen/Qwen2.5-1.5B-Instruct</a
+            >
+            · 3,087,467,144 bytes
+          </p>
+          <p>
+            File digest:
+            <code
+              >sha256:dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee</code
+            >, identical to the digest the Hugging Face API publishes for
+            this file
+          </p>
+          <p>
+            <a href="receipts/qwen2.5-1.5b-instruct-receipt.json" download
+              >Receipt JSON</a
+            >
+            · Issued 2026-10-21 · One-byte tamper control: REJECTED
+          </p>
           <h2>Files</h2>
           <p>
             <a href="proof-issuer-public.der" download
               >proof-issuer-public.der</a
-            >, the public key for all four receipts.
+            >, the public key for all five receipts.
           </p>
           <p>
             Methodology and raw command logs are available on request.
