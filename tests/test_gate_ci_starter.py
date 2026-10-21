@@ -13,9 +13,9 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / "public"
 STARTER = PUBLIC / "docs/model-release.yml"
-WHEEL = PUBLIC / "gate/downloads/mfenx_gate-1.0.0-py3-none-any.whl"
+WHEEL = PUBLIC / "gate/downloads/mfenx_gate-1.0.1-py3-none-any.whl"
 FIXTURE = PUBLIC / "verify/example"
-WHEEL_SHA = "aac76f6f516f93d5aeb58f373ec747b34acc790fafabcbb3643f26b1f9365b4d"
+WHEEL_SHA = "14659e64788110d48e0b0069c81556c489096cc0650b34cf8a67a6cbb355d090"
 ACTION_SHA = "3b0ede631c1038bbdf76e3a1a1b439606f14e9a6"
 CHECKOUT_SHA = "3d3c42e5aac5ba805825da76410c181273ba90b1"
 
