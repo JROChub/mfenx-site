@@ -22,7 +22,7 @@ from playwright.sync_api import expect, sync_playwright
 
 ROUTES = (
     "/", "/gate/", "/verify/", "/pricing/", "/docs/", "/docs/runtime/",
-    "/enterprise/", "/evidence/", "/evidence/public-models/", "/compute/", "/company/", "/power-house/",
+    "/enterprise/", "/evidence/", "/evidence/public-models/", "/evidence/behavioral/", "/compute/", "/company/", "/power-house/",
     "/lightsout/", "/lightsout/commercial-licensing.html",
     "/terms/", "/privacy/", "/refunds/", "/support/",
     "/gate/account/", "/gate/checkout/", "/gate/license/",
