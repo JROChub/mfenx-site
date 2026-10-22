@@ -10,7 +10,7 @@
     <title>MFENX</title>
     <meta
       name="description"
-      content="MFENX integrity receipts for six widely used public models, each verifiable locally with the free CLI."
+      content="MFENX integrity receipts for nine widely used public models, each verifiable locally with the free CLI."
     />
     <link rel="canonical" href="https://mfenx.com/evidence/public-models/" />
     <link rel="icon" href="/favicon.ico" />
@@ -36,13 +36,13 @@
           <div class="section-label">MFENX / Evidence</div>
           <h1>Public-model admission records</h1>
           <p>
-            Six widely used open models, each with an MFENX integrity
+            Nine widely used open models, each with an MFENX integrity
             receipt you can verify yourself in about five minutes with the
             free CLI. No account, and no trust in us, required.
           </p>
         </div>
         <aside>
-          Integrity tier<br />safetensors · 6 models<br />Issued 2026-10-21
+          Integrity tier<br />safetensors · 9 models<br />Issued 2026-10-21
         </aside>
       </section>
       <div class="document-grid document-body">
@@ -229,11 +229,75 @@ mfenx-gate verify distilbert-base-uncased-receipt.json --trusted-public-key proo
             >). It was issued by gate 1.0.1 with engine CKODMK 0.5.2,
             the release this page's install block now points to.
           </p>
+          <h2>google/embeddinggemma-2</h2>
+          <p>
+            Source:
+            <a href="https://huggingface.co/google/embeddinggemma-2"
+              >huggingface.co/google/embeddinggemma-2</a
+            >
+            · 1,488,915,288 bytes
+          </p>
+          <p>
+            File digest:
+            <code
+              >sha256:197a32965d4b1105faf060417baa899e193fb73cd401f42ec9295234d5553d79</code
+            >, identical to the digest the Hugging Face API publishes for
+            this file
+          </p>
+          <p>
+            <a href="receipts/embeddinggemma-2-receipt.json" download
+              >Receipt JSON</a
+            >
+            · Issued 2026-10-21 · One-byte tamper control: REJECTED
+          </p>
+          <h2>mistralai/Timestral-209M</h2>
+          <p>
+            Source:
+            <a href="https://huggingface.co/mistralai/Timestral-209M"
+              >huggingface.co/mistralai/Timestral-209M</a
+            >
+            · 837,271,648 bytes
+          </p>
+          <p>
+            File digest:
+            <code
+              >sha256:1456effb9927e3daa8c7234f10497e3424233869245a9c72b8ecebaf7ad2b7fa</code
+            >, identical to the digest the Hugging Face API publishes for
+            this file
+          </p>
+          <p>
+            <a href="receipts/timestral-209m-receipt.json" download
+              >Receipt JSON</a
+            >
+            · Issued 2026-10-21 · One-byte tamper control: REJECTED
+          </p>
+          <h2>nvidia/NVIDIA-Nemotron-Labs-Dory1.0-4B-BF16</h2>
+          <p>
+            Source:
+            <a
+              href="https://huggingface.co/nvidia/NVIDIA-Nemotron-Labs-Dory1.0-4B-BF16"
+              >huggingface.co/nvidia/NVIDIA-Nemotron-Labs-Dory1.0-4B-BF16</a
+            >
+            · 7,950,515,472 bytes
+          </p>
+          <p>
+            File digest:
+            <code
+              >sha256:207483664dfef54c4c4438863260d3ba423bf3d6009b43fe84264b281e9fda23</code
+            >, identical to the digest the Hugging Face API publishes for
+            this file
+          </p>
+          <p>
+            <a href="receipts/nemotron-dory-4b-receipt.json" download
+              >Receipt JSON</a
+            >
+            · Issued 2026-10-21 · One-byte tamper control: REJECTED
+          </p>
           <h2>Files</h2>
           <p>
             <a href="proof-issuer-public.der" download
               >proof-issuer-public.der</a
-            >, the public key for all six receipts.
+            >, the public key for all nine receipts.
           </p>
           <p>
             Methodology and raw command logs are available on request.
