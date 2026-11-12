@@ -85,13 +85,13 @@ mfenx-gate verify mobilenetv2-onnx-admission-receipt.json --trusted-public-key p
             machinery works, not that any model is good. Evaluation labels are
             each reference model's own argmax decisions on seeded noise inputs
             (<code>PCG64(20261022)</code>, standard normal), declared plainly,
-            not a ground-truth benchmark. They are signed under the same
-            demonstration key as the integrity records, issuer "MFENX
+            not a ground-truth benchmark. They were signed under the demonstration key then used for the integrity records, issuer "MFENX
             public-model proof (local test key)", key_id
             <code>sha256:0c2b883d981d3b927f06f68dec707408535abb8e0317ca34d276d68f83656953</code>,
             not a production trust root. Commercial releases are signed under
             the customer's own release authority. They expire on 2026-11-21
-            (30-day test validity). The ONNX model zoo publishes no SHA-256
+            (30-day test validity). They will not be reissued. The integrity records moved to a new key on 2026-11-11, key_id
+            <code>sha256:c4d053273e28de3abbdb3c46fde7a3f5eb9b01bb878908cbbf4a961b76f6edb1</code>, while these three stay under the key above until they expire. The ONNX model zoo publishes no SHA-256
             reference digests for model files, so the file digests below are
             measured from the downloaded bytes and recorded in the contracts.
           </p>
@@ -221,7 +221,7 @@ mfenx-gate verify mobilenetv2-onnx-admission-receipt.json --trusted-public-key p
           <p>
             <a href="proof-issuer-public.der" download
               >proof-issuer-public.der</a
-            >, the public key for all records (integrity plus behavioral).
+            >, the public key for these three behavioral records.
           </p>
           <p>
             Contracts, datasets, gate reports, and raw command logs for these
