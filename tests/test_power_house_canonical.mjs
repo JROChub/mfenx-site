@@ -12,7 +12,7 @@ test("Unicode provenance reproduces the Rust and Python v1 fingerprint", () => {
 });
 
 test("Malformed Unicode, unsafe integers and excessive depth reject", () => {
-  for (const value of ["\ud800", { "\udfff": 1 }, 2 ** 53, 1.5]) assert.throws(() => canonicalJson(value));
+  for (const value of ["\ud800", { "\udfff": 1 }, 2 ** 53, 1.5, -0]) assert.throws(() => canonicalJson(value));
   let deep = 0; for (let i = 0; i < 200; i++) deep = [deep];
   assert.throws(() => canonicalJson(deep), /nesting/);
 });

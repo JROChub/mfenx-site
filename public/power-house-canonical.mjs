@@ -19,7 +19,7 @@ export function compareUnicodeKeys(left, right) {
 export function canonicalJson(value, depth = 0) {
   if (depth >= 128) throw new Error("Power House JSON nesting exceeds limit");
   if (typeof value === "string") return validString(value);
-  if (typeof value === "number" && Number.isSafeInteger(value)) return JSON.stringify(value);
+  if (typeof value === "number" && Number.isSafeInteger(value) && !Object.is(value, -0)) return JSON.stringify(value);
   if (value === null || typeof value === "boolean") return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map((item) => canonicalJson(item, depth + 1)).join(",")}]`;
   if (value && typeof value === "object" && Object.getPrototypeOf(value) === Object.prototype) {
