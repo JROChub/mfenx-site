@@ -1,0 +1,23 @@
+{
+  "schema": "mfenx/tdx-collateral-channel-comparison/v1",
+  "same_quote_sha256": "1de269a9d8433f000962c044133c2e0fd2a3461ad02556d278395da7caa34a81",
+  "standard": {
+    "tcb_evaluation_data_number": 20,
+    "status": "UpToDate"
+  },
+  "early": {
+    "tcb_evaluation_data_number": 22,
+    "status": "OutOfDate",
+    "advisory_ids": [
+      "INTEL-SA-01379",
+      "INTEL-SA-01404",
+      "INTEL-SA-01428",
+      "INTEL-SA-01439",
+      "INTEL-SA-01442"
+    ]
+  },
+  "signed_collateral_verified": true,
+  "same_python_evaluator": true,
+  "native_qvl_early_status": "OutOfDate",
+  "full_profile_qualified": false
+}

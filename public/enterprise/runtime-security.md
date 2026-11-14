@@ -195,3 +195,18 @@ required; the complete confidential deployment profile is not qualified.
 The temporary VM was released and the API reported no active Pods.
 
 [Observed boundaries and signed evidence](https://mfenx.com/docs/admission/encrypted/#qualification)
+
+Measured runtime and TCB recovery, 14 November 2026
+
+Gate 1.1.0rc4 adds explicit encrypted-policy v2 measured-boot profiles while
+preserving v1 Initdata semantics. The self-contained image booted with seven
+matching quote reference fields. Native model-key delivery denied early-channel
+Intel appraisal number 22 with OutOfDate status; standard-channel number 20
+reported UpToDate for the same quote. Policy requires both TCB status fields,
+unexpired collateral and a protected minimum appraisal counter. The broker
+independently enforces the existing five-minute policy window.
+
+The frozen wheel passed 116 software/protocol/native-proof tests without skips.
+No protected model inference was recorded as successful. Host firmware recovery
+and subsequent key-release, inference and operational qualification remain
+required. See [measured runtime evidence](/docs/admission/measured/).

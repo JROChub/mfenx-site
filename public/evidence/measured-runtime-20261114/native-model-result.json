@@ -1,0 +1,5 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/opt/mfenx/observe_model.py\", line 12, in <module>\n    model=admit_encrypted_model(descriptor=(PACKET/'descriptor.json').read_bytes(),ciphertext=PACKET/'model.enc',receipt=(PACKET/'receipt.json').read_bytes(),trusted_public_key=(PACKET/'issuer.der').read_bytes(),policy=policy,trustee_client=ROOT/'kbs-client',broker_ca=PACKET/'broker-ca.pem')\n  File \"/opt/mfenx/lib/python3.14/site-packages/mfenx_gate/encrypted.py\", line 204, in admit_encrypted_model\n    key = retrieve_key(policy, resource=d.context[\"resource\"], client=trustee_client, ca=broker_ca)\n  File \"/opt/mfenx/lib/python3.14/site-packages/mfenx_gate/trustee.py\", line 92, in retrieve_key\n    raise ReceiptError(\"Trustee denied key delivery or returned an invalid response\")\nmfenx_gate.receipt.ReceiptError: Trustee denied key delivery or returned an invalid response\n"
+}

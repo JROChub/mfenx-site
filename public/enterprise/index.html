@@ -178,10 +178,10 @@
         </div>
       </div>
     <section class="document-body" aria-label="Enterprise admission update"><h2>Release-to-execution enforcement</h2>
-          <p>The current candidate integrates independent release policy, immutable CPU/CUDA loading, scoped model-evaluation proofs and durable session evidence. Protected immutable GitHub publication and authenticated H100 HTTPS serving have been exercised, including state migration and withdrawal before lease expiry. Qualification is specific to the tested boundary; the inspected hardware configuration did not provide confidential execution.</p>
+          <p>The current candidate integrates independent release policy, immutable CPU/CUDA loading, scoped model-evaluation proofs and durable session evidence. Protected immutable GitHub publication and authenticated H100 HTTPS serving have been exercised, including state migration and withdrawal before lease expiry. Qualification is specific to the tested boundary; the required confidential model profile remains unqualified.</p>
           <p><a href="/docs/admission/">Engineering, distributions and acceptance evidence</a></p>
-          <p><a href="/docs/admission/encrypted/">Encrypted admission and Trustee integration · rc3</a>: authenticated decryption into retained model bytes, independently pinned key delivery and 96 passing software tests. Hardware qualification remains deployment-specific.</p>
-          <p><a href="/docs/admission/encrypted/#qualification">H100 hardware observations</a>: fresh TDX/NVIDIA evidence, native recipient-bound canary delivery and ten CUDA tests passed. The strict model-key request denied the stock guest before parsing; approved launch binding and full deployment qualification remain required.</p>
+          <p><a href="/docs/admission/encrypted/">Encrypted admission and Trustee integration · rc4</a>: authenticated decryption into retained model bytes, independently pinned key delivery and 116 passing software tests. <a href="/docs/admission/measured/">Measured-boot references and an explicit TCB recovery floor</a> extend the policy; the inspected platform failed that hardware baseline.</p>
+          <p><a href="/docs/admission/measured/">Measured-runtime observations</a>: the self-contained image booted with matching quote references. Model-key release denied the out-of-date platform firmware baseline. <a href="/docs/admission/encrypted/#qualification">Earlier H100 canary and CUDA observations</a> remain separate from confidential model qualification.</p>
           </section>
     </main>
     <footer class="site-footer">

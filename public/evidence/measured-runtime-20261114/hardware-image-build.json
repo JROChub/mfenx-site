@@ -1,0 +1,24 @@
+{
+  "schema": "mfenx/efi-bootstrap-probe/v1",
+  "command_line": "console=ttyS0 rdinit=/init panic=-1 module.sig_enforce=1",
+  "confidential_model_execution_qualified": false,
+  "key_release_implemented": false,
+  "attestation_http_probe": false,
+  "operator_ssh_probe": true,
+  "network": {
+    "mac": "52:54:00:a5:e9:21",
+    "address": "172.16.2.2/24",
+    "gateway": "172.16.2.1"
+  },
+  "grub_version": "grub-mkstandalone (GRUB) 2.14-4+kali1",
+  "sha256": {
+    "bootstrap.efi": "b7d2c6953b7f2457523fa3ab1fffc23928df8c89daf5613a408f564ae2f586ab",
+    "vmlinuz": "1435b734f9287de2cc0ae5dd99262c91305a59385f7457d9e2e0a6e79be06aef",
+    "initrd.gz": "c5c7d57c200c60e57a2b89159a36c04c021e9ba1ee534ad3e40ecf634018da99",
+    "grub.cfg": "c3d807550b3315cb3c1751ff8d528b19d7a11b1517a7d7cfab391a098589802f"
+  },
+  "busybox_sha256": "5626c86dfd2089351908253dda9263f06b87ce3a1a420499925302172f07ec85",
+  "policy_sha256": "sha256:c910147e590382c971201ce851ef370d4c30ac68298fdccb2e28882d29c086d4",
+  "policy_expires_at": "2026-11-14T18:45:13Z",
+  "overlay_sha256": "sha256:7af79794efd4d21cf403ee82e7fc9508e38e55944330dc1a0a71f8276f8a7521"
+}

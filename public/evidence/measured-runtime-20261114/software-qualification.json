@@ -1,0 +1,15 @@
+{
+  "schema": "mfenx/measured-runtime-software-qualification/v1",
+  "wheel_version": "1.1.0rc4",
+  "wheel_sha256": "0d426d3ed5ba0209617e1585fc3360fc78c6145408b4cfeef862621d9008e35c",
+  "wheel_bytes": 39999,
+  "installed_modules_identical": 14,
+  "tests": 116,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "cpu_compatibility_tests": 99,
+  "native_local_protocol_tests": 13,
+  "actual_native_encrypted_proof_tests": 4,
+  "full_confidential_model_profile_qualified": false
+}

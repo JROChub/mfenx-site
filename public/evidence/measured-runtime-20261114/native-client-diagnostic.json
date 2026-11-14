@@ -1,0 +1,5 @@
+{
+  "returncode": 1,
+  "output_bytes": 0,
+  "stderr": "\u001b[2m2026-11-14T18:42:42.804473Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mkbs_protocol::client::rcar_client\u001b[0m\u001b[2m:\u001b[0m Authenticating with KBS failed. Perform a new RCAR handshake: ErrorInformation {\n    error_type: \"https://github.com/confidential-containers/kbs/errors/TokenNotFound\",\n    detail: \"Attestation Token not found\",\n}\n\u001b[2m2026-11-14T18:42:44.056099Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mkbs_protocol::client::rcar_client\u001b[0m\u001b[2m:\u001b[0m Authenticating with KBS failed. Perform a new RCAR handshake: ErrorInformation {\n    error_type: \"https://github.com/confidential-containers/kbs/errors/PolicyDeny\",\n    detail: \"Access denied by policy\",\n}\n\u001b[2m2026-11-14T18:42:45.341035Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mkbs_protocol::client::rcar_client\u001b[0m\u001b[2m:\u001b[0m Authenticating with KBS failed. Perform a new RCAR handshake: ErrorInformation {\n    error_type: \"https://github.com/confidential-containers/kbs/errors/PolicyDeny\",\n    detail: \"Access denied by policy\",\n}\nError: request unauthorized\n"
+}

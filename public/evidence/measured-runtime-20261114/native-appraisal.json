@@ -1,0 +1,536 @@
+{
+  "returncode": 0,
+  "claims": {
+    "eat_profile": "tag:github.com,2024:confidential-containers/Trustee",
+    "iat": 1794681791,
+    "ear.verifier-id": {
+      "developer": "https://confidentialcontainers.org",
+      "build": "attestation-service 0.1.0"
+    },
+    "submods": {
+      "cpu0": {
+        "ear.status": "contraindicated",
+        "ear.trustworthiness-vector": {
+          "instance-identity": 0,
+          "configuration": 2,
+          "executables": 3,
+          "file-system": 0,
+          "hardware": 97,
+          "runtime-opaque": 0,
+          "storage-opaque": 0,
+          "sourced-data": 0
+        },
+        "ear.appraisal-policy-id": "default",
+        "ear.veraison.annotated-evidence": {
+          "init_data": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "init_data_claims": null,
+          "report_data": "b77285499a90bcedb8c2e8a541c5b6643b9f44edc5b2ff0d05daa95f98a2af1725fe669685e74d5c5a1ee85e0218e64b00000000000000000000000000000000",
+          "runtime_data_claims": {
+            "additional-evidence": "",
+            "nonce": "FeTsIk2eG7FhW94C6snB9H5YlOafPUyjT8L4lRJEOb4=",
+            "tee-pubkey": {
+              "alg": "ECDH-ES+A256KW",
+              "crv": "P-256",
+              "kty": "EC",
+              "x": "TnHychOUO2VWp-VyRjlmmapDX2e9GzFfeZ7DhQFiqRw",
+              "y": "rlFm-oveUSXV3o6aeg76JvPAb3zyiidb3_ngGBRTTLs"
+            }
+          },
+          "tdx": {
+            "advisory_ids": [
+              "INTEL-SA-01379",
+              "INTEL-SA-01404",
+              "INTEL-SA-01419",
+              "INTEL-SA-01428",
+              "INTEL-SA-01436",
+              "INTEL-SA-01439",
+              "INTEL-SA-01442"
+            ],
+            "advisory_ids_current": [
+              "INTEL-SA-01379",
+              "INTEL-SA-01404",
+              "INTEL-SA-01419",
+              "INTEL-SA-01428",
+              "INTEL-SA-01436",
+              "INTEL-SA-01439",
+              "INTEL-SA-01442"
+            ],
+            "collateral_expiration_status": "0",
+            "earliest_expiration_date": "2026-12-14T17:28:57Z",
+            "earliest_issue_date": "2018-05-21T10:45:10Z",
+            "is_cached_keys": true,
+            "is_dynamic_platform": true,
+            "is_smt_enabled": true,
+            "latest_issue_date": "2026-11-14T18:01:06Z",
+            "pck_crl_num": 1,
+            "platform_instance_id": "232a5421f4164d32ff79495de1158953",
+            "platform_provider_id": "6b1b8e7ff3fa15084749033f22d14466",
+            "quote": {
+              "body": {
+                "mr_config_id": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "mr_owner": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "mr_owner_config": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "mr_seam": "f40772d82608da5443887dd7247be3e0092927e62409a9bb8da98eaed9017704be075466a13d3ca30501000d69407495",
+                "mr_td": "eea8b6a814569a52bd1e12f6b869bb2d9c0c8a7a43e658ffc3b42c199f116157ea7f04d359c7fdfd8ac483152cc13542",
+                "mrsigner_seam": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "report_data": "b77285499a90bcedb8c2e8a541c5b6643b9f44edc5b2ff0d05daa95f98a2af1725fe669685e74d5c5a1ee85e0218e64b00000000000000000000000000000000",
+                "rtmr_0": "75cf6911917a4923576de3b489d14039406bc8f40c4ee88055954d46966e5506657ce16ff9360de8767a3e3fbe18a235",
+                "rtmr_1": "4a4ea6dac42c6d3abb2cd6fbaaa99fec888ab30dbc479f14fa1a1b51f9881d62a593791ef7c761014f7a4bbb568c5f31",
+                "rtmr_2": "8b7df0848916688ec7a093ec49c8db92157a810e57f204c25abd7994ce9563c8b9ad83582aa2c3395ede73212e3f6f5d",
+                "rtmr_3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "seam_attributes": "0000000000000000",
+                "tcb_svn": "08030700000000000000000000000000",
+                "td_attributes": "0000001000000000",
+                "xfam": "e702060000000000"
+              },
+              "header": {
+                "att_key_type": "0200",
+                "reserved": "00000000",
+                "tee_type": "81000000",
+                "user_data": "553653f22adebbb3f795acf2ba97769000000000",
+                "vendor_id": "939a7233f79c4ca9940a0db3957f0607",
+                "version": "0400"
+              }
+            },
+            "root_ca_crl_num": 1,
+            "root_key_id": "46e403bd34f05a3f2817ab9badcaacc7ffc98e0f261008cd30dae936cace18d5dcf58eef31463613de1570d516200993",
+            "sgx_type": "Scalable",
+            "tcb_date": "2026-02-11T00:00:00Z",
+            "tcb_date_current": "2026-02-11T00:00:00Z",
+            "tcb_eval_num": 22,
+            "tcb_status": "OutOfDate",
+            "tcb_status_current": "OutOfDate",
+            "td_attributes": {
+              "debug": false,
+              "key_locker": false,
+              "perfmon": false,
+              "protection_keys": false,
+              "septve_disable": true
+            },
+            "uefi_event_logs": [
+              {
+                "details": {
+                  "string": "TdxTable"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "730e7aeda937ae8961127f1a048846484b39048ba5797afb3a896c777217d65e97ffb29ae368fd1b5bdf4263d66d7b2d"
+                  }
+                ],
+                "event": "CVRkeFRhYmxlAAEAAAAAAAAAr5a7k/K5uE6UYuC6dFZCNgCQgAAAAAAA",
+                "index": 1,
+                "type_name": "EV_EFI_HANDOFF_TABLES2"
+              },
+              {
+                "details": {
+                  "string": "Fv(XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "344bc51c980ba621aaa00da3ed7436f7d6e549197dfe699515dfa2c6583d95e6412af21c097d473155875ffd561d6790"
+                  }
+                ],
+                "event": "KUZ2KFhYWFhYWFhYLVhYWFgtWFhYWC1YWFhYLVhYWFhYWFhYWFhYWCkAAADA/wAAAAAAQAgAAAAAAA==",
+                "index": 1,
+                "type_name": "EV_EFI_PLATFORM_FIRMWARE_BLOB2"
+              },
+              {
+                "details": {
+                  "unicode_name": "SecureBoot",
+                  "unicode_name_length": 10,
+                  "variable_data": "",
+                  "variable_data_length": 0,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "9dc3a1f80bcec915391dcda5ffbb15e7419f77eab462bbf72b42166fb70d50325e37b36f93537a863769bcf9bedae6fb"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAoAAAAAAAAAAAAAAAAAAABTAGUAYwB1AHIAZQBCAG8AbwB0AA==",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_DRIVER_CONFIG"
+              },
+              {
+                "details": {
+                  "unicode_name": "PK",
+                  "unicode_name_length": 2,
+                  "variable_data": "",
+                  "variable_data_length": 0,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "6f2e3cbc14f9def86980f5f66fd85e99d63e69a73014ed8a5633ce56eca5b64b692108c56110e22acadcef58c3250f1b"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAIAAAAAAAAAAAAAAAAAAABQAEsA",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_DRIVER_CONFIG"
+              },
+              {
+                "details": {
+                  "unicode_name": "KEK",
+                  "unicode_name_length": 3,
+                  "variable_data": "",
+                  "variable_data_length": 0,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "d607c0efb41c0d757d69bca0615c3a9ac0b1db06c557d992e906c6b7dee40e0e031640c7bfd7bcd35844ef9edeadc6f9"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAMAAAAAAAAAAAAAAAAAAABLAEUASwA=",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_DRIVER_CONFIG"
+              },
+              {
+                "details": {
+                  "unicode_name": "db",
+                  "unicode_name_length": 2,
+                  "variable_data": "",
+                  "variable_data_length": 0,
+                  "variable_name": "cbb219d7-3a3d-9645-a3bc-dad00e67656f"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "08a74f8963b337acb6c93682f934496373679dd26af1089cb4eaf0c30cf260a12e814856385ab8843e56a9acea19e127"
+                  }
+                ],
+                "event": "y7IZ1zo9lkWjvNrQDmdlbwIAAAAAAAAAAAAAAAAAAABkAGIA",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_DRIVER_CONFIG"
+              },
+              {
+                "details": {
+                  "unicode_name": "dbx",
+                  "unicode_name_length": 3,
+                  "variable_data": "",
+                  "variable_data_length": 0,
+                  "variable_name": "cbb219d7-3a3d-9645-a3bc-dad00e67656f"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "18cc6e01f0c6ea99aa23f8a280423e94ad81d96d0aeb5180504fc0f7a40cb3619dd39bd6a95ec1680a86ed6ab0f9828d"
+                  }
+                ],
+                "event": "y7IZ1zo9lkWjvNrQDmdlbwMAAAAAAAAAAAAAAAAAAABkAGIAeAA=",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_DRIVER_CONFIG"
+              },
+              {
+                "details": {},
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "394341b7182cd227c5c6b07ef8000cdfd86136c4292b8e576573ad7ed9ae41019f5818b4b971c9effc60e1ad9f1289f0"
+                  }
+                ],
+                "event": "AAAAAA==",
+                "index": 1,
+                "type_name": "EV_SEPARATOR"
+              },
+              {
+                "details": {
+                  "string": "ACPI DATA"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "7e2ec1e284ca7d88c1eea7d72e982b10bc2a3f780213664fba1af0f717404827cd6b1c3963c5eb573b250bac02f876b0"
+                  }
+                ],
+                "event": "QUNQSSBEQVRB",
+                "index": 1,
+                "type_name": "EV_PLATFORM_CONFIG_FLAGS"
+              },
+              {
+                "details": {
+                  "string": "ACPI DATA"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "4f3ca703ede3d9b55736a6ab778fad714596c512146045eaf699a77cf52eafa0975f94e651311ba862145839b3da298c"
+                  }
+                ],
+                "event": "QUNQSSBEQVRB",
+                "index": 1,
+                "type_name": "EV_PLATFORM_CONFIG_FLAGS"
+              },
+              {
+                "details": {
+                  "string": "ACPI DATA"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "5e98b8a1ca99fa74a240f16eb125db5a0133491cd589ab6a4b0769b4bbdc62ff928ae02ff6ef370f7504eabef7fc0f6e"
+                  }
+                ],
+                "event": "QUNQSSBEQVRB",
+                "index": 1,
+                "type_name": "EV_PLATFORM_CONFIG_FLAGS"
+              },
+              {
+                "details": {
+                  "unicode_name": "BootOrder",
+                  "unicode_name_length": 9,
+                  "variable_data": "BwABAAAABgA=",
+                  "variable_data_length": 8,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "16d8c71c9be58b7fc57553ad5252297f643979fa5b34241023733f119c771637a0492c631f2a9b063edb139bfb6b9d96"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAkAAAAAAAAACAAAAAAAAABCAG8AbwB0AE8AcgBkAGUAcgAHAAEAAAAGAA==",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_BOOT"
+              },
+              {
+                "details": {
+                  "unicode_name": "Boot0007",
+                  "unicode_name_length": 8,
+                  "variable_data": "AQAAAGIAVQBiAHUAbgB0AHUAAAAEASoAAQAAAAAIAAAAAAAAAJghAAAAAAAuWyrw3hNCSYFbKsbMGAeYAgIEBDQAXABFAEYASQBcAHUAYgB1AG4AdAB1AFwAcwBoAGkAbQB4ADYANAAuAGUAZgBpAAAAf/8EAA==",
+                  "variable_data_length": 118,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "3ce254af70de95f60e80fe6ff3def7d3b31b35cd38a04289521a16b0c65dd0d783ac1d4792c3bb8d111d74dd36662a0c"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAgAAAAAAAAAdgAAAAAAAABCAG8AbwB0ADAAMAAwADcAAQAAAGIAVQBiAHUAbgB0AHUAAAAEASoAAQAAAAAIAAAAAAAAAJghAAAAAAAuWyrw3hNCSYFbKsbMGAeYAgIEBDQAXABFAEYASQBcAHUAYgB1AG4AdAB1AFwAcwBoAGkAbQB4ADYANAAuAGUAZgBpAAAAf/8EAA==",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_BOOT"
+              },
+              {
+                "details": {
+                  "unicode_name": "Boot0001",
+                  "unicode_name_length": 8,
+                  "variable_data": "AQAAABYAVQBFAEYASQAgAE0AaQBzAGMAIABEAGUAdgBpAGMAZQAAAAIBDADQQQMKAAAAAAEBBgAABn//BABOrAiBEZ9ZTYUO4hpSLFmy",
+                  "variable_data_length": 78,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "a99786c2e6cac6c7560701e6a1025a18d83ea29b5f48e9bb8f269c0bbbeaa94d9294b33ce137bcfa7c0c9bffc245e94f"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAgAAAAAAAAATgAAAAAAAABCAG8AbwB0ADAAMAAwADEAAQAAABYAVQBFAEYASQAgAE0AaQBzAGMAIABEAGUAdgBpAGMAZQAAAAIBDADQQQMKAAAAAAEBBgAABn//BABOrAiBEZ9ZTYUO4hpSLFmy",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_BOOT"
+              },
+              {
+                "details": {
+                  "unicode_name": "Boot0000",
+                  "unicode_name_length": 8,
+                  "variable_data": "CQEAACwAVQBpAEEAcABwAAAABAcUAMm9uHzr+DRPquo+5K9lFqEEBhQAIaosRhR2A0WDboq29GYjMX//BAA=",
+                  "variable_data_length": 62,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "23ada07f5261f12f34a0bd8e46760962d6b4d576a416f1fea1c64bc656b1d28eacf7047ae6e967c58fd2a98bfa74c298"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAgAAAAAAAAAPgAAAAAAAABCAG8AbwB0ADAAMAAwADAACQEAACwAVQBpAEEAcABwAAAABAcUAMm9uHzr+DRPquo+5K9lFqEEBhQAIaosRhR2A0WDboq29GYjMX//BAA=",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_BOOT"
+              },
+              {
+                "details": {
+                  "unicode_name": "Boot0006",
+                  "unicode_name_length": 8,
+                  "variable_data": "AQAAACwARQBGAEkAIABJAG4AdABlAHIAbgBhAGwAIABTAGgAZQBsAGwAAAAEBxQAyb24fOv4NE+q6j7kr2UWoQQGFACDpQR8Pp4cT61l4FJo0LTRf/8EAA==",
+                  "variable_data_length": 88,
+                  "variable_name": "61dfe48b-ca93-d211-aa0d-00e098032b8c"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "f0fb2cdcc47bf204b41a858f6878b5809c3a9bf6acbd5c4a130f666937a710070c5cf959d3b59c8007b6e63018097d9a"
+                  }
+                ],
+                "event": "Yd/ki8qT0hGqDQDgmAMrjAgAAAAAAAAAWAAAAAAAAABCAG8AbwB0ADAAMAAwADYAAQAAACwARQBGAEkAIABJAG4AdABlAHIAbgBhAGwAIABTAGgAZQBsAGwAAAAEBxQAyb24fOv4NE+q6j7kr2UWoQQGFACDpQR8Pp4cT61l4FJo0LTRf/8EAA==",
+                "index": 1,
+                "type_name": "EV_EFI_VARIABLE_BOOT"
+              },
+              {
+                "details": {
+                  "string": "Calling EFI Application from Boot Option"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "77a0dab2312b4e1e57a84d865a21e5b2ee8d677a21012ada819d0a98988078d3d740f6346bfe0abaa938ca20439a8d71"
+                  }
+                ],
+                "event": "Q2FsbGluZyBFRkkgQXBwbGljYXRpb24gZnJvbSBCb290IE9wdGlvbg==",
+                "index": 2,
+                "type_name": "EV_EFI_ACTION"
+              },
+              {
+                "details": {},
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "394341b7182cd227c5c6b07ef8000cdfd86136c4292b8e576573ad7ed9ae41019f5818b4b971c9effc60e1ad9f1289f0"
+                  }
+                ],
+                "event": "AAAAAA==",
+                "index": 2,
+                "type_name": "EV_SEPARATOR"
+              },
+              {
+                "details": {},
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "d233f841e963ff486cf847a4ec6d50f5ccea0537650de56e32938818aca0185dbf766b0f5b7aecf03ff20f51c4d31d53"
+                  }
+                ],
+                "event": "RUZJIFBBUlQAAAEAXAAAAFamyzcAAAAAAQAAAAAAAAD///8nAAAAACIAAAAAAAAA3v//JwAAAAD8NQRLIFNhS6hXyRvzk/Y0AgAAAAAAAACAAAAAgAAAAFlsMsIDAAAAAAAAAChzKsEf+NIRuksAoMk+yTsuWyrw3hNCSYFbKsbMGAeYAAgAAAAAAAD/nyEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAArz3GD4OEckeOeT1p2Ed95FcVbjK/lyxOp+Zhf+szhvMAoCEAAAAAAP+fYQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACvPcYPg4RyR455PWnYR33kjs6R+5gJUkya5Osl0ze0swCgYQAAAAAA3v//JwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "index": 2,
+                "type_name": "EV_EFI_GPT_EVENT"
+              },
+              {
+                "details": {
+                  "device_paths": [
+                    "ACPI(PNP0A03,0)",
+                    "Pci(0,6)",
+                    "HD(1,GPT,F02A5B2E-13DE-4942-815B-2AC6CC180798,0x800,0x219800)",
+                    "File(\\EFI\\ubuntu\\shimx64.efi)"
+                  ]
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "3271330e4a4cbaf9a92a46a8e0a6056b2dae97eec573c5a51305984d1cbb4df0b0be9e596ed1e2e7c07b18ca4b96cf09"
+                  }
+                ],
+                "event": "GECodAAAAAAAkM8GAAAAAAAAAAAAAAAAdAAAAAAAAAACAQwA0EEDCgAAAAABAQYAAAYEASoAAQAAAAAIAAAAAAAAAJghAAAAAAAuWyrw3hNCSYFbKsbMGAeYAgIEBDQAXABFAEYASQBcAHUAYgB1AG4AdAB1AFwAcwBoAGkAbQB4ADYANAAuAGUAZgBpAAAAf/8EAA==",
+                "index": 2,
+                "type_name": "EV_EFI_BOOT_SERVICES_APPLICATION"
+              },
+              {
+                "details": {
+                  "device_paths": [
+                    "Path(1,3,020000000090b57c0000000088199b7d00000000)"
+                  ]
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "04c7c65a2da717b399110c2cf9a5d04988d6129eb146832f465508d30d40226f3f7af2cecdebb8eaeb6323787b705095"
+                  }
+                ],
+                "event": "AJC1fAAAAACIieUAAAAAAAAAAAAAAAAAHAAAAAAAAAABAxgAAgAAAACQtXwAAAAAiBmbfQAAAAB//wQA",
+                "index": 2,
+                "type_name": "EV_EFI_BOOT_SERVICES_APPLICATION"
+              },
+              {
+                "details": {
+                  "string": "LOADED_IMAGE::LoadOptions"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "1fd945af61785d842c205c7d1e5513092dd9e51a3e10bfd13479bdfd403c38d38156db6a62f67e73982710c42d2f3e69"
+                  }
+                ],
+                "event": "7SI7jxoAAABMT0FERURfSU1BR0U6OkxvYWRPcHRpb25zAA==",
+                "index": 3,
+                "type_name": "EV_EVENT_TAG"
+              },
+              {
+                "details": {
+                  "string": "Linux initrd"
+                },
+                "digest_matches_event": false,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "64180a4dd7621e89d86e646363824069d4d69bbef14657857e47f2dbedbd3fa466faf70c7fc478357934dc1f06e89ae2"
+                  }
+                ],
+                "event": "7CI7jw0AAABMaW51eCBpbml0cmQA",
+                "index": 3,
+                "type_name": "EV_EVENT_TAG"
+              },
+              {
+                "details": {
+                  "string": "Exit Boot Services Invocation"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "214b0bef1379756011344877743fdc2a5382bac6e70362d624ccf3f654407c1b4badf7d8f9295dd3dabdef65b27677e0"
+                  }
+                ],
+                "event": "RXhpdCBCb290IFNlcnZpY2VzIEludm9jYXRpb24=",
+                "index": 2,
+                "type_name": "EV_EFI_ACTION"
+              },
+              {
+                "details": {
+                  "string": "Exit Boot Services Returned with Success"
+                },
+                "digest_matches_event": true,
+                "digests": [
+                  {
+                    "alg": "SHA-384",
+                    "digest": "0a2e01c85deae718a530ad8c6d20a84009babe6c8989269e950d8cf440c6e997695e64d455c4174a652cd080f6230b74"
+                  }
+                ],
+                "event": "RXhpdCBCb290IFNlcnZpY2VzIFJldHVybmVkIHdpdGggU3VjY2Vzcw==",
+                "index": 2,
+                "type_name": "EV_EFI_ACTION"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "exp": 1794681851,
+    "iss": "CoCo-Attestation-Service"
+  },
+  "stderr": ""
+}

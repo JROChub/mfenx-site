@@ -1,0 +1,15 @@
+{
+  "schema": "mfenx/firmware-reference-investigation/v1",
+  "package": "ovmf",
+  "version": "2025.02-8ubuntu3",
+  "package_sha256": "498438a464ca4f110dd5e92bfd810bc501fdb5482d4e094af603776caf33a485",
+  "firmware_sha256": "a8135e3ddf1a3217cf36fa579c3cd24baed74a7879a656a5d7097e828af0a72e",
+  "mrtd": "eea8b6a814569a52bd1e12f6b869bb2d9c0c8a7a43e658ffc3b42c199f116157ea7f04d359c7fdfd8ac483152cc13542",
+  "matches_retained_hardware_quote": true,
+  "ubuntu_archive_signature_verified": true,
+  "archive_key_fingerprint": "F6ECB3762474EDA9D21B7022871920D1991BC93C",
+  "snapshot": "20251010T000000Z",
+  "calculator_revision": "08fc6201b576e8f19a16252125f416d8203a93a3",
+  "calculator_change": "Research-only public wrapper of existing TDVF MRTD function; algorithm unchanged",
+  "full_profile_qualified": false
+}
