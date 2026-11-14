@@ -1,0 +1,9 @@
+{
+  "schema": "mfenx/encrypted-candidate-build/v1",
+  "source_revision": "6b8f993d44efa8c6b6dc104f62e395e5d8cd283e",
+  "file": "mfenx_gate-1.1.0rc2-py3-none-any.whl",
+  "bytes": 36994,
+  "sha256": "27f9667f22555d2414a4de96fba1914b318af62495cbe442a1503bccdb6d3ee8",
+  "two_builds_identical": true,
+  "source_date_epoch": 1767225600
+}

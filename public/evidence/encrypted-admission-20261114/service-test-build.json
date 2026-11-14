@@ -1,0 +1,10 @@
+{
+  "schema": "mfenx/trustee-service-test-build/v1",
+  "source_revision": "512fed65642015b849f38fb13bfdec7806639987",
+  "upstream_lock_sha256": "2825e03527615a351dde2dabe2ad25edef483c3ac627ca2e2658863264ae5087",
+  "features": "coco-as-builtin-no-verifier,attestation-service",
+  "hardware_verifiers": false,
+  "hardware_qualified": false,
+  "server_sha256": "45da7e4148f1a7ec4b059337eed536fd843c5687951fd437d11cd3983ebb5740",
+  "manifest_sha256": "b7165be1dfe37de28c9af57eeca991c21f78dd4fa706df22c941e0e633c5a431"
+}

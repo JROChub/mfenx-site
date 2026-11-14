@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="tdm-reservation" content="1" />
+    <meta name="tdm-policy" content="https://mfenx.com/tweek/policy/no-ai/" />
+    <meta name="robots" content="noai, noimageai" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8fa" />
+    <title>MFENX</title>
+    <meta
+      name="description"
+      content="MFENX encrypted model distribution, Trustee integration and retained-byte admission evidence."
+    />
+    <link rel="canonical" href="https://mfenx.com/docs/admission/encrypted/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a>
+        <a href="/lightsout/">Lights Out</a>
+        <a href="/labs/">Technology</a>
+        <a href="/docs/">Developers</a>
+        <a href="/company/">Company</a>
+        <a href="/pricing/">Pricing</a>
+        <a class="nav-start" href="/verify/">Verify a receipt</a>
+      </nav>
+    </header>
+    <main class="page" id="content" tabindex="-1">
+<section class="document-head"><div><div class="section-label">MFENX / Encrypted distribution</div><h1>Encrypted model admission</h1><p>Authenticated decryption into the retained-byte loader, with independently configured Trustee key delivery.</p></div><aside>Software integration record<br>14 November 2026<br>Gate 1.1.0rc2</aside></section>
+<div class="document-grid document-body"><nav class="contents" aria-label="On this page"><a href="#boundary">Security boundary</a><a href="#flow">Admission flow</a><a href="#policy">Policy and launch identity</a><a href="#tests">Observed tests</a><a href="#qualification">Hardware qualification</a><a href="#downloads">Source and distributions</a></nav><div class="reading">
+<h2 id="boundary">Security boundary</h2>
+<p>The rc2 candidate extends the existing software admission path. The producer encrypts an already authenticated model with a fresh AES-256-GCM key and nonce. The distribution contains the ciphertext and versioned descriptor; the key remains a separate provisioning artifact. The loader authenticates the entire encrypted model before passing retained immutable plaintext bytes to the existing ONNX validator and runtime. This path creates no plaintext checkpoint file.</p>
+<p>The supported bound remains a self-contained ONNX model of at most 64 MiB. It is not an encrypted sharded-model runtime. Receipt v1 signatures, existing CPU/CUDA profiles and PHA/Rootprint identities retain their meanings. The rc1 downloads and observations remain available unchanged.</p>
+<h2 id="flow">Release, key delivery and inference</h2>
+<pre><code>Authenticated release + exact plaintext identity
+    → encrypted artifact + independently approved descriptor
+    → measured workload + upstream Trustee protocol
+    → scoped recipient-bound key delivery
+    → complete AEAD authentication + plaintext identity check
+    → existing model/proof/lineage admission
+    → retained model loading + authorized serving</code></pre>
+<p>MFENX uses the upstream Trustee protocol for fresh evidence, recipient keys and encrypted resource delivery. The constrained client accepts only the approved HTTPS origin and certificate roots, follows no redirects and receives no caller-provided cached token, recipient-key file, proxy setting or administrator credential. Its executable and certificate are copied into sealed Linux memory objects and checked against independent policy pins.</p>
+<p>The adapter acquires the returned key through an anonymous memory file, accepts exactly 32 key bytes and applies child memory, CPU, wall-time and output-size limits. It does not log the key. Python and native code may create memory copies; deleting a reference does not establish zeroization. Protected guest memory, swap, dumps and teardown require actual hardware qualification.</p>
+<h2 id="policy">Complete policy and measured launch identity</h2>
+<p>The additive policy <code>mfenx/encrypted-admission-policy/v1</code> binds the existing admission policy, descriptor digest, broker origin, broker CA and client executable. The entire wrapper digest participates in the existing persistent epoch/floor checks. Changing distribution or broker configuration at the same epoch cannot reopen a durable authority.</p>
+<p>The approval tool generates exact-byte TOML launch data in the pinned Trustee v0.22 format. The resource policy requires the selected TDX or SNP CPU evidence class, a NVIDIA GPU submodule, affirming appraisals, explicit trust-vector values, the approved resource and matching measured launch claims. Passing launch data at runtime is insufficient: the actual guest must bind its digest into the attested launch measurement.</p>
+<p>Trustee must authenticate attestation-token signer roots and perform vendor verification and reference-value appraisal. The generic upstream sample/default resource policy does not satisfy the MFENX deployment policy. Broker denial stops new key acquisition; revoking already loaded sessions additionally requires serving-policy withdrawal or lease expiry. An already delivered key cannot be retracted from its recipient.</p>
+<h2 id="tests">Observed software enforcement</h2>
+<p>The frozen rc2 wheel passed 89 tests with zero skips, errors or failures. The run included 19 encryption/loader cases and 12 actual local Trustee integration cases, alongside receipt, legacy adapter, CPU admission, recovery and gateway tests. Every installed SDK module matched the frozen wheel. Two source builds produced identical 36,994-byte wheel contents.</p>
+<table><caption>Observed boundaries and their limits</caption><thead><tr><th scope="col">Boundary</th><th scope="col">Observed effect</th></tr></thead><tbody>
+<tr><th scope="row">Ciphertext integrity</th><td>Corruption, truncation, wrong keys and changed authenticated context reject before ONNX parsing.</td></tr>
+<tr><th scope="row">Retained ownership</th><td>Ciphertext replacement during key delivery does not replace the retained object. Actual decrypted ONNX inference returns the expected output.</td></tr>
+<tr><th scope="row">Key delivery</th><td>The real local TLS/JWE protocol delivers the resource to its intended recipient; another recipient key cannot decrypt the response.</td></tr>
+<tr><th scope="row">Authority and policy</th><td>Unendorsed signers, unauthorized administrators, expired tokens, wrong CPU/GPU claim types, missing measurements and broker redirects reject.</td></tr>
+<tr><th scope="row">Serving lifecycle</th><td>The encrypted-input gateway serves after admission, records distribution identity and cannot reopen its listener after broker denial. Serving-policy revocation denies subsequent inference.</td></tr>
+<tr><th scope="row">Hardware evidence</th><td>Sample evidence is denied by the strict CPU/GPU policy. Synthetic signed EAR controls test policy logic; they do not qualify hardware.</td></tr>
+</tbody></table>
+<h2 id="qualification">Hardware qualification and operating cost</h2>
+<p>This is software integration evidence, not a confidential-computing deployment certificate. A protected-execution profile still needs a supported measured CPU/GPU guest, real vendor attestation, scoped key delivery inside that boundary, protected loading, and demonstrated failure and recovery behavior. The previously inspected Runpod allocation did not provide those prerequisites.</p>
+<p>The new preflight tool checks capabilities without creating cloud resources and cannot authorize a key. The build tools pin upstream revisions and dependencies. Local service tests use an explicitly identified sample-only build; that binary is not a production attestation service. No GPU or VPS was rented for this software qualification.</p>
+<p>Establish an actual compatible configuration and minimum rental commitment before paying for further qualification. DigitalOcean's documented bare-metal product uses contract-based eight-GPU servers; ordinary single-GPU prices cannot be treated as that product's price. The software and failure tests can be prepared locally before the compatible hardware session.</p>
+<h2 id="downloads">Candidate, source and retained evidence</h2>
+<ul><li><a href="/gate/downloads/mfenx_gate-1.1.0rc2-py3-none-any.whl" download>Gate 1.1.0rc2 wheel</a> · 36,994 bytes<br>SHA-256 <code>27f9667f22555d2414a4de96fba1914b318af62495cbe442a1503bccdb6d3ee8</code></li>
+<li><a href="/evidence/encrypted-admission-20261114/encrypted-admission-source.zip" download>Implementation, examples, tests, build tools and protocol procedure</a></li>
+<li><a href="/evidence/encrypted-admission-20261114/qualification.json">Installed-wheel qualification record</a> · <a href="/evidence/encrypted-admission-20261114/tests.txt">89 test observations</a> · <a href="/evidence/encrypted-admission-20261114/candidate-build.json">Candidate build identity</a></li>
+<li><a href="/evidence/encrypted-admission-20261114/client-build.json">Constrained client build</a> · <a href="/evidence/encrypted-admission-20261114/service-test-build.json">Sample-only test service build</a> · <a href="/evidence/encrypted-admission-20261114/client-Cargo.lock" download>Derived dependency lock</a> · <a href="/evidence/encrypted-admission-20261114/SHA256SUMS">File checksums</a></li></ul>
+<p>These are engineering candidates. Their artifacts do not enroll a customer release authority or install a protected guest. <a href="/docs/admission/">Earlier admission and model-proof evidence</a> · <a href="/enterprise/runtime-security.md">Runtime security and data flow</a> · <a href="https://confidentialcontainers.org/docs/attestation/architecture/">Upstream Trustee architecture</a> · <a href="https://docs.digitalocean.com/products/bare-metal-gpus/details/pricing/">DigitalOcean bare-metal billing</a></p>
+</div></div></main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a
+        ><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>
