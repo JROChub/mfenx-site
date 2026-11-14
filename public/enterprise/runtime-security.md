@@ -65,3 +65,41 @@ establish confidential GPU execution, hardware-bound key delivery or a proof
 of model inference. Those profiles require independent hardware and workload
 qualification before deployment. Protected publication and deployment must
 reverify the exact promoted object rather than resolve a mutable model tag.
+
+Observed CUDA and publication boundaries
+
+The additive candidate profile `onnx-cuda12-owned-bytes/v1` was exercised on
+an RTX 4090 with ONNX Runtime GPU 1.26.0 and CUDA 12.8. Nine hardware tests
+passed without skips, including loading after pathname replacement, repeated
+device execution, runtime-configuration pinning and native CPU-placement
+fallback rejection. Under a separately declared test contract, 1,797 rows
+produced identical CPU/CUDA class decisions; maximum absolute logit difference
+was 7.62939453125e-06 against a predeclared tolerance of 0.0001. The test used
+a temporary test authority. It does not alter the existing CPU release
+contract or authorize production deployment. GPU memory quotas and isolated
+worker enforcement remain separate qualification requirements.
+
+The model-gate action also completed an
+[immutable publication transport test](https://github.com/JROChub/model-gate-action/actions/runs/43557513072).
+A separate runner downloaded the exact artifact ID and checked retained model,
+receipt and promotion-record digests before repeating Gate verification with
+an independent test key. Same-size substitutions and an unauthorized issuer
+were rejected. This test does not configure a customer's protected release
+authority or permanent artifact registry.
+
+The Power House security candidate upgrades the optional RISC Zero backend to
+3.1.0 for
+[GHSA-g6qg-9j8p-7j87](https://github.com/risc0/risc0/security/advisories/GHSA-g6qg-9j8p-7j87).
+Earlier execution receipts require regeneration. Historical PHA core and
+Rootprint identities remain distinct from acceptance of their external proof
+attachments; pre-upgrade proof-conformance logs are not current security
+qualification.
+
+The candidate also includes an indexed model-evaluation guest, using the patched
+SFCS backend, and Linux policy `mfenx/admission-policy/v2`. The verified journal
+binds exact model and dataset identities, sample index and result commitment.
+Admission requires the independently approved guest, journal and verifier and
+rejects unrelated or missing evidence before model parsing. The retained proof
+identity is recorded with the serving session. Fifteen combined tests exercised
+these checks and actual proof-backed CUDA activation. This relation proves one
+ordered FP32 guest evaluation, not CUDA execution or general model safety.
