@@ -1,0 +1,29 @@
+{
+  "schema": "mfenx/remote-serving-observation/v1",
+  "provider": "Runpod",
+  "pod_id": "yni5kmvtrvm2yu",
+  "transport": "HTTPS provider proxy to authenticated single-deployment gateway",
+  "profile": "onnx-cuda12-owned-bytes/v1",
+  "policy": "mfenx/admission-policy/v2",
+  "scope": "mfenx/staging",
+  "authenticated_inference_status": 200,
+  "predicted_class": 0,
+  "label": 0,
+  "output_devices": [
+    "cuda"
+  ],
+  "model_sha256": "sha256:efaf1bec54e8eea3d49f6ff5abef1482ca3f69775e5978772913032d75ad9ff9",
+  "receipt_sha256": "sha256:94a28d304007d4f829e3a631869ab76675e7cdc9737f8e251585a8bca3398931",
+  "policy_sha256": "sha256:d76f33985dfed774ab471e8209cf4aef838ad09a6616216b417a1d8f4094170a",
+  "execution_proof_sha256": "sha256:748dba184c85ce10868c0a3a2998f5e40e06fdc646683da45d2c705f9a2c274e",
+  "path_replacement": {
+    "bytes": 10055,
+    "replacement_sha256": "sha256:0295ff4809fb99a7fc136977d5409efebd2b9195d52b01eac2928a6a539c5148"
+  },
+  "wrong_credential_denied": true,
+  "wrong_input_denied_before_inference": true,
+  "audit_completed_count": 5,
+  "audit_completed_count_delta": 1,
+  "single_request_elapsed_seconds": 1.347,
+  "confidential_execution_qualified": false
+}

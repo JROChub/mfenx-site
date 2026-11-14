@@ -1,0 +1,12 @@
+{
+  "schema": "mfenx/serving-publication-source/v1",
+  "gate_merge_revision": "a60fd826812f87798834cf44566085bca7045cd1",
+  "gateway_sha256": "ce685019d0b9eff7185697b9e04b9b6d45b9a3bb980f800ffe174e900bc8f55e",
+  "gate_wheel_sha256": "ff83b610944f8a8bc967c8893befc5ef97ffc28dda06cb29ae084a4daebb1047",
+  "publication_revision": "40db2438d508cec2002c8b7e7f7b8b5932714b28",
+  "final_run": "h100-pidfd-qualification.zip",
+  "preceding_run": "h100-final-qualification.zip",
+  "preceding_evaluation_acquisition_note": "evaluation-report-retention.json",
+  "profile_b_qualified": false,
+  "fleet_qualification": false
+}

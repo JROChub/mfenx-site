@@ -1,0 +1,28 @@
+{
+  "schema": "mfenx/remote-serving-recovery-observation/v1",
+  "revocation_epoch": 3,
+  "revoked_http_status_observed": 503,
+  "no_inference_after_revocation": true,
+  "stale_restart": {
+    "old_policy_restart_exit_code": 2,
+    "old_policy_listener_absent": true,
+    "startup": "{\"listening\": false, \"error\": \"admission or runtime initialization denied\"}\n",
+    "stderr": "",
+    "passed": true
+  },
+  "rotation": {
+    "epoch": 4,
+    "minimum_sequence": 2,
+    "policy_sha256": "sha256:ed756004aec9a610b4fd3ed72f79d00fa44aa993ea172cd5eb26d91c3413e1e3",
+    "receipt_sha256": "sha256:ce8498587575cee57631719c7f1816a112a58cf37a652651f0206734e8044439",
+    "old_signer_still_revoked": true,
+    "maximum_lease_seconds": 12,
+    "passed": true
+  },
+  "old_api_credential_denied": true,
+  "readmitted_cuda_inference_completed": true,
+  "expired_lease_http_status": 503,
+  "lease_wait_seconds": 15.315,
+  "no_inference_after_lease_expiry": true,
+  "confidential_execution_qualified": false
+}

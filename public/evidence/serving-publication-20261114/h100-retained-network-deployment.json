@@ -1,0 +1,42 @@
+{
+  "schema": "mfenx/retained-network-deployment-observation/v1",
+  "profile": "onnx-cuda12-owned-bytes/v1",
+  "scope": "mfenx/staging",
+  "policy_epoch": 5,
+  "policy_sha256": "sha256:13f3fef8aa78f473a57a08a89b6b0cad2a62967315045376d6657f708b32cc2a",
+  "receipt_sha256": "sha256:ce8498587575cee57631719c7f1816a112a58cf37a652651f0206734e8044439",
+  "model_sha256": "sha256:efaf1bec54e8eea3d49f6ff5abef1482ca3f69775e5978772913032d75ad9ff9",
+  "execution_proof_sha256": "sha256:748dba184c85ce10868c0a3a2998f5e40e06fdc646683da45d2c705f9a2c274e",
+  "actual_device_outputs": [
+    "cuda"
+  ],
+  "classification": 0,
+  "same_size_path_replacement_retained": true,
+  "bad_credential_denied": true,
+  "bad_inputs_denied": true,
+  "withdrawal": {
+    "epoch": 6,
+    "policy_sha256": "sha256:277c76909e6b2da2828138ffed009a51e4482a0634e72a416689ad96cd2a3d6b",
+    "prior_policy_sha256": "sha256:13f3fef8aa78f473a57a08a89b6b0cad2a62967315045376d6657f708b32cc2a",
+    "events": [
+      [
+        "activation",
+        1794654015.5728567
+      ],
+      [
+        "inference-started",
+        1794654016.7396135
+      ],
+      [
+        "inference-completed",
+        1794654016.8044395
+      ]
+    ],
+    "withdrawal_observed": 1794654018.005844,
+    "prior_policy_expires": 1794654312.0
+  },
+  "no_native_call_after_withdrawal": true,
+  "completed_count_delta": 1,
+  "artifacts_retained": true,
+  "confidential_execution_qualified": false
+}

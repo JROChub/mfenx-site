@@ -1,0 +1,9 @@
+{
+  "epoch": 8,
+  "policy_sha256": "sha256:173736a1be989b0dff511939543098823f9241d762e07e87996477520974fce5",
+  "prior_policy_sha256": "sha256:d76f33985dfed774ab471e8209cf4aef838ad09a6616216b417a1d8f4094170a",
+  "seconds_after_activation": 35.71488118171692,
+  "started_before": 5,
+  "http_status": 503,
+  "no_native_call_after_withdrawal": true
+}
