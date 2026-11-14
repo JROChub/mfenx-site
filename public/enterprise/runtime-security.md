@@ -39,3 +39,29 @@ The exact delivered component package contains its applicable license and third-
 Technical interfaces: https://mfenx.com/docs/
 Free verifier: https://mfenx.com/verify/
 Evidence: https://mfenx.com/evidence/
+
+Software-admission candidate
+
+Gate 1.1.0rc1 and organization service 0.4.0rc1 are development candidates;
+the published Gate 1.0.0 distribution remains the installed-release reference.
+Release Receipt v1 and its signature transcript are unchanged. Candidate
+qualification is separate from the installed runtime described above.
+
+The candidate `onnx-cpu-owned-bytes/v1` loader accepts self-contained ONNX
+models up to 64 MiB. It authenticates the receipt, independent issuer and
+contract pins, explicit release approval and protected deployment policy, then
+verifies and retains immutable bytes through CPU loading and inference. External
+tensor dependencies, custom operators and unsupported runtime profiles reject.
+Policy epochs, rollback floors, short leases and per-call checks govern serving;
+receipt registration alone does not activate a session. Finite evaluation
+attestation and local replay remain separate results.
+
+The accompanying browser change binds asynchronous evaluation to the selected
+model, contract, dataset and issuer. A changed input invalidates download
+permission; completion of a superseded evaluation cannot restore it.
+
+These software controls trust the kernel and runtime process. They do not
+establish confidential GPU execution, hardware-bound key delivery or a proof
+of model inference. Those profiles require independent hardware and workload
+qualification before deployment. Protected publication and deployment must
+reverify the exact promoted object rather than resolve a mutable model tag.

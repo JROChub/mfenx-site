@@ -12,6 +12,7 @@
   let authorized = false;
   let running = false;
   let cancelRequested = false;
+  let inputRevision = 0;
   let lastStudy = null;
 
   class PhoneStudyError extends Error {}
@@ -88,6 +89,8 @@
   }
 
   function invalidate() {
+    inputRevision += 1;
+    cancelRequested = true;
     authorized = false;
     lastStudy = null;
     setMetric("phone-source-p50", "Not run");
@@ -119,6 +122,8 @@
     if (!global.CKODMKBrowserGate || !global.ort) throw new PhoneStudyError("browser runtime is unavailable");
     const sourceFile = selected("gate-source"), candidateFile = selected("gate-candidate"), datasetFile = selected("gate-dataset"), contractFile = selected("gate-contract");
     if (!sourceFile || !candidateFile || !datasetFile || !contractFile) throw new PhoneStudyError("the verified files are no longer selected");
+    const revision = inputRevision;
+    const ensureCurrent = () => { if (revision !== inputRevision || cancelRequested || !authorized) throw new PhoneStudyError("timing inputs changed or study cancelled"); };
     running = true; cancelRequested = false; lastStudy = null; setActions(); setStatus("RUNNING", "Running paired source and candidate observations locally.");
     const studyStarted = global.performance.now();
     let wakeLock = null;
@@ -142,6 +147,7 @@
       if (sourceDigest !== contract.source.sha256 || candidateDigest !== contract.candidate.sha256 || datasetDigest !== contract.dataset.sha256) {
         throw new PhoneStudyError("an artifact digest changed after verification");
       }
+      ensureCurrent();
       const dataset = global.CKODMKBrowserGate.parseDataset(datasetBuffer, contract);
       global.ort.env.wasm.numThreads = 1;
       global.ort.env.wasm.proxy = false;
@@ -149,6 +155,7 @@
       const options = { executionProviders: ["wasm"], executionMode: "sequential", graphOptimizationLevel: "disabled" };
       sourceSession = await global.ort.InferenceSession.create(new Uint8Array(sourceBuffer), options);
       candidateSession = await global.ort.InferenceSession.create(new Uint8Array(candidateBuffer), options);
+      ensureCurrent();
       if (sourceSession.inputNames.length !== 1 || sourceSession.outputNames.length !== 1 || candidateSession.inputNames.length !== 1 || candidateSession.outputNames.length !== 1) {
         throw new PhoneStudyError("models do not match the timing profile");
       }
@@ -161,7 +168,7 @@
       const candidatePilot = await timeInference(candidateSession, candidateInput, candidateOutput, pilotInput.slice(), shape, contract.output.class_count, 1);
       const innerRepetitions = repetitionsForPilot(sourcePilot, candidatePilot);
       for (let round = 0; round < WARMUP_PAIRS; round += 1) {
-        if (cancelRequested) throw new PhoneStudyError("timing study was cancelled");
+        ensureCurrent();
         if (global.performance.now() - studyStarted > 300_000) throw new PhoneStudyError("timing study exceeded five minutes");
         const input = inputFor(round % contract.dataset.samples);
         if (round % 2 === 0) {
@@ -174,7 +181,7 @@
       }
       const pairs = [];
       for (let round = 0; round < MEASURED_PAIRS; round += 1) {
-        if (cancelRequested) throw new PhoneStudyError("timing study was cancelled");
+        ensureCurrent();
         if (global.performance.now() - studyStarted > 300_000) throw new PhoneStudyError("timing study exceeded five minutes");
         const sampleIndex = (round * 977) % contract.dataset.samples;
         const input = inputFor(sampleIndex);
@@ -189,6 +196,7 @@
         }
         pairs.push({ candidate_ns: candidateNs, order, sample_index: sampleIndex, source_ns: sourceNs });
       }
+      ensureCurrent();
       const sourceValues = pairs.map((pair) => pair.source_ns), candidateValues = pairs.map((pair) => pair.candidate_ns);
       const sourceP50 = percentile(sourceValues, 1, 2), sourceP95 = percentile(sourceValues, 95, 100);
       const candidateP50 = percentile(candidateValues, 1, 2), candidateP95 = percentile(candidateValues, 95, 100);
@@ -251,7 +259,9 @@
     for (const id of ["gate-source", "gate-candidate", "gate-dataset", "gate-contract", "gate-contract-digest"]) {
       global.document.getElementById(id)?.addEventListener(id === "gate-contract-digest" ? "input" : "change", invalidate);
     }
-    global.addEventListener("ckodmk:verification-complete", () => {
+    global.addEventListener("ckodmk:verification-complete", (event) => {
+      invalidate();
+      if (event.detail?.decision !== "PASS") return;
       authorized = true; lastStudy = null; setStatus("READY", "Verified files are ready for a local paired timing study."); setActions();
     });
     invalidate();

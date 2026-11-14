@@ -1,3 +1,4 @@
+import { canonicalJson } from "./power-house-canonical.mjs";
 import * as THREE from "./vendor/three.module.min.js";
 import { StreamBuffer } from "./stream-buffer.js";
 import BookOpen from "./vendor/lucide/book-open.mjs";
@@ -2240,16 +2241,6 @@ async function sha256Hex(value) {
     .join("");
 }
 
-function canonicalJson(value) {
-  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
-  if (value && typeof value === "object") {
-    return `{${Object.keys(value)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`)
-      .join(",")}}`;
-  }
-  return JSON.stringify(value);
-}
 
 function assertBrowserCanonicalNumbers(value) {
   if (typeof value === "number" && !Number.isSafeInteger(value)) {

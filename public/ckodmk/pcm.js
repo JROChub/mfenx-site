@@ -20,6 +20,8 @@
   const LIFECYCLE = Object.freeze(["SUBMITTED", "RUNNING", "OUTPUT_PUBLISHED", "ARTIFACT_VERIFIED", "RELOAD_VERIFIED", "CAPABILITY_MEASURED", "RELEASE_ELIGIBLE"]);
   const LINEAGE_CLASSES = new Set(["NATIVE_TRAINED", "DERIVATIVE_FINE_TUNE", "QUANTIZED_DERIVATIVE", "EXTERNAL_UNMODIFIED"]);
   let admittedCandidate = null;
+  let admissionRevision = 0;
+  let installingInputs = false;
 
   class PCMError extends Error {}
 
@@ -245,6 +247,7 @@
   }
   function check(id, status, label) { const row = global.document?.getElementById(id); if (!row) return; row.dataset.state = status; row.querySelector("b").textContent = label; }
   function resetAdmission(message = "Select a PCM or run the included trained-model package.") {
+    admissionRevision += 1;
     admittedCandidate = null;
     const download = global.document.getElementById("download-admitted-model");
     download.disabled = true;
@@ -256,12 +259,15 @@
     for (const id of ["pcm-check-package", "pcm-check-replay", "pcm-check-admission"]) { const row = global.document.getElementById(id); if (row?.dataset.state !== "pass") { check(id, "block", "Blocked"); return; } }
   }
   async function fetchBytes(path, maximum, label) { const response = await fetch(path, { cache: "no-store", credentials: "same-origin" }); if (!response.ok) throw new PCMError(`${label} could not be loaded`); const bytes = new Uint8Array(await response.arrayBuffer()); if (bytes.length < 1 || bytes.length > maximum) throw new PCMError(`${label} exceeds its byte limit`); return bytes; }
-  async function admit(raw, trustedKey, requiredKeyId = null) {
+  async function admit(raw, trustedKey, requiredKeyId = null, revision = admissionRevision) {
+    const ensureCurrent = () => { if (revision !== admissionRevision) throw new PCMError("admission superseded by changed inputs"); };
+    ensureCurrent();
     const download = global.document.getElementById("download-admitted-model");
     check("pcm-check-package", "checking", "Checking");
     state("VERIFYING", "Checking signature, RootID, trust key, validity and artifact bindings…");
     if (requiredKeyId && await sha256(trustedKey) !== requiredKeyId) throw new PCMError("built-in release key pin mismatch");
     const verified = await verifyEnvelope(raw, trustedKey);
+    ensureCurrent();
     check("pcm-check-package", "pass", "Passed"); check("pcm-check-replay", "checking", "Running");
     const files = Object.fromEntries(ARTIFACTS.map((name) => [name, new File([verified.decoded[name].bytes], verified.decoded[name].record.name, { type: verified.decoded[name].record.media_type })]));
     const contractDigest = verified.bundle.statement.artifacts.contract.sha256;
@@ -275,23 +281,31 @@
     global.document.getElementById("pcm-parameters").textContent = verified.scale.native_model.total_parameters.toLocaleString("en-US");
     global.document.getElementById("pcm-precision").textContent = `${verified.scale.native_model.native_precision} checkpoint; ${verified.scale.deployment.deployment_precision} deployment`;
     state("REPLAYING", "Signature accepted. Replaying every required behavioral check before admission…");
+    installingInputs = true;
+    try {
     global.CKODMKBrowserGate.loadInputs({ source: files.source, candidate: files.candidate, dataset: files.dataset, contract: files.contract, contractDigest, generation: { implementation: "mfenx-ckodmk-pcm", version: "0.5.1", profile: PROFILE, statement_root_id: verified.rootId } });
-    global.document.getElementById("gate-form").requestSubmit();
-    for (let attempt = 0; attempt < 6000; attempt += 1) {
-      await new Promise((resolve) => global.setTimeout(resolve, 100));
-      const decision = global.document.getElementById("gate-decision").textContent;
-      if (!["PASS", "BLOCK", "INCONCLUSIVE"].includes(decision)) continue;
-      if (global.document.getElementById("gate-contract-digest").value !== contractDigest) throw new PCMError("active contract changed during replay");
-      if (decision !== "PASS") { state("BLOCK", "Required behavioral checks failed. The model was not admitted."); throw new PCMError("behavioral replay blocked admission"); }
-      verified.activationDecision = "AUTHORIZED_FOR_ACTIVATION"; global.document.getElementById("pcm-authorization").textContent = verified.activationDecision; admittedCandidate = files.candidate; download.disabled = false; check("pcm-check-replay", "pass", "Passed"); check("pcm-check-admission", "pass", "Unlocked"); state("ADMITTED", "Signed lineage, closed evidence and required runtime replay passed. The candidate is admitted in this session."); return verified;
+    } finally { installingInputs = false; }
+    const report = await global.CKODMKBrowserGate.runCurrentInputs();
+    ensureCurrent();
+    if (!report || report.decision !== "PASS" || report.contract.sha256 !== contractDigest ||
+        report.artifacts.candidate_sha256 !== verified.decoded.candidate.record.sha256 ||
+        report.artifacts.source_sha256 !== verified.decoded.source.record.sha256 ||
+        report.artifacts.dataset_sha256 !== verified.decoded.dataset.record.sha256) {
+      throw new PCMError("current package replay did not pass its exact artifact bindings");
     }
-    throw new PCMError("behavioral replay timed out");
+    verified.activationDecision = "AUTHORIZED_FOR_ACTIVATION";
+    global.document.getElementById("pcm-authorization").textContent = verified.activationDecision;
+    admittedCandidate = files.candidate; download.disabled = false;
+    check("pcm-check-replay", "pass", "Passed"); check("pcm-check-admission", "pass", "Unlocked");
+    state("ADMITTED", "Signed lineage, closed evidence and required runtime replay passed. The candidate is admitted in this session.");
+    return verified;
   }
-  async function selected() { const file = global.document.getElementById("pcm-file").files[0], key = global.document.getElementById("pcm-trusted-key").files[0]; if (!file || file.size > LIMITS.pcm) throw new PCMError("select a bounded .pcm file"); if (!key || key.size < 1 || key.size > 65536) throw new PCMError("select the issuer's trusted SPKI DER public key"); return admit(new Uint8Array(await file.arrayBuffer()), new Uint8Array(await key.arrayBuffer())); }
-  async function included() { const key = await fetchBytes("trust/pcm-release-public.der", 65536, "trusted release key"); return admit(await fetchBytes("pcm/optdigits-cnn-int8.pcm", LIMITS.pcm, "included PCM"), key, TRUSTED_KEY_ID); }
+  async function selected(revision) { const file = global.document.getElementById("pcm-file").files[0], key = global.document.getElementById("pcm-trusted-key").files[0]; if (!file || file.size > LIMITS.pcm) throw new PCMError("select a bounded .pcm file"); if (!key || key.size < 1 || key.size > 65536) throw new PCMError("select the issuer's trusted SPKI DER public key"); return admit(new Uint8Array(await file.arrayBuffer()), new Uint8Array(await key.arrayBuffer()), null, revision); }
+  async function included(revision) { const key = await fetchBytes("trust/pcm-release-public.der", 65536, "trusted release key"); return admit(await fetchBytes("pcm/optdigits-cnn-int8.pcm", LIMITS.pcm, "included PCM"), key, TRUSTED_KEY_ID, revision); }
   function download() { if (!admittedCandidate) return; const url = URL.createObjectURL(admittedCandidate), anchor = global.document.createElement("a"); anchor.href = url; anchor.download = admittedCandidate.name; anchor.click(); global.setTimeout(() => URL.revokeObjectURL(url), 0); }
-  function action(operation) { return async () => { const buttons = ["verify-pcm", "verify-included-pcm"].map((id) => global.document.getElementById(id)); resetAdmission("Preparing a new admission check…"); buttons.forEach((button) => { button.disabled = true; }); try { await operation(); } catch (error) { blockCurrentCheck(); state("BLOCK", `Fail closed: ${error.message || "PCM verification failed"}`); } finally { buttons.forEach((button) => { button.disabled = false; }); } }; }
-  function bind() { global.document.getElementById("verify-pcm").addEventListener("click", action(selected)); global.document.getElementById("verify-included-pcm").addEventListener("click", action(included)); global.document.getElementById("download-admitted-model").addEventListener("click", download); for (const id of ["pcm-file", "pcm-trusted-key"]) global.document.getElementById(id).addEventListener("change", () => resetAdmission("Selected files changed. Verify again before admission.")); }
+  function action(operation) { return async () => { const buttons = ["verify-pcm", "verify-included-pcm"].map((id) => global.document.getElementById(id)); resetAdmission("Preparing a new admission check…"); buttons.forEach((button) => { button.disabled = true; }); const revision = admissionRevision; try { await operation(revision); } catch (error) { if (revision !== admissionRevision) return; blockCurrentCheck(); state("BLOCK", `Fail closed: ${error.message || "PCM verification failed"}`); } finally { buttons.forEach((button) => { button.disabled = false; }); } }; }
+  function bind() { global.document.getElementById("verify-pcm").addEventListener("click", action(selected)); global.document.getElementById("verify-included-pcm").addEventListener("click", action(included)); global.document.getElementById("download-admitted-model").addEventListener("click", download); for (const id of ["pcm-file", "pcm-trusted-key", "gate-source", "gate-candidate", "gate-dataset", "gate-contract", "gate-contract-digest"]) global.document.getElementById(id).addEventListener("change", () => { if (!installingInputs) resetAdmission("Selected inputs changed. Verify again before admission."); }); }
 
+  if (global.document) global.document.getElementById("gate-contract-digest").addEventListener("input", () => { if (!installingInputs) resetAdmission("Contract authority changed. Verify again."); });
   const api = Object.freeze({ PCMError, canonical, validateAuthorization, validateEvidenceSet, validateLineage, validateScale, verifyEnvelope }); global.CKODMKPCM = api; if (typeof module !== "undefined" && module.exports) module.exports = api; if (global.document) bind();
 })(typeof window !== "undefined" ? window : globalThis);
