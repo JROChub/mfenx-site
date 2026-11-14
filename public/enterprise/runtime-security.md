@@ -103,3 +103,14 @@ rejects unrelated or missing evidence before model parsing. The retained proof
 identity is recorded with the serving session. Fifteen combined tests exercised
 these checks and actual proof-backed CUDA activation. This relation proves one
 ordered FP32 guest evaluation, not CUDA execution or general model safety.
+
+Extended deployment and recovery acceptance
+
+The complete deployment suite passed 269 tests and 143 subtests with no skips
+under CPython 3.13 and checksum-pinned Caddy 2.11.9. Actual offline installation,
+installed-runtime acceptance, browser-format renewal, database backup and all
+three executable proxy configurations were exercised. Four additional CPU
+serving tests observed signer rotation, consistent snapshot recovery with
+retained policy floors, authority outage and lost durable state. These use
+synthetic authorities; live merchant settlement and confidential hardware
+recovery are separate boundaries.

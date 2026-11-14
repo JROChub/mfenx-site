@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import struct
 import functools
 import http.server
 import json
@@ -15,6 +17,7 @@ from browser_site_design import QuietHandler
 
 
 SOURCES = {
+    "modelproof": "/evidence/model-admission-20261114/execution.report.json",
     "receipt": "/verify/example/release-receipt.json",
     "execution": "/lightsout/evidence/v0.1.6/summary.json",
     "lineage": "/artifacts/rootprint-valid.json",
@@ -24,9 +27,20 @@ SOURCES = {
 def values(root: Path) -> dict[str, list[dict[str, object]]]:
     receipt, execution, lineage = (json.loads((root / SOURCES[kind].lstrip("/")).read_text())
                                    for kind in ("receipt", "execution", "lineage"))
+    proof = json.loads((root / SOURCES["modelproof"].lstrip("/")).read_text())
+    proof_statement = proof["statement"]
+    journal = base64.b64decode(proof_statement["journal_base64"], validate=True)
+    digest = lambda start: "sha256:" + journal[start:start+32].hex()
+    sample, predicted, label = struct.unpack("<III", journal[72:84])
     statement = receipt["statement"]
     evaluation = statement["evaluation"]
     return {
+        "modelproof": [
+            {"Image identity": proof_statement["image_id"], "Program digest": proof_statement["program_digest"]},
+            {"Model SHA-256": digest(8), "Dataset SHA-256": digest(40)},
+            {"Sample index": sample, "Predicted class": predicted, "Dataset label": label, "Logit SHA-256": digest(84)},
+            {"PHA core": proof["phx_fingerprint"], "Receipt digest": proof["receipt_digest"], "Rootprint identity": proof["rootprint_id"], "Capsule digest": proof["capsule_digest"]},
+        ],
         "receipt": [
             {"SHA-256": statement["parent_sha256"]},
             {"SHA-256": statement["artifact"]["sha256"], "Size, bytes": statement["artifact"]["bytes"], "Profile": statement["profile"]},
@@ -110,7 +124,7 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                     if output and width in (390, 1440):
                         page.screenshot(path=str(output / f"home-{kind}-{width}.png"), full_page=True)
                 page.locator("#tab-receipt").focus()
-                for key, kind in (("ArrowDown", "execution"), ("ArrowRight", "lineage"), ("Home", "receipt"), ("End", "lineage"), ("ArrowUp", "execution"), ("ArrowLeft", "receipt")):
+                for key, kind in (("ArrowDown", "execution"), ("ArrowRight", "lineage"), ("Home", "receipt"), ("End", "modelproof"), ("ArrowUp", "lineage"), ("ArrowLeft", "execution"), ("Home", "receipt")):
                     page.keyboard.press(key)
                     ready(page, kind)
                     expect(page.locator(f"#tab-{kind}")).to_be_focused()

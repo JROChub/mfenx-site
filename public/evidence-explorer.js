@@ -38,6 +38,13 @@
     new ResizeObserver(drawConnections).observe(diagram);
   else window.addEventListener("resize", drawConnections);
   const formats = {
+    modelproof: {
+      path: "/evidence/model-admission-20261114/execution.report.json",
+      title: "Optdigits / indexed FP32 evaluation",
+      format: "Model-specific SFCS statement",
+      verify: "/docs/admission/#proof",
+      action: "Read the proof relation and verification requirements",
+    },
     receipt: {
       path: "/verify/example/release-receipt.json",
       title: "Optdigits / ONNX",
@@ -66,6 +73,22 @@
       : String(value);
   const cell = (title, subtitle, fields) => ({ title, subtitle, fields });
   function components(kind, record) {
+    if (kind === "modelproof") {
+      if (record.schema !== "power-house/sfcs-risc0-private-vm-cli-report/v1" || record.development_receipts_accepted !== false)
+        throw new Error("Unexpected execution report");
+      const statement = record.statement;
+      const journal = Uint8Array.from(atob(statement.journal_base64), c => c.charCodeAt(0));
+      if (journal.length !== 116 || new TextDecoder().decode(journal.slice(0, 8)) !== "MFXMLP01")
+        throw new Error("Unexpected fixed-model journal");
+      const digest = start => "sha256:" + Array.from(journal.slice(start, start + 32), byte => byte.toString(16).padStart(2, "0")).join("");
+      const view = new DataView(journal.buffer);
+      return [
+        cell("Program", "Approved guest relation", {"Image identity": statement.image_id, "Program digest": statement.program_digest}),
+        cell("Committed inputs", "Exact public artifact bytes", {"Model SHA-256": digest(8), "Dataset SHA-256": digest(40)}),
+        cell("Evaluation", "One ordered FP32 sample", {"Sample index": view.getUint32(72, true), "Predicted class": view.getUint32(76, true), "Dataset label": view.getUint32(80, true), "Logit SHA-256": digest(84)}),
+        cell("Evidence", "Inspect; protocol verification is separate", {"PHA core": record.phx_fingerprint, "Receipt digest": record.receipt_digest, "Rootprint identity": record.rootprint_id, "Capsule digest": record.capsule_digest}),
+      ];
+    }
     if (kind === "receipt") {
       if (record.schema !== "mfenx/release-receipt/v1")
         throw new Error("Unexpected receipt schema");
