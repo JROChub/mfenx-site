@@ -1,0 +1,139 @@
+{
+  "ok": true,
+  "verdict": "VERIFIED",
+  "limits": [],
+  "checks": [
+    {
+      "name": "manifest.format",
+      "result": "PASS",
+      "detail": "manifest is well formed"
+    },
+    {
+      "name": "manifest.commitments",
+      "result": "PASS",
+      "detail": "bundle commitments match the manifest"
+    },
+    {
+      "name": "manifest.challenge",
+      "result": "PASS",
+      "detail": "challenge is the one this verifier issued"
+    },
+    {
+      "name": "tdx.structure",
+      "result": "PASS",
+      "detail": "TDX quote v4, TEE 0x81, 4936 bytes"
+    },
+    {
+      "name": "tdx.debug",
+      "result": "PASS",
+      "detail": "TD attributes 0000001000000000 (0x10000000), DEBUG (bit 0) off: not a debug TD"
+    },
+    {
+      "name": "tdx.report_data",
+      "result": "PASS",
+      "detail": "quote report_data equals SHA-512 of the manifest"
+    },
+    {
+      "name": "tdx.measurements",
+      "result": "WARN",
+      "detail": "TD software not pinned: pass --expect-mrtd to check it"
+    },
+    {
+      "name": "tdx.signatures",
+      "result": "PASS",
+      "detail": "attestation key, QE binding, QE report and PCK chain verify up to the pinned Intel SGX Root CA"
+    },
+    {
+      "name": "tdx.collateral",
+      "result": "PASS",
+      "detail": "TCB info and QE identity signed by Intel (Intel PCS, fetched now)"
+    },
+    {
+      "name": "tdx.tcb",
+      "result": "PASS",
+      "detail": "platform TCB UpToDate, QE UpToDate, TDX_01 UpToDate"
+    },
+    {
+      "name": "tdx.revocation",
+      "result": "PASS",
+      "detail": "PCK certificate not revoked (57 entries in CRL)"
+    },
+    {
+      "name": "tdx.revocation",
+      "result": "PASS",
+      "detail": "PCK CA certificate not revoked (0 entries in CRL)"
+    },
+    {
+      "name": "nvidia.signatures",
+      "result": "PASS",
+      "detail": "2 NVIDIA-signed tokens verify, each GPU token listed by its digest in the verifier token, keys from the bundle chained to a pinned NRAS intermediate (pinned intermediates only)"
+    },
+    {
+      "name": "nvidia.nonce",
+      "result": "PASS",
+      "detail": "NRAS eat_nonce equals SHA-256 of the manifest (verifier token and 1 GPU token(s))"
+    },
+    {
+      "name": "nvidia.policy",
+      "result": "PASS",
+      "detail": "overall result true, every GPU: measurements ok, secure boot on, debug off, nonce matched, report signature and chain validated"
+    },
+    {
+      "name": "nvidia.freshness",
+      "result": "PASS",
+      "detail": "token issued 2s from bundle creation"
+    },
+    {
+      "name": "nvidia.mode",
+      "result": "PASS",
+      "detail": "attestation mode 'single-gpu'"
+    }
+  ],
+  "facts": {
+    "commitment_sha256": "bbd90d58b30480c2a7b43b9d1da43d844d3bbce1548b63449361167b31513814",
+    "commitment_sha512": "31c5cee0727b7a99458163064d9255f3a4a5283788a7c342ef4154242261bc8c00f6b995074ecec047b47f74f2c26c0db3ed9441e80d783d2a7e531fb3d9d0b3",
+    "artifacts": [
+      {
+        "name": "mfenx_gate-1.1.0rc3-py3-none-any.whl",
+        "sha256": "d2d57b482605539a1fb17f0da8890d036da7a270074b62b2d2e1446ea3509503",
+        "size": 37179
+      }
+    ],
+    "tdx": {
+      "mr_td": "eea8b6a814569a52bd1e12f6b869bb2d9c0c8a7a43e658ffc3b42c199f116157ea7f04d359c7fdfd8ac483152cc13542",
+      "mr_seam": "7bf063280e94fb051f5dd7b1fc59ce9aac42bb961df8d44b709c9b0ff87a7b4df648657ba6d1189589feab1d5a3c9a9d",
+      "rtmr": [
+        "7a15ca5d3b2b5132347a552586a1c3ee53b6b5acd7c1c0e2e175adc0018058326416389ef31faa3b99669e2fbe36acfe",
+        "965b54adf526d37237906189a31d9b058c39fac8909d9689e3340505aac4176deed2c2f3374b226304b23137d4832ae9",
+        "4165853b0e05d8b3d9790d76b1dabc6b9e23548313ed639cff6747be37ae0a9ee9f555b2a1323fab749165af39f91c18",
+        "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "tee_tcb_svn": "0b010400000000000000000000000000",
+      "td_attributes": "0000001000000000",
+      "xfam": "e702060000000000",
+      "fmspc": "b0c06f000000",
+      "tcb_status": "UpToDate",
+      "tcb_level_date": "2025-08-13T00:00:00Z",
+      "advisory_ids": [],
+      "tdx_module": {
+        "id": "TDX_01",
+        "status": "UpToDate"
+      },
+      "qe_status": "UpToDate"
+    },
+    "nvidia": {
+      "mode": "single-gpu",
+      "issued_at": "2026-11-14T15:31:51+00:00",
+      "expires_at": "2026-11-14T16:31:51+00:00",
+      "devices": [
+        {
+          "name": "GPU-0",
+          "hwmodel": "GH100",
+          "driver": "595.71.05",
+          "vbios": "96.00.CF.00.01",
+          "measres": "success"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "mfenx/trustee-hardware-service-build/v1",
+  "source_revision": "512fed65642015b849f38fb13bfdec7806639987",
+  "upstream_lock_sha256": "2825e03527615a351dde2dabe2ad25edef483c3ac627ca2e2658863264ae5087",
+  "features": "coco-as-builtin-no-verifier,attestation-service",
+  "verifiers": [
+    "tdx",
+    "nvidia"
+  ],
+  "server_sha256": "00db17cce520cfa0684f10949a5aa666231499761aaa4f9557361af90f6bf337",
+  "manifest_sha256": "3d2dcf95dd2f27cc4d857eb083ce467da95b6d4865bfb34d76a27fb91dd78766",
+  "qvl_header_sha256": "22311e0b4332276c315fdc2f792b28197a3d9a7bfd376246fa5fa3c1bef870ef",
+  "qvl_library_sha256": "74b8e876bdc20c59aab3be28dcca16db78f2a81110073c29ac6009b89bbb8042",
+  "runtime_library_directory": "/home/lexluger/software-research-2026-11-13/voltage-intel-qvl/root/usr/lib/x86_64-linux-gnu",
+  "jwt_source_sha256": "d5c9983a93acad17bafdffe587b98de2908cdaa3f6f1ecec6263ba8eba3ec852",
+  "token_validity": {
+    "leeway_seconds": 0,
+    "validate_nbf": true
+  },
+  "hardware_qualified": false
+}

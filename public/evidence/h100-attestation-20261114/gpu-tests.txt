@@ -1,0 +1,18 @@
+test_cpu_only_operator_cannot_activate_through_fallback (test_cuda_admission.CudaAdmissionTests.test_cpu_only_operator_cannot_activate_through_fallback) ... [1;31m2026-11-14 15:47:34.810733562 [E:onnxruntime:, inference_session.cc:2628 Initialize] This session contains graph nodes that are assigned to the default CPU EP, but fallback to CPU EP has been explicitly disabled by the user.[m
+ok
+test_cpu_optimized_release_cannot_select_an_unqualified_operator (test_cuda_admission.CudaAdmissionTests.test_cpu_optimized_release_cannot_select_an_unqualified_operator) ... ok
+test_cuda_arena_denies_an_over_budget_standard_operator (test_cuda_admission.CudaAdmissionTests.test_cuda_arena_denies_an_over_budget_standard_operator) ... [1;31m2026-11-14 15:47:38.098107275 [E:onnxruntime:, sequential_executor.cc:615 ExecuteKernel] Non-zero status code returned while running Expand node. Name:'' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:358 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Available memory of 2146435072 is smaller than requested bytes of 3221225472
+[m
+ok
+test_cuda_options_cannot_drift_after_admission (test_cuda_admission.CudaAdmissionTests.test_cuda_options_cannot_drift_after_admission) ... ok
+test_delayed_upload_and_repeated_inference_use_retained_bytes (test_cuda_admission.CudaAdmissionTests.test_delayed_upload_and_repeated_inference_use_retained_bytes) ... ok
+test_expiry_and_audit_failures_deny_gpu_activation (test_cuda_admission.CudaAdmissionTests.test_expiry_and_audit_failures_deny_gpu_activation) ... ok
+test_mutated_bytes_never_reach_the_parser (test_cuda_admission.CudaAdmissionTests.test_mutated_bytes_never_reach_the_parser) ... ok
+test_required_provider_pin_and_profile_cannot_downgrade (test_cuda_admission.CudaAdmissionTests.test_required_provider_pin_and_profile_cannot_downgrade) ... ok
+test_revocation_denies_further_gpu_calls (test_cuda_admission.CudaAdmissionTests.test_revocation_denies_further_gpu_calls) ... ok
+test_trained_model_gpu_evaluation_receipt_and_retained_replay (test_cuda_admission.CudaAdmissionTests.test_trained_model_gpu_evaluation_receipt_and_retained_replay) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 16.344s
+
+OK

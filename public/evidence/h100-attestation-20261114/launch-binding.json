@@ -1,0 +1,9 @@
+{
+  "schema": "mfenx/launch-binding-observation/v1",
+  "expected_mrconfigid": "9e0e281804c646ebd14ecca9e909a7c2a562fa5bb0b0dfd3ad4db42e0f303c3300000000000000000000000000000000",
+  "observed_mrconfigid": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "policy_sha256": "sha256:b2d64deed8a686704b451e2020d49177a1c438ddd2d56751644bfd4c1a58a0ea",
+  "model_sha256": "sha256:3cbd8e000cf6ff749621eed7a493dfa1c4aee3e25bf0ab080de2ed95ae2a3691",
+  "resource": "qualification/model-keys/9340f984b2751c32bc81d9fcc5d6b8ef8eebb392016bbfa23d05aae0431d3bd3-0b1daa5822caf5c8a9f2140c",
+  "model_key_delivered": false
+}

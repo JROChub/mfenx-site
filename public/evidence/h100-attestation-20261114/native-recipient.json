@@ -1,0 +1,33 @@
+{
+  "schema": "mfenx/hardware-recipient-observation/v1",
+  "cases": {
+    "attestation": {
+      "native_returncode": 0,
+      "cpu_gpu_submodules": [
+        "cpu0",
+        "gpu0"
+      ]
+    },
+    "approved_recipient": {
+      "returncode": 0,
+      "bytes": 32,
+      "canary_sha256": "dd1a229ce4387b6cb8253a08d12a0d69e260da1256dba1233b323f9a1bda8845"
+    },
+    "wrong_recipient": {
+      "returncode": 1,
+      "plaintext_bytes": 0
+    },
+    "wrong_resource": {
+      "returncode": 1,
+      "plaintext_bytes": 0
+    },
+    "expired_token": {
+      "returncode": 1,
+      "plaintext_bytes": 0,
+      "observed_at": 1794673024,
+      "token_expires": 1794673022
+    }
+  },
+  "model_key_used": false,
+  "model_admission_qualified": false
+}

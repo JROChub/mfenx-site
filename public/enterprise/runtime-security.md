@@ -177,3 +177,21 @@ The rc3 key client is additionally supervised by the Linux parent-death signal,
 including an expected-parent check for startup races. Native fixture tests
 observe its termination after parent death and kernel output-quota termination.
 The earlier rc2 artifact retains its identity and is superseded for key acquisition.
+
+H100 hardware observations, 14 November 2026
+
+Fresh Intel TDX and NVIDIA H100 evidence was verified outside the guest. The
+native Trustee path delivered a diagnostic canary with composite CPU/GPU
+attestation and recipient-bound encryption. Wrong recipients, unauthorized
+resources and expired tokens obtained no plaintext. Both pinned service
+builders now use zero JWT clock-skew allowance and enforce not-before claims.
+Ten retained CUDA tests passed, including a 1,797-sample finite replay.
+
+The diagnostic canary policy did not authorize model-key resources. The strict
+model-key profile denied the stock guest before ONNX parsing because its
+MRCONFIGID was zero. Approved launch-time initdata binding, guest/workload
+references, and end-to-end protected model activation and recovery remain
+required; the complete confidential deployment profile is not qualified.
+The temporary VM was released and the API reported no active Pods.
+
+[Observed boundaries and signed evidence](https://mfenx.com/docs/admission/encrypted/#qualification)

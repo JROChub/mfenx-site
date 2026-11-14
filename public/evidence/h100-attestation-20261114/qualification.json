@@ -1,0 +1,90 @@
+{
+  "schema": "mfenx/h100-qualification-observations/v1",
+  "recorded_at": "2026-11-14T16:26:15.314093+00:00",
+  "gate_source_revision": "7ad3671892836e41a8cf36c700e94ab3bae749ce",
+  "gate_wheel": {
+    "version": "1.1.0rc3",
+    "sha256": "d2d57b482605539a1fb17f0da8890d036da7a270074b62b2d2e1446ea3509503"
+  },
+  "vendor_verifier_revision": "74214329a06cf6de513548a4b93cb57c9571b4e9",
+  "hardware": {
+    "cpu_tee": "Intel TDX",
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "confidential_mode": "ON",
+    "devtools": "OFF",
+    "vendor_evidence_verified": true,
+    "negative_mutations_rejected": 10
+  },
+  "gpu_suite": {
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "samples": 1797
+  },
+  "local_protocol_suite": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "scope": "Local sample and signed policy fixtures; not hardware evidence"
+  },
+  "native_hardware_protocol": {
+    "fresh_canary_delivered": true,
+    "bytes": 32,
+    "verifier": "Native Intel DCAP and NVIDIA remote appraisal",
+    "wrong_recipient_plaintext_bytes": 0,
+    "unauthorized_resource_plaintext_bytes": 0,
+    "expired_token_plaintext_bytes": 0,
+    "model_key_resource_authorized_by_diagnostic_policy": false
+  },
+  "token_validity": {
+    "configured_leeway_seconds": 0,
+    "validate_nbf": true,
+    "before_after_observed": true,
+    "future_nbf_fixture": "Correctly signed qualification-authority fixture"
+  },
+  "strict_model_admission": {
+    "schema": "mfenx/strict-hardware-model-probe/v1",
+    "admission_denied": true,
+    "error": "Trustee denied key delivery or returned an invalid response",
+    "onnx_parser_calls": 0,
+    "elapsed_seconds": 1.786,
+    "policy_sha256": "sha256:b2d64deed8a686704b451e2020d49177a1c438ddd2d56751644bfd4c1a58a0ea",
+    "full_confidential_profile_qualified": false
+  },
+  "remaining_requirements": [
+    "Launch-time binding of the exact approved initdata",
+    "Independent approval and enrollment of guest/workload reference values",
+    "End-to-end model-key loading, revocation and recovery qualification"
+  ],
+  "full_confidential_model_profile_qualified": false,
+  "resources": {
+    "temporary_vm_released": true,
+    "active_pods_after_release": 0,
+    "temporary_ssh_registration_removed": true,
+    "hardware_zeroization_demonstrated": false
+  },
+  "archived_appraisal": {
+    "issuer_signature_verified": true,
+    "issued_at": 1794672962,
+    "expires_at": 1794673022,
+    "purpose": "Historical diagnostic canary evidence"
+  },
+  "source_files": {
+    "LICENSE": "782727eb7a626433a8b08b7874c6bcc199c86d13b234525b2281f3909ac9f97f",
+    "VERIFIER-TERMS.txt": "0e3fdf0370313153b9b7e7dda51fd382836ae2a3c04c6eb7ddc92e4eb10ccd6e",
+    "docs/encrypted-admission.md": "476042067a7c1d0a703816bffd646c5ea95ff11b6032811245e1fe276f66fdb2",
+    "guest-probes/native_probe.py": "1ceedbb1a7fd6a64dc1862c8245b5df03817179530785daf409515a617614144",
+    "guest-probes/recipient_probe.py": "98aa1d2b1c7552e23590231e1a25bec525f81633caa7498b6de9c16682af6279",
+    "guest-probes/strict_model_probe.py": "06d2dee13c582936de14e6450cd07c8ff043dd9fb6704060b8529958cee44169",
+    "guest-probes/validity_transition.py": "cb6582a04f1ff071717e3eaa8ea39004d2aaf1bbb87637466e44c7333efb90b1",
+    "integrations/trustee/build_client.py": "d6ca68bd1d0022e34aee6b29fb7245b254c46dad59629b3fbfe7decf5b0f2661",
+    "integrations/trustee/build_hardware_service.py": "20c29803d8dd35d43fd10f1a8ba578f3071c5269abdd916194e0da5ffb334112",
+    "integrations/trustee/build_test_service.py": "98588d444b975dad4b6d8677ea0126f25124e17eb6b36154d8f30cbb55514de5",
+    "integrations/trustee/service_hardening.py": "5fb122c6e29e14fb710757eab33315dc795983011ceb20a10f6cb3a6edd8b98b",
+    "tests/test_admission.py": "6e85f9bdb7c6bda72406f57d0626748e5e810702e05ca1a32d21534ab15421fb",
+    "tests/test_cuda_admission.py": "db3c57b0203aa899f31348b3372234e15b671c387e60a37180deb8c8d25cac66",
+    "tests/test_trustee_integration.py": "5a6126272e4433fc0179b47e9e432d5859b48577280efeed141d33e4cbbab7f2"
+  }
+}
