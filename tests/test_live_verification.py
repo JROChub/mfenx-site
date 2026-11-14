@@ -1,5 +1,7 @@
 """Retired routes require observed absence, not an unavailable edge response."""
 import unittest
+import tempfile
+from pathlib import Path
 from unittest.mock import patch
 from urllib.error import URLError
 
@@ -48,9 +50,18 @@ class BlockedRouteVerification(unittest.TestCase):
         self.assertIn("redirected outside canonical origin", errors[0])
 
     def test_published_content_requires_the_canonical_https_origin(self):
-        self.assertTrue(live.same_origin(self.origin, self.origin + "/asset"))
-        self.assertFalse(live.same_origin(self.origin, "http://mfenx.com/asset"))
-        self.assertFalse(live.same_origin(self.origin, "https://outside.invalid/asset"))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            asset = root / "asset"; asset.write_bytes(b"approved bytes")
+            for origin, passes in [(self.origin, True), ("http://mfenx.com", False),
+                                   ("https://outside.invalid", False)]:
+                with self.subTest(origin=origin), patch.object(live, "request_bytes",
+                        return_value=(200, asset.read_bytes(), origin + "/asset")):
+                    error = live.verify_file(root, self.origin, asset)
+                    if passes:
+                        self.assertIsNone(error)
+                    else:
+                        self.assertIn("redirected outside canonical origin", error)
 
     def test_network_failure_can_recover_only_to_observed_404(self):
         errors, calls, _ = self.verify([URLError("edge unavailable"), self.response(404)])
