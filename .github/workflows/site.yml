@@ -28,6 +28,9 @@ jobs:
       - name: Validate routes, data, and publication boundary
         run: python3 scripts/validate_site.py --root public
 
+      - name: Check live publication boundary failure handling
+        run: python3 -m unittest -v tests.test_live_verification
+
       - name: Test deterministic commercial-status validation
         run: python3 -m unittest -v tests.test_commercial_status
 
