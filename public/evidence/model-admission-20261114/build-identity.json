@@ -1,0 +1,20 @@
+{
+  "schema": "mfenx/fixed-mlp-build/v1",
+  "guest_file": "guest-v1.bin",
+  "guest_bytes": 169672,
+  "guest_sha256": "sha256:7f09371d044a73d370412587378f007491ced187877b6521e3e16508f052d7de",
+  "image_id": "risc0:392f246b67cb70cc19d07e4337b48efbf5e04cf026270c5c0e051f21f7900020",
+  "program_digest": "sha256:b1ed482aa92462b48d46324eaa5017bfe6dcb9f9165faebdf65d78ad9dc62120",
+  "guest_compiler": "rustc 1.97.0-dev (e638c6cfe 2026-07-15)",
+  "sdk": "3.1.0",
+  "build_crate": "3.0.7",
+  "source_files": {
+    "methods/Cargo.lock": "2fb55c6733d05ee1e7c3898841912dbdb182dd4d34d28efd2a2bf7adfb1cf3e1",
+    "methods/Cargo.toml": "6a2c758ed01aabda5c0f2d2bbc4a40977434cee8c11e4d9dcebd429f10c96e8a",
+    "methods/build.rs": "fdde2e54825759fa95f4a671badd92777ac68ca75890b033f85458dafd84d9e4",
+    "methods/guest/Cargo.lock": "485d5c0e4c4cab9dbba33bda5f7001fc7517a3867013c47219e3484221385508",
+    "methods/guest/Cargo.toml": "09c174019291e20a13e52800c32c6e8bdd145168d52ae72d9a09835d9a07e4d2",
+    "methods/guest/src/main.rs": "1d758feacdcc1e6586b0d9603c8cd6232444820d60f5ddd675e03721d186bd97",
+    "methods/src/lib.rs": "902d56d952004dd42e65c148a4b537710f869054556528b25ed3e67d050bb255"
+  }
+}
