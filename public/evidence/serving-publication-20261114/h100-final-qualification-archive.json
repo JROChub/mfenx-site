@@ -1,0 +1,17 @@
+{
+  "sha256": "9dba8dc6bbf6a3e6e4c445abf8f963099eb9062687a213a203f4a4612ff68875",
+  "bytes": 26559,
+  "files": 26,
+  "lifecycle": {
+    "passed": true,
+    "old_epoch": 5,
+    "retained_epoch": 6,
+    "retained_sequence_floor": 2,
+    "restored_artifact_sha256": "sha256:efaf1bec54e8eea3d49f6ff5abef1482ca3f69775e5978772913032d75ad9ff9",
+    "old_policy_restart_exit_code": 2,
+    "listener_absent": true,
+    "gateway_process_absent": true,
+    "gpu_compute_process_count": 0,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0"
+  }
+}

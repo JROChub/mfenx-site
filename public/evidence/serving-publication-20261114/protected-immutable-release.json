@@ -1,0 +1,46 @@
+{
+  "id": 445208667,
+  "tag_name": "publication-qualification-43584975561-1",
+  "immutable": true,
+  "draft": false,
+  "html_url": "https://github.com/JROChub/model-gate-action/releases/tag/publication-qualification-43584975561-1",
+  "published_at": "2026-11-14T10:23:28Z",
+  "assets": [
+    {
+      "url": "https://api.github.com/repos/JROChub/model-gate-action/releases/assets/747114439",
+      "id": 747114439,
+      "node_id": "RA_kwDOUh6vVM4siA_H",
+      "name": "model-publication-qualification.zip",
+      "label": "",
+      "uploader": {
+        "login": "github-actions[bot]",
+        "id": 41898282,
+        "node_id": "MDM6Qm90NDE4OTgyODI=",
+        "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+        "html_url": "https://github.com/apps/github-actions",
+        "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "content_type": "application/zip",
+      "state": "uploaded",
+      "size": 11060,
+      "digest": "sha256:06a64a1e220967630a52741882a5b01b7801213f3e4013a8c0881554e6b99230",
+      "download_count": 0,
+      "created_at": "2026-11-14T10:23:25Z",
+      "updated_at": "2026-11-14T10:23:27Z",
+      "browser_download_url": "https://github.com/JROChub/model-gate-action/releases/download/publication-qualification-43584975561-1/model-publication-qualification.zip"
+    }
+  ]
+}

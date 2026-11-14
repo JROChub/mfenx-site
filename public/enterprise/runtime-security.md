@@ -76,8 +76,8 @@ fallback rejection. Under a separately declared test contract, 1,797 rows
 produced identical CPU/CUDA class decisions; maximum absolute logit difference
 was 7.62939453125e-06 against a predeclared tolerance of 0.0001. The test used
 a temporary test authority. It does not alter the existing CPU release
-contract or authorize production deployment. GPU memory quotas and isolated
-worker enforcement remain separate qualification requirements.
+contract or authorize production deployment. The 2 GiB CUDA provider arena rejected an actual signed 3 GiB allocation.
+This is not a total device-memory quota; aggregate fleet enforcement is separate.
 
 The model-gate action also completed an
 [immutable publication transport test](https://github.com/JROChub/model-gate-action/actions/runs/43557513072).
@@ -114,3 +114,35 @@ serving tests observed signer rotation, consistent snapshot recovery with
 retained policy floors, authority outage and lost durable state. These use
 synthetic authorities; live merchant settlement and confidential hardware
 recovery are separate boundaries.
+
+Protected publication and authenticated staging serving
+
+The protected main-only publication environment completed
+[run 43584975561](https://github.com/JROChub/model-gate-action/actions/runs/43584975561).
+Its [immutable release](https://github.com/JROChub/model-gate-action/releases/tag/publication-qualification-43584975561-1)
+retained asset 747114439, SHA-256
+`06a64a1e220967630a52741882a5b01b7801213f3e4013a8c0881554e6b99230`.
+Both publisher and owner mutation attempts denied after successful draft-edit
+controls; the downloaded bytes remained identical. This test authority does
+not authorize customer production releases.
+
+The final H100 run passed 16 CUDA/proof tests and five gateway tests with
+zero skips, failures or errors. The independently authenticated HTTPS gateway
+returned CUDA outputs from the retained model after pathname replacement,
+then denied policy withdrawal without another native call. Trusted database
+migration preserved epoch 6/floor 2; epoch 7/floor 3 served and withdrawal
+at epoch 8 prevented old-policy restart. A separate Linux pidfd watchdog
+terminated a long native loop and a native call holding the interpreter lock.
+The gateway is serialized and bounded, not a general multi-tenant scheduler.
+
+Browser verification remains local. Optional gateway clients explicitly send
+inference inputs to the operator's endpoint; this is a separate data flow.
+No model, receipt, authority or loader path can be selected through that
+request. Transport and credential custody remain operator responsibilities.
+
+The inspected Runpod H100 reported no CPU confidential-computing capability,
+GPU confidential mode off and no protected GPU memory. No confidential
+execution, attested key release or protected decryption profile was qualified.
+The test allocations were deleted after evidence retention. Source, logs,
+policies, public test authorities and audit snapshots are linked from
+[the admission record](https://mfenx.com/docs/admission/#serving).

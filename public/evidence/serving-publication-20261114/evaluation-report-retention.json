@@ -1,0 +1,6 @@
+{
+  "schema": "mfenx/evaluation-report-retention/v1",
+  "report_sha256": "sha256:e12e94496502aad1d0b097dbfbc57791c591927f985551912fbea886a373354e",
+  "matches_authenticated_receipt": true,
+  "acquisition": "Recovered deterministic report fields from the subsequent same-runtime replay and the original signed p95 observation; complete canonical bytes matched the original signed report commitment."
+}
