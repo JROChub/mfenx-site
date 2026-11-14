@@ -119,13 +119,30 @@ def verify_blocked(origin: str) -> list[str]:
     errors: list[str] = []
     for route in BLOCKED_ROUTES:
         url = urljoin(origin.rstrip("/") + "/", route.lstrip("/"))
-        try:
-            status, _, _ = request_bytes(url)
-        except (TimeoutError, URLError) as exc:
-            errors.append(f"{route}: request failed: {exc}")
+        last = "no response"
+        for delay in (0.0, 1.0, 2.0, 4.0):
+            if delay:
+                time.sleep(delay)
+            try:
+                status, _, final_url = request_bytes(url)
+            except (TimeoutError, URLError) as exc:
+                last = f"request failed: {exc}"
+                continue
+            if urlsplit(final_url).netloc != urlsplit(origin).netloc:
+                last = f"redirected outside canonical host to {final_url}"
+                break
+            if status == 404:
+                break
+            last = f"expected HTTP 404, received {status}"
+            # Retry unavailable edges, but never hide a published retired file
+            # behind a later 404 or accept unavailability as non-publication.
+            if status != 429 and not 500 <= status <= 599:
+                break
+        else:
+            errors.append(f"{route}: {last}")
             continue
-        if status != 404:
-            errors.append(f"{route}: expected HTTP 404, received {status}")
+        if status != 404 or urlsplit(final_url).netloc != urlsplit(origin).netloc:
+            errors.append(f"{route}: {last}")
     return errors
 
 
