@@ -40,7 +40,17 @@ class BlockedRouteVerification(unittest.TestCase):
     def test_external_404_is_not_absence_on_the_canonical_host(self):
         errors, calls, _ = self.verify([self.response(404, "https://outside.invalid")])
         self.assertEqual(calls, 1)
-        self.assertIn("redirected outside canonical host", errors[0])
+        self.assertIn("redirected outside canonical origin", errors[0])
+
+    def test_http_downgrade_cannot_establish_absence(self):
+        errors, calls, _ = self.verify([self.response(404, "http://mfenx.com")])
+        self.assertEqual(calls, 1)
+        self.assertIn("redirected outside canonical origin", errors[0])
+
+    def test_published_content_requires_the_canonical_https_origin(self):
+        self.assertTrue(live.same_origin(self.origin, self.origin + "/asset"))
+        self.assertFalse(live.same_origin(self.origin, "http://mfenx.com/asset"))
+        self.assertFalse(live.same_origin(self.origin, "https://outside.invalid/asset"))
 
     def test_network_failure_can_recover_only_to_observed_404(self):
         errors, calls, _ = self.verify([URLError("edge unavailable"), self.response(404)])
