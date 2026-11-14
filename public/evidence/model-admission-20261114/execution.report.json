@@ -1,0 +1,20 @@
+{
+  "capsule_digest": "sha256:f7169195de5a9de5b604f5c877e96d1d84f5bbcec8792bbfd024faf439df65b6",
+  "development_receipts_accepted": false,
+  "phx_fingerprint": "sha256:6d76361bfe6662e95e1f5e97a74bfb89b7b253c42e166cc5dbf72209bdb886be",
+  "private_input_embedded": false,
+  "profile": "power-house/sfcs-risc0-private-vm/v1",
+  "proof_digest": "sha256:2e4677e0e4326eb21924c3a2abc0011da339e244fd65181cad7187fa44e3d5db",
+  "receipt_digest": "sha256:d15ea120ba4c0deb9bd246285c0d6aca1559bba63dcbba88a677cc11fd0a2a01",
+  "rootprint_id": "sha256:891c7491b24c5dc9e9f99903a3556b1fd1e8a466b05348cacaeac388c4e4f252",
+  "schema": "power-house/sfcs-risc0-private-vm-cli-report/v1",
+  "statement": {
+    "graph_digest": "sha256:a678142bb1c2f09427d8a4f3dc176e7f8deabb05ba72274ae017be941684006d",
+    "image_id": "risc0:392f246b67cb70cc19d07e4337b48efbf5e04cf026270c5c0e051f21f7900020",
+    "journal_base64": "TUZYTUxQMDHvrxvsVOjuo9Sfb/Wr7xSCyj9pd15ZeHcpEwMtda2f+bKBAZpotfIPeQB3T/+ocPUeOn3yY0B9G3OgMDWHEIdNAAAAAAAAAAAAAAAAv4KljaEmRzzWTWAD6Nh8S3FjOytc4ZJ6fQgUcyn8WZ0=",
+    "journal_digest": "sha256:5943688d375a8dd8a0ad5090720e662c4ebab9cdc23cbe27e5ab20d2784c7e61",
+    "program_digest": "sha256:b1ed482aa92462b48d46324eaa5017bfe6dcb9f9165faebdf65d78ad9dc62120",
+    "receipt_claim_digest": "risc0:1399c9edb2973de62c6fd640f23845164cb054c1be7ef6a6c593553f6b6ce738",
+    "schema": "power-house/sfcs-risc0-private-vm/v1"
+  }
+}

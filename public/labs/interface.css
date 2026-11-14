@@ -236,3 +236,54 @@ body.portal-open .portal-drawer, body.observatory-open .observatory-drawer, body
   .evaluation-spec > div { grid-template-columns: 1fr; gap: 3px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Shared instrument behavior, aligned with the site's document surfaces. */
+.lab-page #app { max-width: 1440px; margin: 0 auto; padding: 0 32px 32px; grid-template-columns: 210px minmax(0, 1fr) 300px; grid-template-areas: "top top top" "modes selection selection" "modes graph scene" "modes sfcs controls" "console console console"; }
+.lab-page .topbar { padding: 18px 0; background: var(--paper); }
+.lab-page .brand > span { gap: 14px; }
+.lab-page .topbar nav { font-size: 12px; gap: 8px 14px; }
+.lab-page .topbar nav b { font-size: 12px; }
+.lab-page .mission-clock { margin-left: auto; }
+.lab-page .proof-rail { align-content: start; align-items: stretch; flex-direction: column; gap: 22px; padding: 24px 20px 24px 0; border-right: 1px solid var(--line); }
+.lab-page .rail-heading { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.lab-page .rail-heading b { font-size: 12px; }
+.lab-page .proof-modes { display: grid; gap: 0; }
+.lab-page .proof-mode { justify-content: start; text-align: left; gap: 12px; min-height: 62px; padding: 10px; border: 0; border-left: 2px solid transparent; background: transparent; }
+.lab-page .proof-mode[aria-pressed="true"] { border-left-color: var(--blue); background: #eef3f7; }
+.lab-page .mode-index { display: block; font-size: 12px; color: var(--muted); }
+.lab-page .mode-copy { display: grid; gap: 3px; }
+.lab-page .mode-copy b, .lab-page .mode-copy small { font-size: 12px; }
+.lab-page .mode-copy small { display: block; }
+.lab-page .install-command { margin: 0; font-size: 12px; padding: 8px 4px; }
+.lab-page .lab-references .release-links { left: 0; right: auto; }
+.lab-page .center-stage { padding: 24px; background: white; }
+.lab-page .proof-monument h1 { font-size: 16px; }
+.lab-page .stage-label { margin-bottom: 16px; }
+.lab-page .luminous-explorer { border-bottom: 1px solid var(--line); }
+.lab-page .luminous-heading { min-height: 64px; }
+.lab-page .luminous-graph { height: 350px; }
+.lab-page #orbital-canvas { height: 446px; }
+.lab-page:not(.luminous-mode) #orbital-canvas { grid-column: 2 / -1; height: 446px; }
+.lab-page .sfcs-orbit-dock, .lab-page .scene-controls { background: white; padding: 12px 18px; }
+.lab-page .verification-dock { margin-top: 24px; border-top: 1px solid var(--line); }
+@media (max-width: 1100px) {
+ .lab-page #app { grid-template-columns: 180px minmax(0,1fr); grid-template-areas: "top top" "modes selection" "modes graph" "modes scene" "sfcs controls" "console console"; padding: 0 20px 24px; }
+ .lab-page:not(.luminous-mode) #orbital-canvas { grid-column: 2; }
+ .lab-page #orbital-canvas, .lab-page:not(.luminous-mode) #orbital-canvas { height: 300px; }
+ .lab-page .luminous-graph { height: 320px; }
+}
+@media (max-width: 700px) {
+ .lab-page #app { padding: 0 12px 20px; grid-template-columns: minmax(0,1fr); grid-template-areas: "top" "modes" "selection" "graph" "scene" "sfcs" "controls" "console"; }
+ .lab-page .topbar { gap: 14px; }
+ .lab-page .mission-clock { margin-left: 0; }
+ .lab-page .proof-rail { padding: 18px 0; border-right: 0; gap: 12px; }
+ .lab-page .proof-modes { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .lab-page .proof-mode { min-width: 0; min-height: 58px; padding: 8px; gap: 8px; }
+ .lab-page .rail-heading { display: none; }
+ .lab-page .install-command { justify-content: start; width: fit-content; }
+ .lab-page .center-stage { padding: 18px 12px; }
+ .lab-page:not(.luminous-mode) #orbital-canvas { grid-column: 1; }
+ .lab-page .luminous-graph { height: 320px; }
+ .lab-page .luminous-node { width: 82px; padding: 5px; }
+ .lab-page .verification-dock { margin-top: 18px; }
+}

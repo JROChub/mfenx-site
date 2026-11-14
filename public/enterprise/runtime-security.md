@@ -69,7 +69,7 @@ reverify the exact promoted object rather than resolve a mutable model tag.
 Observed CUDA and publication boundaries
 
 The additive candidate profile `onnx-cuda12-owned-bytes/v1` was exercised on
-an RTX 4090 with ONNX Runtime GPU 1.26.0 and CUDA 12.8. Nine hardware tests
+an RTX 4090 with ONNX Runtime GPU 1.26.0 and CUDA 12.8. Fifteen combined CUDA/proof-admission tests
 passed without skips, including loading after pathname replacement, repeated
 device execution, runtime-configuration pinning and native CPU-placement
 fallback rejection. Under a separately declared test contract, 1,797 rows
