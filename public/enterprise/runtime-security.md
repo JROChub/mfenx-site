@@ -149,14 +149,14 @@ policies, public test authorities and audit snapshots are linked from
 
 Encrypted distribution candidate
 
-Gate 1.1.0rc2 adds `mfenx/encrypted-admission-policy/v1`: authenticated
+Gate 1.1.0rc3 adds `mfenx/encrypted-admission-policy/v1`: authenticated
 ciphertext acquisition, fresh-key AES-256-GCM, a separately provisioned Trustee
 resource and retained plaintext model loading. Keys are excluded from the
 distribution. Full wrapper identity participates in durable serving policy;
 session audit retains distribution identity. The existing Receipt v1 protocol
 and rc1 artifacts remain unchanged.
 
-The frozen candidate passed 89 software tests with no skips, including actual
+The frozen candidate passed 96 software tests with no skips, including actual
 local Trustee TLS/JWE, signed-token validation, Rego decisions, recipient
 mismatch rejection and encrypted gateway inference. The local service used
 sample evidence and synthetic signed EAR controls; no hardware-confidentiality
@@ -172,3 +172,8 @@ remain subject to separate serving-policy and lease enforcement.
 
 [Protocol and retained evidence](https://mfenx.com/docs/admission/encrypted/)
 include producer/approval procedures, source builders and the candidate digest.
+
+The rc3 key client is additionally supervised by the Linux parent-death signal,
+including an expected-parent check for startup races. Native fixture tests
+observe its termination after parent death and kernel output-quota termination.
+The earlier rc2 artifact retains its identity and is superseded for key acquisition.

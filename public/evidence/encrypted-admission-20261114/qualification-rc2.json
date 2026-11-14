@@ -1,0 +1,48 @@
+{
+  "schema": "mfenx/encrypted-software-qualification/v1",
+  "source_revision": "6b8f993d44efa8c6b6dc104f62e395e5d8cd283e",
+  "wheel_sha256": "27f9667f22555d2414a4de96fba1914b318af62495cbe442a1503bccdb6d3ee8",
+  "modules": [
+    "test_receipt_sdk",
+    "test_integrations",
+    "test_admission",
+    "test_admission_recovery",
+    "test_serving_gateway",
+    "test_encrypted_admission",
+    "test_trustee_integration"
+  ],
+  "tests": 89,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 38.942,
+  "installed_module_sha256": {
+    "mfenx_gate/__init__.py": "7266fa8d0ab3fdbca728d71b11e8d8e4bfef0be6dd67059650f3074e20b3e084",
+    "mfenx_gate/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "mfenx_gate/admission.py": "284c1d74733e6920c62fef7921a72d34393893e285d9d4fbcbbc2926200867f0",
+    "mfenx_gate/bundle.py": "3d0048a9665837211ec429f2a8d24bb308ec644a16ddda7d55a8d762a95dd3d3",
+    "mfenx_gate/cli.py": "74a2c404ac3d339b76bb51790aef34e3b3eb2be2afd37e9d2d5f8f07cd228ad4",
+    "mfenx_gate/encrypted.py": "fb3047b67d4b7541c2877af56915c8f6b79aa437dd5ccc5b11560685dfff711a",
+    "mfenx_gate/execution.py": "fc7b36526edaa86eb03c04854b9df2ac36837f7c946b47ebc3d8c828496916e0",
+    "mfenx_gate/lineage.py": "d93778e74a8b4bbc789e20c0886cd52bb5fc4785c4721f38460dbeae37b16de2",
+    "mfenx_gate/receipt.py": "be89cc009d9d810e88176c2d2cdbef6ccaca19aec3e9f2d18eb96c4ae841792d",
+    "mfenx_gate/trustee.py": "dbac3d7fb3fd5e83cf0f69c3a1e893e0de9ef2341da2e135bf2b935d16439a55",
+    "mfenx_gate/trustee_policy.py": "fc7ca5d169db7b8124bf2c8de5f9bd72100ed67b081d93237c6393895f4e6ebc",
+    "mfenx_gate/worker.py": "94668de1a9adda03a0c956b979b1e23cd8c746e7042bf3c4c67ddd6a08ade474",
+    "mfenx_gate/workflow.py": "f23b705c686676efd41a526a075408da643dbd877e64c114b54189c279071a3f"
+  },
+  "packages": {
+    "mfenx-gate": "1.1.0rc2",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.32.0",
+    "cryptography": "50.0.0",
+    "numpy": "2.5.4",
+    "mfenx-ckodmk": "0.5.1"
+  },
+  "real_local_trustee_service": true,
+  "hardware_evidence": "sample and signed synthetic policy fixtures only",
+  "hardware_qualified": false,
+  "new_billing_providers": 0,
+  "legacy_engine_wheel_sha256": "d5e5d1ff8da95601ac78986c9d1d29f010aac4e608a6856b9e07f127d29c7ee7",
+  "new_gpu_or_vps_resources": 0
+}
