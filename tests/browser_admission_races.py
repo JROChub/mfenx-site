@@ -16,7 +16,7 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--chromium", default="/usr/bin/chromium")
+    parser.add_argument("--chromium", help="optional Chromium executable; defaults to Playwright's managed browser")
     parser.add_argument("--route", default="/ckodmk/")
     args = parser.parse_args()
     server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Quiet, directory=str(args.root.resolve())))
