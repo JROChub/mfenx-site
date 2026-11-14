@@ -1,0 +1,6 @@
+{
+  "scope": "Actual public-key authentication boundary of hardware bootstrap",
+  "returncode": 255,
+  "command_stdout_bytes": 0,
+  "denied": true
+}

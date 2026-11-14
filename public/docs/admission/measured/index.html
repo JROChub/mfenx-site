@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="tdm-reservation" content="1" />
+    <meta name="tdm-policy" content="https://mfenx.com/tweek/policy/no-ai/" />
+    <meta name="robots" content="noai, noimageai" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8fa" />
+    <title>MFENX</title>
+    <meta
+      name="description"
+      content="MFENX measured runtime references, TCB recovery policy and recorded hardware admission boundaries."
+    />
+    <link rel="canonical" href="https://mfenx.com/docs/admission/measured/" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/gate.css?v=20260926-instrument" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="MFENX home">MFENX</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/gate/">Gate</a>
+        <a href="/lightsout/">Lights Out</a>
+        <a href="/labs/">Technology</a>
+        <a href="/docs/">Developers</a>
+        <a href="/company/">Company</a>
+        <a href="/pricing/">Pricing</a>
+        <a class="nav-start" href="/verify/">Verify a receipt</a>
+      </nav>
+    </header>
+    <main class="page" id="content" tabindex="-1">
+<section class="document-head"><div><div class="section-label">MFENX / Measured runtime</div><h1>Measured runtime references</h1><p>Boot identity, independent policy and explicit vendor recovery requirements.</p></div><aside>Gate 1.1.0rc4<br>14 November 2026<br>Confidential model execution unqualified</aside></section><div class="document-grid document-body"><nav class="contents" aria-label="On this page"><a href="#scope">Compatibility and scope</a><a href="#references">Reference format and authority</a><a href="#image">Image construction</a><a href="#observed">Observed enforcement</a><a href="#tests">Regression evidence</a><a href="#sources">References</a><a href="#downloads">Source and observations</a></nav><div class="reading"><p>Gate 1.1.0rc4 adds an explicit encrypted-policy v2 path for a self-contained
+TDX EFI RAM-root workload. This is a reference implementation with tested
+parsing, policy enforcement and measured boot. Confidential model execution
+remains unqualified on the inspected allocations: the broker denied the key
+because the platform did not satisfy the required firmware baseline. Neither
+CPU nor GPU protected model inference is represented as completed.</p>
+<h2 id="scope">Compatibility and scope</h2>
+
+<p>Encrypted-policy v1 retains its exact Initdata requirement. The v2 policy adds
+<code>attestation_profile</code>, selecting <code>tdx-efi-ram-cpu/v1</code> or
+<code>tdx-efi-ram-nvidia/v1</code>. The CPU selection requires the existing owned-byte CPU
+inference profile; the NVIDIA selection requires its existing CUDA12 profile
+and both authenticated CPU and GPU submodules. Unknown profiles and mismatched
+runtime selections reject. Selecting the CPU profile does not qualify GPU
+execution. Receipt v1 signatures, model identities, PHA canonicalization and
+Rootprint identities are unchanged.</p>
+<p>The v2 path deliberately does not supply a fictitious launch-time MRCONFIGID.
+Instead, the authenticated quote must identify the complete approved EFI image,
+kernel, command line and initial filesystem through their measured boot
+transcripts. Only independently approved references can authorize that path.
+The old Initdata path cannot accept a boot reference as a substitute.</p>
+<h2 id="references">Reference format and authority</h2>
+
+<p><code>BootReference.from_bytes</code> accepts a bounded, independently SHA-256-pinned
+<code>mfenx/tdx-efi-ram-reference/v1</code> object. Its fields are:</p>
+<table><caption>Approved reference fields</caption>
+<thead>
+<tr>
+<th scope="col">Field</th>
+<th scope="col">Required meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attestation_profile</code></td>
+<td>Exact explicit CPU or NVIDIA profile</td>
+</tr>
+<tr>
+<td><code>encrypted_policy_sha256</code></td>
+<td>Approved complete encrypted policy</td>
+</tr>
+<tr>
+<td><code>minimum_tcb_evaluation_number</code></td>
+<td>Protected minimum Intel appraisal-data counter; positive integer</td>
+</tr>
+<tr>
+<td><code>quote</code></td>
+<td>Exact <code>mr_td</code>, <code>mr_config_id</code>, <code>xfam</code>, and <code>rtmr_0</code> through <code>rtmr_3</code> values</td>
+</tr>
+<tr>
+<td><code>image_authenticode_sha384</code></td>
+<td>Approved loaded EFI image measurement</td>
+</tr>
+<tr>
+<td><code>kernel_authenticode_sha384</code></td>
+<td>Approved loaded kernel PE measurement</td>
+</tr>
+<tr>
+<td><code>gpt_sha384</code></td>
+<td>Approved measured partition-table event</td>
+</tr>
+<tr>
+<td><code>command_line_sha384</code></td>
+<td>SHA-384 of the measured UTF-16LE command line including its terminating NUL</td>
+</tr>
+<tr>
+<td><code>initrd_sha384</code></td>
+<td>SHA-384 of the complete initial filesystem byte stream</td>
+</tr>
+</tbody>
+</table>
+<p>The parser recomputes the complete RTMR1 and RTMR2 digest-extension sequences;
+it rejects inconsistent artifact references and requires RTMR3 to remain zero
+for this profile. Firmware and its configuration still require independent
+approval. Copying measurements from an unreviewed guest is not approval.
+Authenticode measurement is distinct from a raw-file distribution hash.</p>
+<p>The generated attestation rule requires Intel-native evidence, debug disabled,
+matching references, unexpired collateral, both <code>tcb_status</code> and
+<code>tcb_status_current</code> equal to <code>UpToDate</code>, and the protected minimum appraisal
+counter. The resource rule independently checks those TCB fields, the exact
+model-key resource and the selected submodule count. It uses the broker's clock
+to enforce a positive remaining policy lifetime of at most 300 seconds. The
+existing guest-side policy check and serving lease remain required. A key
+already delivered cannot be retracted by subsequently denying new requests.</p>
+<p>The observed counter floor is 22. It is an explicit deployment-policy choice,
+not a timeless assertion that counter 22 will always be sufficient. Update the
+floor and approved references through protected authority as vendor recovery
+requirements change. A fresh signature or recent collateral issue date does not
+by itself establish that the selected appraisal channel contains the required
+recovery baseline.</p>
+<h2 id="image">Image construction</h2>
+
+<p><code>integrations/measured_boot/build_probe.py</code> builds GRUB with an embedded kernel,
+initial filesystem and locked configuration. Trusted runtime-tree inputs become
+part of those measured bytes. The RAM-root bootstrap does not mount the model
+source disk or activate its swap. Its optional diagnostic interface returns
+hardware evidence; the alternative SSH interface accepts only an explicitly
+embedded operator public key and generates its host key inside the guest.
+The trusted operator and build environment remain within the workload's trust
+boundary. The builder never embeds a model key or release-authority private key
+on the caller's behalf. Review every supplied runtime-tree file before building.</p>
+<p>The bounded CCEL parser replays all four SHA-384 registers and requires the
+complete independently specified executable and kernel-input transcripts. Event
+labels alone are insufficient: an attacker can relabel an event without changing
+its extended digest. Extra, missing or reordered executable measurements deny.
+The reference implementation does not attempt to authorize every possible UEFI
+boot sequence or claim a universal event-log verifier.</p>
+<p>The inspected firmware was independently identified as Ubuntu
+<code>ovmf_2025.02-8ubuntu3_all.deb</code>, package SHA-256
+<code>498438a464ca4f110dd5e92bfd810bc501fdb5482d4e094af603776caf33a485</code>.
+The archive signature and package-index hash were verified. The measured
+<code>OVMF.fd</code> identity was reproduced using virtee/tdx-measure revision
+<code>08fc6201b576e8f19a16252125f416d8203a93a3</code> and matched the authenticated MRTD.
+Package identity is not a security review or qualification of that firmware.
+UEFI vulnerability applicability remains part of deployment commissioning.</p>
+<h2 id="observed">Observed enforcement</h2>
+
+<p>On 14 November 2026 a tenant-built EFI image actually booted on a Voltage TDX
+allocation. A subsequent image contained the pinned CPU runtime, native client,
+encrypted model and policy. Its MRTD, MRCONFIGID, XFAM and all four RTMR values
+matched the independently supplied references. Native appraisal identified its
+executables and configuration; the model-key request still failed because the
+platform hardware appraisal was contraindicated with <code>OutOfDate</code> TCB status.
+No protected model inference or model-key delivery was recorded as successful.</p>
+<p>The separate Python evaluator initially used Intel's standard channel, which
+returned appraisal number 20 and <code>UpToDate</code>. Evaluating the same quote using
+Intel-signed early-channel number 22 reproduced <code>OutOfDate</code>, consistent with the
+native verifier. The early appraisal included TDX module and platform advisories.
+These channels are different policy inputs; the discrepancy was not resolved by
+ignoring the newer one. Remediation requires a platform whose fresh appraisal
+meets the protected floor and required security status, followed by complete
+key-release, decryption, inference, revocation and recovery testing.</p>
+<h2 id="tests">Regression evidence</h2>
+
+<p>The CPU/compatibility selection executes 99 tests, including retained model
+loading, Receipt v1, lineage, bundle acquisition and the measured-boot tests.
+Thirteen separately selected local Trustee tests exercise the actual TLS,
+signed-token, Rego and recipient-bound resource implementation. Synthetic EAR
+controls prove policy behavior, not vendor authenticity or confidential
+execution. The local rules reject stale appraisal counters, out-of-date status,
+expired collateral, debug mode, altered registers and invalid policy windows.
+The retained hardware observations separately establish real boot and denial.</p>
+<h2 id="sources">References</h2>
+
+<ul>
+<li><a href="https://github.com/confidential-containers/trustee/blob/512fed65642015b849f38fb13bfdec7806639987/deps/verifier/src/intel_dcap/mod.rs">Pinned native verifier collateral policy</a></li>
+<li><a href="https://github.com/intel/Intel-affected-processor-list">Intel TCB recovery requirements</a></li>
+<li><a href="https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-01436.html">Intel TDX module advisory INTEL-SA-01436</a></li>
+<li><a href="https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-01439.html">Intel ACTM advisory INTEL-SA-01439</a></li>
+<li><a href="https://snapshot.ubuntu.com/ubuntu/20251010T000000Z/">Ubuntu snapshot used for firmware identity</a></li>
+</ul><h2 id="downloads">Source and retained observations</h2><ul>
+<li><a href="/gate/downloads/mfenx_gate-1.1.0rc4-py3-none-any.whl" download>Gate 1.1.0rc4 wheel</a> · 39,999 bytes<br>SHA-256 <code>0d426d3ed5ba0209617e1585fc3360fc78c6145408b4cfeef862621d9008e35c</code></li>
+<li><a href="/evidence/measured-runtime-20261114/qualification.json">Qualification record</a> · <a href="/evidence/measured-runtime-20261114/software-qualification.json">Installed-wheel evidence</a> · <a href="/evidence/measured-runtime-20261114/software-tests.txt">116 test results</a></li>
+<li><a href="/evidence/measured-runtime-20261114/quote.bin" download>Hardware quote</a> · <a href="/evidence/measured-runtime-20261114/challenge.txt">Issued challenge</a> · <a href="/evidence/measured-runtime-20261114/ccel.bin" download>CCEL</a> · <a href="/evidence/measured-runtime-20261114/native-appraisal.json">Native appraisal</a></li>
+<li><a href="/evidence/measured-runtime-20261114/collateral-channel-comparison.json">Channel comparison</a> · <a href="/evidence/measured-runtime-20261114/standard-collateral.json">Signed standard collateral</a> · <a href="/evidence/measured-runtime-20261114/early-collateral.json">Signed early collateral</a></li>
+<li><a href="/evidence/measured-runtime-20261114/model-policy.json">Exact historical model policy</a> · <a href="/evidence/measured-runtime-20261114/encrypted-descriptor.json">Encrypted descriptor</a> · <a href="/evidence/measured-runtime-20261114/encrypted-model.bin" download>Encrypted test model</a> · <a href="/evidence/measured-runtime-20261114/model-receipt.json">Signed model receipt</a> · <a href="/evidence/measured-runtime-20261114/model-issuer.der" download>Ephemeral issuer public key</a></li>
+<li><a href="/evidence/measured-runtime-20261114/firmware-reference.json">Firmware identity</a> · <a href="/evidence/measured-runtime-20261114/firmware-archive-verification.txt">Archive signature</a> · <a href="/evidence/measured-runtime-20261114/source.zip" download>Implementation and tests</a> · <a href="/evidence/measured-runtime-20261114/SHA256SUMS">Checksums</a></li></ul>
+<p>The hardware image used an earlier unpublished candidate. The frozen wheel additionally enforces explicit current-TCB and counter-floor assertions. The hardware denial is not presented as a positive hardware test of the frozen wheel. <a href="/docs/admission/encrypted/">Encrypted acquisition</a> · <a href="/docs/admission/">Admission evidence</a></p></div></div></main>
+    <footer class="site-footer">
+      <span>mfenx LLC</span>
+      <nav aria-label="Footer">
+        <a href="/verify/">Free verifier</a><a href="/docs/">Documentation</a
+        ><a href="/enterprise/#data-flow">Data handling</a
+        ><a href="/labs/">Research</a>
+      </nav>
+      <span class="end-note">San Francisco, California</span>
+    </footer>
+  </body>
+</html>

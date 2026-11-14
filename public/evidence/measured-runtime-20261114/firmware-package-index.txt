@@ -1,0 +1,23 @@
+Package: ovmf
+Architecture: all
+Version: 2025.02-8ubuntu3
+Multi-Arch: foreign
+Priority: extra
+Section: misc
+Source: edk2
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian QEMU Team <pkg-qemu-devel@lists.alioth.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 20540
+Suggests: qemu-system-x86
+Replaces: qemu-system-common (<< 1.7.0+dfsg-3ubuntu4)
+Filename: pool/main/e/edk2/ovmf_2025.02-8ubuntu3_all.deb
+Size: 6360284
+MD5sum: 8c8bffa7f205e374197d64351434d9f8
+SHA1: d321de26fcc019720185b4807850804beee7296b
+SHA256: 498438a464ca4f110dd5e92bfd810bc501fdb5482d4e094af603776caf33a485
+SHA512: f7e40df4fce56ae4e67c4d25004284b4deaa965abec8b47f94b63bc36cdc10ebbfcf6f9766fa94abc72fcb1258bd95b19f1fac810ed3f16cd5d00989830170e8
+Homepage: http://www.tianocore.org
+Description: UEFI firmware for 64-bit x86 virtual machines
+Description-md5: f5518b7d256400637ca9512a6cfc4bac
