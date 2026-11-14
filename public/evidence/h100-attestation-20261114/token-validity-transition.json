@@ -1,0 +1,27 @@
+{
+  "schema": "mfenx/broker-validity-transition/v1",
+  "cases": {
+    "unexpired_control": {
+      "returncode": 0,
+      "canary_sha256": "dd1a229ce4387b6cb8253a08d12a0d69e260da1256dba1233b323f9a1bda8845"
+    },
+    "before_patch": {
+      "returncode": 0,
+      "plaintext_bytes": 32,
+      "observed_at": 1794672446,
+      "token_expires": 1794672444
+    },
+    "after_patch": {
+      "returncode": 1,
+      "plaintext_bytes": 0,
+      "observed_at": 1794672478,
+      "token_expires": 1794672444
+    },
+    "future_nbf": {
+      "returncode": 1,
+      "plaintext_bytes": 0,
+      "fixture": "same observed hardware recipient claims, re-signed by qualification authority with a future nbf"
+    }
+  },
+  "model_key_used": false
+}

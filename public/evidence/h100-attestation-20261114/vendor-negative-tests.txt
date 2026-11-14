@@ -1,0 +1,13 @@
+clean bundle: VERIFIED
+[PASS] image-digest       container image digest changed, commitments recomputed  ->  rejected on tdx.report_data, nvidia.nonce
+[PASS] artifact           model or artifact digest changed, commitments recomputed  ->  rejected on tdx.report_data, nvidia.nonce
+[PASS] manifest-field     another manifest field changed, commitments recomputed  ->  rejected on tdx.report_data, nvidia.nonce
+[PASS] challenge-replay   challenge replaced by a fresh one (replay of old evidence)  ->  rejected on tdx.report_data, nvidia.nonce
+[PASS] quote-tamper       one byte of the TDX quote body altered  ->  rejected on tdx.signatures
+[PASS] nras-tamper        one claim inside a GPU token altered  ->  rejected on nvidia.signatures
+[PASS] nras-extra-gpu     a genuine GPU token copied under a new name to pad the GPU count  ->  rejected on nvidia.signatures
+[PASS] nras-own-key       every NRAS token re-signed with an attacker key shipped in the bundle JWKS  ->  rejected on nvidia.signatures
+[PASS] jwks-duplicate-kid signing key id listed twice in the bundle JWKS, second copy with attacker coordinates  ->  rejected on nvidia.signatures
+[PASS] jwks-no-chain      x5c certificate chain stripped from every key of the bundle JWKS  ->  rejected on nvidia.signatures
+
+SELFTEST: PASS

@@ -1,0 +1,9 @@
+{
+  "schema": "mfenx/strict-hardware-model-probe/v1",
+  "admission_denied": true,
+  "error": "Trustee denied key delivery or returned an invalid response",
+  "onnx_parser_calls": 0,
+  "elapsed_seconds": 1.786,
+  "policy_sha256": "sha256:b2d64deed8a686704b451e2020d49177a1c438ddd2d56751644bfd4c1a58a0ea",
+  "full_confidential_profile_qualified": false
+}

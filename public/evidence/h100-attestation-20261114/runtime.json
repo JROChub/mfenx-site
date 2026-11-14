@@ -1,0 +1,27 @@
+{
+  "wheel_sha256": "d2d57b482605539a1fb17f0da8890d036da7a270074b62b2d2e1446ea3509503",
+  "installed_module_sha256": {
+    "mfenx_gate/__init__.py": "0b91ee1af6bcbcdc6c65ee25529aaaeab1779490b039531a76d4c1f17dd8d23c",
+    "mfenx_gate/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "mfenx_gate/admission.py": "284c1d74733e6920c62fef7921a72d34393893e285d9d4fbcbbc2926200867f0",
+    "mfenx_gate/bundle.py": "3d0048a9665837211ec429f2a8d24bb308ec644a16ddda7d55a8d762a95dd3d3",
+    "mfenx_gate/cli.py": "e7ecc2ab52072bad20a77965feeb877148e18733392a54ca4cdf781ac53ce823",
+    "mfenx_gate/encrypted.py": "fb3047b67d4b7541c2877af56915c8f6b79aa437dd5ccc5b11560685dfff711a",
+    "mfenx_gate/execution.py": "fc7b36526edaa86eb03c04854b9df2ac36837f7c946b47ebc3d8c828496916e0",
+    "mfenx_gate/lineage.py": "d93778e74a8b4bbc789e20c0886cd52bb5fc4785c4721f38460dbeae37b16de2",
+    "mfenx_gate/receipt.py": "be89cc009d9d810e88176c2d2cdbef6ccaca19aec3e9f2d18eb96c4ae841792d",
+    "mfenx_gate/trustee.py": "59b7a48fbd7c18bf70e2d4c17f3c3221f9658b6ad30f173574f79561c8a3b1ef",
+    "mfenx_gate/trustee_policy.py": "fc7ca5d169db7b8124bf2c8de5f9bd72100ed67b081d93237c6393895f4e6ebc",
+    "mfenx_gate/worker.py": "94668de1a9adda03a0c956b979b1e23cd8c746e7042bf3c4c67ddd6a08ade474",
+    "mfenx_gate/workflow.py": "f23b705c686676efd41a526a075408da643dbd877e64c114b54189c279071a3f"
+  },
+  "packages": {
+    "mfenx-gate": "1.1.0rc3",
+    "onnxruntime-gpu": "1.26.0",
+    "onnx": "1.23.2",
+    "numpy": "2.1.2",
+    "cryptography": "50.0.0"
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "swap_entries": []
+}
