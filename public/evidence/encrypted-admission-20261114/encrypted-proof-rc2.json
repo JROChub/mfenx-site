@@ -1,0 +1,19 @@
+{
+  "schema": "mfenx/encrypted-model-proof-qualification/v1",
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "test_source_sha256": "51f710a9d14eb9bf36d725f6efa591a2a9263070870d22e64c5ab012cdaab843",
+  "wheel_sha256": "27f9667f22555d2414a4de96fba1914b318af62495cbe442a1503bccdb6d3ee8",
+  "model_sha256": "efaf1bec54e8eea3d49f6ff5abef1482ca3f69775e5978772913032d75ad9ff9",
+  "dataset_sha256": "b281019a68b5f20f7900774fffa870f51e3a7df263407d1b73a030358710874d",
+  "native_verifier_sha256": "504bde645d83c25dd43c3ef69fc85b4f5f18d5b500e8e0f3136f4173bda582b8",
+  "proof_sha256": "748dba184c85ce10868c0a3a2998f5e40e06fdc646683da45d2c705f9a2c274e",
+  "actual_key_delivery": "local upstream Trustee with sample evidence",
+  "actual_model_execution": "ONNX CPU, sample zero, observed class zero",
+  "native_protocol_verification": true,
+  "distribution_and_proof_audit_link": true,
+  "hardware_qualified": false,
+  "proof_relation": "one indexed ordered-FP32 guest evaluation; not a proof of ONNX or GPU execution"
+}

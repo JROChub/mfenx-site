@@ -146,3 +146,34 @@ execution, attested key release or protected decryption profile was qualified.
 The test allocations were deleted after evidence retention. Source, logs,
 policies, public test authorities and audit snapshots are linked from
 [the admission record](https://mfenx.com/docs/admission/#serving).
+
+Encrypted distribution candidate
+
+Gate 1.1.0rc3 adds `mfenx/encrypted-admission-policy/v1`: authenticated
+ciphertext acquisition, fresh-key AES-256-GCM, a separately provisioned Trustee
+resource and retained plaintext model loading. Keys are excluded from the
+distribution. Full wrapper identity participates in durable serving policy;
+session audit retains distribution identity. The existing Receipt v1 protocol
+and rc1 artifacts remain unchanged.
+
+The frozen candidate passed 96 software tests with no skips, including actual
+local Trustee TLS/JWE, signed-token validation, Rego decisions, recipient
+mismatch rejection and encrypted gateway inference. The local service used
+sample evidence and synthetic signed EAR controls; no hardware-confidentiality
+qualification follows. Production requires independently controlled key custody,
+actual CPU/GPU attestation and measured workload/reference enrollment.
+
+The constrained client uses HTTPS, disables redirects and trusts only approved
+certificate roots. Worker acquisition receives no administrator credentials or
+cached attestation token, and no key response is written to a regular disk file
+by the adapter. Memory copies, swap and teardown require protected-guest
+qualification. Broker revocation denies new key acquisition; active sessions
+remain subject to separate serving-policy and lease enforcement.
+
+[Protocol and retained evidence](https://mfenx.com/docs/admission/encrypted/)
+include producer/approval procedures, source builders and the candidate digest.
+
+The rc3 key client is additionally supervised by the Linux parent-death signal,
+including an expected-parent check for startup races. Native fixture tests
+observe its termination after parent death and kernel output-quota termination.
+The earlier rc2 artifact retains its identity and is superseded for key acquisition.

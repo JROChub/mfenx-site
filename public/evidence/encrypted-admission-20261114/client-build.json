@@ -1,0 +1,17 @@
+{
+  "schema": "mfenx/trustee-client-build/v1",
+  "trustee_revision": "512fed65642015b849f38fb13bfdec7806639987",
+  "guest_revision": "da8d93f2797088a5f0636c8c1eeb31da73784fe8",
+  "upstream_lock_sha256": "2825e03527615a351dde2dabe2ad25edef483c3ac627ca2e2658863264ae5087",
+  "derived_lock_sha256": "2e2c2b0e99e48abb1c076fbb021bca1ab3476e8bd2fbda06f6e066795fda26bd",
+  "builder_sha256": "969969ac276a1cd8e56104570bfcf7e72507cffb9fb985db6f37ab34f7d17083",
+  "client_sha256": "93440894ab845b03b0539d229ca9604b36230e4b68b4d477c091387da766cadd",
+  "features": "default-tls",
+  "profile": "software-tests",
+  "hardware_qualified": false,
+  "transport": {
+    "https_only": true,
+    "redirects": false,
+    "system_roots": false
+  }
+}
