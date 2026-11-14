@@ -26,9 +26,9 @@
   <script src="vendor/ort/ort.wasm.min.js" integrity="sha384-W2a9V+AEW9nNVTsl4WkYb9OmIWx/xOM2HJY/aTYflneh497ZVsWN9NG3ezc+1SAk" defer></script>
   <script src="app.js?v=20260810h" defer></script>
   <script src="browser-optimizer.js?v=20260810f" defer></script>
-  <script src="browser-gate.js?v=20260811a" defer></script>
-  <script src="pcm.js?v=20260812a" defer></script>
-  <script src="phone-study.js?v=20260810f" defer></script>
+  <script src="browser-gate.js?v=20261113-admission" defer></script>
+  <script src="pcm.js?v=20261113-admission" defer></script>
+  <script src="phone-study.js?v=20261113-admission" defer></script>
 </head>
 <body>
   <a class="skip" href="#pcm-gate">Skip to admission gate</a>
@@ -63,7 +63,9 @@
 
     <section id="pcm-gate" class="pcm-section" aria-labelledby="pcm-title" tabindex="-1">
       <header class="workspace-header">
-        <div><p class="section-label">Admission gate</p><h2 id="pcm-title">Signed model package</h2></div>
+        <div><p class="section-label">Admission gate</p>
+          <h2 id="pcm-title">Signed model package</h2>
+          </div>
         <p>The candidate cannot be downloaded from this gate until its issuer signature, RootID, file bindings, validity period and required behavioral checks pass.</p>
       </header>
       <div class="pcm-card">
@@ -123,7 +125,8 @@
         <form id="gate-form" class="file-workspace" novalidate>
           <div class="panel-heading">
             <span class="step-number">2</span>
-            <div><h3>Files and settings</h3><p>Supply a source model and dataset. Build a candidate here or select one you already have.</p></div>
+            <div><h3>Files and settings</h3><p>Supply a source model and dataset. Build a candidate here or select one you already have.</p>
+          </div>
           </div>
 
           <div class="file-grid">
@@ -149,7 +152,8 @@
         <aside class="result-panel" aria-live="polite" aria-atomic="false">
           <div class="panel-heading result-heading">
             <span class="step-number">3</span>
-            <div><h3>Result</h3><p id="gate-status">Choose an included model or select local files.</p></div>
+            <div><h3>Result</h3><p id="gate-status">Choose an included model or select local files.</p>
+          </div>
             <b id="gate-decision" class="decision-badge">Ready</b>
           </div>
           <div class="progress" aria-label="Comparison progress"><i id="gate-progress"></i></div>
@@ -174,7 +178,8 @@
       <section class="timing-panel" aria-labelledby="timing-title" aria-live="polite">
         <div class="timing-copy">
           <span class="step-number">4</span>
-          <div><h3 id="timing-title">Measure this browser</h3><p>After the comparison passes, CKODMK alternates source and candidate runs and records the observed timing. It does not record the device model, operating system, browser version, account, or network address.</p></div>
+          <div><h3 id="timing-title">Measure this browser</h3><p>After the comparison passes, CKODMK alternates source and candidate runs and records the observed timing. It does not record the device model, operating system, browser version, account, or network address.</p>
+          </div>
         </div>
         <div class="timing-result">
           <header><span id="phone-study-status">Complete the comparison first.</span><b id="phone-study-state" class="decision-badge">Locked</b></header>
@@ -196,7 +201,9 @@
 
     <section id="results" class="reference-section" aria-labelledby="results-title">
       <header class="section-header">
-        <div><p class="section-label">Reference runs</p><h2 id="results-title">Results from included models</h2></div>
+        <div><p class="section-label">Reference runs</p>
+          <h2 id="results-title">Results from included models</h2>
+          </div>
         <p>These records make the examples inspectable before you run them locally. Select a row to view its measurements.</p>
       </header>
       <div class="reference-browser">
@@ -228,7 +235,9 @@
 
     <section id="install" class="resources-section" aria-labelledby="resources-title">
       <header class="section-header">
-        <div><p class="section-label">Command line</p><h2 id="resources-title">Use CKODMK in a build pipeline</h2></div>
+        <div><p class="section-label">Command line</p>
+          <h2 id="resources-title">Use CKODMK in a build pipeline</h2>
+          </div>
         <p>The browser provides local PCM admission. The Python package creates issuer keys, signs PCM files and verifies cryptographic bindings for build systems. The source repository is private.</p>
       </header>
       <div class="command-card">
@@ -239,12 +248,24 @@
         <summary>Package checksum and supported file profile</summary>
         <div class="details-grid">
           <div><h3>Verify the package</h3><code>curl -O https://mfenx.com/ckodmk/downloads/mfenx_ckodmk-0.5.2-py3-none-any.whl.sha256</code><button type="button" data-copy="curl -O https://mfenx.com/ckodmk/downloads/mfenx_ckodmk-0.5.2-py3-none-any.whl.sha256" aria-label="Copy checksum command">Copy checksum command</button></div>
-          <div><h3>Supported browser files</h3><ul><li>Source and candidate ONNX files up to 64 MB</li><li>One Float32 classification input and one output</li><li>NPZ with Float32 inputs and Int64 labels</li><li>Batch size one, up to 25,000 rows and 250,000 output values</li></ul></div>
-          <div><h3>Large checkpoint trees</h3><ul><li>Safetensors and weights-only PyTorch state dictionaries</li><li>Single-file or sharded checkpoints with exact index coverage</li><li>Streaming file and tensor hashes without whole-tree buffering</li><li>Use <code>inspect-checkpoint-scale</code> from the command line</li></ul></div>
+          <div><h3>Supported browser files</h3><ul><li>Source and candidate ONNX files up to 64 MB</li>
+          <li>One Float32 classification input and one output</li>
+          <li>NPZ with Float32 inputs and Int64 labels</li>
+          <li>Batch size one, up to 25,000 rows and 250,000 output values</li>
+          </ul></div>
+          <div><h3>Large checkpoint trees</h3><ul><li>Safetensors and weights-only PyTorch state dictionaries</li>
+          <li>Single-file or sharded checkpoints with exact index coverage</li>
+          <li>Streaming file and tensor hashes without whole-tree buffering</li>
+          <li>Use <code>inspect-checkpoint-scale</code> from the command line</li>
+          </ul></div>
         </div>
       </details>
     </section>
-  </main>
+  <section class="document-body" aria-label="Enterprise admission update"><h2>Checkpoint and browser admission update</h2>
+          <p>Candidate 0.5.3rc1 requires the qualified Torch 2.13.0 runtime before checkpoint decoding. Changed browser inputs invalidate previous approval and superseded evaluation results cannot unlock candidate downloads.</p>
+          <p><a href="/docs/admission/">Engineering, distributions and acceptance evidence</a></p>
+          </section>
+    </main>
 
   <footer>
     <a class="wordmark" href="/"><img src="assets/powerhouse-logo.svg" alt=""><span><strong>CKODMK</strong><small>MFENX</small></span></a>

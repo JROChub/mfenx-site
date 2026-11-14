@@ -58,6 +58,9 @@ jobs:
           python3 scripts/apply_tdm_declarations.py --check
           python3 -m unittest -v tests.test_tdm_declarations
 
+      - name: Check Power House canonical compatibility
+        run: node --test tests/test_power_house_canonical.mjs
+
       - name: Check research deep-link compatibility
         run: node tests/test_gate_legacy_links.mjs
 
@@ -122,6 +125,9 @@ jobs:
 
       - name: Exercise Gate evaluation and signed-model replay in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_evaluation.py --root public
+
+      - name: Reject superseded package and inference completions
+        run: .site-test-venv/bin/python tests/browser_admission_races.py --root public
 
       - name: Exercise Gate receipt trust and local privacy in Chromium
         run: .site-test-venv/bin/python tests/browser_gate_receipt.py --root public

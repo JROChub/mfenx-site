@@ -91,6 +91,8 @@ def run(root: Path, chromium: str | None, output: Path | None) -> None:
                 page.locator("#sfcs-orbit-toggle").click()
                 page.locator("#sfcs-orbit-run").click()
                 expect(page.locator("#sfcs-run-console")).to_have_attribute("data-status", "valid", timeout=30_000)
+                expect(page.locator("#sfcs-range-proof-count")).to_have_text("NATIVE REQUIRED")
+                expect(page.locator("#sfcs-mutation-count")).to_have_text("NOT RUN HERE")
                 page.locator("#sfcs-orbit-close").click()
                 page.locator("#observatory-toggle").click()
                 page.locator("#city-search").fill("Tokyo")

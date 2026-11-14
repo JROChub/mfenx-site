@@ -23,7 +23,7 @@
   <link rel="preload" href="/assets/earth-night.jpg" as="image" crossorigin="anonymous" media="(min-width: 761px)">
   <link rel="preload" href="/assets/earth-day-mobile.jpg" as="image" crossorigin="anonymous" media="(max-width: 760px)">
   <link rel="preload" href="/assets/earth-night-mobile.jpg" as="image" crossorigin="anonymous" media="(max-width: 760px)">
-  <link rel="stylesheet" href="/labs/interface.css?v=20260926">
+  <link rel="stylesheet" href="/labs/interface.css?v=20261114">
 </head>
 <body class="lab-page">
   <a class="skip-link" href="/labs/#research-workspace">Skip to instruments</a>
@@ -46,7 +46,6 @@
 
     <header class="topbar">
       <a class="brand" href="/" aria-label="MFENX Power House home">
-        <img src="/assets/powerhouse-logo.svg?v=20260729-transparent" alt="">
         <span>
           <strong>MFENX</strong>
           <small>Research lab</small>
@@ -155,8 +154,8 @@
             <small>Rootprint + SLBIT meaning sidecar</small>
           </button>
           <button type="button" data-portal-mode="sfcs">
-            <span data-icon="bot"></span>
-            <b>RUN SFCS PROOF</b>
+
+            <b>RUN SFCS BRIDGE</b>
             <small>Public identity bridge + proof-family report</small>
           </button>
           <button type="button" data-portal-mode="constant">
@@ -235,8 +234,8 @@
       </div>
 
       <details class="lab-references">
-      <summary>Release references</summary>
-      <div class="release-links" aria-label="Power House release instruments">
+      <summary>Source and evidence</summary>
+      <div class="release-links" aria-label="Power House release instruments"><a href="/docs/admission/"><span>ENTERPRISE ADMISSION</span><b>CPU / CUDA / MODEL PROOFS</b></a>
         <a href="https://docs.rs/power_house/latest/power_house/memory/" title="Memory Capsule API">
           <span>MEMORY CAPSULE V1</span>
           <b>VERIFY / REPLAY / CHALLENGE</b>
@@ -265,7 +264,7 @@
       <div id="orbital-label-layer" class="orbital-label-layer" aria-hidden="true"></div>
 
       <section class="proof-monument" aria-label="Selected proof scale">
-        <h1>Verification workspace</h1>
+        <h1>Research Lab</h1>
         <details class="mode-specification">
         <summary>Selected proof specification</summary>
         <span id="orbit-kicker">DETERMINISTIC IDENTITY GRAPH</span>
@@ -310,7 +309,6 @@
 
     <div class="sfcs-orbit-dock" aria-label="SFCS verification pop-out">
       <button id="sfcs-orbit-toggle" class="sfcs-orbit-toggle" type="button" aria-expanded="false" aria-controls="sfcs-orbit-panel" title="Open SFCS Sovereign VM receipt instrument">
-        <span data-icon="brain-circuit"></span>
         <b>SFCS</b>
         <small>Identity bridge</small>
       </button>
@@ -319,8 +317,8 @@
         <section class="zk-cockpit" aria-label="SFCS Sovereign private VM">
           <div class="zk-cockpit-head">
             <div>
-              <span>SFCS SOVEREIGN PRIVATE VM / v0.4.1</span>
-              <b>REAL RECEIPT / DETERMINISTIC IDENTITY</b>
+              <span>SFCS / DETERMINISTIC IDENTITY BRIDGE</span>
+              <b>BROWSER REPLAY / NATIVE RECEIPT SEPARATE</b>
             </div>
             <button id="sfcs-orbit-close" type="button" aria-label="Close SFCS Sovereign VM receipt instrument" title="Close SFCS instrument">
               <span data-icon="x"></span>
@@ -328,14 +326,14 @@
           </div>
           <div class="zk-proof-grid" aria-label="SFCS verification stages">
             <div id="sfcs-lane-bitwise" class="sfcs-proof-lane" data-state="idle">
-              <span>PROGRAM</span>
-              <b>RISC-V IMAGE</b>
+              <span>GRAPH</span>
+              <b>PUBLIC NODES</b>
               <em id="sfcs-lane-bitwise-status">STANDBY</em>
               <i aria-hidden="true"></i>
             </div>
             <div id="sfcs-lane-compare" class="sfcs-proof-lane" data-state="idle">
-              <span>RECEIPT</span>
-              <b>RISC0 / NO DEV MODE</b>
+              <span>TRACE</span>
+              <b>LOCAL REPLAY</b>
               <em id="sfcs-lane-compare-status">STANDBY</em>
               <i aria-hidden="true"></i>
             </div>
@@ -346,16 +344,16 @@
               <i aria-hidden="true"></i>
             </div>
             <div id="sfcs-lane-memory" class="sfcs-proof-lane" data-state="idle">
-              <span>CAPSULE</span>
-              <b>OFFLINE REVERIFY</b>
+              <span>REPLAY</span>
+              <b>IDENTITY BINDING</b>
               <em id="sfcs-lane-memory-status">STANDBY</em>
               <i aria-hidden="true"></i>
             </div>
           </div>
           <dl>
-            <div><dt>PROOF BACKEND</dt><dd id="sfcs-range-proof-count">RISC0 3.0.6</dd></div>
-            <div><dt>RELEASE GATES</dt><dd id="sfcs-byte-semantics-count">REAL GUEST</dd></div>
-            <div><dt>DEV RECEIPTS</dt><dd id="sfcs-mutation-count">REJECTED</dd></div>
+            <div><dt>RECEIPT CHECK</dt><dd id="sfcs-range-proof-count">NATIVE REQUIRED</dd></div>
+            <div><dt>BROWSER SCOPE</dt><dd id="sfcs-byte-semantics-count">IDENTITY REPLAY</dd></div>
+            <div><dt>NATIVE CHECK</dt><dd id="sfcs-mutation-count">NOT RUN HERE</dd></div>
           </dl>
           <button id="sfcs-orbit-run" class="sfcs-orbit-run" type="button">
             <span data-icon="play"></span>
@@ -366,7 +364,7 @@
               <span id="sfcs-widget-status">READY</span>
               <b id="sfcs-widget-title">SFCS identity bridge standing by</b>
             </div>
-            <p id="sfcs-widget-detail">This browser executes the deterministic SFCS graph, trace, synthesis, .pha, and Rootprint bridge. The Sovereign VM receipt is checked by the published Rust verifier.</p>
+            <p id="sfcs-widget-detail">This browser executes the deterministic SFCS graph, trace, synthesis, .pha, and Rootprint bridge. Receipt verification requires the patched RISC Zero 3.1.0 native verifier; earlier receipts require regeneration.</p>
             <div class="sfcs-widget-progress" aria-hidden="true">
               <i id="sfcs-widget-progress"></i>
             </div>
@@ -383,6 +381,7 @@
           </a>
         </section>
 
+        <p><a href="/docs/admission/#security">Patched verifier and model-proof evidence</a>. Native receipt verification is not performed in this browser.</p>
         <section class="substrate-readout" aria-label="SFCS truth boundary">
           <span>SFCS IDENTITY PATH</span>
           <b>FRACTAL DIGEST -> .PHA CORE -> ROOTPRINT SAFE</b>
@@ -593,6 +592,6 @@
 
   <noscript>This instrument requires JavaScript for the globe and verifier.</noscript>
   <script src="/bootstrap.js"></script>
-  <script type="module" src="/app.js?v=20261018-v041"></script>
+  <script type="module" src="/app.js?v=20261114-security"></script>
 </body>
 </html>

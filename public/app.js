@@ -1,3 +1,4 @@
+import { canonicalJson } from "./power-house-canonical.mjs";
 import * as THREE from "./vendor/three.module.min.js";
 import { StreamBuffer } from "./stream-buffer.js";
 import BookOpen from "./vendor/lucide/book-open.mjs";
@@ -2240,16 +2241,6 @@ async function sha256Hex(value) {
     .join("");
 }
 
-function canonicalJson(value) {
-  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
-  if (value && typeof value === "object") {
-    return `{${Object.keys(value)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`)
-      .join(",")}}`;
-  }
-  return JSON.stringify(value);
-}
 
 function assertBrowserCanonicalNumbers(value) {
   if (typeof value === "number" && !Number.isSafeInteger(value)) {
@@ -3031,14 +3022,14 @@ async function runSfcsFractal() {
     stage: "GRAPH",
     progress: 6,
     lanes: {
-      bitwise: { state: "active", progress: 18, label: "IMAGE QUEUE" },
+      bitwise: { state: "active", progress: 18, label: "GRAPH QUEUE" },
       compare: { state: "idle", progress: 0, label: "WAITING" },
       branch: { state: "idle", progress: 0, label: "WAITING" },
       memory: { state: "idle", progress: 0, label: "WAITING" },
     },
-    rangeProofs: "RISC0 3.0.6",
+    rangeProofs: "NATIVE REQUIRED",
     byteSemantics: "QUEUED",
-    mutations: "REJECTED",
+    mutations: "NOT RUN HERE",
   });
   beginRun();
   try {
@@ -3053,14 +3044,14 @@ async function runSfcsFractal() {
       digest: report.graphDigest,
       progress: 28,
       lanes: {
-        bitwise: { state: "valid", progress: 100, label: "IMAGE BOUND" },
+        bitwise: { state: "valid", progress: 100, label: "GRAPH BOUND" },
         compare: { state: "active", progress: 38, label: "CLAIM MODEL" },
         branch: { state: "active", progress: 24, label: "CORE QUEUE" },
-        memory: { state: "idle", progress: 0, label: "CAPSULE WAIT" },
+        memory: { state: "idle", progress: 0, label: "REPLAY WAIT" },
       },
-      rangeProofs: "RISC0 3.0.6",
+      rangeProofs: "NATIVE REQUIRED",
       byteSemantics: "GRAPH BOUND",
-      mutations: "REJECTED",
+      mutations: "NOT RUN HERE",
     });
     el.roundValue.textContent = `${report.order.length} / ${report.order.length}`;
     el.claimValue.textContent = `${report.fastPathNodes.length} FAST / ${report.denseNodes.length} DENSE`;
@@ -3078,14 +3069,14 @@ async function runSfcsFractal() {
       digest: trace.trace_digest,
       progress: 48,
       lanes: {
-        bitwise: { state: "valid", progress: 100, label: "PROGRAM BOUND" },
+        bitwise: { state: "valid", progress: 100, label: "GRAPH BOUND" },
         compare: { state: "valid", progress: 100, label: "CLAIM MODELED" },
         branch: { state: "active", progress: 58, label: "CORE REPLAY" },
-        memory: { state: "active", progress: 46, label: "CAPSULE QUEUE" },
+        memory: { state: "active", progress: 46, label: "REPLAY QUEUE" },
       },
-      rangeProofs: "RISC0 3.0.6",
+      rangeProofs: "NATIVE REQUIRED",
       byteSemantics: "TRACE REPLAY",
-      mutations: "REJECTED",
+      mutations: "NOT RUN HERE",
     });
     setProgress(46);
 
@@ -3102,14 +3093,14 @@ async function runSfcsFractal() {
       digest: synthesis.synthesis_digest,
       progress: 60,
       lanes: {
-        bitwise: { state: "valid", progress: 100, label: "PROGRAM BOUND" },
+        bitwise: { state: "valid", progress: 100, label: "GRAPH BOUND" },
         compare: { state: "valid", progress: 100, label: "CLAIM BOUND" },
         branch: { state: "valid", progress: 100, label: "PHA DERIVED" },
-        memory: { state: "active", progress: 76, label: "CAPSULE BINDING" },
+        memory: { state: "active", progress: 76, label: "REPLAY BINDING" },
       },
-      rangeProofs: "RISC0 3.0.6",
+      rangeProofs: "NATIVE REQUIRED",
       byteSemantics: "SYNTHESIS",
-      mutations: "REJECTED",
+      mutations: "NOT RUN HERE",
     });
     setProgress(58);
 
@@ -3157,11 +3148,11 @@ async function runSfcsFractal() {
         bitwise: { state: "valid", progress: 100, label: "CORE LOCKED" },
         compare: { state: "valid", progress: 100, label: "CORE LOCKED" },
         branch: { state: "valid", progress: 100, label: "CORE LOCKED" },
-        memory: { state: "valid", progress: 100, label: "CAPSULE READY" },
+        memory: { state: "valid", progress: 100, label: "IDENTITY READY" },
       },
-      rangeProofs: "RISC0 3.0.6",
+      rangeProofs: "NATIVE REQUIRED",
       byteSemantics: "CORE LOCKED",
-      mutations: "REJECTED",
+      mutations: "NOT RUN HERE",
     });
     setProgress(62);
 
@@ -3198,9 +3189,9 @@ async function runSfcsFractal() {
         branch: { state: "valid", progress: 100, label: "REPLAY BOUND" },
         memory: { state: "valid", progress: 100, label: "REPLAY BOUND" },
       },
-      rangeProofs: "RISC0 3.0.6",
+      rangeProofs: "NATIVE REQUIRED",
       byteSemantics: "ROOTPRINT",
-      mutations: "REJECTED",
+      mutations: "NOT RUN HERE",
     });
     setProgress(88);
     const finalDigest = await domainSeparatedHash("power-house:sfcs:v1-draft:browser-bridge", {
@@ -3222,19 +3213,19 @@ async function runSfcsFractal() {
       replay: replayFingerprint,
       progress: 100,
       lanes: {
-        bitwise: { state: "valid", progress: 100, label: "PROGRAM BOUND" },
-        compare: { state: "valid", progress: 100, label: "RECEIPT PATH" },
+        bitwise: { state: "valid", progress: 100, label: "GRAPH BOUND" },
+        compare: { state: "valid", progress: 100, label: "TRACE REPLAY" },
         branch: { state: "valid", progress: 100, label: "IDENTITY ACCEPTED" },
-        memory: { state: "valid", progress: 100, label: "CAPSULE PATH" },
+        memory: { state: "valid", progress: 100, label: "REPLAY BOUND" },
       },
-      rangeProofs: "RISC0 3.0.6",
-      byteSemantics: "REAL GUEST",
-      mutations: "DEV REJECT",
+      rangeProofs: "NATIVE REQUIRED",
+      byteSemantics: "IDENTITY REPLAY",
+      mutations: "NOT RUN HERE",
     });
     completeRun(finalDigest.slice(7), "SFCS IDENTITY OK");
     el.verificationTitle.textContent = "SFCS public identity projection committed";
     el.verificationDetail.textContent =
-      "Browser-local graph, execution, synthesis, .pha, branch, and replay checks passed. Use the Rust v0.4.1 verifier for cryptographic receipt verification.";
+      "Browser-local graph, execution, synthesis, .pha, branch, and replay checks passed. Use the patched RISC Zero 3.1.0 native verifier for receipt verification; regenerate earlier receipts.";
   } catch (error) {
     setSfcsWidgetState("invalid", {
       statusLabel: "REJECTED",
@@ -3248,7 +3239,7 @@ async function runSfcsFractal() {
         branch: { state: "invalid", progress: 100, label: "INSPECT" },
         memory: { state: "invalid", progress: 100, label: "INSPECT" },
       },
-      mutations: "REJECTED",
+      mutations: "NOT RUN HERE",
     });
     failRun(error.message);
   }
