@@ -4,7 +4,9 @@ https://mfenx.com/ckodmk/
 https://mfenx.com/company/
 https://mfenx.com/compute/
 https://mfenx.com/docs/
+https://mfenx.com/docs/admission/
 https://mfenx.com/docs/admission/encrypted/
+https://mfenx.com/docs/admission/measured/
 https://mfenx.com/docs/runtime/
 https://mfenx.com/enterprise/
 https://mfenx.com/evidence/
